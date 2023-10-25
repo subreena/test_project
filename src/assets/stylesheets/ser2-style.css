@@ -1,0 +1,38 @@
+.front-page-full{
+    margin: 30px auto;
+    padding: 10px;
+    font-weight: 500;
+   
+}
+.front-page-full p{
+    font-size: 18px;
+}
+.underline{
+   height: 10px;
+   display: inline-block;
+   border-bottom: 3px dotted black;
+   
+}
+
+.top-down-border{
+    border-top: 10px solid black;
+    height: 400px;
+    padding: 10px;
+    margin: 20px 0;
+    border-bottom: 10px solid black;
+}
+.text-box{
+    border: 1px solid black;
+    height: 150px;
+    width: 100px;
+    display: inline-block;
+   padding:  35px 0;
+   margin: 20px 25px;
+}
+
+
+table, td{
+    border: 1px solid black;
+    border-collapse: collapse;
+   padding: 10px;
+}
