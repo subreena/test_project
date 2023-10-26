@@ -1,18 +1,14 @@
 import "bootstrap/dist/css/bootstrap.css";
-import { Container, Row } from "react-bootstrap";
 import "../../../assets/stylesheets/ser1-style.css"
-import { Link } from "react-router-dom";
+
 
 const RoutineTable = () => {
   return (
     <>
-      <div className="routine-header">
-        <h2>Routine</h2>
-      </div>
-      {/* routine begins */}
-      <Container>
-      <Row>
-      <div className="col-9">
+    
+      
+        {/* routine table */}
+   
           <table className="routine-table">
             <tr>
               <td className="routine-header-tr">Day</td>
@@ -337,40 +333,10 @@ const RoutineTable = () => {
       
           {/*  */}
           </table>
-        </div>
-        <div className="col-3">
-            <br />
-            <br />
-            <h4>Teachers and Courses</h4>
-            <form action="">
-            <label htmlFor="teacherCode">Select Teacher
-            </label>
-            <select name="teacherCode" id="teacherCode">
-              <option value="-1">Teacher code: </option>
-              <option value="MSE">MSE</option>
-              <option value="MKH">MKH</option>
-              <option value="SJS">SJS</option>
-              <option value="MMA">MMA</option>
-            </select>
-            <br /><br />
-            <label htmlFor="courseCode">Select Course: </label>
-            <select name="courseCode" id="courseCode">
-              <option value="-1">Course code</option>
-              <option value="dsp">ICE-3101</option>
-              <option value="dsp">ICE-3101</option>
-              <option value="dsp">ICE-3101</option>
-              <option value="dsp">ICE-3101</option>
-            </select>
-<br />
-<br />
-            <button type="submit" value="submit" className="btn btn-sm btn-primary">Submit
-          </button>
-            </form>
-
-            <Link to="/course_details">See the details of courses in the previous year?</Link>
-        </div>
-        </Row>
-      </Container>
+     
+       {/* end of routine table */}
+       {/* menu */}
+       
     </>
   );
 };

@@ -3,6 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap/dist/css/bootstrap.css";
 
+
 function SecondNav() {
   const x = {
    margin: '0px',
@@ -31,6 +32,9 @@ function SecondNav() {
           </Nav.Link>
           <Nav.Link href="/home">
             Contact
+            </Nav.Link>
+            <Nav.Link href="/teacherdasboard">
+            Teacher Dashboard
             </Nav.Link>
           <NavDropdown title="Services" id="basic-nav-dropdown">
             <NavDropdown.Item href="/routine">

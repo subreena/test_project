@@ -1,14 +1,10 @@
-import { Container, Row } from "react-bootstrap";
-import Footer from "../../assets/components/Footer";
-import MiniNav from "../../assets/components/miniNav";
-import SecondNav from "../../assets/components/secondNav";
+import { Row } from "react-bootstrap";
 import "../../assets/stylesheets/ser2-style.css";
 const Ser2Page2 = () => {
   return (
     <>
-      <MiniNav />
-      <SecondNav />
-      <Container>
+    
+    
         <div className="m-4">
           <section className="ser2">
             <div>
@@ -661,7 +657,7 @@ const Ser2Page2 = () => {
           </section>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-5 ml-3 mr-3">
           <Row>
             <div className="col-3 text-start">
               <br />
@@ -700,9 +696,9 @@ const Ser2Page2 = () => {
             </div>
           </Row>
         </div>
-      </Container>
+   
 
-      <Footer />
+  
     </>
   );
 };
