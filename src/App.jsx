@@ -11,10 +11,10 @@ import Ser2Page2 from "./pages/ser2/Ser2Page2";
 import MiniNav from "./assets/components/miniNav";
 import SecondNav from "./assets/components/secondNav";
 import Footer from "./assets/components/Footer";
-import TeacherDashboard from "./pages/ser1/teacherDashboard";
 import Teacher from "./pages/login/Teacher";
 import TeacherDetails from "./pages/ser1/ser1_components/TeacherDetails";
 import CreateRoutine from "./pages/ser1/ser1_components/CreateRoutine";
+import TeacherDashboard from './pages/ser1/TeacherDashboard';
 
 
 

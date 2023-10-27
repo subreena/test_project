@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 
 const TeacherDashboard = () => {
   const courseApi =
-    "https://ice-hafdu5e9h-sajib-baruas-projects.vercel.app/courseDetails";
+    "https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/courseDetails";
   const teacherApi =
-    "https://ice-hafdu5e9h-sajib-baruas-projects.vercel.app/teachers";
+    "https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/teachers";
 
-  const [teachers, setTeachers] = useState([]);
+
   const [year, setYear] = useState("1");
   const [term, setTerm] = useState("1");
+  const [teachers, setTeachers] = useState([]);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
