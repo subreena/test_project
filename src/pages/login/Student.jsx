@@ -20,8 +20,8 @@ function Student() {
     lastName: '',
     email: '',
     roll: '',
-    year: '' ,
-    term: '' ,
+    year: 0 ,
+    term: 0 ,
     session:'' ,
   });
 
@@ -33,11 +33,10 @@ function Student() {
       ...formData,
       [name]: numericValue,
     });
-    console.log(formData);
   };
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    
     try {
     
       const response = await fetch('https://ice-9duauifmg-sajib-baruas-projects.vercel.app/students', {
@@ -45,13 +44,13 @@ function Student() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: formData,
         
       });
       if (response.ok) {
-        console.log("Success");
+        console.log("Success\n");
       } else {
-        console.log("not ok");
+        console.log("not ok\n");
       }
     } catch (error) {
       console.log(error);
@@ -118,7 +117,7 @@ function Student() {
                 </div>
                 <div className="row">
                   <div className="col-12">
-                    <input placeholder="roll" 
+                    <input placeholder="ID" 
                     onChange={handleInputChange}
                     type="text" name="roll" className="form-control" />
                   </div>
@@ -130,10 +129,10 @@ function Student() {
                     <select id="year" onChange={handleInputChange}  
                     className="form-select" name="year" type="number">
                       <option >Choose Year</option>
-                      <option value={1}>1</option>
-                      <option value={2}>2</option>
-                      <option value={3}>3</option>
-                      <option value={4}>4</option>
+                      <option name="year" type="number" value={1}>1</option>
+                      <option name="year" type="number" value={2}>2</option>
+                      <option name="year" type="number" value={3}>3</option>
+                      <option name="year" type="number" value={4}>4</option>
                     </select>
                   </div>
                   <div className="col-6">
@@ -141,8 +140,8 @@ function Student() {
                     <select onChange={handleInputChange} className="form-select" 
                     id="term" name="term" type="number">
                       <option>Choose Term</option>
-                      <option value={1}>1</option>
-                      <option value={2}>2</option>
+                      <option name="term" type="number" value={1}>1</option>
+                      <option name="term" type="number" value={2}>2</option>
                     </select>
                   </div>
                 </div>

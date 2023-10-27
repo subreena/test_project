@@ -9,7 +9,7 @@ const CreateRoutine = () => {
   const [modifiedRoutine, setModifiedRoutine] = useState([]);
 
   useEffect(() => {
-    fetch('https://ice-9duauifmg-sajib-baruas-projects.vercel.app/routine')
+    fetch('https://ice-hafdu5e9h-sajib-baruas-projects.vercel.app/routine')
       .then((response) => response.json())
       .then((data) => {
         setRoutine(data);
@@ -86,7 +86,7 @@ const CreateRoutine = () => {
   const generateRoutine = () => {
     setLoading(true);
 
-    fetch("https://ice-9duauifmg-sajib-baruas-projects.vercel.app/generateRandomRoutine")
+    fetch("https://ice-hafdu5e9h-sajib-baruas-projects.vercel.app/generateRandomRoutine")
         .then((response) => response.json())
         .then((data) => {
             setLoading(false);

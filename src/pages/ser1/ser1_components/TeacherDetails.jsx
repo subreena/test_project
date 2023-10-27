@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import Routine from "../Routine";
+
 
 const TeacherDetails = () => {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://ice-9duauifmg-sajib-baruas-projects.vercel.app/teachers")
+    fetch("https://ice-hafdu5e9h-sajib-baruas-projects.vercel.app/teachers")
       .then((response) => response.json())
       .then((data) => {
         setTeachers(data);
@@ -26,7 +26,8 @@ const TeacherDetails = () => {
   return (
     <>
       <div style={{
-        minHeight: '80vh'
+        minHeight: '80vh',
+        marginTop: '50px',
       }}>
         <h1 className="text-center m-5">Teacher Information</h1>
         <div className="container">
@@ -53,7 +54,7 @@ const TeacherDetails = () => {
             ))}
           </div>
         </div>
-<Routine teacher={teachers}/>
+
 
       </div>
     </>
