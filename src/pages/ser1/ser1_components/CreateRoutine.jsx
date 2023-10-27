@@ -29,51 +29,61 @@ const CreateRoutine = () => {
   return (
     <div style={{ minHeight: "80vh" }}>
       <Container fluid>
-        <Row>
-          <Col md={7}>
-            <div className="row">
-              {random.map((l1, i1) => (
-                <div key={i1} className="col-4">
-                  {l1.map((l2, i2) => (
-                    <div key={i2} style={{width: '100%'}}>
-                      {l2.map((l3, i3) => (
-                        <div key={i3} style={{width: '100%'}}>
-                          {l3.map((l4, i4) => (
-                            <div key={i4} style={{width: '100%'}}>
-                              <td>
-                                Is Allocated: {l4.isAllocated ? "Yes" : "No"} <br />
-                                 {
-                                    l4.teacher && l4.teacher.teacherCode && (
-                                        <>
-                                        Teacher Code: {
-                                            l4.teacher.teacherCode
-                                        }
-                                        </>
-                                    )
-                                 }
-                                 <br />
-                                 {
-                                    l4.course && l4.course.code && l4.course.name && (
-                                        <>
-                                        {l4.course.code} - {l4.course.name}</>
-                                    )
-                                 }
-                                Room: {l4.room}
-                              </td>
-                            </div>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+      <table>
+      <thead>
+    <tr>
+      <th>Day</th>
+      <th>Term,Year</th>
+      <th>9:00-9:45</th>
+      <th>9:50-10:35</th>
+      <th>10:40-11:25</th>
+      <th>11:30-12:15PM</th>
+      <th>12:15-1:00PM</th>
+      <th>1:00-2:00PM</th>
+      <th>2:00-2:50PM</th>
+      <th>2:55-3:45PM</th>
+    </tr>
+  </thead>
+  
+ <tbody>
+ {random.map((l1, i1) => (
+    <tr key={i1}>
+      {l1.map((l2, i2) => (
+        <td key={i2}>
+          {l2.map((l3, i3) => (
+            <td key={i3}>
+              {l3.map((l4, i4) => (
+                <tr key={i4}>
+                  {l4.isAllocated && (
+                    <>
+                      <td>
+                      {l4.year} {l4.term}
+                      </td>
+                      <br />
+                      {l4.teacher && l4.teacher.teacherCode && (
+                        <>Teacher Code: {l4.teacher.teacherCode}</>
+                      )}
+                      <br />
+                      {l4.course && l4.course.code && l4.course.name && (
+                        <>
+                          {l4.course.code}</>
+                      )}
+                      <br />
+                      Room: {l4.room}
+                    </>
+                  )}
+                </tr>
               ))}
-            </div>
-          </Col>
-          <Col md={5}>
-            <TeacherDashboard />
-          </Col>
-        </Row>
+            </td>
+          ))}
+        </td>
+      ))}
+    </tr>
+  ))}
+ </tbody>
+</table>
+          
+        
       </Container>
     </div>
   );

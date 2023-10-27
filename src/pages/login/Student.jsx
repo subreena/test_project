@@ -15,6 +15,45 @@ function Student() {
     setShowSignup(false);
   };
 
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    roll: '',
+    year: 'Choose Year',
+    term: 'Choose Semester',
+    session:'' ,
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+    try {
+      const response = await fetch('https://ice-9duauifmg-sajib-baruas-projects.vercel.app/students', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        console.log("Success");
+      } else {
+        console.log("not ok");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   return (
     <div>
       {/* Buttons */}
@@ -30,75 +69,72 @@ function Student() {
         <div className="container mt-5">
           <div className="m-auto w-75">
             <div>
-              <form className="row" id="studentSignup">
+              <form className="row" id="studentSignup" onSubmit={handleSignupSubmit}>
                 <div className="row">
                   <div className="col-md-6">
-                    <label htmlFor="firstName" className="form-label">
-                      First Name
-                    </label>
-                    <input type="text" className="form-control" />
+                    <input placeholder="First Name" 
+                    onChange={handleInputChange}
+                    type="text" name="firstName" 
+                    className="form-control" />
                   </div>
                   <div className="col-md-6">
-                    <label htmlFor="lastName" className="form-label">
-                      Last Name
-                    </label>
-                    <input type="text" className="form-control" />
+                                <input type="text"
+                                 placeholder="Last Name" 
+                                 name="lastName"
+                                 onChange={handleInputChange}
+                                 className="form-control" />
                   </div>
                 </div>
 
                 <div className="row">
-                  <div className="col-6">
-                    <label htmlFor="email" className="form-label">
-                      Email
-                    </label>
+                  <div className="col-12">
+                    
                     <input
                       type="email"
                       name="email"
+                      placeholder="Email"
                       className="form-control"
                       id="sign-in-email"
+                      onChange={handleInputChange}
                     />
                   </div>
-                  <div className="col-6">
-                    <label htmlFor="password" className="form-label">
-                      Password
-                    </label>
+                  <div className="col-12">
+                    
                     <input
-                      type="password"
-                      name="password"
+                      type="text"
+                      name="session"
+                      placeholder="Session"
                       className="form-control"
+                      onChange={handleInputChange}
                     />
                   </div>
+                  
                 </div>
                 <div className="row">
                   <div className="col-12">
-                    <label htmlFor="roll" className="form-label">
-                      Roll Number
-                    </label>
-                    <input type="text" name="roll" className="form-control" />
+                    <input placeholder="roll" 
+                    onChange={handleInputChange}
+                    type="text" name="roll" className="form-control" />
                   </div>
                 </div>
 
                 <div className="row mt-5">
                   <div className="col-6">
-                    <label htmlFor="year" className="form-label">
-                      Year
-                    </label>
-                    <select id="year" className="form-select">
+                    
+                    <select id="year" onChange={handleInputChange}  className="form-select" name="year">
                       <option selected>Choose Year</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
+                      <option value={1}>1</option>
+                      <option value={2}>2</option>
+                      <option value={3}>3</option>
+                      <option value={4}>4</option>
                     </select>
                   </div>
                   <div className="col-6">
-                    <label htmlFor="term" className="form-label">
-                      Semester
-                    </label>
-                    <select id="term" className="form-select">
+                  
+                    <select id="term" onChange={handleInputChange} className="form-select" name="term">
                       <option selected>Choose Semester</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
+                      <option value={1}>1</option>
+                      <option value={2}>2</option>
                     </select>
                   </div>
                 </div>
@@ -112,7 +148,7 @@ function Student() {
                  </div>
                  <div className="col-6">
                  <button
-                    type="button"
+                    type="b"
                     className="btn btn-primary"
                     onClick={toggleLogin}
                     style={{ display: showLogin ? "none" : "block" }}
@@ -142,20 +178,21 @@ function Student() {
               <form className="row">
                 <div className="row">
                   <div className="col-12">
-                    <label htmlFor="inputEmail4" className="form-label">
-                      Email
-                    </label>
+                  
                     <input
                       type="email"
+                      placeholder="Enter email for login"
+                      name="email"
                       className="form-control"
-                      id="login-email"
+                      
                     />
                   </div>
                   <div className="col-12">
                     <label htmlFor="password" className="form-label">
-                      Password
+                      Session
                     </label>
-                    <input type="password" className="form-control" />
+                    <input type=""               
+                    className="form-control" />
                   </div>
                 </div>
 

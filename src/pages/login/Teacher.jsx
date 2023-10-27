@@ -15,6 +15,24 @@ function Teacher() {
     setShowSignup(false);
   };
 
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    courses: ''
+  });
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData)
+  }
+
   return (
     <div>
       {/* Buttons */}
@@ -49,34 +67,40 @@ function Teacher() {
         <div className="container mt-5">
           <div className="m-auto w-75">
             <div>
-              <form className="row">
+              <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-6">
-                    <label htmlFor="formGroupExampleInput" className="form-label">
-                      First Name
-                    </label>
-                    <input type="text" className="form-control" id="formGroupExampleInput" />
+                 
+                    <input type="text"
+                     className="form-control" 
+                     placeholder='First name'
+                     name="firstName"
+                     onChange={handleFormChange} />
                   </div>
                   <div className="col-6">
-                    <label htmlFor="formGroupExampleInput2" className="form-label">
-                      Last Name
-                    </label>
-                    <input type="text" className="form-control" id="formGroupExampleInput2" />
+                   
+                    <input type="text" 
+                    placeholder='Last Name'
+                    name="lastName"
+                    onChange={handleFormChange}
+                    className="form-control" />
                   </div>
                 </div>
 
                 <div className="row">
                   <div className="col-12">
-                    <label htmlFor="inputEmail4" className="form-label">
-                      Email
-                    </label>
-                    <input type="email" className="form-control" id="inputEmail4" />
+                    
+                    <input type="email"
+                    placeholder='Email'
+                    name="email"
+                    onChange={handleFormChange}
+                    className="form-control" />
                   </div>
                 </div>
 
                 <div className="row mt-1">
                   <div className="mt-2">
-                    <label htmlFor="inputYear" className="form-label">
+                    {/* <label htmlFor="inputYear" className="form-label">
                       Course List
                     </label>
                     <select id="inputYear" className="form-select">
@@ -85,7 +109,7 @@ function Teacher() {
                       <option>Signal and System</option>
                       <option>Computer Fundamentals</option>
                       <option>Physics</option>
-                    </select>
+                    </select> */}
                   </div>
                 </div>
                 <br />
@@ -111,10 +135,11 @@ function Teacher() {
               <form className="row">
                 <div className="row">
                   <div className="col-12">
-                    <label htmlFor="inputEmail4" className="form-label">
-                      Email
-                    </label>
-                    <input type="email" className="form-control" id="inputEmail4" />
+                    
+                    <input type="email" className="form-control" 
+                    placeholder='Enter Email for log in'
+                    name="email"
+                    />
                   </div>
                 </div>
 
