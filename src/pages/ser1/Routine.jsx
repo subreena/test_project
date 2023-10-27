@@ -218,7 +218,7 @@ const Routine = () => {
                       width: "100%",
                     }}
                   >
-                    Create Routine
+                    Generate Routine
                   </button>
                 </Link>
               </div>

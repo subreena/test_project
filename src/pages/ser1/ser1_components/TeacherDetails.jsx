@@ -10,6 +10,7 @@ const TeacherDetails = () => {
       .then((response) => response.json())
       .then((data) => {
         setTeachers(data);
+       
         setLoading(false);
       })
       .catch((error) => {

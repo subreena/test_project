@@ -20,28 +20,33 @@ function Student() {
     lastName: '',
     email: '',
     roll: '',
-    year: 'Choose Year',
-    term: 'Choose Semester',
+    year: '' ,
+    term: '' ,
     session:'' ,
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    const numericValue = name === "year" || name === "term" ? parseInt(value, 10) : value;
+    
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: numericValue,
     });
+    console.log(formData);
   };
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
     try {
+    
       const response = await fetch('https://ice-9duauifmg-sajib-baruas-projects.vercel.app/students', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        
       });
       if (response.ok) {
         console.log("Success");
@@ -51,6 +56,7 @@ function Student() {
     } catch (error) {
       console.log(error);
     }
+    console.log(formData);
   };
 
 
@@ -69,7 +75,7 @@ function Student() {
         <div className="container mt-5">
           <div className="m-auto w-75">
             <div>
-              <form className="row" id="studentSignup" onSubmit={handleSignupSubmit}>
+              <form id="studentSignup" onSubmit={handleSignupSubmit}>
                 <div className="row">
                   <div className="col-md-6">
                     <input placeholder="First Name" 
@@ -118,11 +124,12 @@ function Student() {
                   </div>
                 </div>
 
-                <div className="row mt-5">
+                <div className="row">
                   <div className="col-6">
                     
-                    <select id="year" onChange={handleInputChange}  className="form-select" name="year">
-                      <option selected>Choose Year</option>
+                    <select id="year" onChange={handleInputChange}  
+                    className="form-select" name="year" type="number">
+                      <option >Choose Year</option>
                       <option value={1}>1</option>
                       <option value={2}>2</option>
                       <option value={3}>3</option>
@@ -130,9 +137,10 @@ function Student() {
                     </select>
                   </div>
                   <div className="col-6">
-                  
-                    <select id="term" onChange={handleInputChange} className="form-select" name="term">
-                      <option selected>Choose Semester</option>
+                    
+                    <select onChange={handleInputChange} className="form-select" 
+                    id="term" name="term" type="number">
+                      <option>Choose Term</option>
                       <option value={1}>1</option>
                       <option value={2}>2</option>
                     </select>
@@ -148,7 +156,7 @@ function Student() {
                  </div>
                  <div className="col-6">
                  <button
-                    type="b"
+                    type="button"
                     className="btn btn-primary"
                     onClick={toggleLogin}
                     style={{ display: showLogin ? "none" : "block" }}
@@ -187,13 +195,7 @@ function Student() {
                       
                     />
                   </div>
-                  <div className="col-12">
-                    <label htmlFor="password" className="form-label">
-                      Session
-                    </label>
-                    <input type=""               
-                    className="form-control" />
-                  </div>
+                 
                 </div>
 
                 <br />
