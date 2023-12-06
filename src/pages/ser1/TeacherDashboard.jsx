@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const TeacherDashboard = () => {
   const courseApi =
-    "https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/courseDetails";
+    "https://ice-4z8u7qrvb-sajib-baruas-projects.vercel.app/courseDetails";
   const teacherApi =
-    "https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/teachers";
+    "https://ice-4z8u7qrvb-sajib-baruas-projects.vercel.app/teachers";
 
 
   const [year, setYear] = useState("1");
@@ -174,6 +174,7 @@ const TeacherDashboard = () => {
             </Link>
           </div>
         </div>
+
       </Container>
     </div>
   );

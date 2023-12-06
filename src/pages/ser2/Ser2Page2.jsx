@@ -611,7 +611,7 @@ const Ser2Page2 = () => {
                     <p>
                       স্বাক্ষর:{" "}
                       <input
-                        type="file"
+                        type="text"
                         name="sign"
                         id=""
                         style={{ width: "88%", height: "35px" }}

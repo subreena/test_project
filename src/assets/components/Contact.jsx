@@ -3,7 +3,7 @@ import "../../assets/stylesheets/style.css";
 
 const Contact = () => {
   return (
-    <>
+    <div className="contact-section">
       <Container>
         <div className="contact text-center" id="contact">
           <h3>Contact us</h3>
@@ -13,7 +13,7 @@ const Contact = () => {
         </div>
 
         <Row>
-          <div className="col-6 mt-5 p-5">
+          <div className="col-6 col-lg-6 col-md-6 col-sm-12 mt-5 p-5">
             <u><strong><h4>Department of Information and Communication Engineering,</h4></strong></u>
             <h5>Noakhali Science and Technology University</h5>
             <br />
@@ -24,7 +24,7 @@ const Contact = () => {
               itaque libero.
             </p>
           </div>
-          <div className="col-6">
+          <div className="col-6 col-lg-6 col-md-6 col-sm-12">
             <div className="contact-map">
               <iframe
                 title="Map"
@@ -44,7 +44,7 @@ const Contact = () => {
           </div>
         </Row>
       </Container>
-    </>
+    </div>
   );
 };
 

@@ -38,7 +38,7 @@ function Student() {
 
     try {
       const response = await fetch(
-        "https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/students",
+        "https://ice-4z8u7qrvb-sajib-baruas-projects.vercel.app/students",
         {
           method: "POST",
           headers: {
@@ -51,8 +51,10 @@ function Student() {
       if (response.status === 201) {
         // Successful submission
         console.log("Student data submitted successfully!");
+        alert("Student login successful!");
       } else {
         // Handle errors
+        alert("Unsuccessful!! Possibly duplicate Email.")
         console.error("Error submitting student data.");
       }
     } catch (error) {

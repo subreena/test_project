@@ -6,7 +6,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 const Course = () => {
   const courseApi =
-    "https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/courseDetails";
+    "https://ice-4z8u7qrvb-sajib-baruas-projects.vercel.app/courseDetails";
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 

@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../../../assets/stylesheets/ser1-style.css";
 import React, { useState, useEffect } from 'react';
 import { Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const CreateRoutine = () => {
   const [routine, setRoutine] = useState([]);
@@ -9,7 +10,7 @@ const CreateRoutine = () => {
   const [modifiedRoutine, setModifiedRoutine] = useState([]);
 
   useEffect(() => {
-    fetch('https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/routine')
+    fetch('https://ice-4z8u7qrvb-sajib-baruas-projects.vercel.app/routine')
       .then((response) => response.json())
       .then((data) => {
         setRoutine(data);
@@ -86,7 +87,7 @@ const CreateRoutine = () => {
   const generateRoutine = () => {
     setLoading(true);
 
-    fetch("https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/generateRandomRoutine")
+    fetch("https://ice-4z8u7qrvb-sajib-baruas-projects.vercel.app/generateRandomRoutine")
         .then((response) => response.json())
         .then((data) => {
             setLoading(false);
@@ -110,14 +111,30 @@ const CreateRoutine = () => {
    <h1 className="text-center">
       Routine Generator
     </h1> 
-      <button 
+      <div className="row">
+        <div className="col-6">
+        <button 
        className="btn btn-primary"
        style={{
         display: 'inline-block',
          margin: "50px auto",
          padding: "10px",
-         width: "150px",}}
+         width: "100%",}}
        onClick={generateRoutine}>Re-order Routine</button>
+        </div>
+        <div className="col-6">
+        <Link to="/routine">
+        <button 
+       className="btn btn-primary"
+       style={{
+        display: 'inline-block',
+         margin: "50px auto",
+         padding: "10px",
+         width: "100%",}}
+       >See Final Routine</button>
+        </Link>
+        </div>
+      </div>
    </div>
       {loading ? (
         <p>Loading...</p>

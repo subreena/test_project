@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link } from "react-router-dom";
+
+//
 
 function Teacher() {
   const [showSignup, setShowSignup] = useState(false);
@@ -15,49 +17,39 @@ function Teacher() {
     setShowLogin(!showLogin);
     setShowSignup(false);
   };
-
+  //firstName - string
+  // lastName - string
+  // email – string (unique)
+  // mobile - string
+  // teacherCode – string (unique)
+  // courses – Array (only course code)
+  // designation - string
+  // department - string
+  // joiningDate - Date
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    codeName: "",
     email: "",
     courses: [],
-    teacherCode: "",
   });
-  
- 
-  const handleFormChange = (e) => {
-    const { name, value, type, checked } = e.target;
 
-    if (type === "checkbox") {
-      const selectedCourses = [...formData.courses];
-      if (checked) {
-        selectedCourses.push(value);
-      } else {
-        const index = selectedCourses.indexOf(value);
-        if (index !== -1) {
-          selectedCourses.splice(index, 1);
-        }
-      }
-      setFormData({
-        ...formData,
-        courses: selectedCourses,
-      });
-    } else {
-     
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+
+    // Handle other input fields as before
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
-    console.log(formData);
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
     try {
       const response = await fetch(
-        "https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/teachers",
+        "https://ice-lpycr33m4-sajib-baruas-projects.vercel.app/teachers",
         {
           method: "POST",
           headers: {
@@ -69,44 +61,28 @@ function Teacher() {
 
       if (response.status === 201) {
         // Successful submission
+        alert("Teacher Sign up Successful");
+        console.log(formData);
         console.log("data submitted successfully!");
+        console.log("Request Payload:", JSON.stringify(formData));
       } else {
         // Handle errors
+        console.log(formData);
+        console.log("Request Payload:", JSON.stringify(formData), formData);
         console.error("Error submitting  data.");
       }
     } catch (error) {
+      console.log(formData);
       console.error("An error occurred:", error);
     }
   };
-
-  const courseApi =
-    "https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/courseDetails";
-
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    fetch(courseApi)
-      .then((res) => res.json())
-      .then((d) => {
-        setCourses(d);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return <div>Loading</div>;
-  }
 
   return (
     <div>
       {/* Buttons */}
       <div className="container">
         <div className="row mt-5">
-          <div className="col-6 m-auto">
+          <div className="col-6" style={{paddingLeft: '350px'}}>
             <button
               type="button"
               className="btn btn-primary"
@@ -116,7 +92,7 @@ function Teacher() {
               Want to Sign up?
             </button>
           </div>
-          <div className="col-6 m-auto">
+          <div className="col-6">
             <button
               type="button"
               className="btn btn-primary"
@@ -141,20 +117,22 @@ function Teacher() {
             <div>
               <form onSubmit={handleSubmit}>
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-6 mb-1">
+                    <label htmlFor="firstName"> First Name: </label>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="First name"
+                      placeholder=""
                       name="firstName"
                       onChange={handleFormChange}
                       value={formData.firstName}
                     />
                   </div>
                   <div className="col-6">
+                  <label htmlFor="lastName"> Last Name: </label>
                     <input
                       type="text"
-                      placeholder="Last Name"
+                      placeholder=""
                       name="lastName"
                       onChange={handleFormChange}
                       value={formData.lastName}
@@ -163,69 +141,145 @@ function Teacher() {
                   </div>
                 </div>
 
-                <div className="row">
+                <div className="row mt-1 mb-1">
                   <div className="col-12">
+                  <label htmlFor="teacherCode">Teacher Code</label>
                     <input
                       type="text"
-                      placeholder="Teacher Code"
+                      placeholder=""
                       name="teacherCode"
                       onChange={handleFormChange}
                       value={formData.teacherCode}
                       className="form-control"
                     />
                   </div>
+                  <div className="row mt-1 mb-1">
                   <div className="col-12">
+                  <label htmlFor="email"> Email: </label>
                     <input
                       type="email"
-                      placeholder="Email"
+                      placeholder=""
                       name="email"
                       onChange={handleFormChange}
                       value={formData.email}
                       className="form-control"
                     />
                   </div>
-                </div>
-
-                <div className="row mt-1">
-                  <div className="mt-2">
-                    <div className="row">
-                      <strong>Select courses: </strong>
-                      {courses.map((c, i) => (
-                        <div key={i} className="col-2">
-                          <label
-                            htmlFor="course"
-                            title={c.name + " credit: " + c.credit}
-                          >
-                            <input
-                              type="checkbox"
-                              name="courses"
-                              id="course"
-                             
-                              title={c.name}
-                              value={c.code}
-                              onChange={handleFormChange}
-                            />
-                            {c.code}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-
-                    
+                  </div>
+                <div className="row mt-1 mb-1">
+                <div className="col-12">
+                  <label htmlFor="password"> Password: </label>
+                    <input
+                      type="password"
+                      placeholder=""
+                      name="password"
+                      onChange={handleFormChange}
+                      value=""
+                      className="form-control"
+                    />
                   </div>
                 </div>
+                  <div className="row mt-1 mb-1">
+                  <div className="col-12">
+                  <label htmlFor="mobile"> Mobile Number: </label>
+                    <input
+                      type="text"
+                      placeholder=""
+                      name="mobile"
+                      onChange={handleFormChange}
+                      value={formData.mobile}
+                      className="form-control"
+                    />
+                  </div>
+                  </div>
+
+                 <div className="row mt-1 mb-1">
+                 <div className="col-12">
+                  <label htmlFor="designation"> Designation: </label>
+                    <select name="designation" className="form-control">
+                      <option value="-1">Choose Designation</option>
+                      <option value={formData.designation}>Professor</option>
+                      <option value={formData.designation}>
+                        Assistant Professor
+                      </option>
+                      <option value={formData.designation}>
+                        Associate Professor
+                      </option>
+                      <option value={formData.designation}>Lecturer</option>
+                    </select>
+                  </div>
+                 </div>
+                 <div className="row mt-1 mb-1">
+                 <div className="col-12">
+                  <label htmlFor="department"> Department: </label>
+                    <input
+                      type="text"
+                      placeholder=""
+                      name="department"
+                      onChange={handleFormChange}
+                      value={formData.department}
+                      className="form-control"
+                    />
+                  </div>
+                 </div>
+                  <div className="col-12 mt-1 mb-1">
+                  <label htmlFor="joiningDate"> Joining Date: </label>
+                    <input
+                      type="date"
+                      placeholder=""
+                      name="joiningDate"
+                      onChange={handleFormChange}
+                      value={formData.joiningDate}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="row mt-3">
+                  <div className="col-12">
+                    <div
+                      className="btn-group"
+                      role="group"
+                      aria-label="Basic checkbox toggle button group"
+                    >
+                      <label className="btn">Extra Duty: </label>
+                      <input
+                        type="checkbox"
+                        className="btn-check"
+                        id="btncheck1"
+                        autoComplete="off"
+                      />
+                      <label
+                        className="btn btn-outline-primary"
+                        htmlFor="btncheck1"
+                        
+                      >
+                        Exam Comitee
+                      </label>
+
+                      <input
+                        type="checkbox"
+                        className="btn-check"
+                        id="btncheck2"
+                        autoComplete="off"
+                      />
+                      <label
+                        className="btn btn-outline-primary"
+                        htmlFor="btncheck2"
+                      >
+                        Routine Comittee
+                      </label>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+
+                <div className="row mt-1"></div>
                 <br />
                 <div className="row">
                   <div className="col-3 mt-5">
+                    <Link to="/dashboard">
                     <button type="submit" className="btn btn-primary">
                       Sign up
                     </button>
-                  </div>
-                  <div className="col-3 mt-5">
-                    <Link to="/coursedetails">
-                      <button type="button" className="btn btn-primary">
-                        See Course details?
-                      </button>
                     </Link>
                   </div>
                 </div>
@@ -259,9 +313,11 @@ function Teacher() {
 
                 <br />
                 <div className="col-12 mt-5">
+                  <Link to="/dashboard">
                   <button type="submit" className="btn btn-primary">
                     Log in
                   </button>
+                  </Link>
                 </div>
               </form>
             </div>

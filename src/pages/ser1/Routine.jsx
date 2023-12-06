@@ -1,419 +1,273 @@
-import RoutineTable from "./ser1_components/RoutineTable";
 import "bootstrap/dist/css/bootstrap.css";
-import "../../assets/stylesheets/style.css";
-import "../../assets/stylesheets/ser1-style.css";
+import "../../assets/stylesheets/ser1-style.css"
+import React, { useState, useEffect } from 'react';
 import { Container, Row } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
+
 const Routine = () => {
-  const [showMenu, setShowMenu] = useState(false);
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
+  const [routine, setRoutine] = useState([]);
+  const [modifiedRoutine, setModifiedRoutine] = useState([]);
+  const overall = [[1, 2], [2, 2], [3, 2], [4, 2]];
+  const [yearTerms, setYearTerms] = useState(overall);
 
-  const [showTeacherMenu, setTeacherShowMenu] = useState(false);
-  const toggleTeacherMenu = () => {
-    setTeacherShowMenu(!showTeacherMenu);
-  };
-
-  const [showMR, setshowMR] = useState(true);
-  const [showR, setShowR] = useState(false);
-  const [term, setTerm] = useState("");
-
-  const toggleR = (event) => {
-    const { name } = event.target;
-    setTerm(name);
-    setshowMR(!showMR);
-    setShowR(!showR);
-  };
-  const toggleRT = () => {
-    setshowMR(!showMR);
-    setShowR(!showR);
-  };
-
-  const [teachers, setTeachers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+  
+    const [showMenu, setShowMenu] = useState(false);
+    const toggleMenu = () => {
+      setShowMenu(!showMenu);
+    };
+  
   useEffect(() => {
-    fetch("https://ice-ps2h27s05-sajib-baruas-projects.vercel.app/teachers")
+    fetch('https://ice-4z8u7qrvb-sajib-baruas-projects.vercel.app/routine')
       .then((response) => response.json())
       .then((data) => {
-        setTeachers(data);
-        setLoading(false);
+        setRoutine(data);
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      });
+      .catch((error) => console.error(error));
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
+  useEffect(() => {
+    toModifiedRoutine();
+  }, [yearTerms, routine]);
+
+  const toModifiedRoutine = () => {
+    if (!(routine && routine.length > 0)) return;
+
+    console.log(yearTerms);
+
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+    var onlyFirstTime = true;
+    var routineModified = [];
+
+    for (let day = 0; day < days.length; day++) {
+      for (let yearTerm = 0; yearTerm < yearTerms.length; yearTerm++) {
+        const year = yearTerms[yearTerm][0];
+        const term = yearTerms[yearTerm][1];
+
+        var row = [];
+        if(yearTerm === 0) {
+            row.push(
+                <td rowSpan={yearTerms.length} className="vertical">
+                  <strong>
+                    <span >{days[day]}</span>
+                  </strong>
+                </td>
+            );
+        }
+        row.push(
+            <td>
+              <span>Y-{year}, T-{term}</span>
+            </td>
+        )
+
+        for (let timeSlot = 0; timeSlot < 7; timeSlot++) {
+          if (onlyFirstTime && timeSlot === 5) {
+            row.push(
+              <td key={`lunch-${day}-${year}-${term}`} rowSpan="25" className="vertical">
+                Lunch Break
+              </td>
+            );
+            onlyFirstTime = false;
+          }
+
+          const block = routine[0].overall[day][year][term][timeSlot];
+
+          if (block.isAllocated) {
+            row.push(
+              <td key={`block-${day}-${year}-${term}-${timeSlot}`}>
+                {block.course.code} <br/>
+                {block.teacher.teacherCode} <br/>
+                {block.room} <br/>
+                {block.course.type}
+              </td>
+            );
+          } else {
+            row.push(
+              <td key={`empty-${day}-${year}-${term}-${timeSlot}`}> </td>
+            );
+          }
+        }
+        routineModified.push(row);
+      }
+    }
+
+    setModifiedRoutine(routineModified);
+  };
+
+  const changeYearTerm = (year, term) => {
+    if(year === 0) setYearTerms(overall);
+    else {
+      setYearTerms([[year, term]]);
+    }
+
+
   }
 
   return (
     <>
-      <div className="routine-header">
-        <h2>Routine</h2>
-      </div>
-      <Container>
-        <Row>
-          <div className="col-8">
-            <div style={{ display: showMR ? "block" : "none" }}>
-              <RoutineTable />
+        
+        <Container fluid>
+          <Row>
+            <div className="col-9">
+            <table className="routine-table">
+            <thead>
+            <tr>
+                <td className="routine-header-tr">Day</td>
+                <td className="routine-header-tr">Term, Year</td>
+                <td className="routine-header-tr">9:00-9:45</td>
+                <td className="routine-header-tr">9:50-10:35</td>
+                <td className="routine-header-tr">10:40-11:25</td>
+                <td className="routine-header-tr">11:30-12:15PM</td>
+                <td className="routine-header-tr">12:15-1:00PM</td>
+                <td className="routine-header-tr">1:00-2:00PM</td>
+                <td className="routine-header-tr">2:00-2:50PM</td>
+                <td className="routine-header-tr">2:55-3:45PM</td>
+            </tr>
+            </thead>
+            <thead>
+            {
+            modifiedRoutine.map((item, index) => (
+                <React.Fragment key={index}>
+                    <tr> {item} </tr>
+                </React.Fragment>
+            ))}
+            </thead>
+        </table>
             </div>
-
-            {/* Another table */}
-            <div style={{ display: showR ? "block" : "none" }}>
-              <table className="routine-table">
-                <tr>
-                  <td className="routine-header-tr">Day</td>
-                  <td className="routine-header-tr">Term,Year</td>
-                  <td className="routine-header-tr">9:00-9:45</td>
-                  <td className="routine-header-tr">9:50-10:35</td>
-                  <td className="routine-header-tr">10:40-11:25</td>
-                  <td className="routine-header-tr">11:30-12:15PM</td>
-                  <td className="routine-header-tr">12:15-1:00PM</td>
-                  <td className="routine-header-tr">1:00-2:00PM</td>
-                  <td className="routine-header-tr">2:00-2:50PM</td>
-                  <td className="routine-header-tr">2:55-3:45PM</td>
-                </tr>
-
-                {/* <!-- Heading end
-        Sunday -->
-            <!-- 1-1 --> */}
-                <tr>
-                  <td>
-                    <strong>
-                      <span className="vertical">Sunday</span>
-                    </strong>
-                  </td>
-                  <td>
-                    <strong>
-                      <span className="text-center">{term}</span>
-                    </strong>
-                  </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td rowSpan="5" className="vertical">
-                    Lunch Break
-                  </td>
-                  <td></td>
-                  <td></td>
-                </tr>
-
-                {/* <!-- Heading end
-        Monday -->
-            <!-- 1-1 --> */}
-                <tr>
-                  <td>
-                    <strong>
-                      <span className="vertical">Monday</span>
-                    </strong>
-                  </td>
-                  <td>
-                    <strong>
-                      <span className="text-center">{term}</span>
-                    </strong>
-                  </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-
-                {/* <!-- Heading end
-        Tueday --> */}
-                {/* <!-- 1-1 --> */}
-
-                <tr>
-                  <td>
-                    <strong>
-                      <span className="vertical">Tuesday</span>
-                    </strong>
-                  </td>
-                  <td>
-                    <strong>
-                      <span className="text-center">{term}</span>
-                    </strong>
-                  </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                {/* <!-- Heading end
-        Wednesday -->
-            <!-- 1-1 --> */}
-                <tr>
-                  <td>
-                    <strong>
-                      <span className="vertical">Wednesday</span>
-                    </strong>
-                  </td>
-                  <td>
-                    <strong>
-                      <span className="text-center">{term}</span>
-                    </strong>
-                  </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-
-                {/* <!-- Heading end
-        Thursday --> */}
-                {/* <!-- 1-1 --> */}
-                <tr>
-                  <td>
-                    <strong>
-                      <span className="vertical">Thursday</span>
-                    </strong>
-                  </td>
-                  <td>
-                    <strong>
-                      <span className="text-center">{term}</span>
-                    </strong>
-                  </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                {/* <!-- 1-2 --> */}
-
-                {/*  */}
-              </table>
-            </div>
-            {/* another table end */}
-          </div>
-
-          <div className="col-4">
-            {/* <h1>BTNSSS</h1> */}
-            {/* create btn */}
-            <div className="row">
-              <div className="col-12">
-                <Link to="/create-routine">
-                  <button
-                    className="btn btn-primary"
-                    style={{
-                      margin: "30px 10px 10px 30px",
-                      padding: "10px",
-                      width: "100%",
-                    }}
-                  >
-                    Generate Routine
-                  </button>
-                </Link>
-              </div>
-              {/* end of create btn */}
-              {/* student btn */}
-              <div className="col-12">
-                <button
-                  className="btn btn-primary"
+            <div className="col-3">
+            <div className="m-5">
+              <div className="">
+              
+              <button
+              className="btn btn-primary"
                   style={{
-                    margin: "10px 10px 10px 30px",
+                    margin: "10px",
+                    padding: "10px",
+                    width: "100%",
+                  }}
+              onClick={() => changeYearTerm(0, 0)}>
+                Overall</button>
+              </div>
+              <div className="">
+              <button
+              className="btn btn-primary"
+                  style={{
+                    margin: "10px",
                     padding: "10px",
                     width: "100%",
                   }}
                   onClick={toggleMenu}
-                >
-                  Show Student Routine
-                </button>
-                {/* all semester */}
-              
-                  <div
-                    style={{
-                      display: showMenu ? "block" : "none",
-                    }}
-                  >
-                    <div className="row">
-                      {/* 1-1 1-2 */}
-                      <div className="col-6">
-                        <button
-                          className="btn btn-success"
-                          style={{
-                            margin: "10px 10px 10px 30px",
-                            padding: "10px",
-                            width: "100%",
-                          }}
-                          name="1-1"
-                          onClick={toggleR}
-                        >
-                          1-1
-                        </button>
-                      </div>
-                      <div className="col-6">
-                        <button
-                          className="btn btn-success"
-                          style={{
-                            margin: "10px",
-                            padding: "10px",
-                            width: "100%",
-                          }}
-                          name="1-2"
-                          onClick={toggleR}
-                        >
-                          1-2
-                        </button>
-                      </div>
-                      {/* 1-1 1-2 over */}
-                      {/* 2 1 2-2 */}
-                      <div className="col-6">
-                        <button
-                          className="btn btn-success"
-                          style={{
-                            margin: "10px 10px 10px 30px",
-                            padding: "10px",
-                            width: "100%",
-                          }}
-                          name="2-1"
-                          onClick={toggleR}
-                        >
-                          2-1
-                        </button>
-                      </div>
-                      <div className="col-6">
-                        <button
-                          className="btn btn-success"
-                          style={{
-                            margin: "10px",
-                            padding: "10px",
-                            width: "100%",
-                          }}
-                          name="2-2"
-                          onClick={toggleR}
-                        >
-                          2-2
-                        </button>
-                      </div>
-                      {/* 3-1 3-2 */}
-                      <div className="col-6">
-                        <button
-                          className="btn btn-success"
-                          style={{
-                            margin: "10px 10px 10px 30px",
-                            padding: "10px",
-                            width: "100%",
-                          }}
-                          name="3-1"
-                          onClick={toggleR}
-                        >
-                          3-1
-                        </button>
-                      </div>
-                      <div className="col-6">
-                        <button
-                          className="btn btn-success"
-                          style={{
-                            margin: "10px",
-                            padding: "10px",
-                            width: "100%",
-                          }}
-                          name="3-2"
-                          onClick={toggleR}
-                        >
-                          3-2
-                        </button>
-                      </div>
-                      {/* 4-1 4-2 */}
-                      <div className="col-6">
-                        <button
-                          className="btn btn-success"
-                          style={{
-                            margin: "10px 10px 10px 30px",
-                            padding: "10px",
-                            width: "100%",
-                          }}
-                          name="4-1"
-                          onClick={toggleR}
-                        >
-                          4-1
-                        </button>
-                      </div>
-                      <div className="col-6">
-                        <button
-                          className="btn btn-success"
-                          style={{
-                            margin: "10px",
-                            padding: "10px",
-                            width: "100%",
-                          }}
-                          name="4-2"
-                          onClick={toggleR}
-                        >
-                          4-2
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-              
-                {/* all semester end */}
+              >
+                Semester-Wise Routine</button>
               </div>
-              {/* std btn edn teacher btn start */}
-              <div className="col-12">
-              <button
-                className="btn btn-primary"
-                style={{
-                  margin: "10px 10px 10px 30px",
-                  padding: "10px",
-                  width: "100%",
-                }}
-                onClick={toggleTeacherMenu}
-              >
-                Show Teacher Routine
-              </button>
-              {/* specific teacher */}
-              <div
-                style={{
-                  display: showTeacherMenu ? "block" : "none",
-                }}
-              >
-                <div className="row">
-                  {teachers.map((c) => (
-                    <div key={c.id} className="col-6">
-                      <button
-                        className="btn btn-success"
-                        style={{
-                          margin: "10px 10px 10px 30px",
-                          padding: "10px",
-                          width: "100%",
-                          fontSize: "15px",
-                        }}
-                        onClick={toggleRT}
-                      >
-                        {c.firstName} {c.lastName} - {c.teacherCode}
-                      </button>
-                    </div>
-                  ))}
+
+             <div className="showbtn"
+             style={{
+              display:showMenu? "block":"none",
+             }}>
+             <Row>
+              <div className="col-6">
+                <button 
+            className="btn btn-success"
+            style={{
+              margin: "10px",
+              padding: "10px",
+              width: "100%",
+            }}
+            name="1-1"
+            onClick={() => changeYearTerm(1, 1)}>Y-1, T-1</button>
                 </div>
-              </div>
-            </div>
-            {/* teacher btn end */}
-            </div>
-
+                <div className="col-6">
+                <button
+            className="btn btn-success"
+            style={{
+              margin: "10px",
+              padding: "10px",
+              width: "100%",
+            }}
+            name="1-2"
+            onClick={() => changeYearTerm(1, 2)}>Y-1, T-2</button>
+                </div>
+                <div className="col-6">
+                <button
+            className="btn btn-success"
+            style={{
+              margin: "10px",
+              padding: "10px",
+              width: "100%",
+            }}
+            name="2-1"
+             onClick={() => changeYearTerm(2, 1)}>Y-2, T-1</button>
+                </div>
+                <div className="col-6">
+                <button 
+            className="btn btn-success"
+            style={{
+              margin: "10px",
+              padding: "10px",
+              width: "100%",
+            }}
+            name="2-2"
+            onClick={() => changeYearTerm(2, 2)}>Y-2, T-2</button>
+                </div>
+                <div className="col-6">
+                <button 
+            className="btn btn-success"
+            style={{
+              margin: "10px",
+              padding: "10px",
+              width: "100%",
+            }}
+            name="3-1"
+            onClick={() => changeYearTerm(3, 1)}>Y-3, T-1</button>
+                </div>
+                <div className="col-6">
+                <button
+            className="btn btn-success"
+            style={{
+              margin: "10px",
+              padding: "10px",
+              width: "100%",
+            }}
+            name="3-2"
+            onClick={() => changeYearTerm(3, 2)}>Y-3, T-2</button>
+                </div>
+                <div className="col-6">
+                <button 
+            className="btn btn-success"
+            style={{
+              margin: "10px",
+              padding: "10px",
+              width: "100%",
+            }}
+            name="4-1"
+            onClick={() => changeYearTerm(4, 1)}>Y-4, T-1</button>
+                </div>
+                <div className="col-6">
+                <button 
+            className="btn btn-success"
+            style={{
+              margin: "10px",
+              padding: "10px",
+              width: "100%",
+            }}
+            name="4-2"
+            onClick={() => changeYearTerm(4, 2)}>Y-4, T-2</button>
+                </div>
+              </Row>
+             </div>
+            
+            
+            
+            
           
-
-            {/* col end */}
-          </div>
-        </Row>
-      </Container>
+            
+           
+            
+            
+        </div>
+            </div>
+          </Row>
+        </Container>
     </>
   );
 };
