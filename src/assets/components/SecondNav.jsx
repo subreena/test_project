@@ -70,7 +70,7 @@ function SecondNav() {
             <NavDropdown.Divider />
             <NavDropdown.Item href="/examcontrol">
              
-              Exam Control
+              Exam Committee
            
             </NavDropdown.Item>
           </NavDropdown>

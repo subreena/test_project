@@ -81,9 +81,9 @@ const Service = () => {
                   />
                 </svg>
               </div>
-              <h4>Exam Billing</h4>
+              <h4>Exam Comittee</h4>
               <p className="card-text">
-                We have tried to make the hectic process of Exam Billing making
+                We have tried to make the hectic process of exam committee making
                 digital.
                 <br />
                 <br />

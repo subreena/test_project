@@ -14,14 +14,28 @@ const Contact = () => {
 
         <Row>
           <div className="col-6 col-lg-6 col-md-6 col-sm-12 mt-5 p-5">
-            <u><strong><h4>Department of Information and Communication Engineering,</h4></strong></u>
+            <u>
+              <strong>
+                <h4>
+                  Department of Information and Communication Engineering,
+                </h4>
+              </strong>
+            </u>
             <h5>Noakhali Science and Technology University</h5>
             <br />
 
             <p className="text-start">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita
-              repudiandae voluptas incidunt natus harum porro placeat, fuga aut
-              itaque libero.
+              The Department of Information and Communication Engineering (ICE)
+              provides an outstanding opportunity to students to get quality education in Information and Communication
+              Technology. It started its academic activities from 2012. Since
+              then, it has been widely recognized for its excellent research and
+              teaching capabilities. The Department of ICE is energized by a
+              group of committed teachers. We are giving special emphasis to
+              uplift the quality of our students with respect to their knowledge
+              building capacity having well balanced moral values of life.
+               The department of ICE is committed to maintaining
+              the outstanding quality of its academic programs, research,
+              faculty and graduates.
             </p>
           </div>
           <div className="col-6 col-lg-6 col-md-6 col-sm-12">
