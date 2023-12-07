@@ -17,7 +17,7 @@ const Routine = () => {
     };
   
   useEffect(() => {
-    fetch('https://ice-4z8u7qrvb-sajib-baruas-projects.vercel.app/routine')
+    fetch('https://ice-web-nine.vercel.app/routine')
       .then((response) => response.json())
       .then((data) => {
         setRoutine(data);

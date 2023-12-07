@@ -11,7 +11,7 @@ const ExamControl = () => {
 
   useEffect(() => {
     fetch(
-      "https://ice-6o33ig0ew-sajib-baruas-projects.vercel.app/examCommittee"
+      "https://ice-web-nine.vercel.app/examCommittee"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -44,7 +44,7 @@ const ExamControl = () => {
     setLoading(true);
 
     fetch(
-      "https://ice-6o33ig0ew-sajib-baruas-projects.vercel.app/generateExamCommittee"
+      "https://ice-web-nine.vercel.app/generateExamCommittee"
     )
       .then((response) => response.json())
       .then((data) => {
