@@ -1,5 +1,5 @@
 
-import Header from './assets/components/header';
+import Header from './assets/components/Header';
 import Contact from './assets/components/Contact';
 import Service from './assets/components/Service';
 

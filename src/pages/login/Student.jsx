@@ -38,7 +38,7 @@ function Student() {
 
     try {
       const response = await fetch(
-        "https://ice-4z8u7qrvb-sajib-baruas-projects.vercel.app/students",
+        "https://ice-web-nine.vercel.app/students",
         {
           method: "POST",
           headers: {

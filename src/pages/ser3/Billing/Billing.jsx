@@ -3,7 +3,7 @@ import BillCalculation10 from "./Billing_components/BillCalculation10";
 import BillFinish from "./Billing_components/BillFinish";
 import BillingFooter from "./Billing_components/BillingFooter";
 import BillingHeader from "./Billing_components/BillingHeader";
-import BillCalculation from "./Billing_components/billCalculation";
+import BillCalculation from "./Billing_components/BillCalculation";
 
 const Billing = () => {
   return (

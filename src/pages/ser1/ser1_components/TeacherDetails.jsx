@@ -6,7 +6,7 @@ const TeacherDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://ice-4z8u7qrvb-sajib-baruas-projects.vercel.app/teachers")
+    fetch("https://ice-web-nine.vercel.app/teachers")
       .then((response) => response.json())
       .then((data) => {
         setTeachers(data);
