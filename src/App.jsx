@@ -22,6 +22,7 @@ import { createContext, useState } from 'react';
 import PrivateRoute from "./pages/login/Teacher/PrivateRoute";
 import Teacher from "./pages/login/Teacher/Teacher";
 import ForgotPassword from "./pages/login/Teacher/ForgotPassword";
+import Team from "./pages/Team/Team";
 export const UserContext = createContext();
 
 const App = () => {
@@ -42,9 +43,10 @@ const App = () => {
             <Route path="/routine" element={<Routine />} />
             <Route path="/teacherdashboard" element={<TeacherDashboard />} />
             <Route path="/coursedetails" element={<Course />} />
+            <Route path="/teacherdetails" element={<TeacherDetails/>} />
             <Route path="/home" element={<Home />} />
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/team" element={<Team />} />
+            
             <Route path="/login" element={<EmailPasswordLogin />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgotpassword" element={<ForgotPassword/>} />
@@ -58,7 +60,7 @@ const App = () => {
               element={<PrivateRoute> <ExamControl /> </PrivateRoute>} 
             />
             <Route 
-              path="/renummeration" 
+              path="/remuneration" 
               element={<PrivateRoute> <Renummeration /> </PrivateRoute>} 
             />
             <Route 
@@ -69,9 +71,12 @@ const App = () => {
               path="/billing" 
               element={<PrivateRoute> <Billing /> </PrivateRoute>} 
             />
-            <Route
-              path="/teacherDetails" 
-              element={<PrivateRoute> <TeacherDetails /> </PrivateRoute>} />
+            
+               <Route
+              path="/teacherDashboard" 
+              element={<PrivateRoute> <DashboardTeacher /> </PrivateRoute>} />
+          <Route path="/" element={<Home />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
         

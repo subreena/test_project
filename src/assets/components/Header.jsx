@@ -49,7 +49,7 @@ const Header = () => {
        <img src={ExampleCarouselImage} alt="" style={{maxHeight: '90vh', width: '100%'}} />
         <Carousel.Caption className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
         <h5>The services we provide: </h5>
-          <h3>Renummeration</h3>
+          <h3>Remuneration</h3>
           <p>
             Praesent commodo cursus magna, vel scelerisque nisl consectetur.
           </p>
@@ -59,7 +59,7 @@ const Header = () => {
        <img src={ExampleCarouselImage} alt="" style={{maxHeight: '90vh', width: '100%'}}/>
         <Carousel.Caption className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
         <h5>The services we provide: </h5>
-          <h3>Exam Billing</h3>
+          <h3>Exam Comittee</h3>
           <p>
             Praesent commodo cursus magna, vel scelerisque nisl consectetur.
           </p>

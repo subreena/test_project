@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../stylesheets/style.css";
+import { Container } from "react-bootstrap";
 
 const Service = () => {
   return (
@@ -7,10 +8,10 @@ const Service = () => {
       <h2 className="text-white text-center mb-3 mt-3">Our Services</h2>
 
       <p className="text-white"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, quo.</p>
-      <div className="container">
+      <Container fluid>
         <div>
           <div className="row m-auto service-sec-row">
-            <div className="service-sec-box col-lg-4 col-sm-12">
+            <div className="service-sec-box col-lg-4 col-sm-4">
               <div className="ser-icon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +38,7 @@ const Service = () => {
                 </Link>
               </p>
             </div>
-            <div className="service-sec-box col-lg-4 col-sm-12">
+            <div className="service-sec-box col-lg-4 col-sm-4">
               <div className="ser-icon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +52,7 @@ const Service = () => {
                   <path d="M1.5 3A1.5 1.5 0 0 0 0 4.5V6a.5.5 0 0 0 .5.5 1.5 1.5 0 1 1 0 3 .5.5 0 0 0-.5.5v1.5A1.5 1.5 0 0 0 1.5 13h13a1.5 1.5 0 0 0 1.5-1.5V10a.5.5 0 0 0-.5-.5 1.5 1.5 0 0 1 0-3A.5.5 0 0 0 16 6V4.5A1.5 1.5 0 0 0 14.5 3zM1 4.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1.05a2.5 2.5 0 0 0 0 4.9v1.05a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1.05a2.5 2.5 0 0 0 0-4.9z" />
                 </svg>
               </div>
-              <h4>Renummeration</h4>
+              <h4>Remuneration</h4>
               <p className="card-text">
                 We have tried to make the process of Renummeration
                 application digital
@@ -64,7 +65,7 @@ const Service = () => {
                 </Link>
               </p>
             </div>
-            <div className="service-sec-box col-lg-4 col-sm-12">
+            <div className="service-sec-box col-lg-4 col-sm-4">
               <div className="ser-icon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +97,7 @@ const Service = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

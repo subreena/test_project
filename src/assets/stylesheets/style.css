@@ -69,8 +69,7 @@ body{
 }
 
 .service-sec-box{
- width: 350px;
- height: 350px;
+ width: 30%;
     background-color: #fff;
     margin: 10px;
     padding: 30px;
@@ -79,6 +78,44 @@ body{
     box-shadow: 2px 2px 4px #a5c5f6;
     
 }
+
+@media only screen and (max-width: 768px){
+.service-sec-box{
+  width: 30%;
+  font-size: 16px;
+}
+.service-sec-box h4{
+  font-size: 17px;
+}
+.ser-icon svg{
+  width: 50px;
+}
+.team-box-12, .team-box-13{
+  margin-top: 10px
+}
+}
+@media only screen and (max-width: 500px){
+  .service-sec-box{
+    width: 40%;
+   height: 400px;
+   margin: 5px;
+   padding: 5px;
+    font-size: 16px;
+  }
+  .team-box-12, .team-box-13{
+    margin-top: 10px
+  }
+  .service-sec-box:last-child{
+    width: 80%;
+    font-size: 16px;
+  }
+  .service-sec-box h4{
+    font-size: 17px;
+  }
+  .ser-icon svg{
+    width: 50px;
+  }
+  }
 
 .service-sec-box:hover{
   
@@ -174,7 +211,6 @@ body{
     text-align: left;
     text-decoration: none;
     font-weight: 500;
-    transition: 0.3 ease;
     text-transform: uppercase;
     line-height: 1.5;
   }

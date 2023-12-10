@@ -14,6 +14,7 @@ const PrivateRoute = ({ element, ...rest }) => {
         ) : (
           <Navigate
             to="/login"
+           
             state={{ from: rest.location }}
           />
         )

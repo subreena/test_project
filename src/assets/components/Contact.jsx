@@ -3,7 +3,7 @@ import "../../assets/stylesheets/style.css";
 
 const Contact = () => {
   return (
-    <div className="contact-section">
+    <div className="contact-section" id="#contact">
       <Container>
         <div className="contact text-center" id="contact">
           <h3>Contact us</h3>
@@ -12,8 +12,8 @@ const Contact = () => {
           </p>
         </div>
 
-        <Row>
-          <div className="col-6 col-lg-6 col-md-6 col-sm-12 mt-5 p-5">
+        <Row style={{ flexDirection: "row-reverse" }}>
+          <div className="col-lg-6 col-sm-12 mt-5 p-5">
             <u>
               <strong>
                 <h4>
@@ -26,19 +26,15 @@ const Contact = () => {
 
             <p className="text-start">
               The Department of Information and Communication Engineering (ICE)
-              provides an outstanding opportunity to students to get quality education in Information and Communication
-              Technology. It started its academic activities from 2012. Since
-              then, it has been widely recognized for its excellent research and
-              teaching capabilities. The Department of ICE is energized by a
-              group of committed teachers. We are giving special emphasis to
-              uplift the quality of our students with respect to their knowledge
-              building capacity having well balanced moral values of life.
-               The department of ICE is committed to maintaining
-              the outstanding quality of its academic programs, research,
-              faculty and graduates.
+              provides an outstanding opportunity to students to get quality
+              education in Information and Communication Technology. It started
+              its academic activities from 2012. Since then, it has been widely
+              recognized for its excellent research and teaching capabilities.
+              <br />
+              <br />
             </p>
           </div>
-          <div className="col-6 col-lg-6 col-md-6 col-sm-12">
+          <div className="col-lg-6 col-sm-12">
             <div className="contact-map">
               <iframe
                 title="Map"

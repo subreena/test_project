@@ -47,9 +47,7 @@ const TeacherDetails = () => {
                 <strong>Email:</strong> {teacher.email}
                 <br />
                 <strong>Course: </strong>
-                {teacher.courses.map((course, index) => (
-                  <span key={index}>| {index +1 }. {course} |</span>
-                ))}
+               {teacher.courses.join(' ,')}
               </div>
             ))}
           </div>

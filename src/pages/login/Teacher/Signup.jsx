@@ -188,8 +188,8 @@ const Signup = () => {
       <div>
         {/* Buttons */}
         <div className="container">
-          <div className="row mt-5">
-            <div className="col-6 d-flex justify-content-center">
+          <div className="row mt-5"  style={{margin: 'auto'}}>
+            <div className="col-6">
               <button
                 type="button"
                 className="btn btn-primary"
@@ -198,7 +198,7 @@ const Signup = () => {
                 Want to Sign up?
               </button>
             </div>
-            <div className="col-6 d-flex justify-content-center">
+            <div className="col-6">
               <button
                 type="button"
                 className="btn btn-primary"

@@ -90,6 +90,9 @@ function SecondNav() {
                 <Nav.Link href="/home" className="second-nav-item ">
                   Contact
                 </Nav.Link>
+                <Nav.Link href="/team" className="second-nav-item">
+                  Our Team
+                </Nav.Link>
 
                 <NavDropdown
                   title="Services"
@@ -97,18 +100,22 @@ function SecondNav() {
                   className="second-nav-item second-nav-dropdown"
                 >
                   <NavDropdown.Item href="/routine">Routine</NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="/renummeration">
-                    Renummeration
+                 
+                    
+                       <NavDropdown.Divider />
+                      <NavDropdown.Item href="/remuneration">
+                      Remuneration
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="/examcontrol">
-                    Exam Control
+                    Exam Commit
                   </NavDropdown.Item>
+                      
+                   
                 </NavDropdown>
 
                 {userVerified ? (
-                  <Nav.Link onClick={handleLogout} className="second-nav-item ">
+                  <Nav.Link onClick={handleLogout} className="second-nav-item">
                     Log Out
                   </Nav.Link>
                 ) : (
@@ -128,8 +135,11 @@ function SecondNav() {
                     </NavDropdown>
                   </div>
                 )}
+               
               </Nav>
             </Navbar.Collapse>
+
+           
           </Container>
         </Navbar>
       </div>
