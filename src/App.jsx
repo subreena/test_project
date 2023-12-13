@@ -4,7 +4,7 @@ import NotFound from "./pages/NotFound";
 import Home from "./Home";
 import Student from "./pages/login/Student";
 import Course from "./pages/ser1/Course";
-import Renummeration from "./pages/ser2/Renummeration";
+import Remuneration from "./pages/ser2/Remuneration";
 import ExamControl from "./pages/ser3/ExamControl";
 import Ser2Page2 from "./pages/ser2/Ser2Page2";
 import Footer from "./assets/components/Footer";
@@ -18,7 +18,7 @@ import SecondNav from "./assets/components/SecondNav";
 import EmailPasswordLogin from "./pages/login/Teacher/EmailPasswordLogin";
 import Signup from "./pages/login/Teacher/Signup";
 
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import PrivateRoute from "./pages/login/Teacher/PrivateRoute";
 import Teacher from "./pages/login/Teacher/Teacher";
 import ForgotPassword from "./pages/login/Teacher/ForgotPassword";
@@ -26,16 +26,30 @@ import Team from "./pages/Team/Team";
 export const UserContext = createContext();
 
 const App = () => {
-  const [userState, setUserState] = useState({});
+  const [userState, setUserState] = useState(false);
+  useEffect(() => {
+    const setData = async () => {
+      try {
+        const storedUserData = localStorage.getItem('user');
+        if(storedUserData) {
+          setUserState(true);
+        }
+      } catch(error) {
+        console.error('Error set data', error);
+      }
+    };
+
+    setData();
+  }, []);
 
   return (
     <UserContext.Provider value={[userState, setUserState]}>
       <BrowserRouter>
-        <div>
-          <SecondNav />
-        </div>
+        <div style={{ minHeight: "100vh", display: "flex", flexDirection:"column" }}>
+          <div>
+            <SecondNav />
+          </div>
 
-        <div style={{ minHeight: "100vh", marginTop: "100px", width: "100%" }}>
           <Routes>
             <Route path="/teacher" element={<Teacher />} />
             <Route path="/student" element={<Student />} />
@@ -44,43 +58,25 @@ const App = () => {
             <Route path="/teacherdashboard" element={<TeacherDashboard />} />
             <Route path="/coursedetails" element={<Course />} />
             <Route path="/teacherdetails" element={<TeacherDetails/>} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/team" element={<Team />} />
             
             <Route path="/login" element={<EmailPasswordLogin />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgotpassword" element={<ForgotPassword/>} />
 
-            <Route 
-              path="/create-routine" 
-              element={ <PrivateRoute> <CreateRoutine /> </PrivateRoute>} 
-            />
-            <Route 
-              path="/examcontrol" 
-              element={<PrivateRoute> <ExamControl /> </PrivateRoute>} 
-            />
-            <Route 
-              path="/remuneration" 
-              element={<PrivateRoute> <Renummeration /> </PrivateRoute>} 
-            />
-            <Route 
-              path="/renumeration-page-2" 
-              element={<PrivateRoute> <Ser2Page2 /> </PrivateRoute>} 
-            />
-            <Route 
-              path="/billing" 
-              element={<PrivateRoute> <Billing /> </PrivateRoute>} 
-            />
+            <Route path="/" element={<PrivateRoute />} >
+              <Route path="/create-routine" element={<CreateRoutine/>}/>
+              <Route path="/teacherdashboard" element={<TeacherDashboard/>}/>
+              <Route path="/examcontrol" element={<ExamControl />} />
+              <Route path="/remuneration" element={<Remuneration/>}/>
+              <Route path="/billing" element={<Billing/>}/>
+            </Route>
             
-               <Route
-              path="/teacherDashboard" 
-              element={<PrivateRoute> <DashboardTeacher /> </PrivateRoute>} />
-          <Route path="/" element={<Home />} />
-            <Route path="*" element={<NotFound />} />
           </Routes>
+          
+          <Footer />
         </div>
-        
-        <Footer />
       </BrowserRouter>
     </UserContext.Provider>
   );

@@ -54,11 +54,11 @@ const Service = () => {
               </div>
               <h4>Remuneration</h4>
               <p className="card-text">
-                We have tried to make the process of Renummeration
+                We have tried to make the process of Remuneration
                 application digital
                 <br />
                 <br />
-                <Link to="/renummeration">
+                <Link to="/remuneration">
                   <button className="btn btn-primary">
                      Go to Page
                   </button>

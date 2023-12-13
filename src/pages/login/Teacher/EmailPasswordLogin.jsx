@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from "react";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
 import "./Login.css";
 import { UserContext } from "../../../App";
 
-const EmailPasswordLogin = () => {
+const EmailPasswordLogin = (props) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +15,9 @@ const EmailPasswordLogin = () => {
 
   const [userState, setUserState] = useContext(UserContext);
   const location = useLocation();
-  const { from } = location.state || { from: { pathname: "/" } };
+  const redirectTo = new URLSearchParams(location.search).get('redirectTo');
+
+  console.log(props);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -34,15 +36,18 @@ const EmailPasswordLogin = () => {
     setEmailIssue("");
     setPasswordIssue("");
 
+    console.log(window.history.state);
+
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         if (user && user.emailVerified) {
-          setUserState(user);
-          console.log(user);
-          navigate(from);
+          setUserState(true);
+          localStorage.setItem('user', JSON.stringify(user));
+          
+          navigate(redirectTo || '/');
         } else if(user && !user.emailVerified) {
-          setPasswordIssue("Your email is not verified!");
+          setPasswordIssue("Your email is not verified! Check your email address.");
         } else {
           setPasswordIssue("Your given email address is not sign up yet! Create an account first!");
         }

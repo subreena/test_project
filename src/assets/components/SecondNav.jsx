@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../pages/login/firebase";
+import { Link } from "react-router-dom";
 
 function SecondNav() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,38 +33,34 @@ function SecondNav() {
     textDecoration: "none",
   };
 
+  const [userState, setUserState] = useContext(UserContext);
+
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
         console.log("Signed out successfully");
+        setUserState(false);
+        localStorage.removeItem('user');
       })
       .catch((error) => {
         console.error("Error in sign out", error);
       });
   };
 
-  const [userVerified, setUserVerified] = useState(null);
-  const [userState, setUserState] = useContext(UserContext);
+  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user && user.emailVerified) {
-        setUserVerified(user);
-        setUserState(user);
-      } else {
-        setUserVerified(null);
-        setUserState(null);
-      }
-    });
+  const handleDropdownClick = () => {
+    setIsOpen(!isOpen);
+  };
 
-    // Cleanup the subscription when the component unmounts
-    return () => unsubscribe();
-  }, []); // Empty dependency array to run the effect only once
+  const handleLinkClick = () => {
+    setIsOpen(false); // Close the dropdown after a link is clicked
+  };
 
   return (
     <>
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", marginTop: "100px" }}>
         <Navbar
           data-bs-theme="light"
           className={`second-nav ${isScrolled ? "scrolled" : ""}`}
@@ -94,27 +91,25 @@ function SecondNav() {
                   Our Team
                 </Nav.Link>
 
-                <NavDropdown
-                  title="Services"
-                  id="basic-nav-dropdown"
-                  className="second-nav-item second-nav-dropdown"
-                >
-                  <NavDropdown.Item href="/routine">Routine</NavDropdown.Item>
-                 
-                    
-                       <NavDropdown.Divider />
-                      <NavDropdown.Item href="/remuneration">
-                      Remuneration
-                  </NavDropdown.Item>
+                <NavDropdown title="Services" id="basic-nav-dropdown" className="second-nav-item second-nav-dropdown" show={isOpen} onClick={handleDropdownClick}>
+                  <Link to="/routine" className="dropdown-item" onClick={handleLinkClick}>
+                    Routine
+                  </Link>
+
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="/examcontrol">
-                    Exam Commit
-                  </NavDropdown.Item>
-                      
-                   
+
+                  <Link to="/remuneration" className="dropdown-item" onClick={handleLinkClick}>
+                    Remuneration
+                  </Link>
+
+                  <NavDropdown.Divider />
+
+                  <Link to="/examcontrol" className="dropdown-item" onClick={handleLinkClick}>
+                    Exam Committee
+                  </Link>
                 </NavDropdown>
 
-                {userVerified ? (
+                {userState ? (
                   <Nav.Link onClick={handleLogout} className="second-nav-item">
                     Log Out
                   </Nav.Link>
@@ -135,11 +130,8 @@ function SecondNav() {
                     </NavDropdown>
                   </div>
                 )}
-               
               </Nav>
             </Navbar.Collapse>
-
-           
           </Container>
         </Navbar>
       </div>

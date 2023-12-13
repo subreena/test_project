@@ -1,7 +1,7 @@
 
 import Ser2Page1 from './Ser2Page1';
 
-const Renummeration = () => {
+const Remuneration = () => {
     return (
         <div>
         
@@ -11,4 +11,4 @@ const Renummeration = () => {
     );
 };
 
-export default Renummeration;
+export default Remuneration;

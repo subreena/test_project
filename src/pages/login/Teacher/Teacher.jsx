@@ -15,23 +15,23 @@ const Teacher = () => {
     <div>
       {/* Buttons */}
       <div className="container">
-        <div className="row mt-5" style={{margin: 'auto'}}>
-          <div className="col-6">
+        <div className="row mt-5">
+          <div className="col-6 d-flex justify-content-center">
             <button
               type="button"
               className="btn btn-primary"
               onClick={toggleSignup}
-            
+              style={{ marginLeft: "200px" }}
             >
               Want to Sign up?
             </button>
           </div>
-          <div className="col-6">
+          <div className="col-6 d-flex justify-content-center">
             <button
               type="button"
               className="btn btn-primary"
               onClick={toggleLogin}
-              
+              style={{ marginRight: "200px" }}
             >
               Want to Log in?
             </button>
