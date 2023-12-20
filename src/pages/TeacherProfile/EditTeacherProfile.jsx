@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
-import { auth } from "../firebase";
-import "./Login.css";
+import "../login/Teacher/Login.css";
 import Select from "react-select";
 
-const Signup = () => {
+const EditTeacherProfile = () => {
   const navigate = useNavigate();
 
   // firstName - string
@@ -28,107 +23,36 @@ const Signup = () => {
   const [teacherCode, setTeacherCode] = useState("");
   const [designation, setDesignation] = useState("");
   const [department, setDepartment] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [joiningDate, setJoiningDate] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isInExamCommittee, setIsInExamCommittee] = useState(false);
   const [isInRoutineCommittee, setIsInRoutineCommittee] = useState(false);
 
-  const [passwordIssue, setPasswordIssue] = useState("");
-  const [emailIssue, setEmailIssue] = useState("");
-  const [signupIssue, setSignupIssue] = useState("");
-
-  useEffect(() => {
-    if (password !== confirmPassword) {
-      setPasswordIssue("Your password is not matched!");
-    } else if (password !== "" && password.length < 8) {
-      setPasswordIssue("Try at least 8 characters in your password");
-    } else {
-      setPasswordIssue("");
-    }
-  }, [password, confirmPassword]);
-
-  const onGoogleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      await sendEmailVerification(user);
-
-      navigate("/login");
-    } catch (error) {
-      const errorCode = error.code;
-      console.log(errorCode);
-
-      if (errorCode === "auth/invalid-email") {
-        setEmailIssue("Your email address format is not correct!");
-      } else if(errorCode === "auth/email-already-in-use") {
-        setSignupIssue("Your given email address is already in use. Try another one or log in now!");
-      } else {
-        setEmailIssue(error.message);
-      }
-    }
-  };
-
-  const onDatabaseSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = {
-      firstName,
-      lastName,
-      email,
-      mobile,
-      teacherCode,
-      courses: selectedCourses,
-      designation,
-      department,
-      password: "Ha Ha Ha",
-      joiningDate,
-      isAdmin,
-      isInExamCommittee,
-      isInRoutineCommittee,
-    };
-
-    console.log(formData);
-    try {
-      const result = await fetch("http://localhost:5000/teachers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (result.ok) {
-        // Successfully saved
-        console.log("Data saved successfully");
-        onGoogleSubmit(e);
-      } else {
-        const error = await result; // Get the error message
-        console.error("Error:", error);
-        if(error.status === 400) {
-          setSignupIssue("Your given email address is already in use. Try another one or log in now!");
-        }
-        else {
-          setSignupIssue(error.text());
-        }
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-      setSignupIssue(error.message);
-    }
-  };
-
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [courseOptions, setCourseOptions] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [coursesFromBackend, setCoursesFromBackend] = useState([]);
+
+  useEffect(() => {
+    const teacher = JSON.parse(localStorage.getItem('teacher'));
+    console.log(teacher);
+    teacher.joiningDate = new Date(teacher.joiningDate);
+
+    setFirstName(teacher.firstName);
+    setLastName(teacher.lastName);
+    setMobile(teacher.mobile);
+    setDesignation(teacher.designation);
+    setDepartment(teacher.department);
+    setEmail(teacher.email);
+    setTeacherCode(teacher.teacherCode);
+    setJoiningDate(teacher.joiningDate.toISOString().split('T')[0]);
+    setIsInExamCommittee(teacher.isInExamCommittee);
+    setIsInRoutineCommittee(teacher.isInRoutineCommittee);
+    
+    setSelectedCourses(teacher.courses);
+
+    console.log(teacher.joiningDate);
+  }, []);
 
   // Mock data for courses fetched from the backend
   useEffect(() => {
@@ -169,9 +93,49 @@ const Signup = () => {
     setSelectedCourses(selectedOptions);
   };
 
-  const toggleLogin = () => {
-    navigate("/login");
-  };
+  const onUpdateDatabase = async (e) => {
+    e.preventDefault();
+
+    const newData = {
+        firstName,
+        lastName,
+        email,
+        mobile,
+        teacherCode,
+        courses: selectedCourses,
+        designation,
+        department,
+        password: "Ha Ha Ha",
+        joiningDate,
+        isAdmin,
+        isInExamCommittee,
+        isInRoutineCommittee,
+    };
+  
+    console.log(newData);
+
+    try {
+    const response = await fetch('http://localhost:5000/teachers/updateTeacher', {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, newData }),
+    });
+
+    if (response.ok) {
+        console.log('Teacher updated successfully');
+        localStorage.setItem('teacher', JSON.stringify(newData));
+        navigate('/profile');
+        // You can handle success, e.g., show a success message or redirect
+    } else {
+        console.error('Failed to update teacher');
+        // Handle error, e.g., show an error message to the user
+    }
+    } catch (error) {
+        console.error('Error updating teacher:', error);
+    }
+  }
 
   const [otherDepartment, setOtherDepartment] = useState('');
   const handleDepartmentChange = (e) => {
@@ -185,37 +149,10 @@ const Signup = () => {
 
   return (
     <div>
-      <div>
-        {/* Buttons */}
-        <div className="container">
-          <div className="row mt-5"  style={{margin: 'auto'}}>
-            <div className="col-6">
-              <button
-                type="button"
-                className="btn btn-primary"
-                style={{ display: "none", marginLeft: "200px" }}
-              >
-                Want to Sign up?
-              </button>
-            </div>
-            <div className="col-6">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={toggleLogin}
-                style={{ display: "block", marginRight: "200px" }}
-              >
-                Want to Log in?
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <main className="login-container d-flex justify-content-center mt-5">
+      <main className="login-container d-flex justify-content-center mb-5">
         <section>
           <div className="signup-form">
-            <h3 className="text-center mb-4">Teacher Create Account Form</h3>
+            <h3 className="text-center mb-4">Teacher Update Account Form</h3>
             <form>
               <div className="row form-group">
                 <div className="col-6 mb-1">
@@ -226,7 +163,7 @@ const Signup = () => {
                   <input
                     type="text"
                     className="input-form"
-                    placeholder="First Name"
+                    placeholder={firstName}
                     name="firstName"
                     onChange={(e) => setFirstName(e.target.value)}
                     value={firstName}
@@ -239,7 +176,7 @@ const Signup = () => {
                   </label>
                   <input
                     type="text"
-                    placeholder="Last Name"
+                    placeholder={lastName}
                     name="lastName"
                     onChange={(e) => setLastName(e.target.value)}
                     value={lastName}
@@ -247,23 +184,6 @@ const Signup = () => {
                   />
                 </div>
               </div>
-
-              <div className="form-group">
-                <label className="label-form" htmlFor="email-address">
-                  Email address:
-                </label>
-                <input
-                  className="input-form"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="Email address"
-                />
-              </div>
-              {emailIssue && (
-                <div className="alert alert-danger">{emailIssue}</div>
-              )}
 
               <div className="form-group">
                 <label className="label-form" htmlFor="mobile">
@@ -275,7 +195,7 @@ const Signup = () => {
                   value={mobile}
                   onChange={(e) => setMobile(e.target.value)}
                   required
-                  placeholder="Mobile Number"
+                  placeholder={mobile}
                 />
               </div>
 
@@ -289,7 +209,7 @@ const Signup = () => {
                   value={teacherCode}
                   onChange={(e) => setTeacherCode(e.target.value)}
                   required
-                  placeholder="Teacher Code"
+                  placeholder={teacherCode}
                 />
               </div>
 
@@ -357,40 +277,6 @@ const Signup = () => {
               </div>
 
               <div className="form-group">
-                <label className="label-form" htmlFor="password">
-                  Password
-                </label>
-                <input
-                  className="input-form"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder="Password"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="label-form" htmlFor="password">
-                  Confirm Password
-                </label>
-                <input
-                  className="input-form"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  placeholder="Confirm Password"
-                />
-              </div>
-
-              {passwordIssue && (
-                <div className="alert alert-danger text-center">
-                  {passwordIssue}
-                </div>
-              )}
-
-              <div className="form-group">
                 <label className="label-form" htmlFor="joiningDate">
                   Joining Date:
                 </label>
@@ -450,24 +336,19 @@ const Signup = () => {
                 </div>
               </div>
               
-              {signupIssue && (
-                <div className="alert alert-danger text-center mt-3">
-                  {signupIssue}
-                </div>
-              )}
               <div className="form-group btn-right mt-3">
                 <button
                   className="button-form"
                   type="submit"
-                  onClick={onDatabaseSubmit}
+                  onClick={onUpdateDatabase}
                 >
-                  Sign up
+                  Update
                 </button>
               </div>
             </form>
 
             <p className="link-text mt-3">
-              Already have an account? <NavLink to="/login">Log in now</NavLink>
+              Nothing to update? <NavLink to="/profile">Go Back to Profile</NavLink>
             </p>
           </div>
         </section>
@@ -476,4 +357,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default EditTeacherProfile;

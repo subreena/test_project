@@ -23,6 +23,8 @@ import PrivateRoute from "./pages/login/Teacher/PrivateRoute";
 import Teacher from "./pages/login/Teacher/Teacher";
 import ForgotPassword from "./pages/login/Teacher/ForgotPassword";
 import Team from "./pages/Team/Team";
+import TeacherProfile from "./pages/TeacherProfile/TeacherProfile";
+import EditTeacherProfile from "./pages/TeacherProfile/EditTeacherProfile";
 export const UserContext = createContext();
 
 const App = () => {
@@ -66,11 +68,13 @@ const App = () => {
             <Route path="/forgotpassword" element={<ForgotPassword/>} />
 
             <Route path="/" element={<PrivateRoute />} >
-              <Route path="/create-routine" element={<CreateRoutine/>}/>
-              <Route path="/teacherdashboard" element={<TeacherDashboard/>}/>
+              <Route path="/create-routine" element={<CreateRoutine/>} />
+              <Route path="/teacherdashboard" element={<TeacherDashboard/>} />
               <Route path="/examcontrol" element={<ExamControl />} />
-              <Route path="/remuneration" element={<Remuneration/>}/>
-              <Route path="/billing" element={<Billing/>}/>
+              <Route path="/remuneration" element={<Remuneration/>} />
+              <Route path="/billing" element={<Billing/>} />
+              <Route path="/profile" element={<TeacherProfile/>} />
+              <Route path="/profile/edit-teacher" element={<EditTeacherProfile/>} />
             </Route>
             
           </Routes>

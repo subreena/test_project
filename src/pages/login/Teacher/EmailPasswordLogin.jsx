@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
-import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Login.css";
 import { UserContext } from "../../../App";
 
@@ -12,6 +12,7 @@ const EmailPasswordLogin = (props) => {
   const [passwordIssue, setPasswordIssue] = useState("");
   const [emailIssue, setEmailIssue] = useState("");
   const [verificationMessage, setVerificationMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [userState, setUserState] = useContext(UserContext);
   const location = useLocation();
@@ -35,6 +36,7 @@ const EmailPasswordLogin = (props) => {
     e.preventDefault();
     setEmailIssue("");
     setPasswordIssue("");
+    setLoading(true);
 
     console.log(window.history.state);
 
@@ -44,6 +46,16 @@ const EmailPasswordLogin = (props) => {
         if (user && user.emailVerified) {
           setUserState(true);
           localStorage.setItem('user', JSON.stringify(user));
+
+          const teacherApi = `http://localhost:5000/teachers/by-email/${user.email}`;
+          fetch(teacherApi)
+          .then((response) => response.json())
+          .then((data) => {
+            localStorage.setItem('teacher', JSON.stringify(data));
+          })
+      .catch((error) => {
+      console.error("Error fetching data:", error);
+      });
           
           navigate(redirectTo || '/');
         } else if(user && !user.emailVerified) {
@@ -70,6 +82,9 @@ const EmailPasswordLogin = (props) => {
         } else {
           setPasswordIssue(errorMessage);
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -157,9 +172,16 @@ const EmailPasswordLogin = (props) => {
               )}
 
               <div className="form-group btn-right mt-3">
-                <button className="button-form " onClick={onLogin}>
-                  Login
+                {
+                  loading ? 
+                  <div className="spinner-border text-dark" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  :
+                  <button className="button-form " onClick={onLogin}>
+                    Login
                 </button>
+                }
               </div>
             </form>
 

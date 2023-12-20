@@ -11,7 +11,7 @@ const Service = () => {
       <Container fluid>
         <div>
           <div className="row m-auto service-sec-row">
-            <div className="service-sec-box col-lg-4 col-sm-4">
+            <div className="service-sec-box col-3">
               <div className="ser-icon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -32,14 +32,14 @@ const Header = () => {
         <Carousel activeIndex={index} onSelect={handleSelect}>
       <Carousel.Item style={{position: 'relative', marginTop: '10px'}}>
        <img src={ExampleCarouselImage} alt="" style={{maxHeight: '90vh', width: '100%'}}/>
-        <Carousel.Caption  className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
+        <Carousel.Caption style={{left: "0"}} className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
           <h2><strong>Teacher CoPilot</strong></h2>
           <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item style={{position: 'relative'}}>
         <img src={ExampleCarouselImage} alt="" style={{maxHeight: '90vh', width: '100%'}}/>
-        <Carousel.Caption className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
+        <Carousel.Caption style={{left: "0"}} className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
             <h5>The services we provide: </h5>
           <h3>Routine Generator</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -47,7 +47,7 @@ const Header = () => {
       </Carousel.Item>
       <Carousel.Item style={{position: 'relative'}}>
        <img src={ExampleCarouselImage} alt="" style={{maxHeight: '90vh', width: '100%'}} />
-        <Carousel.Caption className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
+        <Carousel.Caption style={{left: "0"}} className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
         <h5>The services we provide: </h5>
           <h3>Remuneration</h3>
           <p>
@@ -57,7 +57,7 @@ const Header = () => {
       </Carousel.Item>
       <Carousel.Item style={{position: 'relative'}}>
        <img src={ExampleCarouselImage} alt="" style={{maxHeight: '90vh', width: '100%'}}/>
-        <Carousel.Caption className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
+        <Carousel.Caption style={{left: "0"}} className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
         <h5>The services we provide: </h5>
           <h3>Exam Comittee</h3>
           <p>

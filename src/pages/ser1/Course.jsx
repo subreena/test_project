@@ -5,8 +5,7 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
 const Course = () => {
-  const courseApi =
-    "http://localhost:5000/courseDetails";
+  const courseApi = "http://localhost:5000/courseDetails";
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
