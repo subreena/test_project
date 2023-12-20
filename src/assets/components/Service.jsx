@@ -7,11 +7,11 @@ const Service = () => {
     <div className="service-sec">
       <h2 className="text-white text-center mb-3 mt-3">Our Services</h2>
 
-      <p className="text-white"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, quo.</p>
+      <p className="text-white"> We provide Routine Generation, Renumeration form making and building Exam Committee features in our website. </p>
       <Container fluid>
         <div>
           <div className="row m-auto service-sec-row">
-            <div className="service-sec-box col-3">
+            <div className="service-sec-box col-lg-3 col-sm-3">
               <div className="ser-icon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@ const Service = () => {
                 </Link>
               </p>
             </div>
-            <div className="service-sec-box col-lg-4 col-sm-4">
+            <div className="service-sec-box col-lg-3 col-sm-3">
               <div className="ser-icon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@ const Service = () => {
                 </Link>
               </p>
             </div>
-            <div className="service-sec-box col-lg-4 col-sm-4">
+            <div className="service-sec-box col-lg-3 col-sm-3">
               <div className="ser-icon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

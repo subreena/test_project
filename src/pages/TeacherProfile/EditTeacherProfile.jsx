@@ -64,9 +64,7 @@ const EditTeacherProfile = () => {
         let courseDetails = await response.json();
 
         // Sort the in-memory array by 'course_code'
-        courseDetails.sort((a, b) => a.course_code.localeCompare(b.course_code));
-
-        console.log(courseDetails);
+        courseDetails.sort((a, b) => a.code.localeCompare(b.code));
 
         const courses = courseDetails.map((course) => ({
           value: course.code,
