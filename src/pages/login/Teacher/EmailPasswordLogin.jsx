@@ -93,7 +93,7 @@ const EmailPasswordLogin = (props) => {
   };
 
   return (
-    <div>
+    <div className="mb-5">
       <div>
         {/* Buttons */}
         <div className="container">

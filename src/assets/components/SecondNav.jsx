@@ -49,26 +49,8 @@ function SecondNav() {
       });
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-
-  const handleDropdownClick = (flag) => {
-    if(flag === 1) setIsOpen(!isOpen);
-    if(flag === 2) setIsProfileOpen(!isProfileOpen);
-
-    console.log(flag);
-  };
-
-  const handleLinkClick = (flag) => {
-    if(flag === 1) setIsOpen(false); // Close the dropdown after a link is clicked
-    if(flag === 2) setIsProfileOpen(!isProfileOpen);
-
-    console.log(flag);
-  };
-
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('teacher'));
-    console.log(data);
     setTeacher(data);
   }, []);
 
@@ -109,66 +91,50 @@ function SecondNav() {
                 title="Services" 
                 id="basic-nav-dropdown" 
                 className="second-nav-item second-nav-dropdown" 
-                show={isOpen} onClick={() => handleDropdownClick(1)}
                 >
-                  <Link to="/routine" className="dropdown-item" onClick={() => handleLinkClick(1)}>
-                    Routine
-                  </Link>
-
+                  <NavDropdown.Item href="/routine">Routine</NavDropdown.Item>
                   <NavDropdown.Divider />
-
-                  <Link to="/remuneration" className="dropdown-item" onClick={() => handleLinkClick(1)}>
-                    Remuneration
-                  </Link>
-
+                  <NavDropdown.Item href="/remuneration"> Remuneration </NavDropdown.Item>
                   <NavDropdown.Divider />
-
-                  <Link to="/examcontrol" className="dropdown-item" onClick={() => handleLinkClick(1)}>
-                    Exam Committee
-                  </Link>
+                  <NavDropdown.Item href="/examcontrol">Exam Committee</NavDropdown.Item>
                 </NavDropdown>
-                { userState ? (
-                  <></>
-                ) : (
-                  <div className="d-flex">
-                    <NavDropdown
-                      title="Login"
-                      id="basic-nav-dropdown"
-                      className=" second-nav-item"
-                    >
-                      <NavDropdown.Item href="/teacher">
-                        Login as Teacher
-                      </NavDropdown.Item>
-                      <NavDropdown.Divider />
-                      <NavDropdown.Item href="/student">
-                        Login as Student
-                      </NavDropdown.Item>
-                    </NavDropdown>
-                  </div>
-                )}
               </Nav>
               {
-                userState ? (
+                userState ?
                   <NavDropdown 
-                    title={`${teacher?.firstName} ${teacher?.lastName}`} 
-                    id="basic-nav-dropdown" 
-                    className="second-nav-item" 
-                    style={{ marginLeft: "auto", marginRight: "0px" }}
-                    show={isProfileOpen} onClick={() => handleDropdownClick(2)}
+                    title={<svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                          </svg>}
+                    id="nav-dropdown-dark-example" 
+                    align={{ lg: 'end' }}
+                    style={{ marginLeft: "auto", marginRight: "10px" }}
+                    className=" second-nav-item"
                   >
-                    <Link to="/profile" className="dropdown-item" onClick={() => handleLinkClick(2)}>
-                      Profile
-                    </Link>
+                    <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                     
                     <NavDropdown.Divider />
 
-                    <NavDropdown.Item onClick={handleLogout} className="dropdown-item">
+                    <NavDropdown.Item onClick={handleLogout}>
                       Log Out
                     </NavDropdown.Item>
                 </NavDropdown>
-                ) : (
-                  <></>
-                )
+                :
+                <NavDropdown
+                  title="Login"
+                  id="nav-dropdown-dark-example"
+                  align={{ lg: 'end' }}
+                  style={{ marginLeft: "auto", marginRight: "10px" }}
+                  className=" second-nav-item"
+                >
+                  <NavDropdown.Item href="/teacher">
+                    Login as Teacher
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="/student">
+                    Login as Student
+                  </NavDropdown.Item>
+                </NavDropdown>
               }
             </Navbar.Collapse>
           </Container>

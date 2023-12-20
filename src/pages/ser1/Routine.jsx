@@ -76,8 +76,7 @@ const Routine = () => {
               <td key={`block-${day}-${year}-${term}-${timeSlot}`}>
                 {block.course.code} <br/>
                 {block.teacher.teacherCode} <br/>
-                {block.room} <br/>
-                {block.course.type}
+                {block.room}
               </td>
             );
           } else {

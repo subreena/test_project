@@ -137,8 +137,11 @@ const Signup = () => {
         const response = await fetch(
           "http://localhost:5000/courseDetails"
         );
-        const courseDetails = await response.json();
+        let courseDetails = await response.json();
 
+        // Sort the in-memory array by 'course_code'
+        courseDetails.sort((a, b) => a.course_code.localeCompare(b.course_code));
+        
         const courses = courseDetails.map((course) => ({
           value: course.code,
           label: course.code + ": " + course.name,
@@ -184,7 +187,7 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div className="mb-5">
       <div>
         {/* Buttons */}
         <div className="container">

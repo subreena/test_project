@@ -61,7 +61,12 @@ const EditTeacherProfile = () => {
         const response = await fetch(
           "http://localhost:5000/courseDetails"
         );
-        const courseDetails = await response.json();
+        let courseDetails = await response.json();
+
+        // Sort the in-memory array by 'course_code'
+        courseDetails.sort((a, b) => a.course_code.localeCompare(b.course_code));
+
+        console.log(courseDetails);
 
         const courses = courseDetails.map((course) => ({
           value: course.code,
