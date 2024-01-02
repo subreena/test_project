@@ -46,7 +46,7 @@ const Header = () => {
         <img src={ExampleCarouselImage} alt="" style={{maxHeight: '90vh', width: '100%'}}/>
         <Carousel.Caption style={{left: "0"}} className={`carousel-caption ${isScrolled ? 'scrolled' : ''}`}>
             <h5>The services we provide: </h5>
-          <h4>Routine Generator</h4>
+          <h3>Routine Generator</h3>
           <p>We have tried to make the hectic process of routine making digital. You can click to check out.</p>
         </Carousel.Caption>
       </Carousel.Item>
