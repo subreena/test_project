@@ -9,7 +9,7 @@
 .routine-header-tr{
     font-weight: 700;
     text-align: center;
-    background-color: #dddada;
+    background-color: lightgray;
 }
 .routine-table{
     margin: 20px auto;
@@ -21,6 +21,9 @@
     
     font-size: 15px;
 }
+.bg-color {
+    background-color: rgb(235, 231, 231) !important;
+}
 
 .vertical{
     writing-mode: vertical-rl;
@@ -30,7 +33,7 @@
     font-size: 30px !important;
     font-weight: 700;
     padding: 0;
-    background-color: #dddada;
+    background-color: lightgray;
 
 
 }

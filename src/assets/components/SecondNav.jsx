@@ -52,6 +52,7 @@ function SecondNav() {
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('teacher'));
     setTeacher(data);
+    console.log(data);
   }, []);
 
   return (

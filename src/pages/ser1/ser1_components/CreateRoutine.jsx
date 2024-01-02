@@ -2,11 +2,11 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../../../assets/stylesheets/ser1-style.css";
 import React, { useState, useEffect } from 'react';
 import { Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CreateRoutine = () => {
   const [routine, setRoutine] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [modifiedRoutine, setModifiedRoutine] = useState([]);
 
   useEffect(() => {
@@ -14,6 +14,7 @@ const CreateRoutine = () => {
       .then((response) => response.json())
       .then((data) => {
         setRoutine(data);
+        setLoading(false);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -22,39 +23,58 @@ const CreateRoutine = () => {
     toModifiedRoutine();
   }, [routine]);
 
+  const overall = [
+    [1, 2],
+    [2, 2],
+    [3, 2],
+    [4, 2],
+  ];
+  const [yearTerms, setYearTerms] = useState(overall);
+
   const toModifiedRoutine = () => {
     if (!(routine && routine.length > 0)) return;
 
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
-    const yearTerms = [[1, 2], [2, 2], [3, 2], [4, 2]];
+    console.log(yearTerms);
+
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
     var onlyFirstTime = true;
     var routineModified = [];
 
+    let state = 1;
     for (let day = 0; day < days.length; day++) {
       for (let yearTerm = 0; yearTerm < yearTerms.length; yearTerm++) {
         const year = yearTerms[yearTerm][0];
         const term = yearTerms[yearTerm][1];
 
+        let cellBgColor = 'bg-color';
+        if(state) cellBgColor = '';
+
         var row = [];
-        if(yearTerm === 0) {
-            row.push(
-                <td rowSpan="4">
-                  <strong>
-                    <span className="vertical">{days[day]}</span>
-                  </strong>
-                </td>
-            );
+        if (yearTerm === 0) {
+          row.push(
+            <td rowSpan={yearTerms.length} className="vertical">
+              <strong>
+                <span>{days[day]}</span>
+              </strong>
+            </td>
+          );
         }
         row.push(
-            <td>
-              <span>Y-{year}, T-{term}</span>
-            </td>
-        )
+          <td className={cellBgColor}>
+            <span>
+              Y-{year}, T-{term}
+            </span>
+          </td>
+        );
 
         for (let timeSlot = 0; timeSlot < 7; timeSlot++) {
           if (onlyFirstTime && timeSlot === 5) {
             row.push(
-              <td key={`lunch-${day}-${year}-${term}`} rowSpan="25" className="vertical">
+              <td
+                key={`lunch-${day}-${year}-${term}`}
+                rowSpan="25"
+                className="vertical"
+              >
                 Lunch Break
               </td>
             );
@@ -65,18 +85,20 @@ const CreateRoutine = () => {
 
           if (block.isAllocated) {
             row.push(
-              <td key={`block-${day}-${year}-${term}-${timeSlot}`}>
-                {block.course.code} <br/>
-                {block.teacher.teacherCode} <br/>
+              <td key={`block-${day}-${year}-${term}-${timeSlot}`} className={cellBgColor}>
+                {block.course.code} <br />
+                {block.teacher.teacherCode} <br />
                 {block.room}
               </td>
             );
           } else {
             row.push(
-              <td key={`empty-${day}-${year}-${term}-${timeSlot}`}> </td>
+              <td key={`empty-${day}-${year}-${term}-${timeSlot}`} className={cellBgColor}> </td>
             );
           }
         }
+
+        state = (state ^ 1);
         routineModified.push(row);
       }
     }
@@ -85,6 +107,14 @@ const CreateRoutine = () => {
   };
 
   const generateRoutine = () => {
+    // Display an alert to confirm before proceeding
+    const shouldGenerate = window.confirm("Are you sure you want to generate a random routine?");
+    
+    if (!shouldGenerate) {
+        // If the user clicks "Cancel" in the alert, do nothing
+        return;
+    }
+
     setLoading(true);
 
     fetch("http://localhost:5000/generateRandomRoutine")
@@ -101,7 +131,17 @@ const CreateRoutine = () => {
         console.error('Error fetching routine:', error);
         setLoading(false);
       });
-  };
+};
+
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const teacher = JSON.parse(localStorage.getItem('teacher'));
+    console.log(teacher?.isInRoutineCommittee);
+    if(teacher?.isInRoutineCommittee === false) {
+      navigate('/');
+    }
+  }, []);
 
   return (
     <>
@@ -137,7 +177,11 @@ const CreateRoutine = () => {
       </div>
    </div>
       {loading ? (
-        <p>Loading...</p>
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
       ) : (
         <table className="routine-table">
           <thead>
