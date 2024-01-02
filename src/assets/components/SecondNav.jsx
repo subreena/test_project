@@ -58,11 +58,13 @@ function SecondNav() {
     <>
       <div style={{ position: "relative", marginTop: "100px"}}>
         <Navbar
+        expand = "lg"
           data-bs-theme="light"
           className={`fixed-top second-nav ${isScrolled ? "scrolled" : ""}`}
         >
           <Container fluid>
-            <Navbar.Brand
+           <div className="second-nav-logo">
+           <Navbar.Brand
               className="second-nav-item text-dark "
               style={black}
               href="/"
@@ -74,23 +76,24 @@ function SecondNav() {
               />
               Teacher CoPilot
             </Navbar.Brand>
+           </div>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="">
-                <Nav.Link href="/" className="second-nav-item ">
+                <Nav.Link href="/" className="second-nav-item text-sm-center">
                   Home
                 </Nav.Link>
-                <Nav.Link href="/home" className="second-nav-item ">
+                <Nav.Link href="/home" className="second-nav-item text-sm-center ">
                   Contact
                 </Nav.Link>
-                <Nav.Link href="/team" className="second-nav-item">
-                  Our Team
+                <Nav.Link href="/team" className="second-nav-item text-sm-center">
+                  About
                 </Nav.Link>
 
                 <NavDropdown 
                 title="Services" 
                 id="basic-nav-dropdown" 
-                className="second-nav-item second-nav-dropdown" 
+                className="second-nav-item second-nav-dropdown text-sm-center" 
                 >
                   <NavDropdown.Item href="/routine">Routine</NavDropdown.Item>
                   <NavDropdown.Divider />
@@ -125,7 +128,7 @@ function SecondNav() {
                   id="nav-dropdown-dark-example"
                   align={{ lg: 'end' }}
                   style={{ marginLeft: "auto", marginRight: "10px" }}
-                  className=" second-nav-item"
+                  className=" second-nav-item text-sm-center"
                 >
                   <NavDropdown.Item href="/teacher">
                     Login as Teacher

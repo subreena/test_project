@@ -3,23 +3,14 @@
     margin: 20px auto;
     padding: 10px;
     font-weight: 900;
-    font-size: 50px;
+    font-size: 1em;
 }
 
 .routine-header-tr{
     font-weight: 700;
     text-align: center;
 }
-.routine-table{
-    margin: 20px auto;
-    padding: 20px;
-}
-.routine-table tr td{
-    padding: 10px;
-    border: 1px solid black;
-    text-align: center;
-    font-size: 15px;
-}
+
 
 .vertical{
     writing-mode: vertical-rl;
@@ -31,21 +22,14 @@
     padding: 0;
 
 }
-table{
-    caption-side: top;
-}
-caption {
-  font-size: 20px;
+.table-caption {
+  font-size: 1em;
   font-weight: bold;
   padding: 10px;
   background-color: #f2f2f2;
 }
-.cell-size-of-exam-committee{
-    width: 150px;
-}
-.cell-size-of-exam-committee-name{
-    width: 150px;
-}
+
+
 
 .exam-table{
     height: 400px;
@@ -56,4 +40,9 @@ caption {
     width: 100%;
     padding: 20px 10px;
 
+}
+
+.exam-table-row{
+    display: grid;
+    grid-template-columns: repeat(2,);
 }

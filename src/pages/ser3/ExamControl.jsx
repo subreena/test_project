@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "../../assets/stylesheets/exam-control.css";
 import { Container, Row } from "react-bootstrap";
 
+
 const ExamControl = () => {
   const [theory, setTheory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -11,7 +12,7 @@ const ExamControl = () => {
 
   useEffect(() => {
     fetch(
-      "http://localhost:5000/examCommittee"
+      "https://ice-web-nine.vercel.app/examCommittee"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -44,7 +45,7 @@ const ExamControl = () => {
     setLoading(true);
 
     fetch(
-      "http://localhost:5000/generateExamCommittee"
+      "https://ice-web-nine.vercel.app/generateExamCommittee"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -86,27 +87,32 @@ const ExamControl = () => {
                 }. Examination Committee and Question Moderators for Session: Y-${
                   yearTerms[index1][0]
                 }, T-${yearTerms[index1][1]} Final Examination`}</h4>
-               <div className="row">
+               <div className="row exam-table-row">
                {yearTermWiseTheory.map((courses, index2) => (
-                  <div className="col-6 col-lg-6 col-sm-12" key={`table-${index1}-${index2}`}>
+                  <div className="col-lg-6 col-sm-12" key={`table-${index1}-${index2}`}>
                     <div className="">
                       <table className="routine-table exam-table">
-                        <caption>{`${index2 + 1}. ${courses[0].course.code}: ${
-                          courses[0].course.name
-                        }`}</caption>
+                        
                         <thead>
                           <tr>
+                            <td colSpan={5} className="table-caption">
+                            {`${index2 + 1}. ${courses[0].course.code}: ${
+                          courses[0].course.name
+                        }`}
+                            </td>
+                          </tr>
+                          <tr>
                             <td className="routine-header-tr">Sl. No.</td>
-                            <td className="routine-header-tr cell-size-of-exam-committee">
+                            <td className="routine-header-tr ">
                               Name
                             </td>
-                            <td className="routine-header-tr cell-size-of-exam-committee">
+                            <td className="routine-header-tr ">
                               Designation
                             </td>
-                            <td className="routine-header-tr cell-size-of-exam-committee">
+                            <td className="routine-header-tr ">
                               Address
                             </td>
-                            <td className="routine-header-tr cell-size-of-exam-committee">
+                            <td className="routine-header-tr ">
                               Remark
                             </td>
                           </tr>
@@ -115,16 +121,16 @@ const ExamControl = () => {
                           {courses.map((teacher, index3) => (
                             <tr key={`row-${index1}-${index2}-${index3}`}>
                               <td>{index3 + 1}</td>
-                              <td className="cell-size-of-exam-committee-name">
+                              <td className="">
                                 {teacher.teacher.name}
                               </td>
-                              <td className="cell-size-of-exam-committee">
+                              <td className="">
                                 {teacher.teacher.designation}
                               </td>
-                              <td className="cell-size-of-exam-committee">
+                              <td className="">
                                 {teacher.teacher.department}
                               </td>
-                              <td className="cell-size-of-exam-committee">
+                              <td className="">
                                 {teacher.teacher.remark}
                               </td>
                             </tr>

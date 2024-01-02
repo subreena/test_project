@@ -17,7 +17,7 @@ const Routine = () => {
     };
   
   useEffect(() => {
-    fetch('http://localhost:5000/routine')
+    fetch('https://ice-web-nine.vercel.app/routine')
       .then((response) => response.json())
       .then((data) => {
         setRoutine(data);
@@ -105,34 +105,9 @@ const Routine = () => {
     <>
         
         <Container fluid>
-          <Row>
-            <div className="col-9">
-            <table className="routine-table">
-            <thead>
-            <tr>
-                <td className="routine-header-tr">Day</td>
-                <td className="routine-header-tr">Term, Year</td>
-                <td className="routine-header-tr">9:00-9:45</td>
-                <td className="routine-header-tr">9:50-10:35</td>
-                <td className="routine-header-tr">10:40-11:25</td>
-                <td className="routine-header-tr">11:30-12:15PM</td>
-                <td className="routine-header-tr">12:15-1:00PM</td>
-                <td className="routine-header-tr">1:00-2:00PM</td>
-                <td className="routine-header-tr">2:00-2:50PM</td>
-                <td className="routine-header-tr">2:55-3:45PM</td>
-            </tr>
-            </thead>
-            <thead>
-            {
-            modifiedRoutine.map((item, index) => (
-                <React.Fragment key={index}>
-                    <tr> {item} </tr>
-                </React.Fragment>
-            ))}
-            </thead>
-        </table>
-            </div>
-            <div className="col-3">
+        
+           <div className=" flex-lg-row-reverse flex-sm-row row">
+           <div className="col-lg-3 col-sm-12">
             <div className="m-5">
               <div className="">
               
@@ -253,19 +228,40 @@ const Routine = () => {
             onClick={() => changeYearTerm(4, 2)}>Y-4, T-2</button>
                 </div>
               </Row>
-             </div>
-            
-            
-            
-            
-          
+             </div>  
+        </div>
+            </div>
+            <div className="col-lg-9  col-sm-12">
+            <table className="routine-table">
+            <thead>
+            <tr>
+                <td className="routine-header-tr">Day</td>
+                <td className="routine-header-tr">Term, Year</td>
+                <td className="routine-header-tr">9:00-9:45</td>
+                <td className="routine-header-tr">9:50-10:35</td>
+                <td className="routine-header-tr">10:40-11:25</td>
+                <td className="routine-header-tr">11:30-12:15PM</td>
+                <td className="routine-header-tr">12:15-1:00PM</td>
+                <td className="routine-header-tr">1:00-2:00PM</td>
+                <td className="routine-header-tr">2:00-2:50PM</td>
+                <td className="routine-header-tr">2:55-3:45PM</td>
+            </tr>
+            </thead>
+            <thead>
+            {
+            modifiedRoutine.map((item, index) => (
+                <React.Fragment key={index}>
+                    <tr> {item} </tr>
+                </React.Fragment>
+            ))}
+            </thead>
+        </table>
+            </div>
             
            
             
-            
-        </div>
-            </div>
-          </Row>
+           </div>
+         
         </Container>
     </>
   );
