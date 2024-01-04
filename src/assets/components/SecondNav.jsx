@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import { signOut } from "firebase/auth";
 import { auth } from "../../pages/login/firebase";
-import { Link } from "react-router-dom";
+
 
 function SecondNav() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -87,7 +87,7 @@ function SecondNav() {
                   Contact
                 </Nav.Link>
                 <Nav.Link href="/team" className="second-nav-item text-sm-center">
-                  About
+                  Team
                 </Nav.Link>
 
                 <NavDropdown 
@@ -97,7 +97,18 @@ function SecondNav() {
                 >
                   <NavDropdown.Item href="/routine">Routine</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="/remuneration"> Remuneration </NavDropdown.Item>
+                  <NavDropdown 
+                title="Remuneration" 
+                id="basic-nav-dropdown" 
+                className="second-nav-item second-nav-dropdown text-sm-center" >
+                   <NavDropdown.Item href="/travelbilling"> Travel Billing </NavDropdown.Item>
+                   <NavDropdown.Divider />
+                   <NavDropdown.Item href="/exambilling"> Exam Billing </NavDropdown.Item>
+                   
+                </NavDropdown>
+                 
+                 
+                  
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="/examcontrol">Exam Committee</NavDropdown.Item>
                 </NavDropdown>
@@ -109,10 +120,11 @@ function SecondNav() {
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                             <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                           </svg>}
-                    id="nav-dropdown-dark-example" 
+                   id="basic-nav-dropdown" 
+                   className="second-nav-item second-nav-dropdown text-sm-center"
                     align={{ lg: 'end' }}
                     style={{ marginLeft: "auto", marginRight: "10px" }}
-                    className=" second-nav-item"
+        
                   >
                     <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                     
@@ -125,10 +137,11 @@ function SecondNav() {
                 :
                 <NavDropdown
                   title="Login"
-                  id="nav-dropdown-dark-example"
+                  id="basic-nav-dropdown" 
+                  className="second-nav-item second-nav-dropdown text-sm-center" 
                   align={{ lg: 'end' }}
                   style={{ marginLeft: "auto", marginRight: "10px" }}
-                  className=" second-nav-item text-sm-center"
+                  
                 >
                   <NavDropdown.Item href="/teacher">
                     Login as Teacher

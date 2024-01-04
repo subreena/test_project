@@ -25,6 +25,7 @@ import ForgotPassword from "./pages/login/Teacher/ForgotPassword";
 import Team from "./pages/Team/Team";
 import TeacherProfile from "./pages/TeacherProfile/TeacherProfile";
 import EditTeacherProfile from "./pages/TeacherProfile/EditTeacherProfile";
+import TravelBilling from './pages/ser2/TravelBilling';
 export const UserContext = createContext();
 
 const App = () => {
@@ -55,6 +56,7 @@ const App = () => {
           <Routes>
             <Route path="/teacher" element={<Teacher />} />
             <Route path="/student" element={<Student />} />
+
             <Route path="/dashboard" element={<DashboardTeacher />} />
             <Route path="/routine" element={<Routine />} />
             <Route path="/teacherdashboard" element={<TeacherDashboard />} />
@@ -72,7 +74,10 @@ const App = () => {
               <Route path="/teacherdashboard" element={<TeacherDashboard/>} />
               <Route path="/examcontrol" element={<ExamControl />} />
               <Route path="/remuneration" element={<Remuneration/>} />
-              <Route path="/billing" element={<Billing/>} />
+              
+              <Route path="/travelbilling" element={<TravelBilling/>}/>
+              <Route path="/exambilling" element={<Billing/>} />
+              
               <Route path="/profile" element={<TeacherProfile/>} />
               <Route path="/profile/edit-teacher" element={<EditTeacherProfile/>} />
             </Route>
