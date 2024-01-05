@@ -180,7 +180,7 @@ const Routine = () => {
             <div className="">
               <div className="">
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-success"
                   style={{
                     marginTop: "12px",
                     padding: "10px",
@@ -193,7 +193,7 @@ const Routine = () => {
               </div>
               <div className="">
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-success"
                   style={{
                     marginTop: "12px",
                     padding: "10px",
@@ -329,7 +329,7 @@ const Routine = () => {
 
               <div className="">
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-success"
                   style={{
                     marginTop: "10px",
                     padding: "10px",

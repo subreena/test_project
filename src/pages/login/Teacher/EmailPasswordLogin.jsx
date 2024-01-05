@@ -101,7 +101,7 @@ const EmailPasswordLogin = (props) => {
             <div className="col-6 d-flex justify-content-center">
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-success"
                 onClick={toggleSignup}
                 style={{ display: "block", marginLeft: "200px" }}
               >
@@ -111,7 +111,7 @@ const EmailPasswordLogin = (props) => {
             <div className="col-6 d-flex justify-content-center">
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-success"
                 style={{ display: "none", marginRight: "200px" }}
               >
                 Want to Log in?

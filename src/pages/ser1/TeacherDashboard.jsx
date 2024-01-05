@@ -119,7 +119,7 @@ const TeacherDashboard = () => {
             <div className="col-12">
               <button
                 type="submit"
-                className="btn btn-primary"
+                className="btn btn-success"
                 style={{
                   width: "100%",
                   padding: "5px",
@@ -135,7 +135,7 @@ const TeacherDashboard = () => {
           <div className="col-12">
             <Link to="/Routine">
               <button
-                className="btn btn-primary"
+                className="btn btn-success"
                 style={{
                   width: "100%",
                   padding: "5px",
@@ -150,7 +150,7 @@ const TeacherDashboard = () => {
           <div className="col-6">
             <Link to="/teacherDetails">
               <button
-                className="btn btn-primary"
+                className="btn btn-success"
                 style={{
                   width: "100%",
                   padding: "5px",
@@ -163,7 +163,7 @@ const TeacherDashboard = () => {
           <div className="col-6">
             <Link to="/courseDetails">
               <button
-                className="btn btn-primary"
+                className="btn btn-success"
                 style={{
                   width: "100%",
                   padding: "5px",

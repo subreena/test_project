@@ -32,7 +32,7 @@ const Service = () => {
                 <br />
                 <br />
                 <Link to="/routine">
-                  <button className="btn btn-primary">
+                  <button className="btn btn-success">
                      Go to Page
                   </button>
                 </Link>
@@ -59,7 +59,7 @@ const Service = () => {
                 <br />
                 <br />
                 <Link to="/remuneration">
-                  <button className="btn btn-primary">
+                  <button className="btn btn-success">
                      Go to Page
                   </button>
                 </Link>
@@ -89,7 +89,7 @@ const Service = () => {
                 <br />
                 <br />
                 <Link to="/examcontrol">
-                  <button className="btn btn-primary">
+                  <button className="btn btn-success">
                   Go to Page
                   </button>
                 </Link>

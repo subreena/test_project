@@ -194,7 +194,7 @@ const Signup = () => {
             <div className="col-6">
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-success"
                 style={{ display: "none", marginLeft: "200px" }}
               >
                 Want to Sign up?
@@ -203,7 +203,7 @@ const Signup = () => {
             <div className="col-6">
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-success"
                 onClick={toggleLogin}
                 style={{ display: "block", marginRight: "200px" }}
               >

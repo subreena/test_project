@@ -154,7 +154,7 @@ const CreateRoutine = () => {
       <div className="row">
         <div className="col-6">
         <button 
-       className="btn btn-primary"
+       className="btn btn-success"
        style={{
         display: 'inline-block',
          margin: "50px auto",
@@ -165,7 +165,7 @@ const CreateRoutine = () => {
         <div className="col-6">
         <Link to="/routine">
         <button 
-       className="btn btn-primary"
+       className="btn btn-success"
        style={{
         display: 'inline-block',
          margin: "50px auto",

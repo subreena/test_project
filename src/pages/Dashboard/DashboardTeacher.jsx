@@ -22,7 +22,7 @@ const DashboardTeacher = () => {
           <Container>
           <Link to="/create-routine">
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-success"
                     style={{
                       margin: "10px",
                       padding: "10px",
@@ -34,7 +34,7 @@ const DashboardTeacher = () => {
                 </Link>
                 <Link to="/examcontrol">
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-success"
                     style={{
                       margin: "10px",
                       padding: "10px",
@@ -47,7 +47,7 @@ const DashboardTeacher = () => {
 
                 <Link to="/billing">
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-success"
                     style={{
                       margin: "10px",
                       padding: "10px",

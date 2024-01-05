@@ -167,7 +167,7 @@ const ExamControl = () => {
                {yearTermWiseTheory.map((courses, index2) => (
                   <div className="col-12 col-lg-6 col-md-6 col-xl-6" key={`table-${index1}-${index2}`}>
                     <div className="">
-                      <table className="table table-striped" style={{height:"220px", border: "1px solid grey"}}>
+                      <table className="table table-striped table-hover" style={{height:"220px", border: "1px solid grey"}}>
                         <caption>{`${index2 + 1}. ${courses[0].course.code}: ${
                           courses[0].course.name
                         }`}</caption>

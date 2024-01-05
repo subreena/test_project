@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Table } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ExamControlTeacherWise = () => {
   const [teacherCourses, setTeacherCourses] = useState(null);
   const [teachersName, setTeachersName] = useState([]);
   const [teacherWiseCourses, setTeacherWiseCourses] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const getObjectKeysAsArray = (obj) => {
     return Object.keys(obj).map((key) => key);
@@ -29,14 +30,12 @@ const ExamControlTeacherWise = () => {
 
   useEffect(() => {
     console.log(filteredCourses);
-  }, [filteredCourses])
+  }, [filteredCourses]);
 
   const handleSelectChange = (e) => {
     const selectedOption = e.target.value;
     setSelectedTeacher(selectedOption);
-    const filterCourses = selectedOption
-      ? teacherCourses[selectedOption]
-      : [];
+    const filterCourses = selectedOption ? teacherCourses[selectedOption] : [];
     setFilteredCourses(filterCourses);
 
     console.log(filterCourses, teacherCourses[selectedOption]);
@@ -53,7 +52,7 @@ const ExamControlTeacherWise = () => {
               onChange={handleSelectChange}
               value={selectedTeacher || ""}
             >
-              <option value="">Select...</option>
+              <option value="">All Teacher...</option>
               {teachersName.map((teacher, index) => (
                 <option key={index} value={teacher}>
                   {teacher}
@@ -64,7 +63,7 @@ const ExamControlTeacherWise = () => {
         </Col>
       </Row>
 
-      <Row className="d-flex justify-content-center">
+      <Row className="d-flex justify-content-center mb-5">
         <Col md={6}>
           {selectedTeacher && (
             <p>
@@ -93,7 +92,7 @@ const ExamControlTeacherWise = () => {
         </Col>
       </Row>
 
-      <section>
+      {!selectedTeacher && <section>
         <h4 className="text-center exam-header">
           Courses of all corresponding teachers
         </h4>
@@ -122,7 +121,7 @@ const ExamControlTeacherWise = () => {
             </Col>
           ))}
         </Row>
-      </section>
+      </section>}
     </Container>
   );
 };

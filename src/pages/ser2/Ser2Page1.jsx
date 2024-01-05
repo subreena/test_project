@@ -158,7 +158,7 @@ const Ser2Page1 = () => {
           <br /><br /><br /><br /><br /><br />
           
 
-          <button type="button" className="btn btn-lg  btn-primary" style={{marginLeft:'90%'}}>
+          <button type="button" className="btn btn-lg  btn-success" style={{marginLeft:'90%'}}>
        <Link to="/renumeration-page-2" style={{textDecoration: "none", color: "#fff"}}>
        পরবর্তী
        </Link>
