@@ -1,36 +1,3 @@
-.routine-header{
-    text-align: center;
-    margin: 20px auto;
-    padding: 10px;
-    font-weight: 900;
-    font-size: 50px;
-}
-
-.routine-header-tr{
-    font-weight: 700;
-    text-align: center;
-}
-.routine-table{
-    margin: 20px auto;
-    padding: 20px;
-}
-.routine-table tr td{
-    padding: 10px;
-    border: 1px solid black;
-    text-align: center;
-    font-size: 15px;
-}
-
-.vertical{
-    writing-mode: vertical-rl;
-    text-orientation:sideways-right;
-    text-align: center;
-    margin: auto;
-    font-size: 30px !important;
-    font-weight: 700;
-    padding: 0;
-
-}
 table{
     caption-side: top;
 }
@@ -39,6 +6,7 @@ caption {
   font-weight: bold;
   padding: 10px;
   background-color: #f2f2f2;
+  caption-side: top
 }
 .cell-size-of-exam-committee{
     width: 150px;
@@ -49,11 +17,35 @@ caption {
 
 .exam-table{
     height: 400px;
+    margin: 20px auto;
+    padding: 20px;
+}
+.exam-table tr td{
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+    font-size: 15px;
 }
 
+#exam-control-head {
+    background-color: lightgray;
+}
 .exam-header{
    text-decoration: underline;
     width: 100%;
     padding: 20px 10px;
+}
 
+.bg-style {
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background-color: #E5E0FF;
+    padding: 0 5px;
+    border: 1px solid grey;
+}
+.bg-style1 {
+    background-color: #E5E0FF;
+}
+.bg-style2 {
+    background-color: #9ED5C5;
 }

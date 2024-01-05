@@ -3,34 +3,20 @@ import { useState, useEffect } from "react";
 import "../../assets/stylesheets/exam-control.css";
 import { Button, ListGroup } from 'react-bootstrap';
 import { scroller } from 'react-scroll';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const ExamControl = () => {
+const ReorderExamControl = () => {
   const [theory, setTheory] = useState([]);
-  const [teacherCourses, setTeacherCourses] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [modifiedTheory, setModifiedTheory] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    console.log(theory, modifiedTheory, yearTerms);
-  }, [modifiedTheory]);
-
-  useEffect(() => {
-    fetch(
-      "http://localhost:5000/examCommittee"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setTheory(data[0].theory);
-        setTeacherCourses(data[0].teachers);
-      })
-      .catch((error) => console.error(error))
-      .finally(() => {
-        setLoading(false);
-      })
+    const { theory: locationTheory } = location.state || {};
+    console.log(locationTheory);
+    setTheory(locationTheory);
   }, []);
 
   useEffect(() => {
@@ -53,6 +39,35 @@ const ExamControl = () => {
     setYearTerms(yt);
   };
 
+  const generateExamCommitteeTheory = () => {
+    // Display an alert to confirm before proceeding
+    const shouldGenerate = window.confirm("Are you sure you want to re-order the Exam Committee?");
+    
+    if (!shouldGenerate) {
+        // If the user clicks "Cancel" in the alert, do nothing
+        return;
+    }
+
+    setLoading(true);
+
+    fetch(
+      "http://localhost:5000/generateExamCommittee"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        const newRoutine = [];
+        newRoutine.push({
+          theory: data,
+        });
+        setTheory(newRoutine[0].theory);
+      })
+      .catch((error) => {
+        console.error("Error fetching theory:", error);
+        setLoading(false);
+      });
+  };
+
   const scrollToSection = (section) => {
     scroller.scrollTo(section, {
       duration: 100,
@@ -64,22 +79,12 @@ const ExamControl = () => {
 
   const [showYearTerms, setShowYearTerms] = useState(false);
 
-  const [examCommitteeErrorMessage, setExamCommitteeErrorMessage] = useState("");
-  const [teacher, setTeacher] = useState(null);
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('teacher'));
-    setTeacher(data);
-  }, []);
-
-  const toggleExamCommittee = () => {
-    console.log(teacher.isInExamCommittee);
-    if(teacher?.isInExamCommittee) {
-      setExamCommitteeErrorMessage("");
-      navigate('/create-exam-control', { state: { theory } });
-    } else {
-      setExamCommitteeErrorMessage("Sorry! You are not a member of exam committtee yet!");
+    const teacher = JSON.parse(localStorage.getItem('teacher'));
+    if(teacher?.isInExamCommittee === false) {
+      navigate('/');
     }
-  }
+  }, []);
 
   return (
     <div>
@@ -121,7 +126,7 @@ const ExamControl = () => {
 
       <section className="d-flex justify-content-center mb-4">
         <button
-            onClick={() => navigate('/exam-control-teacher-wise', { state: { teacherCourses } })}
+          onClick={() => {navigate('/examcontrol')}}
             className="btn btn-success"
             style={{
               padding: "7px",
@@ -129,10 +134,10 @@ const ExamControl = () => {
               marginRight: "15px"
             }}
           >
-            Teacher Wise Courses
+            Back To Exam Committee
         </button>
         <button
-          onClick={toggleExamCommittee}
+          onClick={generateExamCommitteeTheory}
           className="btn btn-success"
           style={{
             padding: "7px",
@@ -140,10 +145,8 @@ const ExamControl = () => {
             marginLeft: "15px"
           }}
         >
-          Re-order exam committee(theory)
+          Click To Re-order Exam Committee
         </button>
-
-        <p className="mx-3 text-danger">{examCommitteeErrorMessage}</p>
       </section>
 
       <section style={{margin: "0 15px"}}>
@@ -167,10 +170,11 @@ const ExamControl = () => {
                {yearTermWiseTheory.map((courses, index2) => (
                   <div className="col-12 col-lg-6 col-md-6 col-xl-6" key={`table-${index1}-${index2}`}>
                     <div className="">
-                      <table className="table table-striped" style={{height:"220px", border: "1px solid grey"}}>
+                      <table className="table table-striped" style={{height:"220px"}}>
                         <caption>{`${index2 + 1}. ${courses[0].course.code}: ${
                           courses[0].course.name
-                        }`}</caption>
+                        }`}
+                        </caption>
                         <thead>
                           <tr>
                             <th scope="col"> # </th>
@@ -205,4 +209,4 @@ const ExamControl = () => {
   );
 };
 
-export default ExamControl;
+export default ReorderExamControl;
