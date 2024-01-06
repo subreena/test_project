@@ -130,7 +130,7 @@ const Routine = () => {
     console.log(teacher.isInRoutineCommittee);
     if(teacher?.isInRoutineCommittee) {
       setRoutineCommitteeErrorMessage("");
-      navigate('/create-routine');
+      navigate('/create-routine', { state: { routine } });
     } else {
       setRoutineCommitteeErrorMessage("Sorry! You are not a member of routine committtee yet!");
     }

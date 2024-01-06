@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Table } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 
 const ExamControlTeacherWise = () => {
   const [teacherCourses, setTeacherCourses] = useState(null);
   const [teachersName, setTeachersName] = useState([]);
   const [teacherWiseCourses, setTeacherWiseCourses] = useState([]);
   const location = useLocation();
-  const navigate = useNavigate();
 
   const getObjectKeysAsArray = (obj) => {
     return Object.keys(obj).map((key) => key);
