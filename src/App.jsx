@@ -26,6 +26,8 @@ import Team from "./pages/Team/Team";
 import TeacherProfile from "./pages/TeacherProfile/TeacherProfile";
 import EditTeacherProfile from "./pages/TeacherProfile/EditTeacherProfile";
 import TravelBilling from './pages/ser2/TravelBilling';
+import ReorderExamControl from "./pages/ser3/ReorderExamControl";
+import ExamControlTeacherWise from "./pages/ser3/ExamControlTeacherWise";
 export const UserContext = createContext();
 
 const App = () => {
@@ -73,6 +75,8 @@ const App = () => {
               <Route path="/create-routine" element={<CreateRoutine/>} />
               <Route path="/teacherdashboard" element={<TeacherDashboard/>} />
               <Route path="/examcontrol" element={<ExamControl />} />
+              <Route path="/create-exam-control" element={<ReorderExamControl />} />
+              <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
               <Route path="/remuneration" element={<Remuneration/>} />
               
               <Route path="/travelbilling" element={<TravelBilling/>}/>

@@ -20,7 +20,7 @@ const Teacher = () => {
             <div className=" mt-3 mb-5 text-center">
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-success"
               onClick={toggleSignup}
             style={{margin: "10px 20px"}}
             

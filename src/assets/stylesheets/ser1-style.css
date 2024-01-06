@@ -5,11 +5,10 @@
     font-weight: 900;
     font-size: 50px;
 }
-
 .routine-header-tr{
     font-weight: 700;
     text-align: center;
-    background-color: #dddada;
+    background-color: lightgray;
 }
 .routine-table{
     margin: 20px auto;
@@ -28,7 +27,9 @@
     }  
    
 }
-
+.bg-color {
+    background-color: #f2f2f2 !important;
+}
 
 .vertical{
     writing-mode: vertical-rl;
@@ -38,6 +39,6 @@
     font-size: 1.5em !important;
     font-weight: 700;
     padding: 0;
-    background-color: #dddada;
+    background-color: lightgray;
 }
 
