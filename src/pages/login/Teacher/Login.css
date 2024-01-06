@@ -3,17 +3,8 @@
     margin: 0 5px;
 }
 
-.login-btn {
-    border: 2px solid gray;
-    font-weight: 900;
-    font-size: 20px;
-    border-radius: 10px;
-    background-color: white;
-}
 
-.login-btn:hover {
-    background-color: lightgrey;
-}
+
 
 .google-style {
     background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
@@ -29,21 +20,20 @@
     color: #333;
 }
 
-.login-container {
-    align-items: center;
-}
 
 .signup-form {
-    width: 700px;
+    max-width: 700px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0px auto 50px auto;
 }
 
 .login-form {
-    width: 500px;
+    margin: 0px auto 10px auto;
+    max-width: 600px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -103,4 +93,9 @@
 
 .want-to-btn {
     flex-direction: column;
+}
+/*profile*/
+
+.pro-card{
+    min-height: 300px;
 }

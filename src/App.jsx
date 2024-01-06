@@ -49,7 +49,7 @@ const App = () => {
     <UserContext.Provider value={[userState, setUserState]}>
       <BrowserRouter>
         <div style={{ minHeight: "100vh", display: "flex", flexDirection:"column" }}>
-          <div>
+          <div style={{marginBottom: "100px"}}>
             <SecondNav />
           </div>
 

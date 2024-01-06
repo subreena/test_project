@@ -3,6 +3,7 @@ import { auth } from '../firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import './Login.css';
 import { Link } from 'react-router-dom';
+import Teacher from './Teacher';
 
 const ForgotPassword = () => {
   const [resetEmail, setResetEmail] = useState('');
@@ -19,11 +20,9 @@ const ForgotPassword = () => {
       // Optionally, you can provide feedback to the user (e.g., show a success message).
     } catch (error) {
       setSuccess(null);
-
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error(errorCode, errorMessage);
-
       if (errorCode === 'auth/user-not-found') {
         setError(
           'Your given email address is not registered yet. Please Sign up first or try another email address.'
@@ -37,8 +36,9 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div>
-      <main className="container d-flex justify-content-center my-5">
+    <div className='mb-5'>
+      <Teacher></Teacher>
+      <main className="container">
         <section>
           <div className="login-form">
             <h3 className='text-center mb-5'>Forgot Password</h3>

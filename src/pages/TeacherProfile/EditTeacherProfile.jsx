@@ -152,11 +152,11 @@ const EditTeacherProfile = () => {
 
   return (
     <div>
-      <main className="login-container d-flex justify-content-center mb-5">
-        <section>
+      <div className="container">
+        <div className="">
           <div className="signup-form">
-            <h3 className="text-center mb-4">Teacher Update Account Form</h3>
-            <form>
+            <h3 className="text-center mb-4  h3">Teacher Update Account Form</h3>
+            <form> 
               <div className="row form-group">
                 <div className="col-6 mb-1">
                   <label className="label-form" htmlFor="firstName">
@@ -354,8 +354,8 @@ const EditTeacherProfile = () => {
               Nothing to update? <NavLink to="/profile">Go Back to Profile</NavLink>
             </p>
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   );
 };

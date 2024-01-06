@@ -56,7 +56,7 @@ function SecondNav() {
 
   return (
     <>
-      <div style={{ position: "relative", marginTop: "100px"}}>
+      <div style={{ position: "relative"}}>
         <Navbar
         expand = "lg"
           data-bs-theme="light"
@@ -100,7 +100,7 @@ function SecondNav() {
                   <NavDropdown 
                 title="Remuneration" 
                 id="basic-nav-dropdown" 
-                className="second-nav-item second-nav-dropdown text-sm-center" >
+                className="second-nav-dropdown text-sm-center" >
                    <NavDropdown.Item href="/travelbilling"> Travel Billing </NavDropdown.Item>
                    <NavDropdown.Divider />
                    <NavDropdown.Item href="/exambilling"> Exam Billing </NavDropdown.Item>

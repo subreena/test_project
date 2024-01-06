@@ -7,6 +7,7 @@ import {
 import { auth } from "../firebase";
 import "./Login.css";
 import Select from "react-select";
+import Teacher from "./Teacher";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -187,34 +188,11 @@ const Signup = () => {
 
   return (
     <div className="mb-5">
-      <div>
+     
         {/* Buttons */}
-        <div className="container">
-          <div className="row mt-5"  style={{margin: 'auto'}}>
-            <div className="col-6">
-              <button
-                type="button"
-                className="btn btn-primary"
-                style={{ display: "none", marginLeft: "200px" }}
-              >
-                Want to Sign up?
-              </button>
-            </div>
-            <div className="col-6">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={toggleLogin}
-                style={{ display: "block", marginRight: "200px" }}
-              >
-                Want to Log in?
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <Teacher></Teacher>
 
-      <main className="login-container d-flex justify-content-center mt-5">
+      <main className="container">
         <section>
           <div className="signup-form">
             <h3 className="text-center mb-4">Teacher Create Account Form</h3>
@@ -425,7 +403,7 @@ const Signup = () => {
                       onChange={() => setIsInExamCommittee(!isInExamCommittee)}
                     />
                     <label
-                      className="btn btn-outline-primary"
+                      className="btn btn-outline-primary h6"
                       htmlFor="btncheck1"
                     >
                       Exam Committee
@@ -443,7 +421,7 @@ const Signup = () => {
                       }
                     />
                     <label
-                      className="btn btn-outline-primary"
+                      className="btn btn-outline-primary h6"
                       htmlFor="btncheck2"
                     >
                       Routine Committee

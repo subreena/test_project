@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Login.css";
 import { UserContext } from "../../../App";
+import Teacher from "./Teacher";
 
 const EmailPasswordLogin = (props) => {
   const navigate = useNavigate();
@@ -93,35 +94,10 @@ const EmailPasswordLogin = (props) => {
   };
 
   return (
-    <div className="mb-5">
-      <div>
-        {/* Buttons */}
-        <div className="container">
-          <div className="row mt-5">
-            <div className="col-6 d-flex justify-content-center">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={toggleSignup}
-                style={{ display: "block", marginLeft: "200px" }}
-              >
-                Want to Sign up?
-              </button>
-            </div>
-            <div className="col-6 d-flex justify-content-center">
-              <button
-                type="button"
-                className="btn btn-primary"
-                style={{ display: "none", marginRight: "200px" }}
-              >
-                Want to Log in?
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <>
+      <Teacher></Teacher>
 
-      <main className="container d-flex justify-content-center mt-5">
+      <main className="container">
         <section>
           <div className="login-form">
             <h3 className="text-center mb-3">Teacher Login Form</h3>
@@ -195,7 +171,7 @@ const EmailPasswordLogin = (props) => {
           </div>
         </section>
       </main>
-    </div>
+    </>
   );
 };
 

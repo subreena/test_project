@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
 
 const CourseTable = (props) => {
   const [courses, setCourses] = useState([]);
@@ -19,7 +20,8 @@ const CourseTable = (props) => {
   
 
   return (
-    <table className='table table-striped'>
+   <>
+     <table className='table table-striped'>
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -28,13 +30,22 @@ const CourseTable = (props) => {
       </thead>
       <tbody>
         {courses.map((course, index) => (
-          <tr key={`row-${course.value}`}>
-            <th key={index} scope="row">{index + 1}</th>
-            <td key={course.label}>{course.label}</td>
+          <tr key={`row-${course.value}`} >
+            <th key={index} scope="row">
+              <p>
+              {index + 1}
+              </p>
+            </th>
+            <td key={course.label}>
+              <p>
+              {course.label}
+              </p>
+            </td>
           </tr>
         ))}
       </tbody>
     </table>
+   </>
   );
 };
 
