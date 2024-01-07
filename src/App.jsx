@@ -28,6 +28,11 @@ import EditTeacherProfile from "./pages/TeacherProfile/EditTeacherProfile";
 import TravelBilling from './pages/ser2/TravelBilling';
 import ReorderExamControl from "./pages/ser3/ReorderExamControl";
 import ExamControlTeacherWise from "./pages/ser3/ExamControlTeacherWise";
+import ScrollButton from "./assets/components/Scrollbutton";
+import Feedback from "./pages/Feedback/Feedback";
+
+
+
 export const UserContext = createContext();
 
 const App = () => {
@@ -66,6 +71,7 @@ const App = () => {
             <Route path="/teacherdetails" element={<TeacherDetails/>} />
             <Route path="/" element={<Home />} />
             <Route path="/team" element={<Team />} />
+            <Route path="/feedback"  element={<Feedback/>} />
             
             <Route path="/login" element={<EmailPasswordLogin />} />
             <Route path="/signup" element={<Signup />} />
@@ -87,7 +93,7 @@ const App = () => {
             </Route>
             
           </Routes>
-          
+          <ScrollButton></ScrollButton>
           <Footer />
         </div>
       </BrowserRouter>

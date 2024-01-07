@@ -6,7 +6,6 @@ const Footer = () => {
     background: "linear-gradient(to right,#0d6efd ,  #0d6efd, #4d8cff )",
     padding: "20px 10px 0 10px",
     width: "100%",
-    marginTop: "auto"
   };
   return (
     <footer id="footer" style={f}>
@@ -120,10 +119,12 @@ const Footer = () => {
             <p className="text-white text-center mt-3 ">
               {" "}
               Developed By: &nbsp;{" "}
-              <span className="text-bold">
+              <Link to="/team" className="link-underline link-underline-opacity-0 ">
+              <span className="text-bold text-light ">
                 {" "}
                 Md. Sabbir Ejaz, Sajib Barua and Subreena
               </span>
+              </Link>
             </p>
           </div>
         </div>

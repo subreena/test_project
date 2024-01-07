@@ -8,7 +8,6 @@ import { UserContext } from "../../App";
 import { signOut } from "firebase/auth";
 import { auth } from "../../pages/login/firebase";
 
-
 function SecondNav() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [teacher, setTeacher] = useState(null);
@@ -73,6 +72,7 @@ function SecondNav() {
               <img
                 src={logo}
                 alt="logo"
+                className="image-fluid"
                 style={{ width: "40px", height: "40px", marginRight: "5px" }}
               />
               Teacher CoPilot
@@ -84,11 +84,11 @@ function SecondNav() {
                 <Nav.Link href="/" className="second-nav-item text-sm-center">
                   Home
                 </Nav.Link>
-                <Nav.Link href="/home" className="second-nav-item text-sm-center ">
-                  Contact
+                <Nav.Link href="/team" className="second-nav-item text-sm-center ">
+                 Team
                 </Nav.Link>
-                <Nav.Link href="/team" className="second-nav-item text-sm-center">
-                  Team
+                <Nav.Link href="/feedback" className="second-nav-item text-sm-center">
+                  Feedback
                 </Nav.Link>
 
                 <NavDropdown 

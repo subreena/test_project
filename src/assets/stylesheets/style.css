@@ -235,3 +235,23 @@ text-decoration: underline;
   justify-content: space-evenly;
   flex-wrap: wrap-reverse;
 }
+
+
+.scroll-button {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 10px;
+  opacity: 0.5;
+  animation: goTo 1.2s linear infinite alternate-reverse;
+}
+.scroll-button:hover{
+  opacity: 1;
+}
+.scroll-button.visible  {
+  display: block;
+}
+
+

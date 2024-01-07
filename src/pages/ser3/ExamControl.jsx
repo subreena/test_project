@@ -19,7 +19,7 @@ const ExamControl = () => {
 
   useEffect(() => {
     fetch(
-      "http://localhost:5000/examCommittee"
+      "https://ice-web-nine.vercel.app/examCommittee"
     )
       .then((response) => response.json())
       .then((data) => {

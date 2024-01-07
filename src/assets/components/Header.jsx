@@ -38,7 +38,7 @@ const Header = () => {
           <Carousel.Item interval={3000} 
           style={{ position: "relative", marginTop: "10px" }} >
             <img
-              src={ExampleCarouselImage}
+            className="img-fluid"  src={ExampleCarouselImage}
               alt=""
               style={{ maxHeight: "90vh", width: "100%" }}
             />
@@ -46,7 +46,7 @@ const Header = () => {
               style={{ left: "0" }}
               className={`carousel-caption ${isScrolled ? "scrolled" : ""}`}
             >
-              <h3>
+              <h3 className="fs-2">
                 <TypedText strings={["Teacher CoPilot"]} />
               </h3>
               <p className="text-capitalize">
@@ -60,7 +60,7 @@ const Header = () => {
             onClick={() => handleNav("routine")}
           >
             <img
-              src={ExampleCarouselImage}
+            className="img-fluid"  src={ExampleCarouselImage}
               alt=""
               style={{ maxHeight: "90vh", width: "100%" }}
             />
@@ -69,10 +69,10 @@ const Header = () => {
               className={`carousel-caption ${isScrolled ? "scrolled" : ""}`}
             >
               <h5>The services we provide: </h5>
-              <h3>
-                <TypedText strings={["^100 Routine Generator"]} />
+              <h3 className="fs-2">
+                <TypedText strings={["^10 Routine Generator"]} />
               </h3>
-              <p>
+              <p >
                 We have tried to make the hectic process of routine making
                 digital. You can click to check out.
               </p>
@@ -83,7 +83,7 @@ const Header = () => {
             onClick={() => handleNav("remuneration")}
           >
             <img
-              src={ExampleCarouselImage}
+            className="img-fluid"  src={ExampleCarouselImage}
               alt=""
               style={{ maxHeight: "90vh", width: "100%" }}
             />
@@ -92,8 +92,8 @@ const Header = () => {
               className={`carousel-caption ${isScrolled ? "scrolled" : ""}`}
             >
               <h5>The services we provide: </h5>
-              <h3>
-                <TypedText strings={["^100 Remuneration"]} />
+              <h3 className="fs-2">
+                <TypedText strings={["^10 Remuneration"]} />
               </h3>
               <p>
                 We have tried to make the process of Remuneration application
@@ -106,6 +106,7 @@ const Header = () => {
             onClick={() => handleNav("examcontrol")}
           >
             <img
+            className="img-fluid"
               src={ExampleCarouselImage}
               alt=""
               style={{ maxHeight: "90vh", width: "100%" }}
@@ -115,8 +116,8 @@ const Header = () => {
               className={`carousel-caption ${isScrolled ? "scrolled" : ""}`}
             > 
               <h5>The services we provide: </h5>
-              <h3>
-                <TypedText strings={[" ^100 Exam Committee"]} />
+              <h3 className="fs-2">
+                <TypedText strings={[" ^10 Exam Committee"]} />
               </h3>
               <p>
                 We have tried to make the process of exam committee making
