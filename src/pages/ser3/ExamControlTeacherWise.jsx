@@ -94,8 +94,8 @@ const ExamControlTeacherWise = () => {
         <Row xs={1} sm={2} md={2} lg={2} xl={2} xxl={3}>
           {teacherWiseCourses.map((courses, index1) => (
             <Col key={index1}>
-              <Table striped border hover style={{ border: "1px solid grey" }}>
-                <caption className="text-center">
+              <Table striped border hover style={{ border: "1px solid grey" }} className="text-small">
+                <caption className="text-center text-small2">
                   {teachersName[index1]}
                 </caption>
                 <thead>

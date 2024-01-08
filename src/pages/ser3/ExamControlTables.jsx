@@ -4,57 +4,17 @@ import "../../assets/stylesheets/exam-control.css";
 import { Button, ListGroup } from "react-bootstrap";
 import { scroller } from "react-scroll";
 
-const ExamControlTables = () => {
-  const [theory, setTheory] = useState([]);
-  const [teacherCourses, setTeacherCourses] = useState(null);
+const ExamControlTables = (props) => {
+  const { modifiedTheoryProps, yearTermsProps } = props;
   const [modifiedTheory, setModifiedTheory] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
 
   useEffect(() => {
-    const theoryData = JSON.parse(localStorage.getItem("theory"));
-    const teacherCoursesData = JSON.parse(
-      localStorage.getItem("teacherCourses")
-    );
-    setTheory(theoryData);
-    setTeacherCourses(teacherCoursesData);
-  }, []);
+    setModifiedTheory(modifiedTheoryProps);
+    setYearTerms(yearTermsProps);
 
-  useEffect(() => {
-    fetch("http://localhost:5005/examCommittee")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setTheory(data[0].theory);
-        setTeacherCourses(data[0].teachers);
-
-        localStorage.setItem("theory", JSON.stringify(data[0].theory));
-        localStorage.setItem(
-          "teacherCourses",
-          JSON.stringify(data[0].teachers)
-        );
-      })
-      .catch((error) => console.error(error));
-  }, []);
-
-  useEffect(() => {
-    toModifiedTheory();
-  }, [theory]);
-
-  const toModifiedTheory = () => {
-    if (!(theory && theory.length > 0)) return;
-    var theoryModified = [],
-      yt = [];
-    for (let year = 4; year > 0; year--) {
-      for (let term = 2; term > 0; term--) {
-        if (theory[year][term].length !== 0) {
-          theoryModified.push(theory[year][term]);
-          yt.push([year, term]);
-        }
-      }
-    }
-    setModifiedTheory(theoryModified);
-    setYearTerms(yt);
-  };
+    console.log(modifiedTheoryProps, yearTermsProps);
+  }, [modifiedTheoryProps, yearTermsProps]);
 
   const scrollToSection = (section) => {
     scroller.scrollTo(section, {
