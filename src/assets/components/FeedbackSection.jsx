@@ -1,11 +1,9 @@
-import {  useState } from "react";
+import { useState } from "react";
 import "../stylesheets/style.css";
-
 
 const FeedbackSection = () => {
   const [rating, setRating] = useState(null);
   const [hover, setHover] = useState(null);
-  
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -14,8 +12,6 @@ const FeedbackSection = () => {
     feedback: "",
     rating: null,
   });
-
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -31,11 +27,20 @@ const FeedbackSection = () => {
       rating: selectedRating,
     }));
   };
-
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form Data:", formData);
-  
+
+    setSubmitSuccess(true);
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      feedback: "",
+      rating: null,
+    });
+    setRating(null);
   };
 
   return (
@@ -63,7 +68,7 @@ const FeedbackSection = () => {
                       name="firstName"
                       className="form-control"
                       placeholder=""
-                    
+                      value={formData.firstName}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -77,6 +82,7 @@ const FeedbackSection = () => {
                       name="lastName"
                       className="form-control"
                       placeholder=""
+                      value={formData.lastName}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -92,8 +98,8 @@ const FeedbackSection = () => {
                   className="form-control"
                   id="email"
                   placeholder=""
+                  value={formData.email}
                   onChange={handleInputChange}
-                  
                 />
               </div>
               <div className="mb-3">
@@ -103,7 +109,7 @@ const FeedbackSection = () => {
                   const uniqueId = `rating${currentRating}`;
                   return (
                     <label key={index} htmlFor={uniqueId}>
-                        &nbsp;
+                      &nbsp;
                       <input
                         type="radio"
                         name="rating"
@@ -118,17 +124,18 @@ const FeedbackSection = () => {
                           color:
                             currentRating <= (hover || rating)
                               ? "#ffc107"
-                              : "lightgray"
+                              : "lightgray",
                         }}
                         onMouseEnter={() => setHover(currentRating)}
                         onMouseLeave={() => setHover(null)}
                       >
                         &#9733;
                       </span>
-                      
                     </label>
                   );
-                })} &nbsp; <span className="badge text-bg-warning">  {rating}/5</span>              
+                })}{" "}
+                &nbsp;{" "}
+                <span className="badge text-bg-warning"> {rating}/5</span>
               </div>
               <div className="mb-3">
                 <label htmlFor="textarea" className="form-label">
@@ -138,6 +145,7 @@ const FeedbackSection = () => {
                   className="form-control"
                   id="textarea"
                   name="feedback"
+                  value={formData.feedback}
                   onChange={handleInputChange}
                   rows="2"
                 ></textarea>
@@ -148,6 +156,13 @@ const FeedbackSection = () => {
                 </button>
               </div>
             </form>
+            {submitSuccess ? (
+              <div className="mt-4 alert alert-success" role="alert">
+                Your feedback sent successfully!
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
       </div>

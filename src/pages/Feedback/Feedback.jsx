@@ -1,5 +1,6 @@
 import React from "react";
 import FeedbackSection from "./../../assets/components/FeedbackSection";
+import { Link } from "react-router-dom";
 
 const Feedback = () => {
   return (
@@ -43,7 +44,7 @@ const Feedback = () => {
         </div>
       </div>
 
-      
+   
     </div>
   );
 };

@@ -47,25 +47,25 @@ body{
     margin: 10px auto;
 }
 .contact-section{
-  padding: 50px;
+  padding: 20px 20px 20px 20px;
     background-color: rgb(248, 249, 250);
 }
 
 
 .contact-sec-map{
   border-left: 1px solid #676767;
-  padding: 50px;
+  padding: 10px;
   width: 100%;
-  height: 500px;
   margin: 10px;
 }
+
 
 /*Service*/
 
 .service-sec{
     background: linear-gradient(to right, #3684f8, #0d6efd, #3494e6);
     padding: 20px;
-    margin: 50px 0 0 0;
+    margin: 0px 0 0 0;
     text-align: center;
 } 
 
@@ -178,8 +178,7 @@ cursor: pointer;
 
   .carousel-caption{
     transition: all 1s;
-    background: rgb(0, 0, 9,0.3);
-    font-weight: 500;
+    background: rgba(0, 0, 11, 0.4);
    z-index: 1;
    display: flex;
    flex-direction: column;
@@ -190,12 +189,7 @@ cursor: pointer;
  left: 0;
  top: 0;
   }
-  .carousel-caption h2{
-    font-size: 3em;
-  }
-  .carousel-caption h3{
-    font-size: 55px;
-  }
+  
  
 
   /* footer */
@@ -245,6 +239,7 @@ text-decoration: underline;
   cursor: pointer;
   padding: 10px;
   opacity: 0.5;
+  z-index: 10000;
   animation: goTo 1.2s linear infinite alternate-reverse;
 }
 .scroll-button:hover{

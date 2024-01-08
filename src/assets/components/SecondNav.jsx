@@ -67,7 +67,7 @@ function SecondNav() {
            <Navbar.Brand
               className="second-nav-item text-dark "
               style={black}
-              href="/"
+              href="/home"
             >
               <img
                 src={logo}
@@ -147,10 +147,10 @@ function SecondNav() {
                   <NavDropdown.Item href="/teacher">
                     Login as Teacher
                   </NavDropdown.Item>
-                  <NavDropdown.Divider />
+                  {/* <NavDropdown.Divider />
                   <NavDropdown.Item href="/student">
                     Login as Student
-                  </NavDropdown.Item>
+                  </NavDropdown.Item> */}
                 </NavDropdown>
               }
             </Navbar.Collapse>

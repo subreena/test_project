@@ -1,8 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NotFound from "./pages/NotFound";
 import Home from "./Home";
-import Student from "./pages/login/Student";
+// import Student from "./pages/login/Student";
 import Course from "./pages/ser1/Course";
 import Remuneration from "./pages/ser2/Remuneration";
 import ExamControl from "./pages/ser3/ExamControl";
@@ -30,6 +29,7 @@ import ReorderExamControl from "./pages/ser3/ReorderExamControl";
 import ExamControlTeacherWise from "./pages/ser3/ExamControlTeacherWise";
 import ScrollButton from "./assets/components/Scrollbutton";
 import Feedback from "./pages/Feedback/Feedback";
+import NotFound from "./pages/NotFound";
 
 
 
@@ -62,14 +62,14 @@ const App = () => {
 
           <Routes>
             <Route path="/teacher" element={<Teacher />} />
-            <Route path="/student" element={<Student />} />
+            {/* <Route path="/student" element={<Student />} /> */}
 
             <Route path="/dashboard" element={<DashboardTeacher />} />
             <Route path="/routine" element={<Routine />} />
             <Route path="/teacherdashboard" element={<TeacherDashboard />} />
             <Route path="/coursedetails" element={<Course />} />
             <Route path="/teacherdetails" element={<TeacherDetails/>} />
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/team" element={<Team />} />
             <Route path="/feedback"  element={<Feedback/>} />
             
@@ -91,6 +91,12 @@ const App = () => {
               <Route path="/profile" element={<TeacherProfile/>} />
               <Route path="/profile/edit-teacher" element={<EditTeacherProfile/>} />
             </Route>
+
+
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<NotFound/>}/>
+
+
             
           </Routes>
           <ScrollButton></ScrollButton>

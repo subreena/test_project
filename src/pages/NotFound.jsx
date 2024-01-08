@@ -1,10 +1,12 @@
 
 const NotFound = () => {
     return (
-        <div>
+        <div style={{marginTop: '-100px',minHeight: '90vh', display: 'Flex', justifyContent: 'center', alignItems: 'center',
+        
+        }}>
         
             <h1>
-                404! page not found
+                Page Under Construction.
             </h1>
         </div>
     );

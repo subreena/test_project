@@ -32,94 +32,107 @@ const Header = () => {
     setIndex(selectedIndex);
   };
   return (
-    <Container>
-      <div style={{ maxHeight: "90vh", margin: "10px", width: "100%" }}>
-        <Carousel activeIndex={index} onSelect={handleSelect} >
-          <Carousel.Item interval={3000} 
-          style={{ position: "relative", marginTop: "10px" }} >
+    <>
+      <div
+        style={{
+          marginTop: "-50px",
+          maxHeight: "100vh",
+          width: "100%",
+          overflow: "hidden",
+        }}
+      >
+        <Carousel activeIndex={index} onSelect={handleSelect}>
+          <Carousel.Item interval={3000} style={{ position: "relative" }}>
             <img
-            className="img-fluid"  src={ExampleCarouselImage}
+              className="img-fluid"
+              src={ExampleCarouselImage}
               alt=""
-              style={{ maxHeight: "90vh", width: "100%" }}
+              style={{ maxHeight: "100vh", width: "100%" }}
             />
             <Carousel.Caption
               style={{ left: "0" }}
               className={`carousel-caption ${isScrolled ? "scrolled" : ""}`}
             >
-              <h3 className="fs-2">
+              <h1 className="fs-1 text-bold">
                 <TypedText strings={["Teacher CoPilot"]} />
-              </h3>
-              <p className="text-capitalize">
-                An initiative to Simplify and Digitize Hectic Manual Tasks for the Architects of our Nation
+              </h1>
+              <p className="text-capitalize lead fs-5">
+                An initiative to Simplify and Digitize Hectic Manual Tasks for
+                the Architects of our Nation
               </p>
             </Carousel.Caption>
           </Carousel.Item>
 
-          <Carousel.Item interval={2000}
+          <Carousel.Item
+            interval={2000}
             style={{ position: "relative", cursor: "pointer" }}
             onClick={() => handleNav("routine")}
           >
             <img
-            className="img-fluid"  src={ExampleCarouselImage}
+              className="img-fluid"
+              src={ExampleCarouselImage}
               alt=""
-              style={{ maxHeight: "90vh", width: "100%" }}
+              style={{ maxHeight: "100vh", width: "100%" }}
             />
             <Carousel.Caption
               style={{ left: "0" }}
               className={`carousel-caption ${isScrolled ? "scrolled" : ""}`}
             >
-              <h5>The services we provide: </h5>
-              <h3 className="fs-2">
+              <p className="lead fs-6">The services we provide: </p>
+              <h2 className="fs-1">
                 <TypedText strings={["^10 Routine Generator"]} />
-              </h3>
-              <p >
+              </h2>
+              <p className="lead fs-5">
                 We have tried to make the hectic process of routine making
                 digital. You can click to check out.
               </p>
             </Carousel.Caption>
           </Carousel.Item>
-          <Carousel.Item interval={2000}
+          <Carousel.Item
+            interval={2000}
             style={{ position: "relative", cursor: "pointer" }}
             onClick={() => handleNav("remuneration")}
           >
             <img
-            className="img-fluid"  src={ExampleCarouselImage}
+              className="img-fluid"
+              src={ExampleCarouselImage}
               alt=""
-              style={{ maxHeight: "90vh", width: "100%" }}
+              style={{ maxHeight: "100vh", width: "100%" }}
             />
             <Carousel.Caption
               style={{ left: "0" }}
               className={`carousel-caption ${isScrolled ? "scrolled" : ""}`}
             >
-              <h5>The services we provide: </h5>
-              <h3 className="fs-2">
+              <p className="lead fs-6">The services we provide: </p>
+              <h2 className="fs-1">
                 <TypedText strings={["^10 Remuneration"]} />
-              </h3>
-              <p>
+              </h2>
+              <p className="lead fs-5 ">
                 We have tried to make the process of Remuneration application
                 digital. You can click to check out.
               </p>
             </Carousel.Caption>
           </Carousel.Item>
-          <Carousel.Item interval={2000}
+          <Carousel.Item
+            interval={2000}
             style={{ position: "relative", cursor: "pointer" }}
             onClick={() => handleNav("examcontrol")}
           >
             <img
-            className="img-fluid"
+              className="img-fluid"
               src={ExampleCarouselImage}
               alt=""
-              style={{ maxHeight: "90vh", width: "100%" }}
+              style={{ maxHeight: "100vh", width: "100%" }}
             />
             <Carousel.Caption
               style={{ left: "0" }}
               className={`carousel-caption ${isScrolled ? "scrolled" : ""}`}
-            > 
-              <h5>The services we provide: </h5>
-              <h3 className="fs-2">
+            >
+              <p className="lead fs-6">The services we provide: </p>
+              <h2 className="fs-1">
                 <TypedText strings={[" ^10 Exam Committee"]} />
-              </h3>
-              <p>
+              </h2>
+              <p className="lead fs-5">
                 We have tried to make the process of exam committee making
                 digital. You can click to check out.{" "}
               </p>
@@ -127,7 +140,7 @@ const Header = () => {
           </Carousel.Item>
         </Carousel>
       </div>
-    </Container>
+    </>
   );
 };
 

@@ -13,7 +13,7 @@ const Ser2Page1 = () => {
               alt="NSTU LOGO"
               style={{
                 width: "100px",
-                marginLeft: "500px",
+                
                 marginBottom: "50px",
               }}
             />
