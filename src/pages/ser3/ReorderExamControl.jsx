@@ -130,8 +130,8 @@ const ReorderExamControl = () => {
             className="btn btn-success"
             style={{
               padding: "7px",
-              width: "450px",
-              marginRight: "15px"
+              width: "32vw",
+              marginRight: "15px",
             }}
           >
             Back To Exam Committee
@@ -141,11 +141,11 @@ const ReorderExamControl = () => {
           className="btn btn-success"
           style={{
             padding: "7px",
-            width: "450px",
-            marginLeft: "15px"
+            width: "32vw",
+            marginLeft: "15px",
           }}
         >
-          Click To Re-order Exam Committee
+          Click To Re-order
         </button>
       </section>
 

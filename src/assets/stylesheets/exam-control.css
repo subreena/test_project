@@ -36,9 +36,18 @@ caption {
     padding: 0 5px;
     border: 1px solid grey;
 }
-.bg-style1 {
-    background-color: #E5E0FF;
+.text-small {
+    font-size: 15px;
 }
-.bg-style2 {
-    background-color: #9ED5C5;
+.text-small2 {
+    font-size: 25px;
+}
+
+@media screen and (max-width: 768px){
+    .text-small {
+        font-size: 10px;
+    }
+    .text-small2 {
+        font-size: 13px;
+    }
 }

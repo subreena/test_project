@@ -28,10 +28,12 @@ import EditTeacherProfile from "./pages/TeacherProfile/EditTeacherProfile";
 import TravelBilling from './pages/ser2/TravelBilling';
 import ReorderExamControl from "./pages/ser3/ReorderExamControl";
 import ExamControlTeacherWise from "./pages/ser3/ExamControlTeacherWise";
+import TeacherWiseRoutine from "./pages/ser1/ser1_components/TeacherWiseRoutine";
 export const UserContext = createContext();
 
 const App = () => {
   const [userState, setUserState] = useState(false);
+  // to set user is logged in or not
   useEffect(() => {
     const setData = async () => {
       try {
@@ -45,6 +47,36 @@ const App = () => {
     };
 
     setData();
+  }, []);
+
+  // to load all the vital data as soon as possible
+  useEffect(() => {
+    const saveRoutineData = () => {
+      fetch("http://localhost:5005/routine")
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.setItem('routine', JSON.stringify(data[0].overall));
+        localStorage.setItem('yearTerms', JSON.stringify(data[0].yearTerm));
+        console.log(data);
+      })
+      .catch((error) => console.error(error));
+    }
+    
+    const saveExamCommitteeData = () => {
+      fetch(
+        "http://localhost:5005/examCommittee"
+      )
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.setItem('theory', JSON.stringify(data[0].theory));
+        localStorage.setItem('teacherCourses', JSON.stringify(data[0].teachers));
+        console.log(data);
+      })
+      .catch((error) => console.error(error))
+    }
+
+    saveRoutineData();
+    saveExamCommitteeData();
   }, []);
 
   return (
@@ -73,6 +105,7 @@ const App = () => {
 
             <Route path="/" element={<PrivateRoute />} >
               <Route path="/create-routine" element={<CreateRoutine/>} />
+              <Route path="/teacher-wise-routine" element={<TeacherWiseRoutine/>} />
               <Route path="/teacherdashboard" element={<TeacherDashboard/>} />
               <Route path="/examcontrol" element={<ExamControl />} />
               <Route path="/create-exam-control" element={<ReorderExamControl />} />

@@ -63,7 +63,7 @@
     .routine-table tr td{
         padding: 5px;
         border: 1px solid black; 
-        font-size: 10px;
+        font-size: 10px !important;
     }
     .vertical{
         writing-mode: vertical-rl;

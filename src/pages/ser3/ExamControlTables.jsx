@@ -1,16 +1,14 @@
 import "bootstrap/dist/css/bootstrap.css";
 import { useState, useEffect } from "react";
 import "../../assets/stylesheets/exam-control.css";
-import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
+import { Button, ListGroup } from "react-bootstrap";
 import { scroller } from "react-scroll";
-import { useNavigate } from "react-router-dom";
 
-const ExamControl = () => {
+const ExamControlTables = () => {
   const [theory, setTheory] = useState([]);
   const [teacherCourses, setTeacherCourses] = useState(null);
   const [modifiedTheory, setModifiedTheory] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const theoryData = JSON.parse(localStorage.getItem("theory"));
@@ -69,24 +67,6 @@ const ExamControl = () => {
 
   const [showYearTerms, setShowYearTerms] = useState(false);
 
-  const [examCommitteeErrorMessage, setExamCommitteeErrorMessage] = useState("");
-  const [teacher, setTeacher] = useState(null);
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("teacher"));
-    setTeacher(data);
-  }, []);
-
-  const toggleExamCommittee = () => {
-    if (teacher?.isInExamCommittee) {
-      setExamCommitteeErrorMessage("");
-      navigate("/create-exam-control", { state: { theory } });
-    } else {
-      setExamCommitteeErrorMessage(
-        "Sorry! You are not a member of exam committtee yet!"
-      );
-    }
-  };
-
   return (
     <>
       <Button
@@ -127,41 +107,6 @@ const ExamControl = () => {
           ))}
         </ListGroup>
       )}
-
-      <Container fluid>
-        <Row className="mb-4">
-          <Col className="d-flex justify-content-center">
-            <button
-              onClick={() =>
-                navigate("/exam-control-teacher-wise", {
-                  state: { teacherCourses },
-                })
-              }
-              className="btn btn-success"
-              style={{
-                padding: "7px",
-                width: "32vw"
-              }}
-            >
-              Teacher Wise Courses
-            </button>
-          </Col>
-          <Col className="d-flex justify-content-center">
-            <button
-              onClick={toggleExamCommittee}
-              className="btn btn-success m-auto"
-              style={{
-                padding: "7px",
-                width: "32vw"
-              }}
-            >
-              Re-order Exam Committee
-            </button>
-          </Col>
-
-          <p className="mx-3 text-danger">{examCommitteeErrorMessage}</p>
-        </Row>
-      </Container>
 
       <section style={{ margin: "0 15px" }}>
         {modifiedTheory.map((yearTermWiseTheory, index1) => (
@@ -225,4 +170,4 @@ const ExamControl = () => {
   );
 };
 
-export default ExamControl;
+export default ExamControlTables;

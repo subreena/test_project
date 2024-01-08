@@ -61,15 +61,12 @@ const ExamControlTeacherWise = () => {
           </Form.Group>
         </Col>
       </Row>
-
-      <Row className="d-flex justify-content-center mb-5">
+      
+      {selectedTeacher && <Row className="d-flex justify-content-center mb-5">
         <Col md={6}>
-          {selectedTeacher && (
             <p>
               Search result for <b>{selectedTeacher}</b>:
             </p>
-          )}
-          {selectedTeacher && (
             <Table striped border hover style={{ border: "1px solid grey" }}>
               <caption className="text-center">{selectedTeacher}</caption>
               <thead>
@@ -87,9 +84,8 @@ const ExamControlTeacherWise = () => {
                 ))}
               </tbody>
             </Table>
-          )}
         </Col>
-      </Row>
+      </Row>}
 
       {!selectedTeacher && <section>
         <h4 className="text-center exam-header">
