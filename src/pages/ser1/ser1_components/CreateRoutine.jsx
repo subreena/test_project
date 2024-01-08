@@ -78,13 +78,14 @@ const CreateRoutine = () => {
             onlyFirstTime = false;
           }
 
-          const block = routine[0].overall[day][year][term][timeSlot];
+          const block = routine[day][year][term][timeSlot];
 
           if (block.isAllocated) {
             row.push(
               <td
                 key={`block-${day}-${year}-${term}-${timeSlot}`}
                 className={cellBgColor}
+                style={{textAlign: "center"}}
               >
                 {block.course.code} <br />
                 {block.teacher.teacherCode} <br />
@@ -124,7 +125,7 @@ const CreateRoutine = () => {
 
     setLoading(true);
 
-    fetch("https://ice-web-nine.vercel.app/generateRandomRoutine")
+    fetch("http://localhost:5005/generateRandomRoutine")
         .then((response) => response.json())
         .then((data) => {
             setLoading(false);

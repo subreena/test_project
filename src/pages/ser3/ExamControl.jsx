@@ -19,7 +19,7 @@ const ExamControl = () => {
 
   useEffect(() => {
     fetch(
-      "http://localhost:5000/examCommittee"
+      "http://localhost:5005/examCommittee"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -72,7 +72,6 @@ const ExamControl = () => {
   }, []);
 
   const toggleExamCommittee = () => {
-    console.log(teacher.isInExamCommittee);
     if(teacher?.isInExamCommittee) {
       setExamCommitteeErrorMessage("");
       navigate('/create-exam-control', { state: { theory } });
@@ -87,7 +86,7 @@ const ExamControl = () => {
         variant="info"
         style={{
           position: 'fixed',
-          top: '72px',
+          top: '65px',
           right: '2px',
           zIndex: '1000',
           opacity: showYearTerms ? '1' : '0.3',
@@ -102,7 +101,7 @@ const ExamControl = () => {
         <ListGroup
           style={{
             position: 'fixed',
-            top: '110px',
+            top: '102px',
             right: '2px',
             zIndex: '1000',
             width: '140px',

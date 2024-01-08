@@ -1,31 +1,27 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "../../assets/stylesheets/ser1-style.css";
-import React, { useState, useEffect } from "react";
-import { Container, Row } from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
+import { Button, Container, ListGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
 const Routine = () => {
   const [routine, setRoutine] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modifiedRoutine, setModifiedRoutine] = useState([]);
-  const overall = [
-    [1, 2],
-    [2, 2],
-    [3, 2],
-    [4, 2],
-  ];
-  const [yearTerms, setYearTerms] = useState(overall);
-
+  const [overall, setOverall] = useState([]);
+  const [yearTerms, setYearTerms] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
 
   useEffect(() => {
-    fetch('https://ice-web-nine.vercel.app/routine')
+    fetch("http://localhost:5005/routine")
       .then((response) => response.json())
       .then((data) => {
-        setRoutine(data);
+        console.log(data);
+        setYearTerms(data[0].yearTerm);
+        setOverall(data[0].yearTerm);
+        setRoutine(data[0].overall);
         setLoading(false);
       })
       .catch((error) => console.error(error));
@@ -44,14 +40,16 @@ const Routine = () => {
     var onlyFirstTime = true;
     var routineModified = [];
 
-    let state = 1;
+    let state = 1,
+      labClass = "",
+      labState = 0;
     for (let day = 0; day < days.length; day++) {
       for (let yearTerm = 0; yearTerm < yearTerms.length; yearTerm++) {
         const year = yearTerms[yearTerm][0];
         const term = yearTerms[yearTerm][1];
 
-        let cellBgColor = 'bg-color';
-        if(state) cellBgColor = '';
+        let cellBgColor = "bg-color";
+        if (state) cellBgColor = "";
 
         var row = [];
         if (yearTerm === 0) {
@@ -64,7 +62,7 @@ const Routine = () => {
           );
         }
         row.push(
-          <td className={cellBgColor}>
+          <td className={cellBgColor} style={{ textAlign: "center" }}>
             <span>
               Y-{year}, T-{term}
             </span>
@@ -76,7 +74,7 @@ const Routine = () => {
             row.push(
               <td
                 key={`lunch-${day}-${year}-${term}`}
-                rowSpan="25"
+                rowSpan="200"
                 className="vertical"
               >
                 Lunch Break
@@ -85,11 +83,26 @@ const Routine = () => {
             onlyFirstTime = false;
           }
 
-          const block = routine[0].overall[day][year][term][timeSlot];
+          const block = routine[day][year][term][timeSlot];
 
           if (block.isAllocated) {
+            if (block.course.type === "theory") {
+              labClass = "";
+              labState = 0;
+            } else if (labState === 0) {
+              labClass = "lab-style1";
+              labState ^= 1;
+            } else {
+              labClass = "lab-style2";
+              labState ^= 1;
+            }
+
             row.push(
-              <td key={`block-${day}-${year}-${term}-${timeSlot}`} className={cellBgColor}>
+              <td
+                key={`block-${day}-${year}-${term}-${timeSlot}`}
+                className={`${cellBgColor} ${labClass}`}
+                style={{ textAlign: "center" }}
+              >
                 {block.course.code} <br />
                 {block.teacher.teacherCode} <br />
                 {block.room}
@@ -97,12 +110,16 @@ const Routine = () => {
             );
           } else {
             row.push(
-              <td key={`empty-${day}-${year}-${term}-${timeSlot}`} className={cellBgColor}> </td>
+              <td
+                key={`empty-${day}-${year}-${term}-${timeSlot}`}
+                className={cellBgColor}
+              >
+                {" "}
+              </td>
             );
           }
         }
-
-        state = (state ^ 1);
+        state = state ^ 1;
         routineModified.push(row);
       }
     }
@@ -117,39 +134,115 @@ const Routine = () => {
     }
   };
 
-  const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] = useState("");
+  const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] =
+    useState("");
   const [teacher, setTeacher] = useState(null);
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('teacher'));
+    const data = JSON.parse(localStorage.getItem("teacher"));
     setTeacher(data);
     console.log(data);
+    console.log(yearTerms);
   }, []);
 
   const navigate = useNavigate();
   const toggleRoutineCommittee = () => {
     console.log(teacher.isInRoutineCommittee);
-    if(teacher?.isInRoutineCommittee) {
+    if (teacher?.isInRoutineCommittee) {
       setRoutineCommitteeErrorMessage("");
-      navigate('/create-routine', { state: { routine } });
+      navigate("/create-routine", { state: { routine } });
     } else {
-      setRoutineCommitteeErrorMessage("Sorry! You are not a member of routine committtee yet!");
+      setRoutineCommitteeErrorMessage(
+        "Sorry! You are not a member of routine committtee yet!"
+      );
     }
-  }
+  };
+
+  const [showYearTerms, setShowYearTerms] = useState(false);
 
   return (
     <>
+      <Button
+        variant="info"
+        style={{
+          position: "fixed",
+          top: "63px",
+          right: "2px",
+          zIndex: "1000",
+          opacity: showYearTerms ? "1" : "0.3",
+          transition: "opacity 0.3s",
+        }}
+        onMouseEnter={() => setShowYearTerms(true)}
+        onMouseLeave={() => setShowYearTerms(false)}
+      >
+        Year-Term Wise
+      </Button>
+      {showYearTerms && (
+        <ListGroup
+          style={{
+            position: "fixed",
+            top: "100px",
+            right: "2px",
+            zIndex: "1000",
+            width: "140px",
+            cursor: "pointer",
+          }}
+          onMouseEnter={() => setShowYearTerms(true)}
+          onMouseLeave={() => setShowYearTerms(false)}
+        >
+          <ListGroup.Item key="100" onClick={() => changeYearTerm(0, 0)}>
+            Overall
+          </ListGroup.Item>
+          {overall.map((option, index) => (
+            <ListGroup.Item
+              key={index}
+              onClick={() => changeYearTerm(option[0], option[1])}
+            >
+              {`Y-${option[0]}, T-${option[1]}`}
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      )}
+      <div className="d-flex justify-content-center">
+        <div>
+          <button
+            className="btn btn-success"
+            style={{
+              padding: "7px",
+              width: "32vw",
+              marginRight: "15px",
+            }}
+            onClick={toggleRoutineCommittee}
+          >
+            Teacher-Wise Routine
+          </button>
+        </div>
+        <div>
+          <button
+            className="btn btn-success"
+            style={{
+              padding: "7px",
+              width: "32vw",
+              marginRight: "15px",
+            }}
+            onClick={toggleRoutineCommittee}
+          >
+            Re-order Routine
+          </button>
+
+          <p className="mx-3 text-danger">{routineCommitteeErrorMessage}</p>
+        </div>
+      </div>
       <Container fluid>
         <Row>
-          <div className="col-10">
-            {
-              loading ? (
-                <div className="d-flex justify-content-center">
-                  <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
+          <div>
+            {loading ? (
+              <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
                 </div>
-              ) :
-              (
+              </div>
+            ) : (
+              <div className="scrollbar scrollbar-primary mx-auto">
                 <table className="routine-table">
                   <thead>
                     <tr>
@@ -172,177 +265,9 @@ const Routine = () => {
                       </React.Fragment>
                     ))}
                   </thead>
-              </table>
-              )
-            }
-          </div>
-          <div className="col-2">
-            <div className="">
-              <div className="">
-                <button
-                  className="btn btn-success"
-                  style={{
-                    marginTop: "12px",
-                    padding: "10px",
-                    width: "100%",
-                  }}
-                  onClick={() => changeYearTerm(0, 0)}
-                >
-                  Overall
-                </button>
+                </table>
               </div>
-              <div className="">
-                <button
-                  className="btn btn-success"
-                  style={{
-                    marginTop: "12px",
-                    padding: "10px",
-                    width: "100%",
-                  }}
-                  onClick={toggleMenu}
-                >
-                  Semester-Wise Routine
-                </button>
-              </div>
-
-              <div
-                className="showbtn"
-                style={{
-                  display: showMenu ? "block" : "none",
-                }}
-              >
-                <Row>
-                  <div className="col-6">
-                    <button
-                      className="btn btn-success"
-                      style={{
-                        marginTop: "12px",
-                        padding: "10px",
-                        width: "100%",
-                      }}
-                      name="1-1"
-                      onClick={() => changeYearTerm(1, 1)}
-                    >
-                      Y-1, T-1
-                    </button>
-                  </div>
-                  <div className="col-6">
-                    <button
-                      className="btn btn-success"
-                      style={{
-                        marginTop: "12px",
-                        padding: "10px",
-                        width: "100%",
-                      }}
-                      name="1-2"
-                      onClick={() => changeYearTerm(1, 2)}
-                    >
-                      Y-1, T-2
-                    </button>
-                  </div>
-                  <div className="col-6">
-                    <button
-                      className="btn btn-success"
-                      style={{
-                        marginTop: "12px",
-                        padding: "10px",
-                        width: "100%",
-                      }}
-                      name="2-1"
-                      onClick={() => changeYearTerm(2, 1)}
-                    >
-                      Y-2, T-1
-                    </button>
-                  </div>
-                  <div className="col-6">
-                    <button
-                      className="btn btn-success"
-                      style={{
-                        marginTop: "12px",
-                        padding: "10px",
-                        width: "100%",
-                      }}
-                      name="2-2"
-                      onClick={() => changeYearTerm(2, 2)}
-                    >
-                      Y-2, T-2
-                    </button>
-                  </div>
-                  <div className="col-6">
-                    <button
-                      className="btn btn-success"
-                      style={{
-                        marginTop: "12px",
-                        padding: "10px",
-                        width: "100%",
-                      }}
-                      name="3-1"
-                      onClick={() => changeYearTerm(3, 1)}
-                    >
-                      Y-3, T-1
-                    </button>
-                  </div>
-                  <div className="col-6">
-                    <button
-                      className="btn btn-success"
-                      style={{
-                        marginTop: "12px",
-                        padding: "10px",
-                        width: "100%",
-                      }}
-                      name="3-2"
-                      onClick={() => changeYearTerm(3, 2)}
-                    >
-                      Y-3, T-2
-                    </button>
-                  </div>
-                  <div className="col-6">
-                    <button
-                      className="btn btn-success"
-                      style={{
-                        marginTop: "12px",
-                        padding: "10px",
-                        width: "100%",
-                      }}
-                      name="4-1"
-                      onClick={() => changeYearTerm(4, 1)}
-                    >
-                      Y-4, T-1
-                    </button>
-                  </div>
-                  <div className="col-6">
-                    <button
-                      className="btn btn-success"
-                      style={{
-                        marginTop: "12px",
-                        padding: "10px",
-                        width: "100%",
-                      }}
-                      name="4-2"
-                      onClick={() => changeYearTerm(4, 2)}
-                    >
-                      Y-4, T-2
-                    </button>
-                  </div>
-                </Row>
-              </div>
-
-              <div className="">
-                <button
-                  className="btn btn-success"
-                  style={{
-                    marginTop: "10px",
-                    padding: "10px",
-                    width: "100%",
-                  }}
-                  onClick={toggleRoutineCommittee}
-                >
-                  Re-order Routine
-                </button>
-
-                <p className="mx-3 text-danger">{routineCommitteeErrorMessage}</p>
-              </div>
-            </div>
+            )}
           </div>
         </Row>
       </Container>

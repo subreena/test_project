@@ -1,45 +1,14 @@
-<<<<<<< HEAD
-.routine-header{
-    text-align: center;
-    margin: 20px auto;
-    padding: 10px;
-    font-weight: 900;
-    font-size: 1em;
-}
 
-.routine-header-tr{
-    font-weight: 700;
-    text-align: center;
-}
-
-
-.vertical{
-    writing-mode: vertical-rl;
-    text-orientation:sideways-right;
-    text-align: center;
-    margin: auto;
-    font-size: 30px !important;
-    font-weight: 700;
-    padding: 0;
-
-}
-.table-caption {
-  font-size: 1em;
-=======
 table{
     caption-side: top;
 }
 caption {
   font-size: 20px;
->>>>>>> sajib
   font-weight: bold;
   padding: 10px;
   background-color: #f2f2f2;
   caption-side: top
 }
-
-
-
 .exam-table{
     height: 400px;
     margin: 20px auto;
@@ -60,14 +29,6 @@ caption {
     width: 100%;
     padding: 20px 10px;
 }
-
-<<<<<<< HEAD
-}
-
-.exam-table-row{
-    display: grid;
-    grid-template-columns: repeat(2,);
-=======
 .bg-style {
     margin-bottom: 15px;
     border-radius: 8px;
@@ -80,5 +41,4 @@ caption {
 }
 .bg-style2 {
     background-color: #9ED5C5;
->>>>>>> sajib
 }
