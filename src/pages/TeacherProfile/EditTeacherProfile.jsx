@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import "../login/Teacher/Login.css";
 import Select from "react-select";
+import "../../assets/stylesheets/login.css";
 
 const EditTeacherProfile = () => {
   const navigate = useNavigate();
@@ -156,7 +156,7 @@ const EditTeacherProfile = () => {
         <div className="">
           <div className="signup-form">
             <h3 className="text-center mb-4  h3">Teacher Update Account Form</h3>
-            <form> 
+            <form className="form"> 
               <div className="row form-group">
                 <div className="col-6 mb-1">
                   <label className="label-form" htmlFor="firstName">

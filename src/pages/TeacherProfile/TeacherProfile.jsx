@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CourseTable from "./CourseTable";
 import { Link } from "react-router-dom";
 import "../../assets/stylesheets/ser2-style.css";
+import "../../assets/stylesheets/login.css";
 
 const TeacherProfile = () => {
   const [teacher, setTeacher] = useState(null);

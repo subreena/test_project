@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import "../../../assets/stylesheets/style.css";
+import "../../../assets/stylesheets/login.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "../firebase";
-import "./Login.css";
 import Select from "react-select";
 import Teacher from "./Teacher";
 
@@ -196,7 +198,7 @@ const Signup = () => {
         <section>
           <div className="signup-form">
             <h3 className="text-center mb-4">Teacher Create Account Form</h3>
-            <form>
+            <form className="form">
               <div className="row form-group">
                 <div className="col-6 mb-1">
                   <label className="label-form" htmlFor="firstName">

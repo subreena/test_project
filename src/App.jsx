@@ -1,4 +1,6 @@
 import "bootstrap/dist/css/bootstrap.css";
+import "./assets/stylesheets/style.css";
+import "./assets/stylesheets/login.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Home";
 // import Student from "./pages/login/Student";
@@ -16,7 +18,6 @@ import Billing from "./pages/ser3/Billing/Billing";
 import SecondNav from "./assets/components/SecondNav";
 import EmailPasswordLogin from "./pages/login/Teacher/EmailPasswordLogin";
 import Signup from "./pages/login/Teacher/Signup";
-
 import { createContext, useEffect, useState } from 'react';
 import PrivateRoute from "./pages/login/Teacher/PrivateRoute";
 import Teacher from "./pages/login/Teacher/Teacher";

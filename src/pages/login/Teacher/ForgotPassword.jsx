@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { auth } from '../firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import './Login.css';
 import { Link } from 'react-router-dom';
 import Teacher from './Teacher';
+import "../../../assets/stylesheets/login.css";
 
 const ForgotPassword = () => {
   const [resetEmail, setResetEmail] = useState('');

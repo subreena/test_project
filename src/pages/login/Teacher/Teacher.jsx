@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import "bootstrap/dist/css/bootstrap.css";
+import "../../../assets/stylesheets/style.css";
+import "../../../assets/stylesheets/login.css";
 
 const Teacher = () => {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const Teacher = () => {
             <div className=" mt-3 mb-5 text-center">
             <button
               type="button"
-              className="btn btn-success"
+              className="btn btn-primary"
               onClick={toggleSignup}
             style={{margin: "10px 20px"}}
             

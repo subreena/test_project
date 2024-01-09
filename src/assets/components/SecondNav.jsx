@@ -93,23 +93,21 @@ function SecondNav() {
 
                 <NavDropdown 
                 title="Services" 
-                id="basic-nav-dropdown" 
-                className="second-nav-item second-nav-dropdown text-sm-center" 
+                id="" 
+                className="second-nav-item  text-sm-center" 
                 >
                   <NavDropdown.Item href="/routine">Routine</NavDropdown.Item>
                   <NavDropdown.Divider />
+
                   <NavDropdown 
                 title="Remuneration" 
                 id="basic-nav-dropdown" 
                 className="second-nav-dropdown text-sm-center" >
                    <NavDropdown.Item href="/travelbilling"> Travel Billing </NavDropdown.Item>
                    <NavDropdown.Divider />
-                   <NavDropdown.Item href="/exambilling"> Exam Billing </NavDropdown.Item>
-                   
+                   <NavDropdown.Item href="/exambilling"> Exam Billing </NavDropdown.Item>  
                 </NavDropdown>
-                 
-                 
-                  
+                
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="/examcontrol">Exam Committee</NavDropdown.Item>
                 </NavDropdown>

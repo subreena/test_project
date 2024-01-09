@@ -2,9 +2,9 @@ import { useState, useContext, useEffect } from "react";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import "./Login.css";
 import { UserContext } from "../../../App";
 import Teacher from "./Teacher";
+import "../../../assets/stylesheets/login.css";
 
 const EmailPasswordLogin = (props) => {
   const navigate = useNavigate();
@@ -89,9 +89,6 @@ const EmailPasswordLogin = (props) => {
       });
   };
 
-  const toggleSignup = () => {
-    navigate("/signup");
-  };
 
   return (
     <>

@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../App";
+import "bootstrap/dist/css/bootstrap.css";
+import "../../../assets/stylesheets/style.css"
+import "../../../assets/stylesheets/login.css";
 
 // Define a PrivateRoute component
 const PrivateRoute = ({ component: Component, ...rest }) => {
