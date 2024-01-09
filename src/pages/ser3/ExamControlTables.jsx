@@ -33,7 +33,7 @@ const ExamControlTables = (props) => {
         variant="info"
         style={{
           position: "fixed",
-          top: "65px",
+          top: "63px",
           right: "2px",
           zIndex: "1000",
           opacity: showYearTerms ? "1" : "0.3",
@@ -48,7 +48,7 @@ const ExamControlTables = (props) => {
         <ListGroup
           style={{
             position: "fixed",
-            top: "102px",
+            top: "100px",
             right: "2px",
             zIndex: "1000",
             width: "140px",
@@ -94,7 +94,7 @@ const ExamControlTables = (props) => {
                           border: "1px solid grey",
                         }}
                       >
-                        <caption className="text-small2">{`${index2 + 1}. ${courses[0].course.code}: ${
+                        <caption className="text-small1">{`${index2 + 1}. ${courses[0].course.code}: ${
                           courses[0].course.name
                         }`}</caption>
                         <thead>

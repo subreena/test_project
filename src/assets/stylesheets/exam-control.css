@@ -39,15 +39,25 @@ caption {
 .text-small {
     font-size: 15px;
 }
+.text-small1 {
+    font-size: 20px;
+}
 .text-small2 {
     font-size: 25px;
+}
+.style-small {
+    width: 200px !important;
+    height: 100px !important;
 }
 
 @media screen and (max-width: 768px){
     .text-small {
         font-size: 10px;
     }
-    .text-small2 {
+    .text-small1 {
         font-size: 13px;
+    }
+    .text-small2 {
+        font-size: 15px;
     }
 }

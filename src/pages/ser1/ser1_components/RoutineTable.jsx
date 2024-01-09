@@ -31,9 +31,7 @@ const RoutineTable = (props) => {
     var onlyFirstTime = true;
     var routineModified = [];
 
-    let state = 1,
-      labClass = "",
-      labState = 0;
+    let state = 1, labClass = "", labState = 0;
     for (let day = 0; day < days.length; day++) {
       for (let yearTerm = 0; yearTerm < yearTerms.length; yearTerm++) {
         const year = yearTerms[yearTerm][0];

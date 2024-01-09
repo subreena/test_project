@@ -77,7 +77,7 @@ const ReorderExamControl = () => {
     <div>
       <Container fluid>
         <Row className="mb-4">
-          <Col className="d-flex justify-content-center">
+          <Col className="d-flex justify-content-end">
           <button
           onClick={() => {navigate('/examcontrol')}}
             className="btn btn-success"
@@ -89,14 +89,13 @@ const ReorderExamControl = () => {
             Back To Exam Committee
         </button>
           </Col>
-          <Col className="d-flex justify-content-center">
+          <Col className="d-flex justify-content-start">
           <button
           onClick={generateExamCommitteeTheory}
           className="btn btn-success"
           style={{
             padding: "7px",
-            width: "32vw",
-            marginLeft: "15px",
+            width: "32vw"
           }}
         >
           Click To Re-order
