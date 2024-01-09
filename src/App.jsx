@@ -28,7 +28,6 @@ import EditTeacherProfile from "./pages/TeacherProfile/EditTeacherProfile";
 import TravelBilling from './pages/ser2/TravelBilling';
 import ReorderExamControl from "./pages/ser3/ReorderExamControl";
 import ExamControlTeacherWise from "./pages/ser3/ExamControlTeacherWise";
-import TeacherWiseRoutine from "./pages/ser1/ser1_components/TeacherWiseRoutine";
 export const UserContext = createContext();
 
 const App = () => {
@@ -105,7 +104,6 @@ const App = () => {
 
             <Route path="/" element={<PrivateRoute />} >
               <Route path="/create-routine" element={<CreateRoutine/>} />
-              <Route path="/teacher-wise-routine" element={<TeacherWiseRoutine/>} />
               <Route path="/teacherdashboard" element={<TeacherDashboard/>} />
               <Route path="/examcontrol" element={<ExamControl />} />
               <Route path="/create-exam-control" element={<ReorderExamControl />} />

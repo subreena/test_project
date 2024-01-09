@@ -4,11 +4,15 @@ import React, { useState, useEffect } from "react";
 import { Button, Container, ListGroup, Row } from "react-bootstrap";
 
 const RoutineTable = (props) => {
-  const { routineProps, yearTermProps } = props;
+  const { routineProps, yearTermProps, selectedTeacher } = props;
   const [routine, setRoutine] = useState([]);
   const [modifiedRoutine, setModifiedRoutine] = useState([]);
   const [overall, setOverall] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
+
+  useEffect(() => {
+    console.log(selectedTeacher);
+  }, [selectedTeacher]);
 
   useEffect(() => {
     setRoutine(routineProps);
@@ -20,7 +24,7 @@ const RoutineTable = (props) => {
 
   useEffect(() => {
     toModifiedRoutine();
-  }, [yearTerms, routine]);
+  }, [yearTerms, routine, selectedTeacher]);
 
   const toModifiedRoutine = () => {
     if (!(routine && routine.length > 0)) return;
@@ -74,7 +78,8 @@ const RoutineTable = (props) => {
 
           const block = routine[day][year][term][timeSlot];
 
-          if (block.isAllocated) {
+          const teacherName = `${block?.teacher?.firstName} ${block?.teacher?.lastName}`;
+          if (block.isAllocated && (!selectedTeacher || teacherName === selectedTeacher)) {
             if (block.course.type === "theory") {
               labClass = "";
               labState = 0;

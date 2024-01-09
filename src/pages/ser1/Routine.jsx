@@ -3,10 +3,13 @@ import "../../assets/stylesheets/ser1-style.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import RoutineTable from "./ser1_components/RoutineTable";
+import CustomDropdown from "../ser3/CustomDropdown";
 
 const Routine = () => {
   const [routine, setRoutine] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
+  const [selectedTeacher, setSelectedTeacher] = useState(null);
+  const [teachersName, setTeachersName] = useState([]);
 
   useEffect(() => {
     const routineData = JSON.parse(localStorage.getItem('routine'));
@@ -22,9 +25,11 @@ const Routine = () => {
         console.log(data);
         setYearTerms(data[0].yearTerm);
         setRoutine(data[0].overall);
+        setTeachersName(data[0].routineTeachersName);
 
         localStorage.setItem('routine', JSON.stringify(data[0].overall));
         localStorage.setItem('yearTerms', JSON.stringify(data[0].yearTerm));
+        localStorage.setItem('routineTeachersName', JSON.stringify(data[0].routineTeachersName));
       })
       .catch((error) => console.error(error));
   }, []);
@@ -51,6 +56,10 @@ const Routine = () => {
     }
   };
 
+  const handleSelectChange = (value) => {
+    setSelectedTeacher(value);
+  };
+
   return (
     <>
       <div className="d-flex justify-content-center">
@@ -59,20 +68,7 @@ const Routine = () => {
             className="btn btn-success"
             style={{
               padding: "7px",
-              width: "32vw",
-              marginRight: "15px",
-            }}
-            onClick={() => {navigate('teacher-wise-routine', { state: { routine, yearTerms } })}}
-          >
-            Teacher-Wise Routine
-          </button>
-        </div>
-        <div>
-          <button
-            className="btn btn-success"
-            style={{
-              padding: "7px",
-              width: "32vw",
+              width: "60vw",
               marginRight: "15px",
             }}
             onClick={toCreateRoutine}
@@ -83,8 +79,15 @@ const Routine = () => {
           <p className="mx-3 text-danger">{routineCommitteeErrorMessage}</p>
         </div>
       </div>
+
+      <CustomDropdown 
+        coursesName={teachersName}
+        selectedCourse={selectedTeacher}
+        handleSelectChange={handleSelectChange}
+        title="Teacher"
+      />
       
-      <RoutineTable routineProps={routine} yearTermProps={yearTerms}/>
+      <RoutineTable routineProps={routine} yearTermProps={yearTerms} selectedTeacher={selectedTeacher} />
     </>
   );
 };

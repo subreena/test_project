@@ -6,8 +6,8 @@ import { Form } from "react-bootstrap";
 
 const CustomDropdown = ({ coursesName, selectedCourse, handleSelectChange, title }) => {
   const options = [
-    { value: "", label: "All Courses..." },
-    ...coursesName.map((course, index) => ({ value: course, label: course })),
+    { value: "", label: `All ${title}...` },
+    ...coursesName.map((course) => ({ value: course, label: course })),
   ];
 
   return (
