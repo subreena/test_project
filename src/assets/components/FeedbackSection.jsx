@@ -6,11 +6,11 @@ const FeedbackSection = () => {
   const [hover, setHover] = useState(null);
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    feedback: "",
-    rating: null,
+    firstName: '',
+    lastName: '',
+    email: '',
+    feedback: '',
+    rating: 0,
   });
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,10 +28,27 @@ const FeedbackSection = () => {
     }));
   };
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form Data:", formData);
-
+    
+    try{
+      const response = await fetch('https://ice-web-nine.vercel.app/feedback',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      if(response.ok){
+        console.log('Success');
+      }else{
+        console.log('Failed!');
+      }
+    }
+    catch(error){
+      console.log('Error: ', error);
+    }
     setSubmitSuccess(true);
     setFormData({
       firstName: "",

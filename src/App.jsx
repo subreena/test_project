@@ -70,20 +70,22 @@ const App = () => {
             <Route path="/coursedetails" element={<Course />} />
             <Route path="/teacherdetails" element={<TeacherDetails/>} />
             <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
+
             <Route path="/team" element={<Team />} />
             <Route path="/feedback"  element={<Feedback/>} />
             
             <Route path="/login" element={<EmailPasswordLogin />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgotpassword" element={<ForgotPassword/>} />
-
+            <Route path="/remuneration" element={<Remuneration/>} />
             <Route path="/" element={<PrivateRoute />} >
               <Route path="/create-routine" element={<CreateRoutine/>} />
               <Route path="/teacherdashboard" element={<TeacherDashboard/>} />
               <Route path="/examcontrol" element={<ExamControl />} />
               <Route path="/create-exam-control" element={<ReorderExamControl />} />
               <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
-              <Route path="/remuneration" element={<Remuneration/>} />
+             
               
               <Route path="/travelbilling" element={<TravelBilling/>}/>
               <Route path="/exambilling" element={<Billing/>} />
@@ -93,10 +95,9 @@ const App = () => {
             </Route>
 
 
-            <Route path="/" element={<Home />} />
+            
             <Route path="*" element={<NotFound/>}/>
-
-
+    
             
           </Routes>
           <ScrollButton></ScrollButton>

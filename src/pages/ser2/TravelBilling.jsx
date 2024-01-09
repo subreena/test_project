@@ -1,5 +1,3 @@
-import React from 'react';
-import Ser2Page2 from './Ser2Page2';
 import Ser2Page1 from './Ser2Page1';
 import { Container } from 'react-bootstrap';
 

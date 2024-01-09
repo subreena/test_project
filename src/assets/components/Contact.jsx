@@ -25,9 +25,9 @@ const Contact = () => {
           >
             <u>
               <strong>
-                <h4>
+                <h4 className="fs-4">
                   Department of Information and Communication Engineering,
-                  <p className="h5 text-decoration-none">
+                  <p className="h6 text-decoration-none">
                     Noakhali Science and Technology University
                   </p>
                 </h4>
