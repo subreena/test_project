@@ -189,10 +189,10 @@ const Signup = () => {
   };
 
   return (
-    <div className="mb-5">
+    <div>
      
         {/* Buttons */}
-    <Teacher></Teacher>
+      <Teacher isLogin={false}></Teacher>
 
       <main className="container">
         <section>

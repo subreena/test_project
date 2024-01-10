@@ -40,11 +40,6 @@ const Footer = () => {
                   Login as Teacher
                 </Link>
               </li>
-              <li>
-                <Link className="footer-list-li" to="/student">
-                  Login as Student
-                </Link>
-              </li>
             </ul>
           </div>
           <div className="col-lg-3 col-sm-6">

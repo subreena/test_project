@@ -32,8 +32,8 @@ const ExamControlTeacherWise = () => {
     console.log(filteredCourses);
   }, [filteredCourses]);
 
-  const handleSelectChange = (e) => {
-    const selectedOption = e.target.value;
+  const handleSelectChange = (value) => {
+    const selectedOption = value;
     setSelectedTeacher(selectedOption);
     const filterCourses = selectedOption ? teacherCourses[selectedOption] : [];
     setFilteredCourses(filterCourses);

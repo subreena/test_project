@@ -126,7 +126,7 @@ const ExamControl = () => {
 
   return (
     <>
-      <Container fluid>
+      <Container className="container-fluid">
         <Row>
           <Col className="d-flex justify-content-end">
             <button
@@ -157,7 +157,7 @@ const ExamControl = () => {
             </button>
           </Col>
 
-          <p className="mx-3 text-danger text-center">{examCommitteeErrorMessage}</p>
+          <p className="mx-3 text-danger text-center text-small">{examCommitteeErrorMessage}</p>
         </Row>
       </Container>
 
@@ -171,7 +171,7 @@ const ExamControl = () => {
           />
         </Row>
 
-        {selectedCourse ? (
+        {selectedCourse && (
           <Row className="d-flex justify-content-center mb-5 text-small">
             <Col md={6}>
               <p>
@@ -209,13 +209,15 @@ const ExamControl = () => {
               </table>
             </Col>
           </Row>
-        ) : (
+        )}
+      </Container>
+
+      { !selectedCourse && (
           <ExamControlTables
             modifiedTheoryProps={modifiedTheory}
             yearTermsProps={yearTerms}
           />
-        )}
-      </Container>
+      )}
     </>
   );
 };

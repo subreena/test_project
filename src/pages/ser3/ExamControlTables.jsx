@@ -68,7 +68,7 @@ const ExamControlTables = (props) => {
         </ListGroup>
       )}
 
-      <section style={{ margin: "0 15px" }}>
+      <section style={{ margin: "0 8px" }}>
         {modifiedTheory.map((yearTermWiseTheory, index1) => (
           <div key={index1} className="bg-style" name={`section${index1}`}>
             <div>

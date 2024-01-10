@@ -92,9 +92,9 @@ const EmailPasswordLogin = (props) => {
 
   return (
     <>
-      <Teacher></Teacher>
+      <Teacher isLogin={true}></Teacher>
 
-      <main className="container">
+      <main className="container mb-4">
         <section>
           <div className="login-form">
             <h3 className="text-center mb-3">Teacher Login Form</h3>
