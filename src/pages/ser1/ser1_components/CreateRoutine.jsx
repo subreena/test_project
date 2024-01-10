@@ -31,7 +31,7 @@ const CreateRoutine = () => {
 
     setLoading(true);
 
-    fetch("http://localhost:5005/generateRandomRoutine")
+    fetch("https://ice-web-nine.vercel.app/generateRandomRoutine")
       .then((response) => response.json())
       .then((data) => {
         setRoutine(data.routineMatrix);

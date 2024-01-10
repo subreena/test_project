@@ -17,7 +17,7 @@ const TeacherProfile = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:5005/teachers")
+    fetch("https://ice-web-nine.vercel.app/teachers")
       .then((res) => res.json())
       .then((data) => {
         setCommittee(data);

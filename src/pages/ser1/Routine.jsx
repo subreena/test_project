@@ -19,7 +19,7 @@ const Routine = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:5005/routine")
+    fetch("https://ice-web-nine.vercel.app/routine")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
