@@ -34,7 +34,7 @@ const Header = () => {
 
   const divStyle ={
     marginTop: "-50px",
-    height:"100vh",
+   height: "90vh",
     width: "100%",
     overflow: "hidden",
   }
@@ -44,7 +44,7 @@ const Header = () => {
   }
 
   const carouseSlideStyle = {
-    height: "100vh",
+    height: "90vh",
     width: "100%",
     objectFit: "cover",
   }
