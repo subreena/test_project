@@ -27,7 +27,7 @@ import EditTeacherProfile from "./pages/TeacherProfile/EditTeacherProfile";
 
 import ReorderExamControl from "./pages/ser3/ReorderExamControl";
 import ExamControlTeacherWise from "./pages/ser3/ExamControlTeacherWise";
-import ScrollButton from "./assets/components/Scrollbutton";
+import ScrollButton from "./assets/components/ScrollButton";
 import Feedback from "./pages/Feedback/Feedback";
 import NotFound from "./pages/NotFound";
 import TravelBilling from './pages/ser2/TravelBilling/TravelBilling';
