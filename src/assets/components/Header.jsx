@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import ExampleCarouselImage from "../images/img1.jpg";
 
-import { Container } from "react-bootstrap";
+import { CarouselItem, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import TypedText from "./TypedText";
 
@@ -31,23 +31,35 @@ const Header = () => {
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
+
+  const divStyle ={
+    marginTop: "-50px",
+    height:"100vh",
+    width: "100%",
+    overflow: "hidden",
+  }
+  const CarouselItemStyle = {
+    position: "relative", 
+    cursor: "pointer"
+  }
+
+  const carouseSlideStyle = {
+    height: "100vh",
+    width: "100%",
+    objectFit: "cover",
+  }
   return (
     <>
       <div
-        style={{
-          marginTop: "-50px",
-          maxHeight: "100vh",
-          width: "100%",
-          overflow: "hidden",
-        }}
+        style={divStyle}
       >
-        <Carousel activeIndex={index} onSelect={handleSelect}>
-          <Carousel.Item interval={3000} style={{ position: "relative" }}>
+        <Carousel activeIndex={index} onSelect={handleSelect} className="vh-100">
+          <Carousel.Item interval={3000} style={CarouselItemStyle}>
             <img
               className="img-fluid"
               src={ExampleCarouselImage}
               alt=""
-              style={{ maxHeight: "100vh", width: "100%" }}
+              style={carouseSlideStyle}
             />
             <Carousel.Caption
               style={{ left: "0" }}
@@ -65,14 +77,14 @@ const Header = () => {
 
           <Carousel.Item
             interval={2000}
-            style={{ position: "relative", cursor: "pointer" }}
+            style={CarouselItemStyle}
             onClick={() => handleNav("routine")}
           >
             <img
               className="img-fluid"
               src={ExampleCarouselImage}
               alt=""
-              style={{ maxHeight: "100vh", width: "100%" }}
+              style={carouseSlideStyle}
             />
             <Carousel.Caption
               style={{ left: "0" }}
@@ -90,14 +102,14 @@ const Header = () => {
           </Carousel.Item>
           <Carousel.Item
             interval={2000}
-            style={{ position: "relative", cursor: "pointer" }}
+            style={CarouselItemStyle}
             onClick={() => handleNav("remuneration")}
           >
             <img
               className="img-fluid"
               src={ExampleCarouselImage}
               alt=""
-              style={{ maxHeight: "100vh", width: "100%" }}
+              style={carouseSlideStyle}
             />
             <Carousel.Caption
               style={{ left: "0" }}
@@ -115,14 +127,14 @@ const Header = () => {
           </Carousel.Item>
           <Carousel.Item
             interval={2000}
-            style={{ position: "relative", cursor: "pointer" }}
+            style={CarouselItemStyle}
             onClick={() => handleNav("examcontrol")}
           >
             <img
               className="img-fluid"
               src={ExampleCarouselImage}
               alt=""
-              style={{ maxHeight: "100vh", width: "100%" }}
+              style={carouseSlideStyle}
             />
             <Carousel.Caption
               style={{ left: "0" }}
