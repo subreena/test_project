@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Table } from "react-bootstrap";
-import { useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import CustomDropdown from "./CustomDropdown";
 
 const ExamControlTeacherWise = () => {
   const [teacherCourses, setTeacherCourses] = useState(null);
@@ -42,36 +43,25 @@ const ExamControlTeacherWise = () => {
 
   return (
     <Container fluid>
-      <Row className="d-flex justify-content-center">
-        <Col md={6}>
-          <Form.Group controlId="teacherSelect">
-            <Form.Label>Select or Search Teacher</Form.Label>
-            <Form.Control
-              as="select"
-              onChange={handleSelectChange}
-              value={selectedTeacher || ""}
-            >
-              <option value="">All Teacher...</option>
-              {teachersName.map((teacher, index) => (
-                <option key={index} value={teacher}>
-                  {teacher}
-                </option>
-              ))}
-            </Form.Control>
-          </Form.Group>
-        </Col>
+      <Row className="mb-3 text-small">
+        <CustomDropdown
+          coursesName={teachersName}
+          selectedCourse={selectedTeacher}
+          handleSelectChange={handleSelectChange}
+          title="Teacher"
+        />
       </Row>
 
-      <Row className="d-flex justify-content-center mb-5">
-        <Col md={6}>
-          {selectedTeacher && (
+      {selectedTeacher ? (
+        <Row className="d-flex justify-content-center mb-5 text-small">
+          <Col md={6}>
             <p>
               Search result for <b>{selectedTeacher}</b>:
             </p>
-          )}
-          {selectedTeacher && (
             <Table striped border hover style={{ border: "1px solid grey" }}>
-              <caption className="text-center">{selectedTeacher}</caption>
+              <caption className="text-center text-small1">
+                {selectedTeacher}
+              </caption>
               <thead>
                 <tr>
                   <th>Course Name</th>
@@ -87,40 +77,46 @@ const ExamControlTeacherWise = () => {
                 ))}
               </tbody>
             </Table>
-          )}
-        </Col>
-      </Row>
-
-      {!selectedTeacher && <section>
-        <h4 className="text-center exam-header">
-          Courses of all corresponding teachers
-        </h4>
-        <Row xs={1} sm={2} md={2} lg={2} xl={2} xxl={3}>
-          {teacherWiseCourses.map((courses, index1) => (
-            <Col key={index1}>
-              <Table striped border hover style={{ border: "1px solid grey" }}>
-                <caption className="text-center">
-                  {teachersName[index1]}
-                </caption>
-                <thead>
-                  <tr>
-                    <th>Course Name</th>
-                    <th>Remark</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {courses.map((course, index2) => (
-                    <tr key={index2}>
-                      <td>{`${course.courseCode}: ${course.courseName}`}</td>
-                      <td>{course.remark}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Col>
-          ))}
+          </Col>
         </Row>
-      </section>}
+      ) : (
+        <section>
+          <h4 className="text-center exam-header">
+            Courses of all corresponding teachers
+          </h4>
+          <Row xs={1} sm={2} md={2} lg={2} xl={2} xxl={3}>
+            {teacherWiseCourses.map((courses, index1) => (
+              <Col key={index1}>
+                <Table
+                  striped
+                  border
+                  hover
+                  style={{ border: "1px solid grey" }}
+                  className="text-small"
+                >
+                  <caption className="text-center text-small1">
+                    {teachersName[index1]}
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>Course Name</th>
+                      <th>Remark</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {courses.map((course, index2) => (
+                      <tr key={index2}>
+                        <td>{`${course.courseCode}: ${course.courseName}`}</td>
+                        <td>{course.remark}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Col>
+            ))}
+          </Row>
+        </section>
+      )}
     </Container>
   );
 };

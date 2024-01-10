@@ -39,6 +39,7 @@ export const UserContext = createContext();
 
 const App = () => {
   const [userState, setUserState] = useState(false);
+  // to set user is logged in or not
   useEffect(() => {
     const setData = async () => {
       try {
@@ -52,6 +53,36 @@ const App = () => {
     };
 
     setData();
+  }, []);
+
+  // to load all the vital data as soon as possible
+  useEffect(() => {
+    const saveRoutineData = () => {
+      fetch("http://localhost:5005/routine")
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.setItem('routine', JSON.stringify(data[0].overall));
+        localStorage.setItem('yearTerms', JSON.stringify(data[0].yearTerm));
+        console.log(data);
+      })
+      .catch((error) => console.error(error));
+    }
+    
+    const saveExamCommitteeData = () => {
+      fetch(
+        "http://localhost:5005/examCommittee"
+      )
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.setItem('theory', JSON.stringify(data[0].theory));
+        localStorage.setItem('teacherCourses', JSON.stringify(data[0].teachers));
+        console.log(data);
+      })
+      .catch((error) => console.error(error))
+    }
+
+    saveRoutineData();
+    saveExamCommitteeData();
   }, []);
 
   return (
