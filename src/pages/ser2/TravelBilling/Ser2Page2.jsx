@@ -1,5 +1,5 @@
 import { Row } from "react-bootstrap";
-import "../../assets/stylesheets/ser2-style.css";
+import "../../../assets/stylesheets/ser2-style.css";
 const Ser2Page2 = () => {
   return (
     <>

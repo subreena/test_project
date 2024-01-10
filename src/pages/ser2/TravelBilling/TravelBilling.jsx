@@ -6,7 +6,7 @@ const TravelBilling = () => {
         <div className=''>
         
         <Container fluid>
-        <div className="card">
+        <div className="card mb-5">
         <div className="card-body">
         <Ser2Page1/>
         </div>

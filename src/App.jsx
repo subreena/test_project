@@ -7,7 +7,6 @@ import Home from "./Home";
 import Course from "./pages/ser1/Course";
 import Remuneration from "./pages/ser2/Remuneration";
 import ExamControl from "./pages/ser3/ExamControl";
-import Ser2Page2 from "./pages/ser2/Ser2Page2";
 import Footer from "./assets/components/Footer";
 import TeacherDetails from "./pages/ser1/ser1_components/TeacherDetails";
 import CreateRoutine from "./pages/ser1/ser1_components/CreateRoutine";
@@ -25,12 +24,14 @@ import ForgotPassword from "./pages/login/Teacher/ForgotPassword";
 import Team from "./pages/Team/Team";
 import TeacherProfile from "./pages/TeacherProfile/TeacherProfile";
 import EditTeacherProfile from "./pages/TeacherProfile/EditTeacherProfile";
-import TravelBilling from './pages/ser2/TravelBilling';
+
 import ReorderExamControl from "./pages/ser3/ReorderExamControl";
 import ExamControlTeacherWise from "./pages/ser3/ExamControlTeacherWise";
 import ScrollButton from "./assets/components/Scrollbutton";
 import Feedback from "./pages/Feedback/Feedback";
 import NotFound from "./pages/NotFound";
+import TravelBilling from './pages/ser2/TravelBilling/TravelBilling';
+import Ser2Page2 from "./pages/ser2/TravelBilling/Ser2Page2";
 
 
 
@@ -80,6 +81,7 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgotpassword" element={<ForgotPassword/>} />
             <Route path="/remuneration" element={<Remuneration/>} />
+
             <Route path="/" element={<PrivateRoute />} >
               <Route path="/create-routine" element={<CreateRoutine/>} />
               <Route path="/teacherdashboard" element={<TeacherDashboard/>} />
@@ -89,6 +91,7 @@ const App = () => {
              
               
               <Route path="/travelbilling" element={<TravelBilling/>}/>
+              <Route path="/travelbilling-page-2" element={<Ser2Page2/>} />
               <Route path="/exambilling" element={<Billing/>} />
               
               <Route path="/profile" element={<TeacherProfile/>} />
