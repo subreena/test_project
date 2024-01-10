@@ -98,7 +98,6 @@ const App = () => {
             {/* <Route path="/student" element={<Student />} /> */}
 
             <Route path="/dashboard" element={<DashboardTeacher />} />
-            <Route path="/routine" element={<Routine />} />
             <Route path="/teacherdashboard" element={<TeacherDashboard />} />
             <Route path="/coursedetails" element={<Course />} />
             <Route path="/teacherdetails" element={<TeacherDetails/>} />
@@ -113,13 +112,16 @@ const App = () => {
             <Route path="/forgotpassword" element={<ForgotPassword/>} />
             <Route path="/remuneration" element={<Remuneration/>} />
 
+            {/* Services that are shown to all the user */}
+            <Route path="/routine" element={<Routine />} />
+            <Route path="/examcontrol" element={<ExamControl />} />
+            <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
+
+            {/* Services that are shown only to the register user */}
             <Route path="/" element={<PrivateRoute />} >
               <Route path="/create-routine" element={<CreateRoutine/>} />
               <Route path="/teacherdashboard" element={<TeacherDashboard/>} />
-              <Route path="/examcontrol" element={<ExamControl />} />
               <Route path="/create-exam-control" element={<ReorderExamControl />} />
-              <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
-             
               
               <Route path="/travelbilling" element={<TravelBilling/>}/>
               <Route path="/travelbilling-page-2" element={<Ser2Page2/>} />

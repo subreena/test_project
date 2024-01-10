@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../stylesheets/style.css";
+import { Link } from "react-router-dom";
 
 const FeedbackSection = () => {
   const [rating, setRating] = useState(null);
@@ -64,7 +65,12 @@ const FeedbackSection = () => {
     <>
       <div className="container">
         <div className="feed-header text-center mt-5">
-          <h3>Send us your Feedback!</h3>
+          <h3>Send us your Feedback! {' '}
+            <Link to='/feedback' style = {{
+              fontSize: "0.6em",
+              verticalAlign: "super"
+            }}> More </Link> 
+          </h3>
           <p>
             We highly value your feedback as it plays a crucial role in
             improving and maintaining the quality of our service.

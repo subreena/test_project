@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 const Feedback = () => {
   const [feedData, setFeedData] = useState([]);
@@ -24,7 +24,7 @@ const Feedback = () => {
     <div className="container-fluid mb-5">
       <div className="feedbacks">
         <div className="feedback-header text-center mb-4">
-          <h2 className="fs-2">Our Feedbacks</h2>
+          <h2 className="fs-2">Our Feedbacks </h2>
           <p>
             We appreciate your valuable suggestions to enhance our service and
             gain essential insights for continuous improvement.

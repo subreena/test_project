@@ -45,13 +45,12 @@ const Routine = () => {
 
   const navigate = useNavigate();
   const toCreateRoutine = () => {
-    console.log(teacher.isInRoutineCommittee);
     if (teacher?.isInRoutineCommittee) {
       setRoutineCommitteeErrorMessage("");
       navigate("/create-routine", { state: { routine, yearTerms } });
     } else {
       setRoutineCommitteeErrorMessage(
-        "Sorry! You are not a member of routine committtee yet!"
+        "Sorry! May be you are not logged in or not a member of the Routine Committtee yet!"
       );
     }
   };
@@ -76,7 +75,7 @@ const Routine = () => {
             Re-order Routine
           </button>
 
-          <p className="mx-3 text-danger">{routineCommitteeErrorMessage}</p>
+          <p className="mx-3 text-danger text-center">{routineCommitteeErrorMessage}</p>
         </div>
       </div>
 

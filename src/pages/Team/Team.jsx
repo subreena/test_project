@@ -6,7 +6,7 @@ const member = [
   {
     id: 2,
     name: "Sajib Barua",
-    designation: "Backend Developer",
+    designation: "Backend and Frontend Developer",
     department: "Information and Communication Engineering",
     uni: "Noakhali Science and Technology University",
     linked: "https://www.linkedin.com/in/sajib-barua-475814203/",
@@ -27,7 +27,7 @@ const member = [
   {
     id: 3,
     name: "Subreena",
-    designation: "Frontend Developer",
+    designation: "Frontend and Backend Developer",
     department: "Information and Communication Engineering",
     uni: "Noakhali Science and Technology University",
     linked: "https://www.linkedin.com/in/subreena-264a181b1/",

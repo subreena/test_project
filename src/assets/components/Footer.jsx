@@ -6,6 +6,7 @@ const Footer = () => {
     background: "linear-gradient(to right,#0d6efd ,  #0d6efd, #4d8cff )",
     padding: "20px 10px 0 10px",
     width: "100%",
+    marginTop: "auto"
   };
   return (
     <footer id="footer" style={f}>

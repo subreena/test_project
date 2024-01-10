@@ -85,7 +85,7 @@ function SecondNav() {
                   Home
                 </Nav.Link>
                 <Nav.Link href="/team" className="second-nav-item text-sm-center ">
-                 Team
+                 Our Team
                 </Nav.Link>
                 <Nav.Link href="/feedback" className="second-nav-item text-sm-center">
                   Feedback

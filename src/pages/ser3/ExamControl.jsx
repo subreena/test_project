@@ -103,7 +103,7 @@ const ExamControl = () => {
       navigate("/create-exam-control", { state: { theory } });
     } else {
       setExamCommitteeErrorMessage(
-        "Sorry! You are not a member of exam committtee yet!"
+        "Sorry! May be you are not logged in or not a member of the Exam Committtee yet!"
       );
     }
   };
@@ -157,7 +157,7 @@ const ExamControl = () => {
             </button>
           </Col>
 
-          <p className="mx-3 text-danger">{examCommitteeErrorMessage}</p>
+          <p className="mx-3 text-danger text-center">{examCommitteeErrorMessage}</p>
         </Row>
       </Container>
 
