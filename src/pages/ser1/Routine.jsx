@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import RoutineTable from "./ser1_components/RoutineTable";
 import CustomDropdown from "../ser3/CustomDropdown";
+import { Col, Container, Row } from "react-bootstrap";
 
 const Routine = () => {
   const [routine, setRoutine] = useState([]);
@@ -61,23 +62,25 @@ const Routine = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-center">
-        <div>
-          <button
-            className="btn btn-success"
-            style={{
-              padding: "7px",
-              width: "60vw",
-              marginRight: "15px",
-            }}
-            onClick={toCreateRoutine}
-          >
-            Re-order Routine
-          </button>
-
-          <p className="mx-3 text-danger text-center">{routineCommitteeErrorMessage}</p>
-        </div>
-      </div>
+      <Container fluid >
+        <Row>
+          <Col className="d-flex justify-content-center">
+            <button
+              className="btn btn-success"
+              style={{
+                padding: "7px",
+                width: "60vw",
+              }}
+              onClick={toCreateRoutine}
+            >
+              Re-order Routine
+            </button>
+          </Col>
+        </Row>
+        <Row>
+          <p className="mx-3 text-danger text-center text-small">{routineCommitteeErrorMessage}</p>
+        </Row>
+      </Container>
 
       <CustomDropdown 
         coursesName={teachersName}

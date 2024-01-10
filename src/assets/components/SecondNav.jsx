@@ -142,13 +142,13 @@ function SecondNav() {
                   style={{ marginLeft: "auto", marginRight: "10px" }}
                   
                 >
-                  <NavDropdown.Item href="/teacher">
-                    Login as Teacher
+                  <NavDropdown.Item href="/login">
+                    Log in as Teacher
                   </NavDropdown.Item>
-                  {/* <NavDropdown.Divider />
-                  <NavDropdown.Item href="/student">
-                    Login as Student
-                  </NavDropdown.Item> */}
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="/signup">
+                    Sign up as Teacher
+                  </NavDropdown.Item>
                 </NavDropdown>
               }
             </Navbar.Collapse>
