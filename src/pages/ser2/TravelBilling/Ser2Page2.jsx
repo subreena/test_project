@@ -61,7 +61,7 @@ const Ser2Page2 = () => {
       <form action="" onSubmit={handleSubmit} className="mb-5">
         <div className="container-fluid">
           {/* table start */}
-          <div className="scrollbar scrollbar-primary scrollbar-top">
+          <div className="scrollbar scrollbar-primary ">
             <div className=" pt-2 pb-2">
               <table className="table remuneration-2-table">
                 <tbody>
