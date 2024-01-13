@@ -23,27 +23,28 @@ const Course = () => {
       });
   }, []);
 
-  if (loading) {
-    return (
-      <div>
-        <h1>Loading...</h1>
-      </div>
-    );
-  }
+  
 
   return (
-    <div
+   <>
+    {
+      loading ?
+      (<div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Loading...</span>
+      </div>)
+      :
+       <div
       style={{
         minHeight: "100vh",
       }}
     >
-      <h1 className="text-center m-5">Course Details</h1>
+      <h1 className="text-center mb-3">Course Details</h1>
 
       <Container fluid>
       <div className="row">
         
             {courses.map((c) => (
-                <div className="col-4" key={c.id}>
+                <div className="col-lg-4 col-sm-6" key={c.id}>
                  <Card style={{ width: "100%", height:"250px", padding: "10px", margin: "20px 10px" }}>
                 <Card.Header> <strong>Course Name: </strong> {c.name}</Card.Header>
                 <ListGroup variant="flush">
@@ -62,6 +63,9 @@ const Course = () => {
       </div>
       </Container>
     </div>
+     
+    }
+   </>
   );
 };
 
