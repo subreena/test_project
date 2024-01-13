@@ -13,7 +13,7 @@ import CreateRoutine from "./pages/ser1/ser1_components/CreateRoutine";
 import TeacherDashboard from "./pages/ser1/TeacherDashboard";
 import Routine from "./pages/ser1/Routine";
 import DashboardTeacher from "./pages/Dashboard/DashboardTeacher";
-import Billing from "./pages/ser3/Billing/Billing";
+
 import SecondNav from "./assets/components/SecondNav";
 import EmailPasswordLogin from "./pages/login/Teacher/EmailPasswordLogin";
 import Signup from "./pages/login/Teacher/Signup";
@@ -32,6 +32,8 @@ import Feedback from "./pages/Feedback/Feedback";
 import NotFound from "./pages/NotFound";
 import TravelBilling from './pages/ser2/TravelBilling/TravelBilling';
 import Ser2Page2 from "./pages/ser2/TravelBilling/Ser2Page2";
+import Billing from "./pages/ser2/ExamBilling/Billing";
+
 
 
 

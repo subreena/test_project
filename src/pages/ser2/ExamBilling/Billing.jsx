@@ -4,11 +4,16 @@ import BillFinish from "./Billing_components/BillFinish";
 import BillingFooter from "./Billing_components/BillingFooter";
 import BillingHeader from "./Billing_components/BillingHeader";
 import BillCalculation from "./Billing_components/BillCalculation";
+import { Container } from "react-bootstrap";
 
 const Billing = () => {
   return (
     <>
-      <BillingHeader />
+     <Container>
+      <div className="card">
+        <div className="card-body mb-5">
+       <div className="scrollbar scrollbar-primary ">
+       <BillingHeader />
       <hr />
       <p className="text-center">
         (প্রতি বিভাগ, বর্ষ ও টার্মের জন্য আলাদা বিল ফরম ব্যবহার করতে হবে)
@@ -32,6 +37,10 @@ const Billing = () => {
       <BillCalculation />
       <BillFinish />
       <BillingFooter />
+       </div>
+        </div>
+      </div>
+     </Container>
     </>
   );
 };
