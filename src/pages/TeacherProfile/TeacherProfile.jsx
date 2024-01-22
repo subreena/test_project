@@ -4,6 +4,7 @@ import CourseTable from "./CourseTable";
 import { Link } from "react-router-dom";
 import "../../assets/stylesheets/ser2-style.css";
 import "../../assets/stylesheets/login.css";
+import icon from "../../assets/images/user.png";
 
 const TeacherProfile = () => {
   const [teacher, setTeacher] = useState(null);
@@ -41,15 +42,25 @@ const TeacherProfile = () => {
   } = teacher || {};
 
   return (
-    <div className="container mb-5" style={{ maxWidth: "800px" }}>
-      <div className="d-flex flex-row">
-        <h1 className="p-2">Profile</h1>
-        <strong>
+    <div className="container mb-5" >
+     
+        <div className="row d-flex justify-content-between">
+          <div className="col-auto">
+          <div className="d-flex flex-row">
+          <h1 className="p-2">Profile</h1>
+          <strong>
           <Link to="edit-teacher" className="p-2">
             Edit
           </Link>
         </strong>
-      </div>
+        </div>
+          </div>
+          <div className="col-auto">
+            <img src={icon} alt="user" width="100" height="100" />
+          </div>
+        </div>
+       
+     
       <div className="card">
         <div className="card-body">
           <h3 className="card-title">Name: {`${firstName} ${lastName}`}</h3>
@@ -134,15 +145,26 @@ const TeacherProfile = () => {
       </div>
       <div className="card">
         <div className="card-body">
-          <p className="h5">
-            See Teacher Information  &nbsp;
+          <div className="row">
+          <div className="col-auto">
+          <p className="h5 card-text">
             <Link to="/teacherdetails">
           <button className="btn btn-primary">
-            Click here
+          See Teacher Information
           </button>
           </Link>
           </p>
-         
+          </div>
+          <div className="col-auto">
+          <p className="h5 card-text">
+            <Link to="/previousdocuments">
+          <button className="btn btn-success">
+          Previous Documents
+          </button>
+          </Link>
+          </p>
+          </div>
+          </div>
         </div>
       </div>
     </div>

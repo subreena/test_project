@@ -16,7 +16,8 @@ function SecondNav() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 0);
+     
+      setIsScrolled(scrollTop > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -60,12 +61,12 @@ function SecondNav() {
         <Navbar
         expand = "lg"
           data-bs-theme="light"
-          className={`fixed-top second-nav ${isScrolled ? "scrolled" : ""}`}
+          className={`second-nav ${isScrolled ? "scrolled" : ""}`}
         >
           <Container fluid>
            <div className="second-nav-logo">
            <Navbar.Brand
-              className="second-nav-item text-dark "
+              className="second-nav-item text-dark"
               style={black}
               href="/home"
             >

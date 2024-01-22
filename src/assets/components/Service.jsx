@@ -48,7 +48,14 @@ const Service = () => {
             </div>
             ))
        }     
+
           </div>
+
+        <div style={{margin: "50px auto"}}>
+         <Link to="/previousdocuments">
+         <button className="btn btn-success btn-lg" >Previous Documents</button></Link>
+        </div>
+
       </Container>
     </div>
   );

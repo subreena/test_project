@@ -33,6 +33,14 @@ import NotFound from "./pages/NotFound";
 import TravelBilling from './pages/ser2/TravelBilling/TravelBilling';
 import Ser2Page2 from "./pages/ser2/TravelBilling/Ser2Page2";
 import Billing from "./pages/ser2/ExamBilling/Billing";
+import MiniNav from './assets/components/MiniNav';
+import CourseDistribution from "./pages/CourseDistribution/CourseDistribution";
+import PreviousDoc from "./pages/Prev/PreviousDoc";
+import ExamService from "./pages/examservice/ExamService";
+import TheoryDuty from "./pages/DutyRoaster/TheoryDuty";
+import LabDuty from "./pages/DutyRoaster/LabDuty";
+import TheoryRoutine from "./pages/ExamRoutine/TheoryRoutine";
+import LabRoutine from "./pages/ExamRoutine/LabRoutine";
 
 
 
@@ -91,11 +99,13 @@ const App = () => {
     <UserContext.Provider value={[userState, setUserState]}>
       <BrowserRouter>
         <div style={{ minHeight: "100vh", display: "flex", flexDirection:"column" }}>
-          <div style={{marginBottom: "100px"}}>
+        <MiniNav/>
+          <div >
             <SecondNav />
           </div>
 
-          <Routes>
+        <div style={{paddingTop: "50px", minHeight: "80vh"}}>
+        <Routes>
             <Route path="/teacher" element={<Teacher />} />
             {/* <Route path="/student" element={<Student />} /> */}
 
@@ -103,6 +113,8 @@ const App = () => {
             <Route path="/teacherdashboard" element={<TeacherDashboard />} />
             <Route path="/coursedetails" element={<Course />} />
             <Route path="/teacherdetails" element={<TeacherDetails/>} />
+            <Route path="/coursedistribution" element={<CourseDistribution/>} />
+            <Route path="/previousdocuments" element={<PreviousDoc/>} />
             <Route path="/home" element={<Home />} />
             <Route path="/" element={<Home />} />
 
@@ -114,10 +126,19 @@ const App = () => {
             <Route path="/forgotpassword" element={<ForgotPassword/>} />
             <Route path="/remuneration" element={<Remuneration/>} />
 
+            <Route path="/exam-related-service" element={<ExamService/>}/>
+
             {/* Services that are shown to all the user */}
             <Route path="/routine" element={<Routine />} />
             <Route path="/examcontrol" element={<ExamControl />} />
             <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
+            
+            <Route path="/theory-duty-roaster" element={<TheoryDuty/>}/>
+            <Route path="/lab-duty-roaster" element={<LabDuty/>}/>
+
+            <Route path="/theory-exam-routine" element={<TheoryRoutine/>}/>
+            <Route path="/lab-exam-routine" element={<LabRoutine/>}/>
+
 
             {/* Services that are shown only to the register user */}
             <Route path="/" element={<PrivateRoute />} >
@@ -139,6 +160,7 @@ const App = () => {
     
             
           </Routes>
+        </div>
           <ScrollButton></ScrollButton>
           <Footer />
         </div>
