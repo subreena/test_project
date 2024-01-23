@@ -1,23 +1,22 @@
 import { useEffect, useState } from 'react';
-
 export const CourseDisUtils = () => {
     const [courseData, setCourseData] = useState([]);
     const [teacher, setTeacher] = useState([]);
     const [view, setView] = useState(false);
     const [formData, setFormData] = useState({
       examYear: 2024,
-      semester: "",
-      courseDetails: {
-        courseCode: "",
-        courseTitle: "",
-        credit: "",
-        courseType: "",
-        teacherName: {
-          teacherName1: "",
-          teacherName2: "",
+      semester: 0,
+      courseDetails: [
+        {
+          courseCode: '',
+          teacherDetails: [
+            '',''
+          ]
         },
-      },
+      ],
     });
+     
+  
   
     useEffect(() => {
       const fetchData = async () => {
@@ -37,6 +36,7 @@ export const CourseDisUtils = () => {
     useEffect(() => {
       const fetchData = async () => {
         try {
+          
           const response = await fetch(
             "https://ice-web-nine.vercel.app/teachers"
           );
@@ -48,18 +48,50 @@ export const CourseDisUtils = () => {
       };
       fetchData();
     }, []);
-  
-    const handleInputChange = (event) => {
+
+
+    const handleInputChange = (event, index) => {
       const { name, value, id } = event.target;
-  
+    
       const newValue =
         event.target.type === "radio" ? (id === "odd" ? 1 : 2) : value;
-  
+    
+      const updatedCourseDetails = [...formData.courseDetails];
+      updatedCourseDetails[index] = {
+        ...updatedCourseDetails[index],
+        [name]: value,
+      };
+    
       setFormData({
         ...formData,
+        courseDetails: updatedCourseDetails,
         [name]: newValue,
       });
     };
+
+    const handleTeacherDetailsChange = (event, index, teacherNumber) => {
+      const { value } = event.target;
+      const updatedCourseDetails = [...formData.courseDetails];
+    
+      // Ensure teacherDetails is initialized as an array
+      if (!updatedCourseDetails[index].teacherDetails) {
+        updatedCourseDetails[index].teacherDetails = ['', ''];
+      }
+    
+      // Map 'teacher1' to index 0, 'teacher2' to index 1
+      const arrayIndex = teacherNumber === 'teacher1' ? 0 : 1;
+    
+      updatedCourseDetails[index].teacherDetails[arrayIndex] = value;
+    
+      setFormData({
+        ...formData,
+        courseDetails: updatedCourseDetails,
+      });
+    };
+    
+    
+    
+ 
   
     const handleYearChange = (event) => {
       const inputValue = event.target.value;
@@ -81,26 +113,68 @@ export const CourseDisUtils = () => {
   
     const filterCourseData = () => {
       if (formData.semester) {
-        return courseData.filter((course) => {
-          // Assuming that the 'term' property exists in each course object
-          return course.term === formData.semester;
-        });
-      }
-      else{
+        const filteredCourses = courseData.filter((course) => course.term === formData.semester);
+    
+        // Create new courseDetails objects for each filtered course
+        const newCourseDetailsArray = filteredCourses.map((course) => ({
+          courseCode: course.code,
+          teacherDetails: ['','']
+        }));
+    
+        // Determine the difference in length between the existing and new courseDetails arrays
+        const lengthDifference = newCourseDetailsArray.length - formData.courseDetails.length;
+    
+        if (lengthDifference > 0) {
+          // If there is a difference, append empty objects to formData.courseDetails
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            courseDetails: [
+              ...prevFormData.courseDetails,
+              ...Array(lengthDifference).fill({
+                courseCode: "",
+                teacherDetails: ['','']
+              }),
+            ],
+          }));
+        }
+    
+        return filteredCourses;
+      } else {
         return courseData;
-      } // If semester is not selected, return all courses
+      }
     };
-  
+    
+
+ 
+   
     const handleView = () => {
       setView(!view);
     };
-  
-    const handleSubmit = (event) => {
+
+    
+    const handleSubmit = async (event) => {
       event.preventDefault();
-  
-      // Add logic to submit the form data or perform other actions
-      console.log("Form Data:", formData);
+    console.log(formData);
+      try {
+        const response = await fetch("https://ice-web-nine.vercel.app/courseDistribution", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+    
+        if (response.ok) {
+          console.log("Data submitted successfully");
+        } else {
+          console.error("Failed to submit data. Server responded with:", response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error("Error during data submission:", error.message);
+      }
     };
+    
+
     return {
         courseData,
         formData,
@@ -111,6 +185,8 @@ export const CourseDisUtils = () => {
         handleView,
         handleYearChange,
         filterCourseData, 
+        handleTeacherDetailsChange,
+       
     }
 };
 

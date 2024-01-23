@@ -1,5 +1,18 @@
+import { useState } from 'react';
 import { CourseDisUtils } from './CourseDisUtils';
 const CourseDisContent = () => {
+  const [sel, setSel] = useState({
+    type: "",
+    index: 0
+  });
+
+  const handleSel = (e) => {
+    setSel({
+      ...sel,
+      type: e.target.value,
+      index: e.target.index
+    })
+  }
     const {      
         teacher,
         view,
@@ -9,7 +22,9 @@ const CourseDisContent = () => {
         filterCourseData,
         handleView,
         handleSubmit,
+        handleTeacherDetailsChange,
       } = CourseDisUtils();
+       
     return (
         <div>
        <div className="container-fluid">
@@ -30,7 +45,7 @@ const CourseDisContent = () => {
                   name="examYear"
                   onChange={handleYearChange}
                   placeholder="e.g., 2022"
-                  min="1900"
+                  min="2004"
                   max="2100"
                   className="form-control"
                 />
@@ -105,17 +120,31 @@ const CourseDisContent = () => {
                   </thead>
                   <tbody>
                     <>
-                      {filterCourseData().map((course) => (
+                      {filterCourseData().map((course,index) => (
                         <tr key={course.id}>
-                          <td name="courseCode">{course.code}</td>
+                         <td>
+      {/* Use the correct index (courseIndex) for updating formData.courseDetails */}
+      {formData.courseDetails.map((c, formDataIndex) => {
+        if (formDataIndex === index) {
+          c.courseCode = course.code;
+        }
+        return null; // You need to return something in the map function
+      })}
+      {course.code}
+    </td>
+                         
                           <td name="courseTitle">{course.name}</td>
                           <td name="credit">{course.credit}</td>
+
+
                           <td>
                             <select
                               name="courseType"
-                              id="courseType"
+                              id={index}
                               className="form-select"
-                              onChange={handleInputChange}
+                             onChange={(e) => {
+                              handleSel(e);
+                            }}
                             >
                               <option defaultValue={null}>
                                 Shared/Full
@@ -131,31 +160,32 @@ const CourseDisContent = () => {
                                 <select
                                   name="teacherName1"
                                   className="form-select"
-                                  id="teacherName1"
-                                  onChange={handleInputChange}
+                                  id={index}
+                                  onChange={(e) => handleTeacherDetailsChange(e, index, 'teacher1')}
+                                 
                                 >
                                   <option defaultValue={null}>
                                     Select Teacher
                                   </option>
                                   {teacher.map((t, index) => (
-                                    <option key={index} value={`${t.firstName} + ${t.lastName}`}>
+                                    <option key={index} value={t.teacherCode}>
                                       {t.firstName} {t.lastName}
                                     </option>
                                   ))}
                                 </select>
                               </div>
-                              <div className={formData.courseType === "shared"? "col-auto d-block": "col-auto d-none"}>
+                              <div className={(sel.type === "shared") ? "col-auto d-block": "col-auto d-none"}>
                                 <select
-                                  name="teacherName2"
+                                  name="teacher2"
                                   className="form-select"
-                                  id="teacherName2"
-                                  onChange={handleInputChange}
+                                  id={index}
+                                  onChange={(e) => handleTeacherDetailsChange(e, index, 'teacher2')}
                                 >
                                   <option defaultValue={null}>
                                     Select Teacher
                                   </option>
                                   {teacher.map((t, index) => (
-                                    <option key={index} >
+                                    <option key={index} value={t.teacherCode}>
                                       {t.firstName} {t.lastName}
                                     </option>
                                   ))}
