@@ -13,7 +13,6 @@ import CreateRoutine from "./pages/ser1/ser1_components/CreateRoutine";
 import TeacherDashboard from "./pages/ser1/TeacherDashboard";
 import Routine from "./pages/ser1/Routine";
 import DashboardTeacher from "./pages/Dashboard/DashboardTeacher";
-
 import SecondNav from "./assets/components/SecondNav";
 import EmailPasswordLogin from "./pages/login/Teacher/EmailPasswordLogin";
 import Signup from "./pages/login/Teacher/Signup";
@@ -24,7 +23,6 @@ import ForgotPassword from "./pages/login/Teacher/ForgotPassword";
 import Team from "./pages/Team/Team";
 import TeacherProfile from "./pages/TeacherProfile/TeacherProfile";
 import EditTeacherProfile from "./pages/TeacherProfile/EditTeacherProfile";
-
 import ReorderExamControl from "./pages/ser3/ReorderExamControl";
 import ExamControlTeacherWise from "./pages/ser3/ExamControlTeacherWise";
 import ScrollButton from "./assets/components/ScrollButton";
@@ -41,6 +39,7 @@ import TheoryDuty from "./pages/DutyRoaster/TheoryDuty";
 import LabDuty from "./pages/DutyRoaster/LabDuty";
 import TheoryRoutine from "./pages/ExamRoutine/TheoryRoutine";
 import LabRoutine from "./pages/ExamRoutine/LabRoutine";
+import Top from "./assets/components/Top";
 
 
 
@@ -98,6 +97,8 @@ const App = () => {
   return (
     <UserContext.Provider value={[userState, setUserState]}>
       <BrowserRouter>
+      
+      <><Top/></>
         <div style={{ minHeight: "100vh", display: "flex", flexDirection:"column" }}>
         <MiniNav/>
           <div >

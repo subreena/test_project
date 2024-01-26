@@ -9,6 +9,7 @@ const CourseDistribution = () => {
   <div>
     <h2 className="fs-2 text-center mb-3">Course Distribution</h2>
   </div>
+  <hr />
   <CourseDisContent></CourseDisContent>
   </>
   );
