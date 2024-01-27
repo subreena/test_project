@@ -218,12 +218,13 @@ const CourseDisContent = () => {
                 </div>
               </div>
 
-             <div className="">
-             <button className="btn btn-primary" type="submit">
+             <div className="d-flex justify-content-center">
+             <button className="btn btn-primary w-50" type="submit">
                Publish
               </button>
+            </div>
               <Download pdfRef={pdfRef} fileName={"Course-Distribution.pdf"}/>
-             </div>
+             
             </form>
           </div>
         </div>
