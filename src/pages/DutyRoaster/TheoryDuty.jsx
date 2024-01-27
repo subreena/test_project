@@ -120,15 +120,15 @@ const TheoryDuty = () => {
             </div>
             <div>
               <div className="text-center d-flex justify-content-around mt-3">
-                <button className="btn btn-secondary bg-secondary bg-gradient w-25">
+                <button className="btn btn-secondary bg-secondary bg-gradient ">
                   Manual Edit
                 </button>
 
-                <button className="btn btn-primary bg-primary bg-gradient w-25">
+                <button className="btn btn-primary bg-primary bg-gradient">
                   Submit for Approve
                 </button>
 
-                <button className="btn btn-danger bg-danger bg-gradient w-25">
+                <button className="btn btn-danger bg-danger bg-gradient">
                   Publish
                 </button>
               </div>

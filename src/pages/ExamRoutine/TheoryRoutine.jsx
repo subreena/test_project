@@ -214,15 +214,15 @@ const TheoryRoutine = () => {
           </div>
           <div className="text-center mt-2 mb-2 d-flex justify-content-around">
            
-                <button className="btn btn-secondary bg-secondary bg-gradient w-25">
+                <button className="btn btn-secondary bg-secondary bg-gradient">
                   Manual Edit
                 </button>
             
-                <button className="btn btn-primary bg-primary bg-gradient w-25">
+                <button className="btn btn-primary bg-primary bg-gradient ">
                   Submit for Approve
                 </button>
              
-              <button className="btn btn-danger bg-danger bg-gradient w-25">
+              <button className="btn btn-danger bg-danger bg-gradient">
                   Publish
                 </button>
               

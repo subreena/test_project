@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Select from "react-select";
+import Download from "../../assets/components/Download";
 
 const PreviousDoc = () => {
-    const [cardTitle, setCardTitle] = useState('');
+  const pdfRef = useRef();
+  const [cardTitle, setCardTitle] = useState("");
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 2003 }, (_, index) => {
     const year = 2004 + index;
@@ -29,7 +31,8 @@ const PreviousDoc = () => {
 
   const handleCard = (title) => {
     setCardTitle(title);
-  }
+  };
+
   return (
     <>
       <div className="container">
@@ -59,7 +62,9 @@ const PreviousDoc = () => {
           <div className="col-lg-6 col-sm-12">
             <>
               <>
-                <label htmlFor="examYear" className="form-label">Select Exam Year</label>
+                <label htmlFor="examYear" className="form-label">
+                  Select Exam Year
+                </label>
               </>
               <>
                 <Select
@@ -74,28 +79,34 @@ const PreviousDoc = () => {
           </div>
         </div>
 
-
         <div className="prev-doc text-center mt-5 mb-5">
-            <h3 className="display-6 mb-5">
-                See Previous Documents
-            </h3>
-            <div className="d-flex justify-content-evenly m-5">
-            <button className="btn btn-primary w-25" onClick={() => handleCard("Previous Routine Documents")}>
-                    Routine
-                </button>
-                <button className="btn btn-primary w-25"
-                onClick={() => handleCard("Previous Exam Documents")}
-                >
-                    Exam
-                </button>
+          <h3 className="display-6 mb-5">See Previous Documents</h3>
+          <div className="d-flex justify-content-evenly m-5">
+            <button
+              className="btn btn-primary w-25"
+              onClick={() => handleCard("Previous Routine Documents")}
+            >
+              Routine
+            </button>
+            <button
+              className="btn btn-primary w-25"
+              onClick={() => handleCard("Previous Exam Documents")}
+            >
+              Exam
+            </button>
+          </div>
+          <div>
+            <div className="card" ref={pdfRef}>
+              <div className="card-body">
+                <h4>{cardTitle ? cardTitle : "Routine and Exam Document"}</h4>
+              </div>
             </div>
-            <div className="card">
-                <div className="card-body">
-                    <h4>{cardTitle}</h4>
-                </div>
-            </div>
-           
-             
+            {cardTitle ? (
+              <Download pdfRef={pdfRef} fileName={"Previous Documenet"} />
+            ) : (
+              <div></div>
+            )}
+          </div>
         </div>
       </div>
     </>
