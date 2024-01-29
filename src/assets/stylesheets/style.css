@@ -80,6 +80,7 @@ cursor: pointer;
 }
 .service-box-btn{
   margin-top: 10px;
+
 }
 
 @media only screen and (max-width: 768px){
@@ -221,7 +222,7 @@ text-decoration: underline;
 .scroll-button {
   position: fixed;
   bottom: 0;
-  right: 0;
+  right: 00;
   font-weight: 700;
   cursor: pointer;
   padding: 10px;

@@ -1,9 +1,9 @@
 const ServiceContent = [
   {
       id: 1,
-      n: "Class Routine Management",
+      n: "Routine Management",
       link: "/routine",
-      des: "  We have tried to make the hectic process of routine managem digital",
+      des: "  The process of routine management made simple and digital",
       xmlns:"http://www.w3.org/2000/svg",
       width:"100",
       height:"100",
@@ -31,7 +31,7 @@ const ServiceContent = [
       id: 3,
       n: "Teacher Remuneration",
       link: "/remuneration",
-      des: " We have tried to make the process of Remuneration application digital",
+      des: " We made the process of Remuneration application digital",
       xmlns: "http://www.w3.org/2000/svg",
       width: "100",
       height: "100",

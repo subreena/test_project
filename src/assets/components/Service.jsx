@@ -32,19 +32,20 @@ const Service = () => {
                   <path d={ServiceContent.d2} />
                 </svg>
               </div>
-              <h4>{ServiceContent.n}</h4>
-              <p className="card-text">
+             <div style={{height: "110px"}}>
+             <h4 className="card-title">{ServiceContent.n}</h4>
+              <br />
+              <p className="card-text" >
               {ServiceContent.des}
-                <br />
-                <br />
-                <div className="service-box-btn">
+              </p>
+             </div>
+              <div className="service-box-btn">
                 <Link to={ServiceContent.link}>
                   <button className="btn btn-primary">
                      Go to Page
                   </button>
                 </Link>
                 </div>
-              </p>
             </div>
             ))
        }     

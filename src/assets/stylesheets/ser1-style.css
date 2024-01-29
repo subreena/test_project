@@ -26,6 +26,7 @@
 
 .vertical{
     writing-mode: vertical-rl;
+    text-orientation: upright;
     text-align: center;
     text-transform: uppercase;
     margin: auto;

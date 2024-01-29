@@ -12,7 +12,7 @@ const CustomDropdown = ({ coursesName, selectedCourse, handleSelectChange, title
 
   return (
     <div className="d-flex justify-content-center">
-      <Form.Group controlId="courseSelect" className="text-small">
+      <Form.Group controlId="courseSelect" className="">
         <Form.Label> Search or Select {title}</Form.Label>
         <Select
           options={options}

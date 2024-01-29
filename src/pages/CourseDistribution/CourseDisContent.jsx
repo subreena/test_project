@@ -214,7 +214,6 @@ const CourseDisContent = () => {
                   </table>
                 </div>
               </div>
-
               <div className="">
                 <button className="btn btn-primary" onClick={handleSubmit}>
                   Publish
