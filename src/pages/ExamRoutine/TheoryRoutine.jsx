@@ -159,9 +159,6 @@ const TheoryRoutine = () => {
     e.preventDefault();
     handleRoutineView();
 
-    console.log(routine.examYear, routine.semester);
-    console.log(routine)
-
     try {
       const response = await fetch(`http://localhost:5000/theoryExamRoutine`, {
         method: "POST",
@@ -177,6 +174,7 @@ const TheoryRoutine = () => {
       }
 
       const data = await response.json();
+      console.log(data);
       // setRoutine(data);
       setErrorMessage("");
     } catch (error) {

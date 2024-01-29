@@ -3,15 +3,15 @@ import Download from "../../assets/components/Download";
 const TheoryDuty = () => {
   const [viewDuty, setViewDuty] = useState(false);
   const [dutyData, setDutyData] = useState({
-    examYear: 2022,
-    semester: 0,
+    examYear: '2022',
+    semester: '1',
   });
 
   const pdfRef = useRef();
 
   const handleInputChange = (e) => {
     const { value, name, id } = e.target;
-    const newData = e.target.type === "radio" ? (id === "odd" ? 1 : 2) : value;
+    const newData = e.target.type === "radio" ? (id === "odd" ? '1' : '2') : value;
     setDutyData({
       ...dutyData,
       [name]: newData,
@@ -20,10 +20,33 @@ const TheoryDuty = () => {
   const handleViewDuty = () => {
     setViewDuty(!viewDuty);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     handleViewDuty();
     console.log(dutyData);
+
+    try {
+      const response = await fetch(`http://localhost:5000/generateTheoryDutyRoaster`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dutyData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+
+      const data = await response.json();
+      console.log(data);
+      // setRoutine(data);
+      // setErrorMessage("");
+    } catch (error) {
+      // setErrorMessage(error.message);
+      console.error("Error creating exam routine:", error);
+    }
   };
 
   return (
@@ -48,7 +71,7 @@ const TheoryDuty = () => {
                       <input
                         type="number"
                         name="examYear"
-                        min="2023"
+                        min="1900"
                         className="form-control"
                         onChange={handleInputChange}
                         required
