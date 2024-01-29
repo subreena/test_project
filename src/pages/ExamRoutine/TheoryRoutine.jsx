@@ -357,7 +357,7 @@ const TheoryRoutine = () => {
           >
             <div className="card" ref={pdfRef}>
               <div className="card-body">
-                <p className="lead text-center">Theory Exam Routine for Exam Year : {routine.examYear}</p>
+                <p className="lead text-center">Theory Exam Routine</p>
               </div>
             </div>
             <div className="text-center mt-2 mb-2 d-flex justify-content-around">
