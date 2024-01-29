@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const TeacherDashboard = () => {
   const courseApi =
-    "http://localhost:5000/courseDetails";
+    "https://ice-web-nine.vercel.app/courseDetails";
   const teacherApi =
-    "http://localhost:5000/teachers";
+    "https://ice-web-nine.vercel.app/teachers";
 
 
   const [year, setYear] = useState("1");

@@ -157,7 +157,7 @@ export const CourseDisUtils = () => {
       event.preventDefault();
       console.log(formData);
       try {
-        const response = await fetch("http://localhost:5000/courseDistribution", {
+        const response = await fetch("https://ice-web-nine.vercel.app/courseDistribution", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
