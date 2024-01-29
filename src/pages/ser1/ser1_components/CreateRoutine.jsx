@@ -29,7 +29,7 @@ const CreateRoutine = () => {
     setYearTerms(locationYearTerms);
   }, []);
 
-  const generateRoutine = () => {
+  const generateRoutine = async (e) => {
     // Display an alert to confirm before proceeding
     const shouldGenerate = window.confirm(
       "Are you sure you want to generate a random routine?"
@@ -42,18 +42,35 @@ const CreateRoutine = () => {
 
     setLoading(true);
 
-    fetch("https://ice-web-nine.vercel.app/generateRandomRoutine")
-      .then((response) => response.json())
-      .then((data) => {
-        setRoutine(data.routineMatrix);
-        setYearTerms(data.yearTerm);
-      })
-      .catch((error) => {
-        console.error("Error fetching routine:", error);
-      })
-      .finally(() => {
-        setLoading(false);
+    e.preventDefault();
+
+    console.log(formData);
+
+    try {
+      const response = await fetch("http://localhost:5000/generateRandomRoutine", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ year: formData.examYear, semester: formData.semester, classStartDate: formData.startDate }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+
+      const data = await response.json();
+      setRoutine(data.routineMatrix);
+      setYearTerms(data.yearTerm);
+      console.log(data);
+      // setRoutine(data);
+      // setErrorMessage("");
+    } catch (error) {
+      // setErrorMessage(error.message);
+      console.error("Error creating exam routine:", error);
+    }
+    setLoading(false);
   };
 
   const navigate = useNavigate();
@@ -171,7 +188,12 @@ const CreateRoutine = () => {
               </label>
             </div>
             <div className="col-auto">
-              <input type="date" name="startDate" className="form-control" required 
+              <input 
+                type="date" 
+                name="startDate" 
+                className="form-control" 
+                required 
+                onChange={handleInputChange}
               />
             </div>
           </div>
