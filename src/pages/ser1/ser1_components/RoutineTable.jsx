@@ -136,7 +136,7 @@ const RoutineTable = (props) => {
         variant="info"
         style={{
           position: "fixed",
-          top: "63px",
+          top: "120px",
           right: "2px",
           zIndex: "1000",
           opacity: showYearTerms ? "1" : "0.3",
@@ -145,13 +145,13 @@ const RoutineTable = (props) => {
         onMouseEnter={() => setShowYearTerms(true)}
         onMouseLeave={() => setShowYearTerms(false)}
       >
-        Year-Term Wise
+        Search Year-Term Wise
       </Button>
       {showYearTerms && (
         <ListGroup
           style={{
             position: "fixed",
-            top: "100px",
+            top: "144px",
             right: "2px",
             zIndex: "1000",
             width: "140px",

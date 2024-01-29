@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   let f = {
     background: "linear-gradient(to right,#0d6efd ,  #0d6efd, #4d8cff )",
-    padding: "20px 10px 0 10px",
+    padding: "30px 10px 0 10px",
     width: "100%",
     marginTop: "auto",
   };
@@ -22,7 +22,7 @@ const Footer = () => {
               (ICT).
             </p>
           </div>
-          <div className="col-lg-4 pt-3">
+          <div className="col-lg-4 ">
             <h5 className="text-white">Contact Information</h5>
             <ul className="footer-list">
               <li className="footer-list-li ">
@@ -101,6 +101,7 @@ const Footer = () => {
         </div>
       </div>
       <hr className="white-text" />
+      <div className="container">
       <div className="row footer-copyright">
         <div className="col-lg-6 col-sm-12">
           <p className="text-white  mt-3 text-center ">
@@ -116,13 +117,14 @@ const Footer = () => {
               to="/team"
               className="link-underline link-underline-opacity-0 "
             >
-              <span className="text-bold text-light ">
+              <span className="text-bold text-light cursor-pointer ">
                 {" "}
                 Md. Sabbir Ejaz, Sajib Barua and Subreena
               </span>
             </Link>
           </p>
         </div>
+      </div>
       </div>
     </footer>
   );

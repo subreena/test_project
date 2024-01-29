@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
-import ExampleCarouselImage from "../images/img1.jpg";
+import img1 from "../images/img1.jpg";
+import img2 from "../images/img2.jpg";
+import img3 from "../images/img3.jpg";
+import img4 from "../images/img4.jpg";
+import img5 from "../images/img6.jpg";
 
 import { CarouselItem, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -54,10 +58,11 @@ const Header = () => {
         style={divStyle}
       >
         <Carousel activeIndex={index} onSelect={handleSelect} className="vh-100">
+      
           <Carousel.Item interval={3000} style={CarouselItemStyle}>
             <img
               className="img-fluid"
-              src={ExampleCarouselImage}
+              src={img1}
               alt=""
               style={carouseSlideStyle}
             />
@@ -82,7 +87,7 @@ const Header = () => {
           >
             <img
               className="img-fluid"
-              src={ExampleCarouselImage}
+              src={img2}
               alt=""
               style={carouseSlideStyle}
             />
@@ -107,7 +112,7 @@ const Header = () => {
           >
             <img
               className="img-fluid"
-              src={ExampleCarouselImage}
+              src={img3}
               alt=""
               style={carouseSlideStyle}
             />
@@ -132,7 +137,7 @@ const Header = () => {
           >
             <img
               className="img-fluid"
-              src={ExampleCarouselImage}
+              src={img4}
               alt=""
               style={carouseSlideStyle}
             />
@@ -147,6 +152,32 @@ const Header = () => {
               <p className="lead fs-5">
                 We have tried to make the process of exam committee making
                 digital. You can click to check out.{" "}
+              </p>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item interval={1000} 
+            onClick={() => handleNav("team")}
+          style={CarouselItemStyle}>
+            <img
+              className="img-fluid"
+              src={img5}
+              alt=""
+              style={carouseSlideStyle}
+
+            />
+            <Carousel.Caption
+              style={{ left: "0" }}
+            
+              className={`carousel-caption ${isScrolled ? "scrolled" : ""}`}
+            >
+              <h3 className="fs-1 text-bold">
+              Information and Communication Engineering, <br /> </h3>
+              <h4>
+              Noakhali Science and Technology University
+              </h4>
+              
+              <p className="text-capitalize lead fs-5">
+                A project by Md. Sabbir Ejaz, Sajib Barua and Subreena
               </p>
             </Carousel.Caption>
           </Carousel.Item>
