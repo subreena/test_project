@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { CourseDisUtils } from "./CourseDisUtils";
 import Download from "../../assets/components/Download";
 const CourseDisContent = () => {
-   const pdfRef = useRef();
+  const pdfRef = useRef();
   const [sel, setSel] = useState({
     type: "",
     index: 0,
@@ -22,7 +22,7 @@ const CourseDisContent = () => {
     handleInputChange,
     handleYearChange,
     filterCourseData,
-    handleView,
+    handleView2,
     handleSubmit,
     handleTeacherDetailsChange,
   } = CourseDisUtils();
@@ -32,7 +32,7 @@ const CourseDisContent = () => {
       <div className="container-fluid">
         <div className="card">
           <div className="card-body">
-            <form onSubmit={handleSubmit}>
+            <form>
               {/* exam year */}
               <div className="row">
                 <div className="col-auto ">
@@ -47,8 +47,8 @@ const CourseDisContent = () => {
                     name="examYear"
                     onChange={handleYearChange}
                     placeholder="e.g., 2022"
-                    min="2004"
-                    max="2100"
+                    min="1900"
+                    max="2500"
                     className="form-control"
                   />
                   <p
@@ -96,13 +96,14 @@ const CourseDisContent = () => {
               </div>
 
               {/* course Table */}
-              <div className="mt-5 mb-5">
+              <div className="mt-5 mb-5 scrollbar scrollbar-primary ">
                 <table className="table">
                   <tr className="table-success">
                     <td className="table-success">
                       <button
                         className="btn btn-success w-100"
-                        onClick={handleView}
+                        onClick={handleView2}
+                        type="button"
                       >
                         Show Courses
                       </button>
@@ -121,110 +122,107 @@ const CourseDisContent = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <>
-                        {filterCourseData().map((course, index) => (
-                          <tr key={course.id}>
-                            <td>
-                              {/* Use the correct index (courseIndex) for updating formData.courseDetails */}
-                              {formData.courseDetails.map(
-                                (c, formDataIndex) => {
-                                  if (formDataIndex === index) {
-                                    c.courseCode = course.code;
-                                  }
-                                  return null; // You need to return something in the map function
-                                }
-                              )}
-                              {course.code}
-                            </td>
+                      {filterCourseData().map((course, index) => (
+                        <tr key={course.id}>
+                          <td>
+                            {/* Use the correct index (courseIndex) for updating formData.courseDetails */}
+                            {formData.courseDetails.map((c, formDataIndex) => {
+                              if (formDataIndex === index) {
+                                c.courseCode = course.code;
+                              }
+                              return null; // You need to return something in the map function
+                            })}
+                            {course.code}
+                          </td>
 
-                            <td name="courseTitle">{course.name}</td>
-                            <td name="credit">{course.credit}</td>
+                          <td name="courseTitle">{course.name}</td>
+                          <td name="credit">{course.credit}</td>
 
-                            <td>
-                              <select
-                                name="courseType"
-                                id={index}
-                                className="form-select"
-                                onChange={(e) => {
-                                  handleSel(e);
-                                }}
-                              >
-                                <option defaultValue={null}>Shared/Full</option>
-                                <option value="full">Full</option>
-                                <option value="shared">Shared</option>
-                              </select>
-                            </td>
-                            <td>
-                              <div className="row">
-                                <div className="col-auto">
-                                  <select
-                                    name="teacherName1"
-                                    className="form-select"
-                                    id={index}
-                                    onChange={(e) =>
-                                      handleTeacherDetailsChange(
-                                        e,
-                                        index,
-                                        "teacher1"
-                                      )
-                                    }
-                                  >
-                                    <option defaultValue={null}>
-                                      Select Teacher
-                                    </option>
-                                    {teacher.map((t, index) => (
-                                      <option key={index} value={t.teacherCode}>
-                                        {t.firstName} {t.lastName}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                                <div
-                                  className={
-                                    sel.type === "shared"
-                                      ? "col-auto d-block"
-                                      : "col-auto d-none"
+                          <td>
+                            <select
+                              name="courseType"
+                              id={index}
+                              className="form-select"
+                              onChange={(e) => {
+                                handleSel(e);
+                              }}
+                            >
+                              <option defaultValue={null}>Shared/Full</option>
+                              <option value="full">Full</option>
+                              <option value="shared">Shared</option>
+                            </select>
+                          </td>
+                          <td>
+                            <div className="row">
+                              <div className="col-auto">
+                                <select
+                                  name="teacherName1"
+                                  className="form-select"
+                                  id={index}
+                                  onChange={(e) =>
+                                    handleTeacherDetailsChange(
+                                      e,
+                                      index,
+                                      "teacher1"
+                                    )
                                   }
                                 >
-                                  <select
-                                    name="teacher2"
-                                    className="form-select"
-                                    id={index}
-                                    onChange={(e) =>
-                                      handleTeacherDetailsChange(
-                                        e,
-                                        index,
-                                        "teacher2"
-                                      )
-                                    }
-                                  >
-                                    <option defaultValue={null}>
-                                      Select Teacher
+                                  <option defaultValue={null}>
+                                    Select Teacher
+                                  </option>
+                                  {teacher.map((t, index) => (
+                                    <option key={index} value={t.teacherCode}>
+                                      {t.firstName} {t.lastName}
                                     </option>
-                                    {teacher.map((t, index) => (
-                                      <option key={index} value={t.teacherCode}>
-                                        {t.firstName} {t.lastName}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
+                                  ))}
+                                </select>
                               </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </>
+                              <div
+                                className={
+                                  sel.type === "shared"
+                                    ? "col-auto d-block"
+                                    : "col-auto d-none"
+                                }
+                              >
+                                <select
+                                  name="teacher2"
+                                  className="form-select"
+                                  id={index}
+                                  onChange={(e) =>
+                                    handleTeacherDetailsChange(
+                                      e,
+                                      index,
+                                      "teacher2"
+                                    )
+                                  }
+                                >
+                                  <option defaultValue={null}>
+                                    Select Teacher
+                                  </option>
+                                  {teacher.map((t, index) => (
+                                    <option key={index} value={t.teacherCode}>
+                                      {t.firstName} {t.lastName}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
               </div>
-
-             <div className="d-flex justify-content-center">
-             <button className="btn btn-primary w-50" type="submit">
-               Publish
-              </button>
-            </div>
-              <Download pdfRef={pdfRef} fileName={"Course-Distribution.pdf"}/>
-             
+              <div className="">
+                <button className="btn btn-primary" onClick={handleSubmit}>
+                  Publish
+                </button>
+                <Download
+                  pdfRef={pdfRef}
+                  fileName={"Course-Distribution.pdf"}
+                />
+              </div>
             </form>
           </div>
         </div>

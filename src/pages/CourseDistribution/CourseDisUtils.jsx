@@ -4,8 +4,8 @@ export const CourseDisUtils = () => {
     const [teacher, setTeacher] = useState([]);
     const [view, setView] = useState(false);
     const [formData, setFormData] = useState({
-      examYear: 2024,
-      semester: 0,
+      examYear: null,
+      semester: null,
       courseDetails: [
         {
           courseCode: '',
@@ -147,14 +147,15 @@ export const CourseDisUtils = () => {
 
  
    
-    const handleView = () => {
+    const handleView2 = (event) => {
+      event.preventDefault(); // Prevent form submission
       setView(!view);
     };
 
     
     const handleSubmit = async (event) => {
       event.preventDefault();
-    console.log(formData);
+      console.log(formData);
       try {
         const response = await fetch("https://ice-web-nine.vercel.app/courseDistribution", {
           method: "POST",
@@ -182,7 +183,7 @@ export const CourseDisUtils = () => {
         view,
         handleInputChange,
         handleSubmit,
-        handleView,
+        handleView2,
         handleYearChange,
         filterCourseData, 
         handleTeacherDetailsChange,
