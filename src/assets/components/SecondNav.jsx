@@ -106,7 +106,7 @@ function SecondNav() {
                 className="second-nav-dropdown text-sm-center" >
                    <NavDropdown.Item href="/travelbilling"> Travel Billing </NavDropdown.Item>
                    <NavDropdown.Divider />
-                   <NavDropdown.Item href="/exambilling"> Exam Billing </NavDropdown.Item>  
+                   <NavDropdown.Item href="/exambillingfront"> Exam Billing </NavDropdown.Item>  
                 </NavDropdown>
                 
                   <NavDropdown.Divider />

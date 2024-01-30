@@ -40,6 +40,7 @@ import LabDuty from "./pages/DutyRoaster/LabDuty";
 import TheoryRoutine from "./pages/ExamRoutine/TheoryRoutine";
 import LabRoutine from "./pages/ExamRoutine/LabRoutine";
 import Top from "./assets/components/Top";
+import ExamBillingFront from "./pages/ser2/ExamBilling/ExamBillingFront";
 
 
 export const UserContext = createContext();
@@ -65,7 +66,7 @@ const App = () => {
   // // to load all the vital data as soon as possible
   // useEffect(() => {
   //   const saveRoutineData = () => {
-  //     fetch("http://localhost:5000/routine")
+  //     fetch("https://ice-web-nine.vercel.app/routine")
   //     .then((response) => response.json())
   //     .then((data) => {
   //       localStorage.setItem('routine', JSON.stringify(data[0].overall));
@@ -77,7 +78,7 @@ const App = () => {
     
   //   const saveExamCommitteeData = () => {
   //     fetch(
-  //       "http://localhost:5000/examCommittee"
+  //       "https://ice-web-nine.vercel.app/examCommittee"
   //     )
   //     .then((response) => response.json())
   //     .then((data) => {
@@ -148,6 +149,7 @@ const App = () => {
               <Route path="/travelbilling" element={<TravelBilling/>}/>
               <Route path="/travelbilling-page-2" element={<Ser2Page2/>} />
               <Route path="/exambilling" element={<Billing/>} />
+              <Route path="/exambillingfront" element={<ExamBillingFront/>} />
               
               <Route path="/profile" element={<TeacherProfile/>} />
               <Route path="/profile/edit-teacher" element={<EditTeacherProfile/>} />

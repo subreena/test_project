@@ -31,7 +31,7 @@ const Remuneration = () => {
               transitioning from manual handwritten methods to a faster digital
               system. Click on the button below to check out this service.
             </p>
-            <Link className="card-link" to="/exambilling">
+            <Link className="card-link" to="/exambillingfront">
               <button className="btn btn-primary">Click Here</button>
             </Link>
           </div>
