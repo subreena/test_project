@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Download from "../../assets/components/Download";
+import { Table } from "react-bootstrap";
 
 const TheoryRoutine = () => {
   const pdfRef = useRef();
@@ -10,7 +11,9 @@ const TheoryRoutine = () => {
     totalBatch: 0,
     gapBetweenExams: 0,
     semester: "",
-    sessions: [{ session: "", totalStudents: "", startDate: "", year: 0, term: 0 }],
+    sessions: [
+      { session: "", totalStudents: "", startDate: "", year: 0, term: 0 },
+    ],
     unavailableDates: [],
     theoryExamRoutine: [{ courseCode: "", date: "" }],
   });
@@ -105,7 +108,8 @@ const TheoryRoutine = () => {
               id={`year-${i}`}
               onChange={(e) => handleRoutineArray(e, i)}
               required
-              min="1" max="4"
+              min="1"
+              max="4"
             />
           </td>
           <td>
@@ -119,7 +123,8 @@ const TheoryRoutine = () => {
               id={`term-${i}`}
               onChange={(e) => handleRoutineArray(e, i)}
               required
-              min="1" max="2"
+              min="1"
+              max="2"
             />
           </td>
           <td>
@@ -160,7 +165,7 @@ const TheoryRoutine = () => {
     handleRoutineView();
 
     try {
-      const response = await fetch(`https://ice-web-nine.vercel.app/theoryExamRoutine`, {
+      const response = await fetch(`http://localhost:5000/theoryExamRoutine`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -175,7 +180,7 @@ const TheoryRoutine = () => {
 
       const data = await response.json();
       console.log(data);
-      // setRoutine(data);
+      setRoutine(data);
       setErrorMessage("");
     } catch (error) {
       setErrorMessage(error.message);
@@ -347,7 +352,7 @@ const TheoryRoutine = () => {
                 className="btn btn-success bg-success bg-gradient w-50"
                 type="submit"
               >
-                Submit to generate Routine
+                Submit generate Routine
               </button>
             </div>
           </form>
@@ -358,6 +363,24 @@ const TheoryRoutine = () => {
             <div className="card" ref={pdfRef}>
               <div className="card-body">
                 <p className="lead text-center">Theory Exam Routine</p>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr className="text-center">
+                      <th>#</th>
+                      <th>Date</th>
+                      <th>Course Code</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {routine.theoryExamRoutine.map((data, index) => (
+                      <tr key={index} className="text-center">
+                        <td>{index + 1}</td>
+                        <td>{data.date}</td>
+                        <td>{data.courseCode}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
               </div>
             </div>
             <div className="text-center mt-2 mb-2 d-flex justify-content-around">

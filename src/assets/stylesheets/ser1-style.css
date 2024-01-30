@@ -36,10 +36,12 @@
     background-color: lightgray;
 }
 .lab-style1 {
-    border-right: dotted !important;
+    border: 2px solid !important;
+    border-right: 1px dashed !important;
 }
 .lab-style2 {
-    border-left: dotted !important;
+    border: 2px solid !important;
+    border-left: 1px dashed !important;
 }
 .scrollbar {
     overflow-x: scroll;

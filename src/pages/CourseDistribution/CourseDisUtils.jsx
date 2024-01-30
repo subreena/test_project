@@ -22,7 +22,7 @@ export const CourseDisUtils = () => {
       const fetchData = async () => {
         try {
           const response = await fetch(
-            "https://ice-web-nine.vercel.app/courseDetails"
+            "http://localhost:5000/courseDetails"
           );
           const data = await response.json();
           setCourseData(data);
@@ -38,7 +38,7 @@ export const CourseDisUtils = () => {
         try {
           
           const response = await fetch(
-            "https://ice-web-nine.vercel.app/teachers"
+            "http://localhost:5000/teachers"
           );
           const data = await response.json();
           setTeacher(data);
@@ -157,7 +157,7 @@ export const CourseDisUtils = () => {
       event.preventDefault();
       console.log(formData);
       try {
-        const response = await fetch("https://ice-web-nine.vercel.app/courseDistribution", {
+        const response = await fetch("http://localhost:5000/courseDistribution", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

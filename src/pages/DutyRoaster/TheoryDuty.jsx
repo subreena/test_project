@@ -26,7 +26,7 @@ const TheoryDuty = () => {
     console.log(dutyData);
 
     try {
-      const response = await fetch(`https://ice-web-nine.vercel.app/generateTheoryDutyRoaster`, {
+      const response = await fetch(`http://localhost:5000/generateTheoryDutyRoaster`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

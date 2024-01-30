@@ -3,8 +3,8 @@ import { useState } from 'react';
 export const RoutineFunction = () => {
     const [totalBatch, setTotalBatch] = useState(0);
     const [formData, setFormData] = useState({
-        examYear: 2023,
-        semester: 0,
+        examYear: null,
+        semester: null,
         startDate: "",
         totalBatch: 1,
         routineDetails: [{session: "", totalStudents: ""}],
@@ -12,12 +12,11 @@ export const RoutineFunction = () => {
 
     const handleYearChange = (event) => {
         const inputValue = event.target.value;
-        const parsedYear = parseInt(inputValue, 10);
     
-        if (!isNaN(parsedYear) && parsedYear >= 2004 && parsedYear <= 2100) {
+        if (!isNaN(inputValue) && inputValue >= 1900 && inputValue <= 2100) {
           setFormData({
             ...formData,
-            examYear: parsedYear,
+            examYear: inputValue,
           });
         } else {
           // Handle invalid input (optional)
@@ -85,26 +84,23 @@ export const RoutineFunction = () => {
 
     const handleInputChange = (event, index) => {
         const { name, value, id } = event.target;
+
+        console.log(name, value, id);
       
         const newValue =
-          event.target.type === "radio" ? (id === "odd" ? 1 : 2) : value;
-      
-        const updatedCourseDetails = [...formData.courseDetails];
-        updatedCourseDetails[index] = {
-          ...updatedCourseDetails[index],
-          [name]: value,
-        };
+          event.target.type === "radio" ? (id === "odd" ? '1' : '2') : value;
+
+        console.log(newValue);
       
         setFormData({
           ...formData,
-          courseDetails: updatedCourseDetails,
           [name]: newValue,
         });
       };
       
       const handleSubmit =  (event) => {
         event.preventDefault();
-      console.log(formData);         
+        console.log(formData);         
       };
 
     return {

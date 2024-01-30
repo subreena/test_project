@@ -63,34 +63,34 @@ const App = () => {
   }, []);
 
   // to load all the vital data as soon as possible
-  useEffect(() => {
-    const saveRoutineData = () => {
-      fetch("https://ice-web-nine.vercel.app/routine")
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.setItem('routine', JSON.stringify(data[0].overall));
-        localStorage.setItem('yearTerms', JSON.stringify(data[0].yearTerm));
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
-    }
+  // useEffect(() => {
+  //   const saveRoutineData = () => {
+  //     fetch("http://localhost:5000/routine")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       localStorage.setItem('routine', JSON.stringify(data[0].overall));
+  //       localStorage.setItem('yearTerms', JSON.stringify(data[0].yearTerm));
+  //       console.log(data);
+  //     })
+  //     .catch((error) => console.error(error));
+  //   }
     
-    const saveExamCommitteeData = () => {
-      fetch(
-        "https://ice-web-nine.vercel.app/examCommittee"
-      )
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.setItem('theory', JSON.stringify(data[0].theory));
-        localStorage.setItem('teacherCourses', JSON.stringify(data[0].teachers));
-        console.log(data);
-      })
-      .catch((error) => console.error(error))
-    }
+  //   const saveExamCommitteeData = () => {
+  //     fetch(
+  //       "http://localhost:5000/examCommittee"
+  //     )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       localStorage.setItem('theory', JSON.stringify(data[0].theory));
+  //       localStorage.setItem('teacherCourses', JSON.stringify(data[0].teachers));
+  //       console.log(data);
+  //     })
+  //     .catch((error) => console.error(error))
+  //   }
 
-    saveRoutineData();
-    saveExamCommitteeData();
-  }, []);
+  //   saveRoutineData();
+  //   saveExamCommitteeData();
+  // }, []);
 
   return (
     <UserContext.Provider value={[userState, setUserState]}>
