@@ -41,6 +41,7 @@ import TheoryRoutine from "./pages/ExamRoutine/TheoryRoutine";
 import LabRoutine from "./pages/ExamRoutine/LabRoutine";
 import Top from "./assets/components/Top";
 import ExamBillingFront from "./pages/ser2/ExamBilling/ExamBillingFront";
+import SuperAdmin from "./pages/TeacherProfile/SuperAdmin";
 
 
 export const UserContext = createContext();
@@ -152,6 +153,7 @@ const App = () => {
               <Route path="/exambillingfront" element={<ExamBillingFront/>} />
               
               <Route path="/profile" element={<TeacherProfile/>} />
+              <Route path="/super-admin" element={<SuperAdmin/>} />
               <Route path="/profile/edit-teacher" element={<EditTeacherProfile/>} />
             </Route>
 

@@ -52,7 +52,7 @@ const ExamBillingFront = () => {
       labDuty: null,
     };
     setFormData((prevState) => ({
-      ...prevState,
+      ...prevState, 
       labBillDetails: [...prevState.labBillDetails, newLab],
     }));
   };
@@ -69,7 +69,7 @@ const ExamBillingFront = () => {
             ...item,
             [name]: value === "true" ? true : value === "false" ? false : null,
           };
-        }
+        } 
         return item;
       }),
       labBillDetails: prevState.labBillDetails.map((item, index) => {

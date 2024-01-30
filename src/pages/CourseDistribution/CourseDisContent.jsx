@@ -33,7 +33,8 @@ const CourseDisContent = () => {
         <div className="card">
           <div className="card-body">
             <form>
-              {/* exam year */}
+              <div className="d-flex justify-content-around mt-3 mb-3">
+                {/* exam year */}
               <div className="row">
                 <div className="col-auto ">
                   <label htmlFor="examYear" className="form-label">
@@ -62,7 +63,7 @@ const CourseDisContent = () => {
                   </p>
                 </div>
               </div>
-              <br />
+            
               {/* semester selection */}
               <div className="row">
                 <div className="col-auto">
@@ -93,6 +94,7 @@ const CourseDisContent = () => {
                     Even
                   </label>
                 </div>
+              </div>
               </div>
 
               {/* course Table */}
