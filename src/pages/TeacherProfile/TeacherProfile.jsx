@@ -258,6 +258,21 @@ const TeacherProfile = () => {
               </div>
             </div>
           </div> */}
+          <div className="d-flex justify-content-end">
+          <div className="col-4">
+                      {isAdmin ? (
+                        <p className="h5 card-text">
+                          <Link to="/super-admin">
+                            <button className="btn btn-primary w-100">
+                              Go to SuperAdmin page
+                            </button>
+                          </Link>
+                        </p>
+                      ) : (
+                        <p></p>
+                      )}
+                    </div>
+          </div>
         </div>
       </div>
     </div>

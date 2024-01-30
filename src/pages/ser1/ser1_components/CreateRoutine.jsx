@@ -252,7 +252,7 @@ const CreateRoutine = () => {
           </div>
           )}
         <div className="mb-3 mt-3 d-flex justify-content-center">
-        <button className="btn btn-primary" type="submit">Submit for Approval</button>
+        <button className="btn btn-primary" type="submit" onClick={() => alert("Submitted to Super Admin for Approval")}>Submit for Approval</button>
         </div>
         <div>
           <Download pdfRef={pdfRef} fileName={"Proposed-Routine.pdf"}/>
