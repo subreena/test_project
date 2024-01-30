@@ -195,6 +195,7 @@ const ExamControl = () => {
                     <th scope="col"> Remark </th>
                   </tr>
                 </thead>
+                
                 <tbody>
                   {filteredTeachers.map((teacher, index) => (
                     <tr key={`row-${index}`}>

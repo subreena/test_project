@@ -71,7 +71,7 @@ const CreateRoutine = () => {
     } finally {
       setLoading(false);
     }
-  };  
+  };
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -199,11 +199,6 @@ const CreateRoutine = () => {
           </div>
           </div>
         </div>
-
-          
-
-          
-
           <table className="mt-3 mb-3 table table-striped">
             <tbody>{generateRow()}</tbody>
           </table>

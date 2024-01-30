@@ -40,6 +40,8 @@ import LabDuty from "./pages/DutyRoaster/LabDuty";
 import TheoryRoutine from "./pages/ExamRoutine/TheoryRoutine";
 import LabRoutine from "./pages/ExamRoutine/LabRoutine";
 import Top from "./assets/components/Top";
+import ExamBillingFront from "./pages/ser2/ExamBilling/ExamBillingFront";
+import SuperAdmin from "./pages/TeacherProfile/SuperAdmin";
 
 
 export const UserContext = createContext();
@@ -62,35 +64,35 @@ const App = () => {
     setData();
   }, []);
 
-  // to load all the vital data as soon as possible
-  useEffect(() => {
-    const saveRoutineData = () => {
-      fetch("https://ice-web-nine.vercel.app/routine")
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.setItem('routine', JSON.stringify(data[0].overall));
-        localStorage.setItem('yearTerms', JSON.stringify(data[0].yearTerm));
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
-    }
+  // // to load all the vital data as soon as possible
+  // useEffect(() => {
+  //   const saveRoutineData = () => {
+  //     fetch("https://ice-web-nine.vercel.app/routine")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       localStorage.setItem('routine', JSON.stringify(data[0].overall));
+  //       localStorage.setItem('yearTerms', JSON.stringify(data[0].yearTerm));
+  //       console.log(data);
+  //     })
+  //     .catch((error) => console.error(error));
+  //   }
     
-    const saveExamCommitteeData = () => {
-      fetch(
-        "https://ice-web-nine.vercel.app/examCommittee"
-      )
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.setItem('theory', JSON.stringify(data[0].theory));
-        localStorage.setItem('teacherCourses', JSON.stringify(data[0].teachers));
-        console.log(data);
-      })
-      .catch((error) => console.error(error))
-    }
+  //   const saveExamCommitteeData = () => {
+  //     fetch(
+  //       "https://ice-web-nine.vercel.app/examCommittee"
+  //     )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       localStorage.setItem('theory', JSON.stringify(data[0].theory));
+  //       localStorage.setItem('teacherCourses', JSON.stringify(data[0].teachers));
+  //       console.log(data);
+  //     })
+  //     .catch((error) => console.error(error))
+  //   }
 
-    saveRoutineData();
-    saveExamCommitteeData();
-  }, []);
+  //   saveRoutineData();
+  //   saveExamCommitteeData();
+  // }, []);
 
   return (
     <UserContext.Provider value={[userState, setUserState]}>
@@ -148,8 +150,10 @@ const App = () => {
               <Route path="/travelbilling" element={<TravelBilling/>}/>
               <Route path="/travelbilling-page-2" element={<Ser2Page2/>} />
               <Route path="/exambilling" element={<Billing/>} />
+              <Route path="/exambillingfront" element={<ExamBillingFront/>} />
               
               <Route path="/profile" element={<TeacherProfile/>} />
+              <Route path="/super-admin" element={<SuperAdmin/>} />
               <Route path="/profile/edit-teacher" element={<EditTeacherProfile/>} />
             </Route>
 

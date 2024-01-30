@@ -162,6 +162,7 @@ const TheoryRoutine = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(routine);
     handleRoutineView();
 
     try {

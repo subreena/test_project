@@ -1,17 +1,94 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Download from "../../assets/components/Download";
+import { useAsyncError } from "react-router-dom";
+import DutyTable from "./DutyTable";
 const TheoryDuty = () => {
+  const [theory, setTheory] = useState([]);
+  const [teacherCourses, setTeacherCourses] = useState(null);
+  const [modifiedTheory, setModifiedTheory] = useState([]);
+  const [yearTerms, setYearTerms] = useState([]);
+  const [coursesName, setCoursesName] = useState([]);
+  const [courseTeachers, setCourseTeachers] = useState([]);
+  const navigate = useAsyncError();
   const [viewDuty, setViewDuty] = useState(false);
   const [dutyData, setDutyData] = useState({
-    examYear: '2022',
-    semester: '1',
+    examYear: "2022",
+    semester: "1",
   });
+
+  const getObjectKeysAsArray = (obj) => {
+    return Object.keys(obj).map((key) => key);
+  };
+
+  useEffect(() => {
+    const theoryData = JSON.parse(localStorage.getItem("theory"));
+    const teacherCoursesData = JSON.parse(
+      localStorage.getItem("teacherCourses")
+    );
+    setTheory(theoryData);
+    setTeacherCourses(teacherCoursesData);
+  }, []);
+
+  useEffect(() => {
+    fetch("https://ice-web-nine.vercel.app/examCommittee")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setTheory(data[0].theory);
+        setTeacherCourses(data[0].teachers);
+
+        localStorage.setItem("theory", JSON.stringify(data[0].theory));
+        localStorage.setItem(
+          "teacherCourses",
+          JSON.stringify(data[0].teachers)
+        );
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    toModifiedTheory();
+  }, [theory]);
+
+  const toModifiedTheory = () => {
+    if (!(theory && theory.length > 0)) return;
+
+    let theoryModified = [];
+    let yt = [];
+    let allCourseInfo = {};
+
+    for (let year = 4; year > 0; year--) {
+      for (let term = 2; term > 0; term--) {
+        if (theory[year][term].length !== 0) {
+          let modifiedCourses = theory[year][term].map((course) => {
+            let teachers = course.slice(0, 3);
+            return teachers;
+          });
+
+          theoryModified.push(modifiedCourses);
+          yt.push([year, term]);
+
+          // Create course-wise teachers array
+          modifiedCourses.forEach((course) => {
+            const courseName = `${course[0].course.code}: ${course[0].course.name}`;
+            allCourseInfo[courseName] = course;
+          });
+        }
+      }
+    }
+
+    setCourseTeachers(allCourseInfo);
+    setCoursesName(getObjectKeysAsArray(allCourseInfo));
+    setModifiedTheory(theoryModified);
+    setYearTerms(yt);
+  };
 
   const pdfRef = useRef();
 
   const handleInputChange = (e) => {
     const { value, name, id } = e.target;
-    const newData = e.target.type === "radio" ? (id === "odd" ? '1' : '2') : value;
+    const newData =
+      e.target.type === "radio" ? (id === "odd" ? "1" : "2") : value;
     setDutyData({
       ...dutyData,
       [name]: newData,
@@ -26,13 +103,16 @@ const TheoryDuty = () => {
     console.log(dutyData);
 
     try {
-      const response = await fetch(`https://ice-web-nine.vercel.app/generateTheoryDutyRoaster`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dutyData),
-      });
+      const response = await fetch(
+        `https://ice-web-nine.vercel.app/generateTheoryDutyRoaster`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dutyData),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -125,7 +205,7 @@ const TheoryDuty = () => {
         </div>
         <div>
           <div
-            className={viewDuty ? "w-75 d-block" : "d-none"}
+            className={viewDuty ? " d-block" : "d-none"}
             style={{ margin: "20px auto" }}
           >
             <div ref={pdfRef} className="text-center">
@@ -137,6 +217,12 @@ const TheoryDuty = () => {
                   <p>
                     Semester: {dutyData.semester === 1 ? "Odd" : "Even"}
                     <br />
+                    <>
+                      <DutyTable
+                        modifiedTheoryProps={modifiedTheory}
+                        yearTermsProps={yearTerms}
+                      />
+                    </>
                   </p>
                 </div>
               </div>
