@@ -59,7 +59,7 @@ const EditTeacherProfile = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/courseDetails"
+          "https://ice-web-nine.vercel.app/courseDetails"
         );
         let courseDetails = await response.json();
 
@@ -118,7 +118,7 @@ const EditTeacherProfile = () => {
     console.log(newData);
 
     try {
-    const response = await fetch('http://localhost:5000/teachers/updateTeacher', {
+    const response = await fetch('https://ice-web-nine.vercel.app/teachers/updateTeacher', {
         method: 'PUT',
         headers: {
         'Content-Type': 'application/json',

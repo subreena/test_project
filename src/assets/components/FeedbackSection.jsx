@@ -34,7 +34,7 @@ const FeedbackSection = () => {
     console.log("Form Data:", formData);
     
     try{
-      const response = await fetch('http://localhost:5000/feedback',{
+      const response = await fetch('https://ice-web-nine.vercel.app/feedback',{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

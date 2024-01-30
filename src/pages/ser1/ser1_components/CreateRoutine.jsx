@@ -46,7 +46,7 @@ const CreateRoutine = () => {
   
       console.log(formData);
   
-      const response = await fetch("http://localhost:5000/generateRandomRoutine", {
+      const response = await fetch("https://ice-web-nine.vercel.app/generateRandomRoutine", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
