@@ -9,10 +9,11 @@ const CourseDisContent = () => {
   });
 
   const handleSel = (e) => {
+    console.log(e.target.value, e.target.id);
     setSel({
       ...sel,
       type: e.target.value,
-      index: e.target.index,
+      index: e.target.id,
     });
   };
   const {
@@ -216,15 +217,20 @@ const CourseDisContent = () => {
                   </table>
                 </div>
               </div>
-              <div className="">
-                <button className="btn btn-primary" onClick={handleSubmit}>
+              <div className="d-flex justify-content-center">
+                <div className="col-6">
+                <button className="btn btn-primary w-100" onClick={handleSubmit}>
                   Publish
                 </button>
-                <Download
+                </div>
+                </div>
+              <div>
+              <Download
                   pdfRef={pdfRef}
                   fileName={"Course-Distribution.pdf"}
                 />
               </div>
+              
             </form>
           </div>
         </div>

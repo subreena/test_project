@@ -69,34 +69,9 @@ export const CourseDisUtils = () => {
       });
     };
 
-    const handleTeacherDetailsChange = (event, index, teacherNumber) => {
-      const { value } = event.target;
-      const updatedCourseDetails = [...formData.courseDetails];
-    
-      // Ensure teacherDetails is initialized as an array
-      if (!updatedCourseDetails[index].teacherDetails) {
-        updatedCourseDetails[index].teacherDetails = ['', ''];
-      }
-    
-      // Map 'teacher1' to index 0, 'teacher2' to index 1
-      const arrayIndex = teacherNumber === 'teacher1' ? 0 : 1;
-    
-      updatedCourseDetails[index].teacherDetails[arrayIndex] = value;
-    
-      setFormData({
-        ...formData,
-        courseDetails: updatedCourseDetails,
-      });
-    };
-    
-    
-    
- 
-  
     const handleYearChange = (event) => {
       const inputValue = event.target.value;
       const parsedYear = parseInt(inputValue, 10);
-  
       if (!isNaN(parsedYear) && parsedYear >= 2004 && parsedYear <= 2100) {
         setFormData({
           ...formData,
@@ -110,20 +85,33 @@ export const CourseDisUtils = () => {
         });
       }
     };
+
+    const handleTeacherDetailsChange = (event, index, teacherNumber) => {
+      const { value } = event.target;
+      const updatedCourseDetails = [...formData.courseDetails];
+      // Ensure teacherDetails is initialized as an array
+      if (!updatedCourseDetails[index].teacherDetails) {
+        updatedCourseDetails[index].teacherDetails = ['', ''];
+      }
+      // Map 'teacher1' to index 0, 'teacher2' to index 1
+      const arrayIndex = teacherNumber === 'teacher1' ? 0 : 1;
+      updatedCourseDetails[index].teacherDetails[arrayIndex] = value;
+      setFormData({
+        ...formData,
+        courseDetails: updatedCourseDetails,
+      });
+    };
   
     const filterCourseData = () => {
       if (formData.semester) {
-        const filteredCourses = courseData.filter((course) => course.term === formData.semester);
-    
+        const filteredCourses = courseData.filter((course) => course.term === formData.semester && course.type === "theory");
         // Create new courseDetails objects for each filtered course
         const newCourseDetailsArray = filteredCourses.map((course) => ({
           courseCode: course.code,
           teacherDetails: ['','']
         }));
-    
         // Determine the difference in length between the existing and new courseDetails arrays
         const lengthDifference = newCourseDetailsArray.length - formData.courseDetails.length;
-    
         if (lengthDifference > 0) {
           // If there is a difference, append empty objects to formData.courseDetails
           setFormData((prevFormData) => ({
@@ -131,13 +119,11 @@ export const CourseDisUtils = () => {
             courseDetails: [
               ...prevFormData.courseDetails,
               ...Array(lengthDifference).fill({
-                courseCode: "",
                 teacherDetails: ['','']
               }),
             ],
           }));
         }
-    
         return filteredCourses;
       } else {
         return courseData;
@@ -148,13 +134,14 @@ export const CourseDisUtils = () => {
  
    
     const handleView2 = (event) => {
-      event.preventDefault(); // Prevent form submission
+      event.preventDefault(); 
       setView(!view);
     };
 
     
     const handleSubmit = async (event) => {
       event.preventDefault();
+      alert('Submission Successful');
       console.log(formData);
       try {
         const response = await fetch("https://ice-web-nine.vercel.app/courseDistribution", {
@@ -175,7 +162,7 @@ export const CourseDisUtils = () => {
       }
     };
     
-
+ 
     return {
         courseData,
         formData,
