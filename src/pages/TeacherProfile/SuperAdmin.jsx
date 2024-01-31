@@ -311,13 +311,13 @@ const SuperAdmin = () => {
        
               
               <div className="col-4">
-                <p className="h5 card-text">
+                {/* <p className="h5 card-text">
                   <Link to="/previousdocuments">
                     <button className="btn btn-success w-100">
                       Previous Documents
                     </button>
                   </Link>
-                </p>
+                </p> */}
               </div>
             </div>
           </div>

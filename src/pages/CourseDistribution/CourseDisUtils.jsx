@@ -118,9 +118,7 @@ export const CourseDisUtils = () => {
             ...prevFormData,
             courseDetails: [
               ...prevFormData.courseDetails,
-              ...Array(lengthDifference).fill({
-                teacherDetails: ['','']
-              }),
+              newCourseDetailsArray,
             ],
           }));
         }
