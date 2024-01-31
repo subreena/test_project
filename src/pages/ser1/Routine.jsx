@@ -89,7 +89,7 @@ const Routine = () => {
             >
               Generate Routine
             </button>
-            <Link to="/previousdocuments">
+            {/* <Link to="/previousdocuments">
               <button
                 className="btn btn-success"
                 style={{
@@ -100,7 +100,7 @@ const Routine = () => {
               >
                 Previous Documents
               </button>
-            </Link>
+            </Link> */}
           </Col>
         </Row>
         <Row>
