@@ -63,7 +63,6 @@ const CreateRoutine = () => {
       console.log(data);
       setRoutine(data.overall);
       setYearTerms(data.yearTerm);
-      // setRoutine(data);
       // setErrorMessage("");
     } catch (error) {
       // setErrorMessage(error.message);
