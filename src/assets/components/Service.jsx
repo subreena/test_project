@@ -52,10 +52,10 @@ const Service = () => {
 
           </div>
 
-        <div style={{margin: "50px auto"}}>
+        {/* <div style={{margin: "50px auto"}}>
          <Link to="/previousdocuments">
          <button className="btn btn-success btn-lg" >Previous Documents</button></Link>
-        </div>
+        </div> */}
 
       </Container>
     </div>

@@ -9,11 +9,14 @@ import img from "../../assets/images/sub.png";
 import VC from "../../assets/images/VC.png";
 import ICE from "../../assets/images/ICE-chairman.png";
 import EEE from "../../assets/images/EEE-chairman.png";
+import SuperAdmin from "./SuperAdmin";
 
 const TeacherProfile = () => {
   const [teacher, setTeacher] = useState(null);
   const [committee, setCommittee] = useState([]);
-  const [superAdmin, setSuperAdmin] = useState(true);
+  const [superAdmin, setSuperAdmin] = useState(false);
+  const [routineView, setRoutineView] = useState(false);
+  const [examView, setExamView] = useState(false);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("teacher"));
@@ -29,6 +32,17 @@ const TeacherProfile = () => {
       });
   }, []);
 
+  const handleRoutineView = () => {
+    setRoutineView(!routineView);
+  };
+
+  const handleSuperAdminView = () => {
+    setSuperAdmin(!superAdmin);
+  };
+
+  const handleExamView = () => {
+    setExamView(!examView);
+  };
   const {
     firstName,
     lastName,
@@ -47,19 +61,22 @@ const TeacherProfile = () => {
   return (
     <div className="container mb-5">
       <div className="row d-flex justify-content-between">
-        <div className="col-auto">
-          <div className="d-flex flex-row">
-            <h1 className="p-2">Profile</h1>
+        <div className="">
+          <div className="d-flex align-items-center justify-content-center">
+            <h1 className="p-2"> Teacher Profile</h1>
+            <p>
             <strong>
               <Link to="edit-teacher" className="p-2">
                 Edit
               </Link>
             </strong>
+            </p>
           </div>
+          <hr />
         </div>
       </div>
 
-      <div className="card p-3">
+      <div className="card p-3" style={{maxWidth: "60vw", margin: "10px auto"}}>
         <div className="container">
           <div className="d-flex justify-content-between">
             <div className="d-flex align-items-center">
@@ -142,73 +159,119 @@ const TeacherProfile = () => {
               {isInRoutineCommittee ? "Yes" : "No"}
             </p>
           </div>
-          <div className="row">
-            <div className="col-sm-12 col-lg-6">
+          {/* <div className="row">
+            <div className="col-12">
               <div className="card m-2">
-                <div className="pro-card">
+                <div className="">
                   <div className="card-body">
-                    <p className="text-bold h5">Routine Committee Members</p>
-                    <ol type="1">
-                      {committee
-                        .filter(
-                          (teacher) => teacher.isInRoutineCommittee === true
-                        )
-                        .map((teacher, index) => (
-                          <li key={index}>
-                            <p>
-                              {teacher.firstName} {teacher.lastName}
-                            </p>
-                          </li>
-                        ))}
-                    </ol>
+                    <button
+                      className="btn btn-primary w-100 mt-1 mb-3"
+                      onClick={handleRoutineView}
+                    >
+                      See Routine Committee
+                    </button>
+                    <div className={routineView ? "d-block" : "d-none"}>
+                      <ol type="1">
+                        {committee
+                          .filter(
+                            (teacher) => teacher.isInRoutineCommittee === true
+                          )
+                          .map((teacher, index) => (
+                            <li key={index}>
+                              <p>
+                                {teacher.firstName} {teacher.lastName}
+                              </p>
+                            </li>
+                          ))}
+                      </ol>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-sm-12 col-lg-6">
+            <div className="col-12">
               <div className="card m-2">
-                <div className="pro-card">
+                <div className="">
                   <div className="card-body">
-                    <p className="text-bold h5">Exam Committee Members</p>
-                    <ol type="1">
-                      {committee
-                        .filter((teacher) => teacher.isInExamCommittee === true)
-                        .map((teacher, index) => (
-                          <li key={index}>
-                            <p>
-                              {teacher.firstName} {teacher.lastName}
-                            </p>
-                          </li>
-                        ))}
-                    </ol>
+                    <button
+                      className="btn btn-info w-100 mt-1 mb-3"
+                      onClick={handleExamView}
+                    >
+                      See Exam Committee
+                    </button>
+                    <div className={examView ? "d-block" : "d-none"}>
+                      <ol type="1">
+                        {committee
+                          .filter(
+                            (teacher) => teacher.isInExamCommittee === true
+                          )
+                          .map((teacher, index) => (
+                            <li key={index}>
+                              <p>
+                                {teacher.firstName} {teacher.lastName}
+                              </p>
+                            </li>
+                          ))}
+                      </ol>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-body">
-            <div className="row">
-              <div className="col-auto">
-                <p className="h5 card-text">
-                  <Link to="/teacherdetails">
-                    <button className="btn btn-primary">
-                      See Teacher Information
-                    </button>
-                  </Link>
-                </p>
-              </div>
-              <div className="col-auto">
-                <p className="h5 card-text">
-                  <Link to="/previousdocuments">
-                    <button className="btn btn-success">
-                      Previous Documents
-                    </button>
-                  </Link>
-                </p>
+            <div className="col-12">
+              <div className="card card m-2">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-4">
+                      <p className="h5 card-text">
+                        <Link to="/teacherdetails">
+                          <button className="btn btn-primary w-100">
+                            See Teacher Information
+                          </button>
+                        </Link>
+                      </p>
+                    </div>
+                    <div className="col-4">
+                      {isAdmin ? (
+                        <p className="h5 card-text">
+                          <Link to="/super-admin">
+                            <button className="btn btn-primary w-100">
+                              Go to SuperAdmin page
+                            </button>
+                          </Link>
+                        </p>
+                      ) : (
+                        <p></p>
+                      )}
+                    </div>
+                    <div className="col-4">
+                      <p className="h5 card-text">
+                        <Link to="/previousdocuments">
+                          <button className="btn btn-success w-100">
+                            Previous Documents
+                          </button>
+                        </Link>
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+          </div> */}
+          <div className="d-flex justify-content-end">
+          <div className="col-4">
+                      {isAdmin ? (
+                        <p className="h5 card-text">
+                          <Link to="/super-admin">
+                            <button className="btn btn-primary w-100">
+                              Go to SuperAdmin page
+                            </button>
+                          </Link>
+                        </p>
+                      ) : (
+                        <p></p>
+                      )}
+                    </div>
           </div>
         </div>
       </div>
