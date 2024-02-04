@@ -22,7 +22,7 @@ const Routine = () => {
   }, []);
 
   useEffect(() => {
-    fetch("https://ice-web-nine.vercel.app/routine")
+    fetch("http://localhost:5000/routine")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -40,8 +40,7 @@ const Routine = () => {
       .catch((error) => console.error(error));
   }, []);
 
-  const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] =
-    useState("");
+  const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] = useState("");
   const [teacher, setTeacher] = useState(null);
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("teacher"));

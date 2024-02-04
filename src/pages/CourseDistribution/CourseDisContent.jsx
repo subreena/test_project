@@ -36,82 +36,84 @@ const CourseDisContent = () => {
             <form>
               <div className="d-flex justify-content-around mt-3 mb-3">
                 {/* exam year */}
-              <div className="row">
-                <div className="col-auto ">
-                  <label htmlFor="examYear" className="form-label">
-                    Exam Year:{" "}
-                  </label>
+                <div className="row">
+                  <div className="col-auto ">
+                    <label htmlFor="examYear" className="form-label">
+                      Exam Year:{" "}
+                    </label>
+                  </div>
+                  <div className="col-auto">
+                    <input
+                      type="number"
+                      id="yearInput"
+                      name="examYear"
+                      onChange={handleYearChange}
+                      placeholder="e.g., 2022"
+                      min="1900"
+                      max="2500"
+                      className="form-control"
+                    />
+                    <p
+                      className={
+                        formData.examYear
+                          ? "text-success text-sm"
+                          : "text-danger text-sm"
+                      }
+                    >
+                      Selected Year: {formData.examYear || "No year selected"}
+                    </p>
+                  </div>
                 </div>
-                <div className="col-auto">
-                  <input
-                    type="number"
-                    id="yearInput"
-                    name="examYear"
-                    onChange={handleYearChange}
-                    placeholder="e.g., 2022"
-                    min="1900"
-                    max="2500"
-                    className="form-control"
-                  />
-                  <p
-                    className={
-                      formData.examYear
-                        ? "text-success text-sm"
-                        : "text-danger text-sm"
-                    }
-                  >
-                    Selected Year: {formData.examYear || "No year selected"}
-                  </p>
+
+                {/* semester selection */}
+                <div className="row">
+                  <div className="col-auto">
+                    <label htmlFor="semester">Semester Selection</label>
+                  </div>
+                  <div className="col-auto">
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      id="odd"
+                      name="semester"
+                      autoComplete="off"
+                      onChange={handleInputChange}
+                    />
+                    <label className="btn btn-outline-primary" htmlFor="odd">
+                      Odd
+                    </label>
+                    &nbsp; &nbsp;
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      id="even"
+                      name="semester"
+                      autoComplete="off"
+                      onChange={handleInputChange}
+                    />
+                    <label className="btn btn-outline-primary" htmlFor="even">
+                      Even
+                    </label>
+                  </div>
                 </div>
-              </div>
-            
-              {/* semester selection */}
-              <div className="row">
-                <div className="col-auto">
-                  <label htmlFor="semester">Semester Selection</label>
-                </div>
-                <div className="col-auto">
-                  <input
-                    type="radio"
-                    className="btn-check"
-                    id="odd"
-                    name="semester"
-                    autoComplete="off"
-                    onChange={handleInputChange}
-                  />
-                  <label className="btn btn-outline-primary" htmlFor="odd">
-                    Odd
-                  </label>
-                  &nbsp; &nbsp;
-                  <input
-                    type="radio"
-                    className="btn-check"
-                    id="even"
-                    name="semester"
-                    autoComplete="off"
-                    onChange={handleInputChange}
-                  />
-                  <label className="btn btn-outline-primary" htmlFor="even">
-                    Even
-                  </label>
-                </div>
-              </div>
               </div>
 
               {/* course Table */}
               <div className="mt-5 mb-5 scrollbar scrollbar-primary ">
                 <table className="table">
-                  <tr className="table-success">
-                    <td className="table-success">
-                      <button
-                        className="btn btn-success w-100"
-                        onClick={handleView2}
-                        type="button"
-                      >
-                        Show Courses
-                      </button>
-                    </td>
-                  </tr>
+                  <thead>
+                    <tr className="table-success">
+                      <td className="table-success">
+                        <button
+                          className="btn btn-success w-100"
+                          onClick={handleView2}
+                          type="button"
+                        >
+                          Show Courses
+                        </button>
+                      </td>
+                    </tr>
+                  </thead>
                 </table>
                 <div className={view ? "d-block" : "d-none"} ref={pdfRef}>
                   <table className="table table-striped">
@@ -119,14 +121,13 @@ const CourseDisContent = () => {
                       <tr>
                         <th scope="col">Course Code</th>
                         <th scope="col">Course Title</th>
-                        <th scope="col">Credit</th>
                         <th scope="col">Course Type</th>
                         <th scope="col">Teacher Name</th>
                       </tr>
                     </thead>
                     <tbody>
                       {filterCourseData().map((course, index) => (
-                        <tr key={course.id}>
+                        <tr key={index}>
                           <td>
                             {/* Use the correct index (courseIndex) for updating formData.courseDetails */}
                             {formData.courseDetails.map((c, formDataIndex) => {
@@ -139,7 +140,6 @@ const CourseDisContent = () => {
                           </td>
 
                           <td name="courseTitle">{course.name}</td>
-                          <td name="credit">{course.credit}</td>
 
                           <td>
                             <select
@@ -150,7 +150,6 @@ const CourseDisContent = () => {
                                 handleSel(e);
                               }}
                             >
-                              <option defaultValue={null}>Shared/Full</option>
                               <option value="full">Full</option>
                               <option value="shared">Shared</option>
                             </select>
@@ -219,18 +218,20 @@ const CourseDisContent = () => {
               </div>
               <div className="d-flex justify-content-center">
                 <div className="col-6">
-                <button className="btn btn-primary w-100" onClick={handleSubmit}>
-                  Publish
-                </button>
+                  <button
+                    className="btn btn-primary w-100"
+                    onClick={handleSubmit}
+                  >
+                    Publish
+                  </button>
                 </div>
-                </div>
+              </div>
               <div>
-              <Download
+                <Download
                   pdfRef={pdfRef}
                   fileName={"Course-Distribution.pdf"}
                 />
               </div>
-              
             </form>
           </div>
         </div>

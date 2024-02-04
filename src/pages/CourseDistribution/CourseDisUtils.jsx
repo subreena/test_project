@@ -9,7 +9,7 @@ export const CourseDisUtils = () => {
       courseDetails: [
         {
           courseCode: '',
-          teacherDetails: [
+          teacherCode: [
             '',''
           ]
         },
@@ -22,7 +22,7 @@ export const CourseDisUtils = () => {
       const fetchData = async () => {
         try {
           const response = await fetch(
-            "https://ice-web-nine.vercel.app/courseDetails"
+            "http://localhost:5000/courseDetails"
           );
           const data = await response.json();
           setCourseData(data);
@@ -38,7 +38,7 @@ export const CourseDisUtils = () => {
         try {
           
           const response = await fetch(
-            "https://ice-web-nine.vercel.app/teachers"
+            "http://localhost:5000/teachers"
           );
           const data = await response.json();
           setTeacher(data);
@@ -48,6 +48,10 @@ export const CourseDisUtils = () => {
       };
       fetchData();
     }, []);
+
+    useEffect(() => {
+      console.log(formData);
+    }, [formData])
 
 
     const handleInputChange = (event, index) => {
@@ -89,13 +93,13 @@ export const CourseDisUtils = () => {
     const handleTeacherDetailsChange = (event, index, teacherNumber) => {
       const { value } = event.target;
       const updatedCourseDetails = [...formData.courseDetails];
-      // Ensure teacherDetails is initialized as an array
-      if (!updatedCourseDetails[index].teacherDetails) {
-        updatedCourseDetails[index].teacherDetails = ['', ''];
+      // Ensure teacherCode is initialized as an array
+      if (!updatedCourseDetails[index].teacherCode) {
+        updatedCourseDetails[index].teacherCode = ['', ''];
       }
       // Map 'teacher1' to index 0, 'teacher2' to index 1
       const arrayIndex = teacherNumber === 'teacher1' ? 0 : 1;
-      updatedCourseDetails[index].teacherDetails[arrayIndex] = value;
+      updatedCourseDetails[index].teacherCode[arrayIndex] = value;
       setFormData({
         ...formData,
         courseDetails: updatedCourseDetails,
@@ -104,23 +108,21 @@ export const CourseDisUtils = () => {
   
     const filterCourseData = () => {
       if (formData.semester) {
-        const filteredCourses = courseData.filter((course) => course.term === formData.semester && course.type === "theory");
+        const filteredCourses = courseData.filter((course) => course.term === formData.semester && course.type === "theory" && course.year === 1);
         // Create new courseDetails objects for each filtered course
         const newCourseDetailsArray = filteredCourses.map((course) => ({
           courseCode: course.code,
-          teacherDetails: ['','']
+          teacherCode: ['','']
         }));
+
         // Determine the difference in length between the existing and new courseDetails arrays
         const lengthDifference = newCourseDetailsArray.length - formData.courseDetails.length;
         if (lengthDifference > 0) {
           // If there is a difference, append empty objects to formData.courseDetails
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            courseDetails: [
-              ...prevFormData.courseDetails,
-              newCourseDetailsArray,
-            ],
-          }));
+          setFormData({
+            ...formData,
+            courseDetails: newCourseDetailsArray
+          });
         }
         return filteredCourses;
       } else {
@@ -142,7 +144,7 @@ export const CourseDisUtils = () => {
       alert('Submission Successful');
       console.log(formData);
       try {
-        const response = await fetch("https://ice-web-nine.vercel.app/courseDistribution", {
+        const response = await fetch("http://localhost:5000/courseDistribution", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

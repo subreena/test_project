@@ -5,7 +5,7 @@ const TeacherDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://ice-web-nine.vercel.app/teachers")
+    fetch("http://localhost:5000/teachers")
       .then((response) => response.json())
       .then((data) => {
         const sortedData = data.sort((a, b) => b._id.localeCompare(a._id));

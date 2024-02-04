@@ -49,7 +49,7 @@ const ReorderExamControl = () => {
     setLoading(true);
 
     fetch(
-      "https://ice-web-nine.vercel.app/generateExamCommittee"
+      "http://localhost:5000/generateExamCommittee"
     )
       .then((response) => response.json())
       .then((data) => {
