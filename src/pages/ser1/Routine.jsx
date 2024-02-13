@@ -21,21 +21,29 @@ const Routine = () => {
     setYearTerms(yearTermsData);
   }, []);
 
+  const [routineError, setRoutineError] = useState('');
+
   useEffect(() => {
     fetch("http://localhost:5000/routine")
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setYearTerms(data[0].yearTerm);
-        setRoutine(data[0].overall);
-        setTeachersName(data[0].routineTeachersName);
+      .then((d) => {
+        if(d.success) {
+          const data = d.data;
+          console.log(data);
+          setYearTerms(data[0].yearTerm);
+          setRoutine(data[0].overall);
+          setTeachersName(data[0].routineTeachersName);
 
-        localStorage.setItem("routine", JSON.stringify(data[0].overall));
-        localStorage.setItem("yearTerms", JSON.stringify(data[0].yearTerm));
-        localStorage.setItem(
-          "routineTeachersName",
-          JSON.stringify(data[0].routineTeachersName)
-        );
+          localStorage.setItem("routine", JSON.stringify(data[0].overall));
+          localStorage.setItem("yearTerms", JSON.stringify(data[0].yearTerm));
+          localStorage.setItem(
+            "routineTeachersName",
+            JSON.stringify(data[0].routineTeachersName)
+          );
+          setRoutineError('');
+        } else {
+          setRoutineError(d.error);
+        }
       })
       .catch((error) => console.error(error));
   }, []);

@@ -133,6 +133,8 @@ const Signup = () => {
   const [searchInput, setSearchInput] = useState("");
   const [coursesFromBackend, setCoursesFromBackend] = useState([]);
 
+  const [courseDetailsError, setCourseDetailsError] = useState('');
+
   // Mock data for courses fetched from the backend
   useEffect(() => {
     const fetchData = async () => {
@@ -140,16 +142,22 @@ const Signup = () => {
         const response = await fetch(
           "http://localhost:5000/courseDetails"
         );
-        let courseDetails = await response.json();
+        let data = await response.json();
 
-        courseDetails.sort((a, b) => a.code.localeCompare(b.code));
+        if(data.success) {
+          const courseDetails = data.data;
+          courseDetails.sort((a, b) => a.code.localeCompare(b.code));
 
-        const courses = courseDetails.map((course) => ({
-          value: course.code,
-          label: course.code + ": " + course.name,
-        }));
+          const courses = courseDetails.map((course) => ({
+            value: course.code,
+            label: course.code + ": " + course.name,
+          }));
 
-        setCoursesFromBackend(courses);
+          setCoursesFromBackend(courses);
+          setCourseDetailsError('');
+        } else {
+          setCourseDetailsError(data.error);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }

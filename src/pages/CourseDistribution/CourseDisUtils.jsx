@@ -16,7 +16,8 @@ export const CourseDisUtils = () => {
       ],
     });
      
-  
+  const [courseDetailsError, setCourseDetailsError] = useState('');
+  const [teacherError, setTeacherError] = useState('');
   
     useEffect(() => {
       const fetchData = async () => {
@@ -25,7 +26,11 @@ export const CourseDisUtils = () => {
             "http://localhost:5000/courseDetails"
           );
           const data = await response.json();
-          setCourseData(data);
+          if(data.success) {
+            setCourseData(data.data);
+            setCourseDetailsError('');
+          }
+          else setCourseDetailsError(data.error);
         } catch (error) {
           console.log(error);
         }
@@ -41,9 +46,13 @@ export const CourseDisUtils = () => {
             "http://localhost:5000/teachers"
           );
           const data = await response.json();
-          setTeacher(data);
+          if(data.success) {
+            setTeacher(data.data);
+            setTeacherError('');
+          }
+          else setTeacherError(data.error);
         } catch (error) {
-          console.log(error);
+          setTeacherError(error);
         }
       };
       fetchData();
@@ -91,7 +100,7 @@ export const CourseDisUtils = () => {
     };
 
     const handleTeacherDetailsChange = (event, index, teacherNumber) => {
-      const { value } = event.target;
+      const { value } = event; console.log(event);
       const updatedCourseDetails = [...formData.courseDetails];
       // Ensure teacherCode is initialized as an array
       if (!updatedCourseDetails[index].teacherCode) {

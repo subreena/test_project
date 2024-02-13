@@ -1,21 +1,10 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { CourseDisUtils } from "./CourseDisUtils";
 import Download from "../../assets/components/Download";
+import Select from 'react-select';
 const CourseDisContent = () => {
   const pdfRef = useRef();
-  const [sel, setSel] = useState({
-    type: "",
-    index: 0,
-  });
 
-  const handleSel = (e) => {
-    console.log(e.target.value, e.target.id);
-    setSel({
-      ...sel,
-      type: e.target.value,
-      index: e.target.id,
-    });
-  };
   const {
     teacher,
     view,
@@ -118,10 +107,9 @@ const CourseDisContent = () => {
                 <div className={view ? "d-block" : "d-none"} ref={pdfRef}>
                   <table className="table table-striped">
                     <thead>
-                      <tr>
+                      <tr className="text-center">
                         <th scope="col">Course Code</th>
                         <th scope="col">Course Title</th>
-                        <th scope="col">Course Type</th>
                         <th scope="col">Teacher Name</th>
                       </tr>
                     </thead>
@@ -140,73 +128,39 @@ const CourseDisContent = () => {
                           </td>
 
                           <td name="courseTitle">{course.name}</td>
-
-                          <td>
-                            <select
-                              name="courseType"
-                              id={index}
-                              className="form-select"
-                              onChange={(e) => {
-                                handleSel(e);
-                              }}
-                            >
-                              <option value="full">Full</option>
-                              <option value="shared">Shared</option>
-                            </select>
-                          </td>
                           <td>
                             <div className="row">
-                              <div className="col-auto">
-                                <select
+                              <div className="col-auto" style={{width: '50%'}}>
+                                <Select
                                   name="teacherName1"
-                                  className="form-select"
-                                  id={index}
-                                  onChange={(e) =>
-                                    handleTeacherDetailsChange(
-                                      e,
-                                      index,
-                                      "teacher1"
-                                    )
+                                  options={[
+                                    { value: '', label: 'No Teacher' }, // Include the "No Teacher" option
+                                    ...teacher.map((t) => ({
+                                      value: t.teacherCode,
+                                      label: `${t.firstName} ${t.lastName}`
+                                    }))
+                                  ]}
+                                  onChange={(selectedOption) =>
+                                    handleTeacherDetailsChange(selectedOption, index, "teacher1")
                                   }
-                                >
-                                  <option defaultValue={null}>
-                                    Select Teacher
-                                  </option>
-                                  {teacher.map((t, index) => (
-                                    <option key={index} value={t.teacherCode}>
-                                      {t.firstName} {t.lastName}
-                                    </option>
-                                  ))}
-                                </select>
+                                  defaultValue={ {value: '', label: 'No Teacher'} }
+                                />
                               </div>
-                              <div
-                                className={
-                                  sel.type === "shared"
-                                    ? "col-auto d-block"
-                                    : "col-auto d-none"
-                                }
-                              >
-                                <select
+                              <div className="col-auto" style={{width: '50%'}}>
+                                <Select
                                   name="teacher2"
-                                  className="form-select"
-                                  id={index}
-                                  onChange={(e) =>
-                                    handleTeacherDetailsChange(
-                                      e,
-                                      index,
-                                      "teacher2"
-                                    )
+                                  options={[
+                                    { value: '', label: 'No Teacher' }, // Include the "No Teacher" option
+                                    ...teacher.map((t) => ({
+                                      value: t.teacherCode,
+                                      label: `${t.firstName} ${t.lastName}`
+                                    }))
+                                  ]}
+                                  onChange={(selectedOption) =>
+                                    handleTeacherDetailsChange(selectedOption, index, "teacher2")
                                   }
-                                >
-                                  <option defaultValue={null}>
-                                    Select Teacher
-                                  </option>
-                                  {teacher.map((t, index) => (
-                                    <option key={index} value={t.teacherCode}>
-                                      {t.firstName} {t.lastName}
-                                    </option>
-                                  ))}
-                                </select>
+                                  defaultValue={ {value: '', label: 'No Teacher'} }
+                                />
                               </div>
                             </div>
                           </td>

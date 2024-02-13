@@ -29,6 +29,8 @@ const CreateRoutine = () => {
     setYearTerms(locationYearTerms);
   }, []);
 
+  const [routineError, setRoutineError] = useState('');
+
   const generateRoutine = async (e) => {
     try {
       // Display an alert to confirm before proceeding
@@ -59,10 +61,16 @@ const CreateRoutine = () => {
         throw new Error(errorData.error);
       }
   
-      const data = await response.json();
-      console.log(data);
-      setRoutine(data.overall);
-      setYearTerms(data.yearTerm);
+      const d = await response.json();
+      if(d.success) {
+        const data = d.data;
+        console.log(data);
+        setRoutine(data.overall);
+        setYearTerms(data.yearTerm);
+        setRoutineError('');
+      } else {
+        setRoutineError(d.error);
+      }
       // setErrorMessage("");
     } catch (error) {
       // setErrorMessage(error.message);

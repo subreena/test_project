@@ -15,12 +15,22 @@ const TeacherDashboard = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [teacherError, setTeacherError] = useState('');
+  const [courseError, setCourseError] = useState('');
+
   useEffect(() => {
     fetch(teacherApi)
       .then((response) => response.json())
-      .then((data) => {
-        setTeachers(data);
-        setLoading(false);
+      .then((d) => {
+        if(d.success) {
+          const data = d.data;
+          setTeachers(data);
+          setLoading(false);
+          setTeacherError('');
+        } else {
+          setLoading(false);
+          setTeacherError(d.error);
+        }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -32,8 +42,13 @@ const TeacherDashboard = () => {
     fetch(courseApi)
       .then((res) => res.json())
       .then((d) => {
-        setCourses(d);
-        setLoading(false);
+        if(d.success) {
+          setCourses(d.data);
+          setLoading(false);
+          setCourseError('');
+        } else {
+          setCourseError(d.error);
+        }
       })
       .catch((error) => {
         console.log(error);

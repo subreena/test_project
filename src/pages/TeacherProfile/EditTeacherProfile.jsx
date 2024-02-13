@@ -54,6 +54,8 @@ const EditTeacherProfile = () => {
     console.log(teacher.joiningDate);
   }, []);
 
+  const [courseError, setCourseError] = useState('');
+
   // Mock data for courses fetched from the backend
   useEffect(() => {
     const fetchData = async () => {
@@ -61,17 +63,22 @@ const EditTeacherProfile = () => {
         const response = await fetch(
           "http://localhost:5000/courseDetails"
         );
-        let courseDetails = await response.json();
+        let data = await response.json();
+        if(data.success) {
+          let courseDetails = data.data;
+          // Sort the in-memory array by 'course_code'
+          courseDetails.sort((a, b) => a.code.localeCompare(b.code));
 
-        // Sort the in-memory array by 'course_code'
-        courseDetails.sort((a, b) => a.code.localeCompare(b.code));
+          const courses = courseDetails.map((course) => ({
+            value: course.code,
+            label: course.code + ": " + course.name,
+          }));
 
-        const courses = courseDetails.map((course) => ({
-          value: course.code,
-          label: course.code + ": " + course.name,
-        }));
-
-        setCoursesFromBackend(courses);
+          setCoursesFromBackend(courses);
+          setCourseError('');
+        } else {
+          setCourseError(data.error);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }

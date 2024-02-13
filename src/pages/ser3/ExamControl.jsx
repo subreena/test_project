@@ -31,16 +31,22 @@ const ExamControl = () => {
   useEffect(() => {
     fetch("http://localhost:5000/examCommittee")
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setTheory(data[0].theory);
-        setTeacherCourses(data[0].teachers);
+      .then((d) => {
+        if(d.success) {
+          console.log(data);
+          const data = d.data;
+          setTheory(data[0].theory);
+          setTeacherCourses(data[0].teachers);
 
-        localStorage.setItem("theory", JSON.stringify(data[0].theory));
-        localStorage.setItem(
-          "teacherCourses",
-          JSON.stringify(data[0].teachers)
-        );
+          localStorage.setItem("theory", JSON.stringify(data[0].theory));
+          localStorage.setItem(
+            "teacherCourses",
+            JSON.stringify(data[0].teachers)
+          );
+          setExamCommitteeErrorMessage('');
+        } else {
+          setExamCommitteeErrorMessage(d.error);
+        }
       })
       .catch((error) => console.error(error));
   }, []);

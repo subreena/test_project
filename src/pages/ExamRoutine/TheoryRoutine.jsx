@@ -181,8 +181,13 @@ const TheoryRoutine = () => {
 
       const data = await response.json();
       console.log(data);
-      setRoutine(data);
-      setErrorMessage("");
+
+      if(data.success) {
+        setRoutine(data);
+        setErrorMessage("");
+      } else {
+        setErrorMessage(data.error);
+      }
     } catch (error) {
       setErrorMessage(error.message);
       console.error("Error creating exam routine:", error);
