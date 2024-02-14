@@ -56,15 +56,15 @@ export const CourseDisUtils = () => {
       const newValue =
         event.target.type === "radio" ? (id === "odd" ? 1 : 2) : value;
     
-      const updatedCourseDetails = [...formData.courseDetails];
-      updatedCourseDetails[index] = {
-        ...updatedCourseDetails[index],
-        [name]: value,
-      };
+      // const updatedCourseDetails = [...formData.courseDetails];
+      // updatedCourseDetails[index] = {
+      //   ...updatedCourseDetails[index],
+      //   [name]: value,
+      // };
     
       setFormData({
         ...formData,
-        courseDetails: updatedCourseDetails,
+        // courseDetails: updatedCourseDetails,
         [name]: newValue,
       });
     };
@@ -105,23 +105,21 @@ export const CourseDisUtils = () => {
     const filterCourseData = () => {
       if (formData.semester) {
         const filteredCourses = courseData.filter((course) => course.term === formData.semester && course.type === "theory");
-        // Create new courseDetails objects for each filtered course
-        const newCourseDetailsArray = filteredCourses.map((course) => ({
-          courseCode: course.code,
-          teacherDetails: ['','']
-        }));
-        // Determine the difference in length between the existing and new courseDetails arrays
-        const lengthDifference = newCourseDetailsArray.length - formData.courseDetails.length;
-        if (lengthDifference > 0) {
+        // // Create new courseDetails objects for each filtered course
+        // const newCourseDetailsArray = filteredCourses.map((course) => ({
+        //   courseCode: course.code,
+        //   teacherDetails: ['','']
+        // }));
+      
           // If there is a difference, append empty objects to formData.courseDetails
           setFormData((prevFormData) => ({
             ...prevFormData,
             courseDetails: [
               ...prevFormData.courseDetails,
-              newCourseDetailsArray,
+              
             ],
           }));
-        }
+    
         return filteredCourses;
       } else {
         return courseData;
@@ -141,23 +139,23 @@ export const CourseDisUtils = () => {
       event.preventDefault();
       alert('Submission Successful');
       console.log(formData);
-      try {
-        const response = await fetch("https://ice-web-nine.vercel.app/courseDistribution", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
+      // try {
+      //   const response = await fetch("https://ice-web-nine.vercel.app/courseDistribution", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(formData),
+      //   });
     
-        if (response.ok) {
-          console.log("Data submitted successfully");
-        } else {
-          console.error("Failed to submit data. Server responded with:", response.status, response.statusText);
-        }
-      } catch (error) {
-        console.error("Error during data submission:", error.message);
-      }
+      //   if (response.ok) {
+      //     console.log("Data submitted successfully");
+      //   } else {
+      //     console.error("Failed to submit data. Server responded with:", response.status, response.statusText);
+      //   }
+      // } catch (error) {
+      //   console.error("Error during data submission:", error.message);
+      // }
     };
     
  
