@@ -69,15 +69,15 @@ export const CourseDisUtils = () => {
       const newValue =
         event.target.type === "radio" ? (id === "odd" ? 1 : 2) : value;
     
-      // const updatedCourseDetails = [...formData.courseDetails];
-      // updatedCourseDetails[index] = {
-      //   ...updatedCourseDetails[index],
-      //   [name]: value,
-      // };
+      const updatedCourseDetails = [...formData.courseDetails];
+      updatedCourseDetails[index] = {
+        ...updatedCourseDetails[index],
+        [name]: value,
+      };
     
       setFormData({
         ...formData,
-        // courseDetails: updatedCourseDetails,
+        courseDetails: updatedCourseDetails,
         [name]: newValue,
       });
     };
@@ -161,14 +161,14 @@ export const CourseDisUtils = () => {
           body: JSON.stringify(formData),
         });
     
-      //   if (response.ok) {
-      //     console.log("Data submitted successfully");
-      //   } else {
-      //     console.error("Failed to submit data. Server responded with:", response.status, response.statusText);
-      //   }
-      // } catch (error) {
-      //   console.error("Error during data submission:", error.message);
-      // }
+        if (response.ok) {
+          console.log("Data submitted successfully");
+        } else {
+          console.error("Failed to submit data. Server responded with:", response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error("Error during data submission:", error.message);
+      }
     };
     
  
