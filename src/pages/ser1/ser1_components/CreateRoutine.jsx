@@ -29,6 +29,8 @@ const CreateRoutine = () => {
     setYearTerms(locationYearTerms);
   }, []);
 
+  const [routineError, setRoutineError] = useState('');
+
   const generateRoutine = async (e) => {
     try {
       // Display an alert to confirm before proceeding
@@ -46,7 +48,7 @@ const CreateRoutine = () => {
   
       console.log(formData);
   
-      const response = await fetch("https://ice-web-nine.vercel.app/generateRandomRoutine", {
+      const response = await fetch("http://localhost:5000/generateRandomRoutine", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,11 +61,16 @@ const CreateRoutine = () => {
         throw new Error(errorData.error);
       }
   
-      const data = await response.json();
-      console.log(data);
-      setRoutine(data.overall);
-      setYearTerms(data.yearTerm);
-      // setRoutine(data);
+      const d = await response.json();
+      if(d.success) {
+        const data = d.data;
+        console.log(data);
+        setRoutine(data.overall);
+        setYearTerms(data.yearTerm);
+        setRoutineError('');
+      } else {
+        setRoutineError(d.error);
+      }
       // setErrorMessage("");
     } catch (error) {
       // setErrorMessage(error.message);

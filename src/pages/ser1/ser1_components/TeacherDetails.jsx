@@ -3,15 +3,22 @@ import { useEffect, useState } from "react";
 const TeacherDetails = () => {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [teacherError, setTeacherError] = useState('');
 
   useEffect(() => {
-    fetch("https://ice-web-nine.vercel.app/teachers")
+    fetch("http://localhost:5000/teachers")
       .then((response) => response.json())
-      .then((data) => {
-        const sortedData = data.sort((a, b) => b._id.localeCompare(a._id));
-      // Set the sorted data as the state
-      setTeachers(sortedData);
-        setLoading(false);
+      .then((d) => {
+        if(d.success) {
+          const data = d.data;
+          const sortedData = data.sort((a, b) => b._id.localeCompare(a._id));
+          // Set the sorted data as the state
+          setTeachers(sortedData);
+          setLoading(false);
+          setTeacherError('');
+        } else {
+          setTeacherError(d.error);
+        }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -49,17 +56,20 @@ const TeacherDetails = () => {
                       </p>
 
                       <p className="card-text">
-  <strong>Course:</strong>
-  {Array.isArray(teacher.courses) && teacher.courses!=null&& teacher.courses.map((c, i) => (
-    <ul key={i}>
-      <li>
-        {c.value} {c.label}
-      </li>
-    </ul>
-  ))}
-  {Array.isArray(teacher.courses) && teacher.courses!=null && teacher.courses.join(", ")}
-</p>
-
+                        <strong>Course:</strong>
+                        {Array.isArray(teacher.courses) &&
+                          teacher.courses != null &&
+                          teacher.courses.map((c, i) => (
+                            <ul key={i}>
+                              <li>
+                                {c.value} {c.label}
+                              </li>
+                            </ul>
+                          ))}
+                        {Array.isArray(teacher.courses) &&
+                          teacher.courses != null &&
+                          teacher.courses.join(", ")}
+                      </p>
                     </div>
                   </div>
                 </div>

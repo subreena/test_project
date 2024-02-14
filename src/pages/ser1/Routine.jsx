@@ -21,27 +21,34 @@ const Routine = () => {
     setYearTerms(yearTermsData);
   }, []);
 
-  useEffect(() => {
-    fetch("https://ice-web-nine.vercel.app/routine")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setYearTerms(data[0].yearTerm);
-        setRoutine(data[0].overall);
-        setTeachersName(data[0].routineTeachersName);
+  const [routineError, setRoutineError] = useState('');
 
-        localStorage.setItem("routine", JSON.stringify(data[0].overall));
-        localStorage.setItem("yearTerms", JSON.stringify(data[0].yearTerm));
-        localStorage.setItem(
-          "routineTeachersName",
-          JSON.stringify(data[0].routineTeachersName)
-        );
+  useEffect(() => {
+    fetch("http://localhost:5000/routine")
+      .then((response) => response.json())
+      .then((d) => {
+        if(d.success) {
+          const data = d.data;
+          console.log(data);
+          setYearTerms(data[0].yearTerm);
+          setRoutine(data[0].overall);
+          setTeachersName(data[0].routineTeachersName);
+
+          localStorage.setItem("routine", JSON.stringify(data[0].overall));
+          localStorage.setItem("yearTerms", JSON.stringify(data[0].yearTerm));
+          localStorage.setItem(
+            "routineTeachersName",
+            JSON.stringify(data[0].routineTeachersName)
+          );
+          setRoutineError('');
+        } else {
+          setRoutineError(d.error);
+        }
       })
       .catch((error) => console.error(error));
   }, []);
 
-  const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] =
-    useState("");
+  const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] = useState("");
   const [teacher, setTeacher] = useState(null);
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("teacher"));

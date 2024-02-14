@@ -33,6 +33,8 @@ const EmailPasswordLogin = (props) => {
     return () => unsubscribe();
   }, []);
 
+  const [loginError, setLoginError] = useState('');
+
   const onLogin = async (e) => {
     e.preventDefault();
     setEmailIssue("");
@@ -48,11 +50,17 @@ const EmailPasswordLogin = (props) => {
           setUserState(true);
           localStorage.setItem('user', JSON.stringify(user));
 
-          const teacherApi = `https://ice-web-nine.vercel.app/teachers/by-email/${user.email}`;
+          const teacherApi = `http://localhost:5000/teachers/by-email/${user.email}`;
           fetch(teacherApi)
           .then((response) => response.json())
           .then((data) => {
-            localStorage.setItem('teacher', JSON.stringify(data));
+            if(data.success) {
+              localStorage.setItem('teacher', JSON.stringify(data.data));
+              setLoginError('');
+            } else {
+              setLoginError(data.error);
+            }
+            
           })
       .catch((error) => {
       console.error("Error fetching data:", error);

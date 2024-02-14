@@ -5,17 +5,24 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
 const Course = () => {
-  const courseApi = "https://ice-web-nine.vercel.app/courseDetails";
+  const courseApi = "http://localhost:5000/courseDetails";
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetch(courseApi)
       .then((response) => response.json())
       .then((data) => {
-        setCourses(data);
-        console.log(data);
-        setLoading(false);
+        if(data.success) {
+          setCourses(data);
+          console.log(data);
+          setLoading(false);
+          setError('');
+        } else {
+          setError(data.error);
+          setLoading(false);
+        }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

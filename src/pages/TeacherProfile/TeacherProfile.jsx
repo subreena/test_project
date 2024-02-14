@@ -24,11 +24,18 @@ const TeacherProfile = () => {
     setTeacher(data);
   }, []);
 
+  const [teacherError, setTeacherError] = useState('');
+
   useEffect(() => {
-    fetch("https://ice-web-nine.vercel.app/teachers")
+    fetch("http://localhost:5000/teachers")
       .then((res) => res.json())
       .then((data) => {
-        setCommittee(data);
+        if(data.success) {
+          setCommittee(data);
+          setTeacherError('');  
+        } else {
+          setTeacherError(data.error);
+        }
       });
   }, []);
 

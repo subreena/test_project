@@ -15,6 +15,7 @@ const TheoryDuty = () => {
     examYear: "2022",
     semester: "1",
   });
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const getObjectKeysAsArray = (obj) => {
     return Object.keys(obj).map((key) => key);
@@ -29,21 +30,27 @@ const TheoryDuty = () => {
     setTeacherCourses(teacherCoursesData);
   }, []);
 
+  const [examCommitteeError, setExamCommitteeError] = useState('');
+
   useEffect(() => {
-    fetch("https://ice-web-nine.vercel.app/examCommittee")
+    fetch("http://localhost:5000/examCommittee")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setTheory(data[0].theory);
-        setTeacherCourses(data[0].teachers);
-
-        localStorage.setItem("theory", JSON.stringify(data[0].theory));
-        localStorage.setItem(
-          "teacherCourses",
-          JSON.stringify(data[0].teachers)
-        );
+        if(data.success) {
+          setTheory(data.data[0].theory);
+          setTeacherCourses(data.data[0].teachers);
+          localStorage.setItem("theory", JSON.stringify(data.data[0].theory));
+          localStorage.setItem(
+            "teacherCourses",
+            JSON.stringify(data.data[0].teachers)
+          );
+          setExamCommitteeError('');
+        } else {
+          setExamCommitteeError(data.error);
+        }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => setExamCommitteeError(error));
   }, []);
 
   useEffect(() => {
@@ -97,6 +104,7 @@ const TheoryDuty = () => {
   const handleViewDuty = () => {
     setViewDuty(!viewDuty);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     handleViewDuty();
@@ -104,7 +112,7 @@ const TheoryDuty = () => {
 
     try {
       const response = await fetch(
-        `https://ice-web-nine.vercel.app/generateTheoryDutyRoaster`,
+        `http://localhost:5000/generateTheoryDutyRoaster`,
         {
           method: "POST",
           headers: {
@@ -121,10 +129,13 @@ const TheoryDuty = () => {
 
       const data = await response.json();
       console.log(data);
-      // setRoutine(data);
-      // setErrorMessage("");
+      if(data.success) {
+        setDutyData(data.data);
+      } else {
+        setErrorMessage(data.error);
+      }
     } catch (error) {
-      // setErrorMessage(error.message);
+      setErrorMessage(error.message);
       console.error("Error creating exam routine:", error);
     }
   };

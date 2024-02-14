@@ -166,7 +166,7 @@ const TheoryRoutine = () => {
     handleRoutineView();
 
     try {
-      const response = await fetch(`https://ice-web-nine.vercel.app/theoryExamRoutine`, {
+      const response = await fetch(`http://localhost:5000/theoryExamRoutine`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -181,8 +181,13 @@ const TheoryRoutine = () => {
 
       const data = await response.json();
       console.log(data);
-      setRoutine(data);
-      setErrorMessage("");
+
+      if(data.success) {
+        setRoutine(data);
+        setErrorMessage("");
+      } else {
+        setErrorMessage(data.error);
+      }
     } catch (error) {
       setErrorMessage(error.message);
       console.error("Error creating exam routine:", error);

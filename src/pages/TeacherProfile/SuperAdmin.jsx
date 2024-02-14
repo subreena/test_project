@@ -33,9 +33,9 @@ const SuperAdmin = () => {
       }
     
   const courseApi =
-    "https://ice-web-nine.vercel.app/courseDetails";
+    "http://localhost:5000/courseDetails";
   const teacherApi =
-    "https://ice-web-nine.vercel.app/teachers";
+    "http://localhost:5000/teachers";
 
 
  
@@ -44,7 +44,7 @@ const SuperAdmin = () => {
     fetch(teacherApi)
       .then((response) => response.json())
       .then((data) => {
-        setTeachers(data);
+        setTeachers(data.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -57,7 +57,7 @@ const SuperAdmin = () => {
     fetch(courseApi)
       .then((res) => res.json())
       .then((d) => {
-        setCourses(d);
+        setCourses(d.data);
         setLoading(false);
       })
       .catch((error) => {

@@ -39,6 +39,8 @@ const ReorderExamControl = () => {
     setYearTerms(yt);
   };
 
+  const [examCommitteeError, setExamCommitteeError] = useState('');
+
   const generateExamCommitteeTheory = () => {
     // Display an alert to confirm before proceeding
     const shouldGenerate = window.confirm("Are you sure you want to re-order the Exam Committee?");
@@ -49,16 +51,23 @@ const ReorderExamControl = () => {
     setLoading(true);
 
     fetch(
-      "https://ice-web-nine.vercel.app/generateExamCommittee"
+      "http://localhost:5000/generateExamCommittee"
     )
       .then((response) => response.json())
-      .then((data) => {
-        setLoading(false);
-        const newRoutine = [];
-        newRoutine.push({
-          theory: data,
-        });
-        setTheory(newRoutine[0].theory);
+      .then((d) => {
+        if(d.success) {
+          const data = d.data;
+          setLoading(false);
+          const newRoutine = [];
+          newRoutine.push({
+            theory: data,
+          });
+          setTheory(newRoutine[0].theory);
+          setExamCommitteeError('');
+        } else {
+          setLoading(false);
+          setExamCommitteeError(d.error);
+        }
       })
       .catch((error) => {
         console.error("Error fetching theory:", error);
