@@ -24,7 +24,7 @@ const Routine = () => {
   const [routineError, setRoutineError] = useState('');
 
   useEffect(() => {
-    fetch("http://localhost:5000/routine")
+    fetch("https://ice-web-nine.vercel.app/routine")
       .then((response) => response.json())
       .then((d) => {
         if(d.success) {
@@ -33,6 +33,7 @@ const Routine = () => {
           setYearTerms(data[0].yearTerm);
           setRoutine(data[0].overall);
           setTeachersName(data[0].routineTeachersName);
+          console.log(data[0].routineTeachersName)
 
           localStorage.setItem("routine", JSON.stringify(data[0].overall));
           localStorage.setItem("yearTerms", JSON.stringify(data[0].yearTerm));
@@ -96,7 +97,7 @@ const Routine = () => {
             >
               Generate Routine
             </button>
-            {/* <Link to="/previousdocuments">
+            <Link to="/previousdocuments">
               <button
                 className="btn btn-success"
                 style={{
@@ -107,7 +108,7 @@ const Routine = () => {
               >
                 Previous Documents
               </button>
-            </Link> */}
+            </Link>
           </Col>
         </Row>
         <Row>

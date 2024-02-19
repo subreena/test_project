@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Download from "../../assets/components/Download";
-import { useAsyncError } from "react-router-dom";
+import { Link, useAsyncError } from "react-router-dom";
 import DutyTable from "./DutyTable";
 const TheoryDuty = () => {
   const [theory, setTheory] = useState([]);
@@ -12,8 +12,8 @@ const TheoryDuty = () => {
   const navigate = useAsyncError();
   const [viewDuty, setViewDuty] = useState(false);
   const [dutyData, setDutyData] = useState({
-    examYear: "2022",
-    semester: "1",
+    examYear: "",
+    semester: "",
   });
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -33,7 +33,7 @@ const TheoryDuty = () => {
   const [examCommitteeError, setExamCommitteeError] = useState('');
 
   useEffect(() => {
-    fetch("http://localhost:5000/examCommittee")
+    fetch("https://ice-web-nine.vercel.app/examCommittee")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -100,6 +100,8 @@ const TheoryDuty = () => {
       ...dutyData,
       [name]: newData,
     });
+    console.log("Duty")
+    console.log(dutyData);
   };
   const handleViewDuty = () => {
     setViewDuty(!viewDuty);
@@ -108,11 +110,12 @@ const TheoryDuty = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     handleViewDuty();
+   
     console.log(dutyData);
 
     try {
       const response = await fetch(
-        `http://localhost:5000/generateTheoryDutyRoaster`,
+        `https://ice-web-nine.vercel.app/generateTheoryDutyRoaster`,
         {
           method: "POST",
           headers: {
@@ -160,10 +163,10 @@ const TheoryDuty = () => {
                     </div>
                     <div className="col-auto">
                       <input
-                        type="number"
+                        type="text"
                         name="examYear"
-                        min="1900"
                         className="form-control"
+                        placeholder="e.g: 2023"
                         onChange={handleInputChange}
                         required
                       />
@@ -204,12 +207,24 @@ const TheoryDuty = () => {
                 </div>
               </div>
               <div className="text-center mt-3">
-                <button
-                  className="btn btn-success bg-success bg-gradient w-50"
+              <div className="row">
+              <div className="col-6">
+               <button
+                  className="btn btn-success bg-success bg-gradient w-75 h-100"
                   type="submit"
                 >
                   Submit to generate Duty Roaster
-                </button>
+                </button> 
+                </div> 
+               <div className="col-6">
+               <Link to="/previousdocuments">
+                <button
+                  className="btn btn-success bg-success bg-gradient w-75 h-100"
+                  type="button"
+                >
+                  Previous Documents
+                </button> 
+                </Link>  </div> </div>          
               </div>
             </form>
           </div>
@@ -226,7 +241,7 @@ const TheoryDuty = () => {
                     Theory Exam Duty Roaster for year {dutyData.examYear}
                   </p>
                   <p>
-                    Semester: {dutyData.semester === 1 ? "Odd" : "Even"}
+                    Semester: {dutyData.semester === "1" ? "Odd" : "Even"}
                     <br />
                     <>
                       <DutyTable
@@ -240,15 +255,15 @@ const TheoryDuty = () => {
             </div>
             <div>
               <div className="text-center d-flex justify-content-around mt-3">
-                <button className="btn btn-secondary bg-secondary bg-gradient ">
+                <button className="btn btn-secondary bg-secondary bg-gradient h-100">
                   Manual Edit
                 </button>
 
-                <button className="btn btn-primary bg-primary bg-gradient">
+                <button className="btn btn-primary bg-primary bg-gradient h-100">
                   Submit for Approve
                 </button>
 
-                <button className="btn btn-danger bg-danger bg-gradient">
+                <button className="btn btn-danger bg-danger bg-gradient h-100">
                   Publish
                 </button>
               </div>

@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
 const Course = () => {
-  const courseApi = "http://localhost:5000/courseDetails";
+  const courseApi = "https://ice-web-nine.vercel.app/courseDetails";
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -50,7 +50,7 @@ const Course = () => {
       <Container fluid>
       <div className="row">
         
-            {courses.map((c) => (
+            {courses.data.map((c) => (
                 <div className="col-lg-4 col-sm-6" key={c.id}>
                  <Card style={{ width: "100%", height:"250px", padding: "10px", margin: "20px 10px" }}>
                 <Card.Header> <strong>Course Name: </strong> {c.name}</Card.Header>

@@ -83,6 +83,16 @@ const Footer = () => {
                     Course Details
                   </Link>
                 </li>
+                <li>
+                <Link href="/team" className="footer-list-li">
+                 Our Team
+                </Link>
+                </li>
+                <li>
+                <Link href="/feedback" className="footer-list-li">
+                  Feedback
+                </Link>
+                </li>
               </ul>
             </div>
           </div>

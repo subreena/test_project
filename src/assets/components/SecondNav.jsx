@@ -85,32 +85,45 @@ function SecondNav() {
                 <Nav.Link href="/" className="second-nav-item text-sm-center">
                   Home
                 </Nav.Link>
-                <Nav.Link href="/team" className="second-nav-item text-sm-center ">
-                 Our Team
-                </Nav.Link>
-                <Nav.Link href="/feedback" className="second-nav-item text-sm-center">
-                  Feedback
-                </Nav.Link>
+              
+
+                <Nav.Link href="/routine" className="second-nav-item text-sm-center">Routine</Nav.Link>
 
                 <NavDropdown 
-                title="Services" 
-                id="" 
-                className="second-nav-item  text-sm-center" 
+                title="Exam Related Services" 
+                id="basic-nav-dropdown" 
+                className="second-nav-dropdown text-sm-center" 
                 >
-                  <NavDropdown.Item href="/routine">Routine</NavDropdown.Item>
+                   
+                   <NavDropdown 
+                title="Exam Routine" 
+                id="basic-nav-dropdown" 
+                className="second-nav-dropdown text-sm-center" >
+                   <NavDropdown.Item href="/theory-exam-routine"> Theory</NavDropdown.Item>
+                   <NavDropdown.Divider />
+                   <NavDropdown.Item href="/lab-exam-routine"> Lab </NavDropdown.Item>  
+                </NavDropdown>
                   <NavDropdown.Divider />
-
                   <NavDropdown 
+                title="Exam Duty Roaster" 
+                id="basic-nav-dropdown" 
+                className="second-nav-dropdown text-sm-center" >
+                   <NavDropdown.Item href="/theory-duty-roaster"> Theory</NavDropdown.Item>
+                   <NavDropdown.Divider />
+                   <NavDropdown.Item href="/lab-duty-roaster"> Lab </NavDropdown.Item>  
+                </NavDropdown>
+                  
+                      
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="/examcontrol">Exam Committee</NavDropdown.Item>
+                </NavDropdown>
+                <NavDropdown 
                 title="Remuneration" 
                 id="basic-nav-dropdown" 
                 className="second-nav-dropdown text-sm-center" >
                    <NavDropdown.Item href="/travelbilling"> Travel Billing </NavDropdown.Item>
                    <NavDropdown.Divider />
                    <NavDropdown.Item href="/exambillingfront"> Exam Billing </NavDropdown.Item>  
-                </NavDropdown>
-                
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="/examcontrol">Exam Committee</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
               {

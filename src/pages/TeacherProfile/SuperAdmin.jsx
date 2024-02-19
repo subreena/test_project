@@ -33,9 +33,9 @@ const SuperAdmin = () => {
       }
     
   const courseApi =
-    "http://localhost:5000/courseDetails";
+    "https://ice-web-nine.vercel.app/courseDetails";
   const teacherApi =
-    "http://localhost:5000/teachers";
+    "https://ice-web-nine.vercel.app/teachers";
 
 
  
