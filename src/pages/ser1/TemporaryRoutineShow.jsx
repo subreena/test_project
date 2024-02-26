@@ -9,19 +9,14 @@ import Download from "../../assets/components/Download";
 
 const Routine = () => {
   let { id } = useParams();
-  console.log("id: ", id);
+
+  console.log(id);
+  
   const pdfRef = useRef();
   const [routine, setRoutine] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [teachersName, setTeachersName] = useState([]);
-
-  useEffect(() => {
-    const routineData = JSON.parse(localStorage.getItem("routine"));
-    const yearTermsData = JSON.parse(localStorage.getItem("yearTerms"));
-    setRoutine(routineData);
-    setYearTerms(yearTermsData);
-  }, []);
 
   const [routineError, setRoutineError] = useState('');
 
@@ -37,13 +32,7 @@ const Routine = () => {
           setRoutine(data.overall);
           setTeachersName(data.routineTeachersName);
           console.log(data.routineTeachersName)
-
-          localStorage.setItem("routine", JSON.stringify(data.overall));
-          localStorage.setItem("yearTerms", JSON.stringify(data.yearTerm));
-          localStorage.setItem(
-            "routineTeachersName",
-            JSON.stringify(data.routineTeachersName)
-          );
+          
           setRoutineError('');
         } else {
           setRoutineError(d.error);
@@ -53,25 +42,6 @@ const Routine = () => {
   }, []);
 
   const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] = useState("");
-  const [teacher, setTeacher] = useState(null);
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("teacher"));
-    setTeacher(data);
-    // console.log(data);
-    // console.log(yearTerms);
-  }, []);
-
-  const navigate = useNavigate();
-  const toCreateRoutine = () => {
-    if (teacher?.isInRoutineCommittee) {
-      setRoutineCommitteeErrorMessage("");
-      navigate("/create-routine", { state: { routine, yearTerms } });
-    } else {
-      setRoutineCommitteeErrorMessage(
-        "Sorry! May be you are not logged in or not a member of the Routine Committtee yet!"
-      );
-    }
-  };
 
   const handleSelectChange = (value) => {
     setSelectedTeacher(value);
@@ -89,17 +59,6 @@ const Routine = () => {
         <br />
         <Row>
           <Col className="mt-3 mb-3 d-flex justify-content-center">
-            <button
-              className="btn btn-success bg-success bg-gradient "
-              style={{
-                padding: "7px",
-                margin: "10px",
-                width: "20vw",
-              }}
-              onClick={toCreateRoutine}
-            >
-              Generate Routine
-            </button>
             <Link to="/previousdocuments">
               <button
                 className="btn btn-success"

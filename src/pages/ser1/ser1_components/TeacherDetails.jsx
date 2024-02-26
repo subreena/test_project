@@ -6,7 +6,7 @@ const TeacherDetails = () => {
   const [teacherError, setTeacherError] = useState('');
 
   useEffect(() => {
-    fetch("https://ice-web-nine.vercel.app/teachers")
+    fetch("http://localhost:5000/teachers")
       .then((response) => response.json())
       .then((d) => {
         if(d.success) {

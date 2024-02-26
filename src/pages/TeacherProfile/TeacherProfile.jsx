@@ -27,7 +27,7 @@ const TeacherProfile = () => {
   const [teacherError, setTeacherError] = useState('');
 
   useEffect(() => {
-    fetch("https://ice-web-nine.vercel.app/teachers")
+    fetch("http://localhost:5000/teachers")
       .then((res) => res.json())
       .then((data) => {
         if(data.success) {

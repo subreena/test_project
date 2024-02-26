@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { CourseDisUtils } from "./CourseDisUtils";
 import Download from "../../assets/components/Download";
-import Select from 'react-select';
+import Select from "react-select";
 const CourseDisContent = () => {
   const pdfRef = useRef();
+  const [totalBatch, setTotalBatch] = useState(0);
 
   const {
     teacher,
@@ -16,6 +17,102 @@ const CourseDisContent = () => {
     handleSubmit,
     handleTeacherDetailsChange,
   } = CourseDisUtils();
+
+  const handleRoutineArray = (e, i) => {
+    // const { value, name } = e.target;
+    // const routineArray = [...routine.sessions];
+    // routineArray[i] = {
+    //   ...routineArray[i],
+    //   [name]: value,
+    // };
+    // setRoutine({ ...routine, sessions: routineArray });
+  };
+
+  const handlebatchRow = (e) => {
+    setTotalBatch(parseInt(e.target.value));
+    // routine.totalBatch = e.target.value;
+  };
+
+  const generateRow = () => {
+    let row = [];
+    for (let i = 0; i < totalBatch; i++) {
+      row.push(
+        <tr key={i}>
+          <td>
+            <label htmlFor={`session`} className="form-label">
+              Session
+            </label>
+            <input
+              type="text"
+              name={`session`}
+              id={`session-${i}`}
+              className="form-control "
+              required
+              onChange={(e) => handleRoutineArray(e, i)}
+            />
+          </td>
+          <td>
+            <label htmlFor={`year`} className="form-label">
+              Year
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              name={`year`}
+              id={`year-${i}`}
+              onChange={(e) => handleRoutineArray(e, i)}
+              required
+              min="1"
+              max="4"
+            />
+          </td>
+          <td>
+            <label htmlFor={`term`} className="form-label">
+              Term
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              name={`term`}
+              id={`term-${i}`}
+              onChange={(e) => handleRoutineArray(e, i)}
+              required
+              min="1"
+              max="2"
+            />
+          </td>
+          <td>
+            <label htmlFor={`totalStudents`} className="form-label">
+              Total Student
+            </label>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              name={`totalStudents`}
+              id={`totalStudent-${i}`}
+              onChange={(e) => handleRoutineArray(e, i)}
+              required
+            />
+          </td>
+          <td>
+            <label htmlFor={`startDate`} className="form-label">
+              Start Date
+            </label>
+            <input
+              type="date"
+              className="form-control"
+              name={`startDate`}
+              id={`start-date-${i}`}
+              onChange={(e) => handleRoutineArray(e, i)}
+              required
+            />
+          </td>
+        </tr>
+      );
+    }
+    return row;
+  };
 
   return (
     <div>
@@ -52,6 +149,19 @@ const CourseDisContent = () => {
                       Selected Year: {formData.examYear || "No year selected"}
                     </p>
                   </div>
+                  <div className="mb-3">
+                    <label htmlFor="totalBatch" className="form-label">
+                      Total Batch
+                    </label>
+                    <input
+                      type="number"
+                      name="totalBatch"
+                      min="0"
+                      className="form-control w-75"
+                      onChange={handlebatchRow}
+                      required
+                    />
+                  </div>
                 </div>
 
                 {/* semester selection */}
@@ -86,6 +196,10 @@ const CourseDisContent = () => {
                   </div>
                 </div>
               </div>
+
+              <table className="mt-3 mb-3 table table-striped">
+                <tbody>{generateRow()}</tbody>
+              </table>
 
               {/* course Table */}
               <div className="mt-5 mb-5 scrollbar scrollbar-primary ">
@@ -130,36 +244,56 @@ const CourseDisContent = () => {
                           <td name="courseTitle">{course.name}</td>
                           <td>
                             <div className="row">
-                              <div className="col-auto" style={{width: '50%'}}>
+                              <div
+                                className="col-auto"
+                                style={{ width: "50%" }}
+                              >
                                 <Select
                                   name="teacherName1"
                                   options={[
-                                    { value: '', label: 'No Teacher' }, // Include the "No Teacher" option
+                                    { value: "", label: "No Teacher" }, // Include the "No Teacher" option
                                     ...teacher.map((t) => ({
                                       value: t.teacherCode,
-                                      label: `${t.firstName} ${t.lastName}`
-                                    }))
+                                      label: `${t.firstName} ${t.lastName}`,
+                                    })),
                                   ]}
                                   onChange={(selectedOption) =>
-                                    handleTeacherDetailsChange(selectedOption, index, "teacher1")
+                                    handleTeacherDetailsChange(
+                                      selectedOption,
+                                      index,
+                                      "teacher1"
+                                    )
                                   }
-                                  defaultValue={ {value: '', label: 'No Teacher'} }
+                                  defaultValue={{
+                                    value: "",
+                                    label: "No Teacher",
+                                  }}
                                 />
                               </div>
-                              <div className="col-auto" style={{width: '50%'}}>
+                              <div
+                                className="col-auto"
+                                style={{ width: "50%" }}
+                              >
                                 <Select
                                   name="teacher2"
                                   options={[
-                                    { value: '', label: 'No Teacher' }, // Include the "No Teacher" option
+                                    { value: "", label: "No Teacher" }, // Include the "No Teacher" option
                                     ...teacher.map((t) => ({
                                       value: t.teacherCode,
-                                      label: `${t.firstName} ${t.lastName}`
-                                    }))
+                                      label: `${t.firstName} ${t.lastName}`,
+                                    })),
                                   ]}
                                   onChange={(selectedOption) =>
-                                    handleTeacherDetailsChange(selectedOption, index, "teacher2")
+                                    handleTeacherDetailsChange(
+                                      selectedOption,
+                                      index,
+                                      "teacher2"
+                                    )
                                   }
-                                  defaultValue={ {value: '', label: 'No Teacher'} }
+                                  defaultValue={{
+                                    value: "",
+                                    label: "No Teacher",
+                                  }}
                                 />
                               </div>
                             </div>

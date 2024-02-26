@@ -12,6 +12,7 @@ import TeacherDetails from "./pages/ser1/ser1_components/TeacherDetails";
 import CreateRoutine from "./pages/ser1/ser1_components/CreateRoutine";
 import TeacherDashboard from "./pages/ser1/TeacherDashboard";
 import Routine from "./pages/ser1/Routine";
+import TemporaryRoutineShow from "./pages/ser1/TemporaryRoutineShow";
 import DashboardTeacher from "./pages/Dashboard/DashboardTeacher";
 import SecondNav from "./assets/components/SecondNav";
 import EmailPasswordLogin from "./pages/login/Teacher/EmailPasswordLogin";
@@ -67,7 +68,7 @@ const App = () => {
   // // to load all the vital data as soon as possible
   // useEffect(() => {
   //   const saveRoutineData = () => {
-  //     fetch("https://ice-web-nine.vercel.app/routine")
+  //     fetch("http://localhost:5000/routine")
   //     .then((response) => response.json())
   //     .then((data) => {
   //       localStorage.setItem('routine', JSON.stringify(data[0].overall));
@@ -79,7 +80,7 @@ const App = () => {
     
   //   const saveExamCommitteeData = () => {
   //     fetch(
-  //       "https://ice-web-nine.vercel.app/examCommittee"
+  //       "http://localhost:5000/examCommittee"
   //     )
   //     .then((response) => response.json())
   //     .then((data) => {
@@ -131,6 +132,7 @@ const App = () => {
 
             {/* Services that are shown to all the user */}
             <Route path="/routine" element={<Routine />} />
+            <Route path="/routine/:id" element={<TemporaryRoutineShow />} />
             <Route path="/examcontrol" element={<ExamControl />} />
             <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
             
