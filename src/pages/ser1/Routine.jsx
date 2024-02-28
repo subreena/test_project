@@ -1,32 +1,30 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "../../assets/stylesheets/ser1-style.css";
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RoutineTable from "./ser1_components/RoutineTable";
 import CustomDropdown from "../ser3/CustomDropdown";
 import { Col, Container, Row } from "react-bootstrap";
 import Download from "../../assets/components/Download";
 
 const Routine = () => {
-  let { id } = useParams();
-  console.log("id: ", id);
   const pdfRef = useRef();
   const [routine, setRoutine] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [teachersName, setTeachersName] = useState([]);
 
-  useEffect(() => {
-    const routineData = JSON.parse(localStorage.getItem("routine"));
-    const yearTermsData = JSON.parse(localStorage.getItem("yearTerms"));
-    setRoutine(routineData);
-    setYearTerms(yearTermsData);
-  }, []);
+  // useEffect(() => {
+  //   const routineData = JSON.parse(localStorage.getItem("routine"));
+  //   const yearTermsData = JSON.parse(localStorage.getItem("yearTerms"));
+  //   setRoutine(routineData);
+  //   setYearTerms(yearTermsData);
+  // }, []);
 
   const [routineError, setRoutineError] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost:5000/routine/data/${id}/routine`)
+    fetch(`http://localhost:5000/classRoutineManagement/lastElement`)
       .then((response) => response.json())
       .then((d) => {
         console.log(d);
