@@ -14,6 +14,10 @@ export const CourseDisUtils = () => {
           ]
         },
       ],
+      totalBatch: 0,
+      sessions: [
+        { session: "", totalStudents: "", startDate: "", year: '0', term: '0' },
+      ]
     });
      
   const [courseDetailsError, setCourseDetailsError] = useState('');
@@ -116,8 +120,22 @@ export const CourseDisUtils = () => {
     };
   
     const filterCourseData = () => {
-      if (formData.semester) {
-        const filteredCourses = courseData.filter((course) => course.term === formData.semester && course.type === "theory" && course.year === 1);
+      // console.log(formData);
+      let filteredCourses = [];
+      if(formData.sessions) {
+        courseData.forEach(course => {
+          if (course.type === "theory") {
+            formData.sessions.forEach(session => {
+              if (course.year == session.year && course.term == session.term) {
+                // Push only if the course is not already in filteredCourses
+                if (!filteredCourses.some(filteredCourse => filteredCourse === course)) {
+                  filteredCourses.push(course);
+                }
+              }
+            });
+          }
+        });
+
         // Create new courseDetails objects for each filtered course
         const newCourseDetailsArray = filteredCourses.map((course) => ({
           courseCode: course.code,
@@ -175,6 +193,7 @@ export const CourseDisUtils = () => {
     return {
         courseData,
         formData,
+        setFormData,
         teacher,
         view,
         handleInputChange,
@@ -183,7 +202,6 @@ export const CourseDisUtils = () => {
         handleYearChange,
         filterCourseData, 
         handleTeacherDetailsChange,
-       
     }
 };
 

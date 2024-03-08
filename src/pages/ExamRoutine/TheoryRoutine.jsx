@@ -286,7 +286,7 @@ const TheoryRoutine = () => {
                 <div className="row mb-3">
                   <div className="col-auto">
                     <label htmlFor="gapBetweenExams" className="form-label">
-                      Gap for Exam
+                      Min gap for Exam
                     </label>
                   </div>
                   <div className="col-auto">

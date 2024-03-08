@@ -9,7 +9,6 @@ import img from "../../assets/images/sub.png";
 import VC from "../../assets/images/VC.png";
 import ICE from "../../assets/images/ICE-chairman.png";
 import EEE from "../../assets/images/EEE-chairman.png";
-import SuperAdmin from "./SuperAdmin";
 
 const TeacherProfile = () => {
   const [teacher, setTeacher] = useState(null);
@@ -24,15 +23,15 @@ const TeacherProfile = () => {
     setTeacher(data);
   }, []);
 
-  const [teacherError, setTeacherError] = useState('');
+  const [teacherError, setTeacherError] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/teachers")
       .then((res) => res.json())
       .then((data) => {
-        if(data.success) {
+        if (data.success) {
           setCommittee(data);
-          setTeacherError('');  
+          setTeacherError("");
         } else {
           setTeacherError(data.error);
         }
@@ -72,18 +71,21 @@ const TeacherProfile = () => {
           <div className="d-flex align-items-center justify-content-center">
             <h1 className="p-2"> Teacher Profile</h1>
             <p>
-            <strong>
-              <Link to="edit-teacher" className="p-2">
-                Edit
-              </Link>
-            </strong>
+              <strong>
+                <Link to="edit-teacher" className="p-2">
+                  Edit
+                </Link>
+              </strong>
             </p>
           </div>
           <hr />
         </div>
       </div>
 
-      <div className="card p-3" style={{maxWidth: "60vw", margin: "10px auto"}}>
+      <div
+        className="card p-3"
+        style={{ maxWidth: "60vw", margin: "10px auto" }}
+      >
         <div className="container">
           <div className="d-flex justify-content-between">
             <div className="d-flex align-items-center">
@@ -266,19 +268,19 @@ const TeacherProfile = () => {
             </div>
           </div> */}
           <div className="d-flex justify-content-end">
-          <div className="col-4">
-                      {isAdmin ? (
-                        <p className="h5 card-text">
-                          <Link to="/super-admin">
-                            <button className="btn btn-primary w-100">
-                              Go to SuperAdmin page
-                            </button>
-                          </Link>
-                        </p>
-                      ) : (
-                        <p></p>
-                      )}
-                    </div>
+            <div className="col-4">
+              {isAdmin ? (
+                <p className="h5 card-text">
+                  <Link to="/pending-requests">
+                    <button className="btn btn-primary w-100">
+                      Pending Requests
+                    </button>
+                  </Link>
+                </p>
+              ) : (
+                <p></p>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ const CourseDisContent = () => {
     teacher,
     view,
     formData,
+    setFormData,
     handleInputChange,
     handleYearChange,
     filterCourseData,
@@ -18,19 +19,19 @@ const CourseDisContent = () => {
     handleTeacherDetailsChange,
   } = CourseDisUtils();
 
-  const handleRoutineArray = (e, i) => {
-    // const { value, name } = e.target;
-    // const routineArray = [...routine.sessions];
-    // routineArray[i] = {
-    //   ...routineArray[i],
-    //   [name]: value,
-    // };
-    // setRoutine({ ...routine, sessions: routineArray });
+  const handleSessionDetailsArray = (e, i) => {
+    const { value, name } = e.target;
+    const routineArray = [...formData.sessions];
+    routineArray[i] = {
+      ...routineArray[i],
+      [name]: value,
+    };
+    setFormData({ ...formData, sessions: routineArray });
   };
 
   const handlebatchRow = (e) => {
     setTotalBatch(parseInt(e.target.value));
-    // routine.totalBatch = e.target.value;
+    formData.totalBatch = e.target.value;
   };
 
   const generateRow = () => {
@@ -48,7 +49,7 @@ const CourseDisContent = () => {
               id={`session-${i}`}
               className="form-control "
               required
-              onChange={(e) => handleRoutineArray(e, i)}
+              onChange={(e) => handleSessionDetailsArray(e, i)}
             />
           </td>
           <td>
@@ -60,7 +61,7 @@ const CourseDisContent = () => {
               className="form-control"
               name={`year`}
               id={`year-${i}`}
-              onChange={(e) => handleRoutineArray(e, i)}
+              onChange={(e) => handleSessionDetailsArray(e, i)}
               required
               min="1"
               max="4"
@@ -75,7 +76,7 @@ const CourseDisContent = () => {
               className="form-control"
               name={`term`}
               id={`term-${i}`}
-              onChange={(e) => handleRoutineArray(e, i)}
+              onChange={(e) => handleSessionDetailsArray(e, i)}
               required
               min="1"
               max="2"
@@ -83,7 +84,7 @@ const CourseDisContent = () => {
           </td>
           <td>
             <label htmlFor={`totalStudents`} className="form-label">
-              Total Student
+              Total Students
             </label>
             <input
               type="number"
@@ -91,20 +92,20 @@ const CourseDisContent = () => {
               className="form-control"
               name={`totalStudents`}
               id={`totalStudent-${i}`}
-              onChange={(e) => handleRoutineArray(e, i)}
+              onChange={(e) => handleSessionDetailsArray(e, i)}
               required
             />
           </td>
           <td>
             <label htmlFor={`startDate`} className="form-label">
-              Start Date
+              Class Start Date
             </label>
             <input
               type="date"
               className="form-control"
               name={`startDate`}
               id={`start-date-${i}`}
-              onChange={(e) => handleRoutineArray(e, i)}
+              onChange={(e) => handleSessionDetailsArray(e, i)}
               required
             />
           </td>

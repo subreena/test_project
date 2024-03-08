@@ -30,7 +30,6 @@ const CreateRoutine = () => {
   }, []);
 
   const [routineError, setRoutineError] = useState("");
-  const [serviceName, setServiceName] = useState("");
   const [senderName, setSenderName] = useState("");
   const [routineData, setRoutineData] = useState(null);
 
@@ -137,13 +136,13 @@ const CreateRoutine = () => {
       }
 
       const d = await response.json();
+      console.log(d);
       if (d.success) {
         const data = d.data;
         serviceId = data._id;
         console.log(data);
         setRoutineError("");
         console.log(serviceId);
-        setServiceName('Theory Class Routine');
       } else {
         setRoutineError(d.error);
       }
@@ -163,15 +162,18 @@ const CreateRoutine = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: serviceId, serviceName, senderName }),
+        body: JSON.stringify({ id: serviceId, serviceName: 'Theory Class Routine', senderName }),
       });
 
-      // Check if request was successful
-      if (response.ok) {
-        console.log("Service added successfully");
-        console.log(response);
-      } else {
-        console.error("Error adding service");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+
+      const d = await response.json();
+      console.log("pending: ", d);
+      if(!d.success) {
+        setRoutineError(d.error);
       }
     } catch (error) {
       console.error("Error:", error);

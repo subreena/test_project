@@ -42,7 +42,7 @@ import TheoryRoutine from "./pages/ExamRoutine/TheoryRoutine";
 import LabRoutine from "./pages/ExamRoutine/LabRoutine";
 import Top from "./assets/components/Top";
 import ExamBillingFront from "./pages/ser2/ExamBilling/ExamBillingFront";
-import SuperAdmin from "./pages/TeacherProfile/SuperAdmin";
+import PendingRequests from "./pages/TeacherProfile/PendingRequests";
 
 
 export const UserContext = createContext();
@@ -132,7 +132,7 @@ const App = () => {
 
             {/* Services that are shown to all the user */}
             <Route path="/routine" element={<Routine />} />
-            <Route path="/routine/:id" element={<TemporaryRoutineShow />} />
+            <Route path="/temporary-routine/:id" element={<TemporaryRoutineShow />} />
             <Route path="/examcontrol" element={<ExamControl />} />
             <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
             
@@ -155,7 +155,7 @@ const App = () => {
               <Route path="/exambillingfront" element={<ExamBillingFront/>} />
               
               <Route path="/profile" element={<TeacherProfile/>} />
-              <Route path="/super-admin" element={<SuperAdmin/>} />
+              <Route path="/pending-requests" element={<PendingRequests/>} />
               <Route path="/profile/edit-teacher" element={<EditTeacherProfile/>} />
             </Route>
 

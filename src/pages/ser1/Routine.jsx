@@ -24,31 +24,48 @@ const Routine = () => {
   const [routineError, setRoutineError] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost:5000/classRoutineManagement/lastElement`)
-      .then((response) => response.json())
-      .then((d) => {
-        console.log(d);
-        if(d.success) {
-          const data = d.data;
-          console.log(data);
-          setYearTerms(data.yearTerm);
-          setRoutine(data.overall);
-          setTeachersName(data.routineTeachersName);
-          console.log(data.routineTeachersName)
-
-          localStorage.setItem("routine", JSON.stringify(data.overall));
-          localStorage.setItem("yearTerms", JSON.stringify(data.yearTerm));
-          localStorage.setItem(
-            "routineTeachersName",
-            JSON.stringify(data.routineTeachersName)
-          );
-          setRoutineError('');
+    const fetchData = async () => {
+      try {
+        let routineId;
+  
+        const response1 = await fetch('http://localhost:5000/serviceId');
+        const data1 = await response1.json();
+        console.log(data1);
+        if (data1.success) {
+          routineId = data1.data[0]['classRoutine'];
+          console.log(routineId);
+  
+          const response2 = await fetch(`http://localhost:5000/classRoutineManagement/data/${routineId}`);
+          const data2 = await response2.json();
+          console.log(data2);
+          if (data2.success) {
+            const data = data2.data;
+            console.log(data);
+            setYearTerms(data.yearTerm);
+            setRoutine(data.overall);
+            setTeachersName(data.routineTeachersName);
+            console.log(data.routineTeachersName);
+  
+            localStorage.setItem("routine", JSON.stringify(data.overall));
+            localStorage.setItem("yearTerms", JSON.stringify(data.yearTerm));
+            localStorage.setItem(
+              "routineTeachersName",
+              JSON.stringify(data.routineTeachersName)
+            );
+            setRoutineError('');
+          } else {
+            setRoutineError(data2.error);
+          }
         } else {
-          setRoutineError(d.error);
+          setRoutineError(data1.error);
         }
-      })
-      .catch((error) => console.error(error));
-  }, []);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchData();
+  }, []);  
 
   const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] = useState("");
   const [teacher, setTeacher] = useState(null);

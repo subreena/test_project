@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Spinner } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
 import VerticallyCenteredModal from "../Modal/VerticallyCenteredModal";
@@ -9,8 +9,8 @@ const SuperAdmin = () => {
   const [modalShow, setModalShow] = useState(false);
   const [serviceName, setServiceName] = useState("");
   const [serviceId, setServiceId] = useState("");
-  const [postLoading, setPostLoading] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [postLoading, setPostLoading] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(null);
 
   const handleDeleteAll = async () => {
     try {
@@ -65,8 +65,8 @@ const SuperAdmin = () => {
     console.log(services);
   }, [services]);
 
-  const handlePost = async (service) => {
-    setPostLoading(true);
+  const handlePost = async (service, index) => {
+    setPostLoading(index);
     const id = service.id;
     console.log(service);
     setServiceName(service.serviceName);
@@ -101,12 +101,12 @@ const SuperAdmin = () => {
     } catch (error) {
       console.error("Error creating manage service:", error);
     } finally {
-      setPostLoading(false);
+      setPostLoading(null);
     }
   };
 
-  const handleDelete = async (id) => {
-    setDeleteLoading(true);
+  const handleDelete = async (id, index) => {
+    setDeleteLoading(index);
     try {
       const response = await fetch(
         `http://localhost:5000/pendingService/deleteObject/${id}/PendingService`,
@@ -135,13 +135,13 @@ const SuperAdmin = () => {
     } catch (error) {
       console.error("Error creating manage service:", error);
     } finally {
-      setDeleteLoading(false);
+      setDeleteLoading(null);
     }
   };
 
   const navigate = useNavigate();
   const handleShow = (id) => {
-    navigate(`/routine/${id}`);
+    navigate(`/temporary-routine/${id}`);
   };
 
   const formatDateTime = (dateTimeString) => {
@@ -171,7 +171,7 @@ const SuperAdmin = () => {
       />
       <div>
         <div>
-          <h2 className="text-center">Admin Corner</h2>
+          <h2 className="text-center">Pending Requests</h2>
           <hr />
         </div>
         <div className="d-flex justify-content-end">
@@ -208,7 +208,7 @@ const SuperAdmin = () => {
                 </th>
               </tr>
             </thead>
-            {services &&
+            {services ? (
               services.map((service, id) => (
                 <tr style={{ border: "none" }} key={id}>
                   <td style={{ border: "none" }}> {id + 1} </td>
@@ -219,7 +219,7 @@ const SuperAdmin = () => {
                   <td style={{ border: "none" }}> {service.senderName} </td>
                   <td style={{ border: "none" }}> {service.serviceName} </td>
                   <td style={{ border: "none" }}>
-                    {postLoading ? (
+                    {postLoading === id ? (
                       <Spinner
                         animation="border"
                         role="status"
@@ -230,7 +230,7 @@ const SuperAdmin = () => {
                     ) : (
                       <p
                         className="btn btn-success"
-                        onClick={() => handlePost(service)}
+                        onClick={() => handlePost(service, id)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +246,7 @@ const SuperAdmin = () => {
                     )}
                   </td>
                   <td style={{ border: "none" }}>
-                    {deleteLoading ? (
+                    {deleteLoading === id ? (
                       <Spinner
                         animation="border"
                         role="status"
@@ -257,7 +257,7 @@ const SuperAdmin = () => {
                     ) : (
                       <p
                         className="btn btn-danger"
-                        onClick={() => handleDelete(service.id)}
+                        onClick={() => handleDelete(service.id, id)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -292,7 +292,14 @@ const SuperAdmin = () => {
                     </p>
                   </td>
                 </tr>
-              ))}
+              ))
+            ) : (
+              <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            )}
           </Table>
         </div>
       </div>
