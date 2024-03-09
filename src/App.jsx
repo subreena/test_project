@@ -12,7 +12,6 @@ import TeacherDetails from "./pages/ser1/ser1_components/TeacherDetails";
 import CreateRoutine from "./pages/ser1/ser1_components/CreateRoutine";
 import TeacherDashboard from "./pages/ser1/TeacherDashboard";
 import Routine from "./pages/ser1/Routine";
-import TemporaryRoutineShow from "./pages/ser1/TemporaryRoutineShow";
 import DashboardTeacher from "./pages/Dashboard/DashboardTeacher";
 import SecondNav from "./assets/components/SecondNav";
 import EmailPasswordLogin from "./pages/login/Teacher/EmailPasswordLogin";
@@ -43,7 +42,8 @@ import LabRoutine from "./pages/ExamRoutine/LabRoutine";
 import Top from "./assets/components/Top";
 import ExamBillingFront from "./pages/ser2/ExamBilling/ExamBillingFront";
 import PendingRequests from "./pages/TeacherProfile/PendingRequests";
-
+import TemporaryRoutineShow from "./pages/ser1/TemporaryRoutineShow";
+import TemporaryCourseDistribution from "./pages/CourseDistribution/temporaryCourseDisContent";
 
 export const UserContext = createContext();
 
@@ -132,7 +132,6 @@ const App = () => {
 
             {/* Services that are shown to all the user */}
             <Route path="/routine" element={<Routine />} />
-            <Route path="/temporary-routine/:id" element={<TemporaryRoutineShow />} />
             <Route path="/examcontrol" element={<ExamControl />} />
             <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
             
@@ -141,6 +140,9 @@ const App = () => {
 
             <Route path="/theory-exam-routine" element={<TheoryRoutine/>}/>
             <Route path="/lab-exam-routine" element={<LabRoutine/>}/>
+
+            <Route path="/temporary-routine/:id" element={<TemporaryRoutineShow />} />
+            <Route path="/temporary-course-distribution/:id" element={<TemporaryCourseDistribution />} />
 
 
             {/* Services that are shown only to the register user */}

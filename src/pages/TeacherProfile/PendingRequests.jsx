@@ -50,6 +50,7 @@ const SuperAdmin = () => {
         console.log(data);
         if (data.success) {
           setError("");
+          data.result.reverse();
           setServices(data.result);
         } else {
           setError(data.error);
@@ -61,19 +62,43 @@ const SuperAdmin = () => {
       });
   }, [deleted]);
 
-  useEffect(() => {
-    console.log(services);
-  }, [services]);
+  // useEffect(() => {
+  //   console.log(services);
+  // }, [services]);
+
+  const getApiString = (name) => {
+    let apiName;
+    if(name === "Theory Class Routine") {
+      apiName = "classRoutineManagement";
+    } else if(name === "Course Distribution") {
+      apiName = "courseDistribution";
+    } else if(name === "Theory Duty Roaster") {
+      apiName = "";
+    } else if(name === "Theory Exam Committee") {
+      apiName = "";
+    } else if(name === "Lab Exam Committee") {
+      apiName = "";
+    } else if(name === "Theory Exam Routine") {
+      apiName = "";
+    } else {
+      console.error("There is an error in your selected service!");
+    }
+
+    return apiName;
+  }
 
   const handlePost = async (service, index) => {
     setPostLoading(index);
     const id = service.id;
     console.log(service);
+
     setServiceName(service.serviceName);
+    const apiString = getApiString(service.serviceName);
+    console.log(apiString);
 
     try {
       const response = await fetch(
-        "http://localhost:5000/classRoutineManagement",
+        `http://localhost:5000/${apiString}`,
         {
           method: "POST",
           headers: {
@@ -140,8 +165,31 @@ const SuperAdmin = () => {
   };
 
   const navigate = useNavigate();
-  const handleShow = (id) => {
-    navigate(`/temporary-routine/${id}`);
+  const getShowApi = (name) => {
+    let apiName;
+    if(name === "Theory Class Routine") {
+      apiName = "temporary-routine";
+    } else if(name === "Course Distribution") {
+      apiName = "temporary-course-distribution";
+    } else if(name === "Theory Duty Roaster") {
+      apiName = "";
+    } else if(name === "Theory Exam Committee") {
+      apiName = "";
+    } else if(name === "Lab Exam Committee") {
+      apiName = "";
+    } else if(name === "Theory Exam Routine") {
+      apiName = "";
+    } else {
+      console.error("There is an error in your selected service!");
+    }
+
+    return apiName;
+  }
+  const handleShow = (service) => {
+    const id = service.id;
+    const showApi = getShowApi(service.serviceName);
+
+    navigate(`/${showApi}/${id}`);
   };
 
   const formatDateTime = (dateTimeString) => {
@@ -276,7 +324,7 @@ const SuperAdmin = () => {
                   <td style={{ border: "none" }}>
                     <p
                       className="btn btn-info"
-                      onClick={() => handleShow(service.id)}
+                      onClick={() => handleShow(service)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
