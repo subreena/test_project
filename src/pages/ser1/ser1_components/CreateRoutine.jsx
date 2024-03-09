@@ -20,14 +20,15 @@ const CreateRoutine = () => {
   const [routine, setRoutine] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [defaults, setDefaults] = useState(true);
   const location = useLocation();
 
-  useEffect(() => {
-    const { routine: locationRoutine, yearTerms: locationYearTerms } =
-      location.state || {};
-    setRoutine(locationRoutine);
-    setYearTerms(locationYearTerms);
-  }, []);
+  // useEffect(() => {
+  //   const { routine: locationRoutine, yearTerms: locationYearTerms } =
+  //     location.state || {};
+  //   setRoutine(locationRoutine);
+  //   setYearTerms(locationYearTerms);
+  // }, []);
 
   const [routineError, setRoutineError] = useState("");
   const [senderName, setSenderName] = useState("");
@@ -88,6 +89,7 @@ const CreateRoutine = () => {
       console.error("Error creating exam routine:", error);
     } finally {
       setLoading(false);
+      setDefaults(false);
     }
   };
 
@@ -100,7 +102,6 @@ const CreateRoutine = () => {
 
   let serviceId = null;
   const handleSubmitForApproval = async (event) => {
-
     try {
       // Display an alert to confirm before proceeding
       const shouldGenerate = window.confirm(
@@ -125,7 +126,7 @@ const CreateRoutine = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            data: routineData
+            data: routineData,
           }),
         }
       );
@@ -152,6 +153,7 @@ const CreateRoutine = () => {
       console.error("Error creating exam routine:", error);
     } finally {
       setLoading(false);
+      setDefaults(false);
     }
 
     // to save it at pending service
@@ -162,7 +164,11 @@ const CreateRoutine = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: serviceId, serviceName: 'Theory Class Routine', senderName }),
+        body: JSON.stringify({
+          id: serviceId,
+          serviceName: "Theory Class Routine",
+          senderName,
+        }),
       });
 
       if (!response.ok) {
@@ -172,7 +178,7 @@ const CreateRoutine = () => {
 
       const d = await response.json();
       console.log("pending: ", d);
-      if(!d.success) {
+      if (!d.success) {
         setRoutineError(d.error);
       }
     } catch (error) {
@@ -262,7 +268,7 @@ const CreateRoutine = () => {
             </div>
 
             <div className="row">
-              <div className="col-6">
+              {/* <div className="col-6">
                 <div className="mb-3">
                   <label htmlFor="totalBatch" className="form-label">
                     Total Batch
@@ -276,7 +282,7 @@ const CreateRoutine = () => {
                     required
                   />
                 </div>
-              </div>
+              </div> */}
               <div className="col-6">
                 {/* Start date */}
                 <div className="row mt-3">
@@ -337,30 +343,41 @@ const CreateRoutine = () => {
               </div>
             </div>
           </div>
-
-          {loading ? (
-            <div className="d-flex justify-content-center mt-4">
-              <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          ) : (
-            <div ref={pdfRef}>
-              <RoutineTable routineProps={routine} yearTermProps={yearTerms} />
-            </div>
-          )}
-          <div className="mb-3 mt-3 d-flex justify-content-center">
-            <button
-              className="btn btn-primary"
-              type="submit"
-              onClick={handleSubmitForApproval}
-            >
-              Submit for Approval
-            </button>
-          </div>
-          <div>
-            <Download pdfRef={pdfRef} fileName={"Proposed-Routine.pdf"} />
-          </div>
+          {
+            defaults ? (
+              <div></div>
+            ) : 
+            (
+              loading ? (
+                <div className="d-flex justify-content-center mt-4">
+                  <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div ref={pdfRef}>
+                    <RoutineTable
+                      routineProps={routine}
+                      yearTermProps={yearTerms}
+                    />
+                  </div>
+                  <div className="mb-3 mt-3 d-flex justify-content-center">
+                    <button
+                      className="btn btn-primary"
+                      type="submit"
+                      onClick={handleSubmitForApproval}
+                    >
+                      Submit for Approval
+                    </button>
+                  </div>
+                  <div>
+                    <Download pdfRef={pdfRef} fileName={"Proposed-Routine.pdf"} />
+                  </div>
+                </div>
+              )
+            )
+          }
         </form>
       </div>
     </>

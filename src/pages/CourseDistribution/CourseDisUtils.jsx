@@ -3,6 +3,7 @@ export const CourseDisUtils = () => {
     const [courseData, setCourseData] = useState([]);
     const [teacher, setTeacher] = useState([]);
     const [view, setView] = useState(false);
+    const [filteredCourses, setFilteredCourses] = useState([]);
     const [formData, setFormData] = useState({
       examYear: null,
       semester: null,
@@ -62,9 +63,9 @@ export const CourseDisUtils = () => {
       fetchData();
     }, []);
 
-    useEffect(() => {
-      console.log(formData);
-    }, [formData])
+    // useEffect(() => {
+    //   console.log(formData);
+    // }, [formData])
 
 
     const handleInputChange = (event, index) => {
@@ -124,7 +125,7 @@ export const CourseDisUtils = () => {
       let filteredCourses = [];
       if(formData.sessions) {
         courseData.forEach(course => {
-          if (course.type === "theory") {
+          // if (course.type === "theory") {
             formData.sessions.forEach(session => {
               if (course.year == session.year && course.term == session.term) {
                 // Push only if the course is not already in filteredCourses
@@ -133,7 +134,7 @@ export const CourseDisUtils = () => {
                 }
               }
             });
-          }
+          // }
         });
 
         // Create new courseDetails objects for each filtered course
@@ -162,7 +163,8 @@ export const CourseDisUtils = () => {
    
     const handleView2 = (event) => {
       event.preventDefault(); 
-      setView(!view);
+      setView(true);
+      setFilteredCourses(filterCourseData());
     };
 
     
@@ -200,7 +202,7 @@ export const CourseDisUtils = () => {
         handleSubmit,
         handleView2,
         handleYearChange,
-        filterCourseData, 
+        filteredCourses, 
         handleTeacherDetailsChange,
     }
 };

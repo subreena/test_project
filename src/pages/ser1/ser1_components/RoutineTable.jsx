@@ -91,6 +91,11 @@ const RoutineTable = (props) => {
               labState ^= 1;
             }
 
+            let teacherString = block.teacher.teacherCode;
+            if(block['teacher2'] !== undefined) {
+              teacherString += `+${block.teacher2.teacherCode}`;
+            }
+
             row.push(
               <td
                 key={`block-${day}-${year}-${term}-${timeSlot}`}
@@ -98,7 +103,7 @@ const RoutineTable = (props) => {
                 style={{ textAlign: "center" }}
               >
                 {block.course.code} <br />
-                {block.teacher.teacherCode} <br />
+                {teacherString} <br />
                 {block.room}
               </td>
             );

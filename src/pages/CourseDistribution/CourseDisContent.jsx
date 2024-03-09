@@ -13,7 +13,7 @@ const CourseDisContent = () => {
     setFormData,
     handleInputChange,
     handleYearChange,
-    filterCourseData,
+    filteredCourses,
     handleView2,
     handleSubmit,
     handleTeacherDetailsChange,
@@ -229,7 +229,7 @@ const CourseDisContent = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {filterCourseData().map((course, index) => (
+                      {filteredCourses.map((course, index) => (
                         <tr key={index}>
                           <td>
                             {/* Use the correct index (courseIndex) for updating formData.courseDetails */}
