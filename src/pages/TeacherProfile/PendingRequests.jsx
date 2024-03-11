@@ -230,7 +230,7 @@ const SuperAdmin = () => {
 
         <br />
         <div className="m-auto text-center">
-          <Table striped responsive borderless hover>
+          <Table striped responsive hover>
             <thead>
               <tr>
                 <th>

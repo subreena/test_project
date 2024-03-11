@@ -79,7 +79,8 @@ const RoutineTable = (props) => {
           const block = routine[day][year][term][timeSlot];
 
           const teacherName = `${block?.teacher?.firstName} ${block?.teacher?.lastName}`;
-          if (block.isAllocated && (!selectedTeacher || teacherName === selectedTeacher)) {
+          const teacher2Name = `${block?.teacher2?.firstName} ${block?.teacher2?.lastName}`;
+          if (block.isAllocated && (!selectedTeacher || teacherName === selectedTeacher || teacher2Name === selectedTeacher)) {
             if (block.course.type === "theory") {
               labClass = "";
               labState = 0;
