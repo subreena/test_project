@@ -81,7 +81,6 @@ const CourseDisContent = () => {
 
       setLoading(true);
       event.preventDefault();
-
       console.log(formData);
 
       const response = await fetch(

@@ -75,7 +75,7 @@ const SuperAdmin = () => {
     } else if(name === "Theory Duty Roaster") {
       apiName = "";
     } else if(name === "Theory Exam Committee") {
-      apiName = "";
+      apiName = "generateExamCommittee";
     } else if(name === "Lab Exam Committee") {
       apiName = "";
     } else if(name === "Theory Exam Routine") {

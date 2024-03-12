@@ -1,17 +1,24 @@
 import "bootstrap/dist/css/bootstrap.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../assets/stylesheets/exam-control.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import ExamControlTables from "./ExamControlTables";
 import { Col, Container, Row } from "react-bootstrap";
+import Download from "../../assets/components/Download";
 
 const ReorderExamControl = () => {
+  const pdfRef = useRef();
   const [theory, setTheory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modifiedTheory, setModifiedTheory] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const [year, setYear] = useState(null);
+  const [semester, setSemester] = useState(null);
+  const [defaults, setDefaults] = useState(true);
+  const [examControlData, setExamControlData] = useState(null);
+  const [senderName, setSenderName] = useState('');
 
   useEffect(() => {
     const { theory: locationTheory } = location.state || {};
@@ -41,7 +48,8 @@ const ReorderExamControl = () => {
 
   const [examCommitteeError, setExamCommitteeError] = useState('');
 
-  const generateExamCommitteeTheory = () => {
+  const generateExamCommitteeTheory = async (e) => {
+    try{
     // Display an alert to confirm before proceeding
     const shouldGenerate = window.confirm("Are you sure you want to re-order the Exam Committee?");
     if (!shouldGenerate) {
@@ -49,30 +57,46 @@ const ReorderExamControl = () => {
         return;
     }
     setLoading(true);
+    e.preventDefault();
 
-    fetch(
-      "http://localhost:5000/generateExamCommittee"
-    )
-      .then((response) => response.json())
-      .then((d) => {
-        if(d.success) {
-          const data = d.data;
-          setLoading(false);
-          const newRoutine = [];
-          newRoutine.push({
-            theory: data,
-          });
-          setTheory(newRoutine[0].theory);
-          setExamCommitteeError('');
-        } else {
-          setLoading(false);
-          setExamCommitteeError(d.error);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching theory:", error);
-        setLoading(false);
-      });
+    const response = await fetch(
+      "http://localhost:5000/generateExamCommittee",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          year: year,
+          semester: semester
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error);
+    }
+
+    const d = await response.json();
+    console.log(d);
+    if (d.success) {
+      const data = d.data;
+      console.log(data);
+      setExamControlData(data);
+      setTheory(data.theory);
+      setExamCommitteeError('');
+    } else {
+      setExamCommitteeError(d.error);
+    }
+    // setErrorMessage("");
+  } catch (error) {
+    // setErrorMessage(error.message);
+    console.error("Error creating Exam Control:", error);
+  } finally {
+    setLoading(false);
+    setDefaults(false);
+  }
   };
 
   useEffect(() => {
@@ -82,8 +106,207 @@ const ReorderExamControl = () => {
     }
   }, []);
 
+  const handleSubmit =  (event) => {
+    event.preventDefault();
+    console.log(year, semester);         
+  };
+
+  const handleYearChange = (event) => {
+    const inputValue = event.target.value;
+
+    if (!isNaN(inputValue) && inputValue >= 1900 && inputValue <= 2100) {
+      setYear(inputValue);
+    } else {
+      // Handle invalid input (optional)
+      setYear('');
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value, id } = event.target;
+
+    console.log(name, value, id);
+
+    const newValue = event.target.type === "radio" ? (id === "odd" ? "1" : "2") : value;
+
+    console.log(newValue);
+
+    setSemester(newValue);
+  };
+
+  useEffect(() => {
+    const teacher = JSON.parse(localStorage.getItem("teacher"));
+    const name = `${teacher.firstName} ${teacher.lastName}`;
+    console.log(name);
+    setSenderName(name);
+  }, []);
+
+  let serviceId = null;
+  const handleSubmitForApproval = async (event) => {
+    try {
+      // Display an alert to confirm before proceeding
+      const shouldGenerate = window.confirm(
+        "Are you sure you want to submit the routine?"
+      );
+
+      if (!shouldGenerate) {
+        // If the user clicks "Cancel" in the alert, do nothing
+        return;
+      }
+
+      setLoading(true);
+      event.preventDefault();
+
+      const response = await fetch(
+        "http://localhost:5000/generateExamCommittee/data",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            data: examControlData,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+
+      const d = await response.json();
+      console.log(d);
+      if (d.success) {
+        const data = d.data;
+        serviceId = data._id;
+        setExamCommitteeError("");
+        console.log(serviceId);
+      } else {
+        setExamCommitteeError(d.error);
+      }
+      // setErrorMessage("");
+    } catch (error) {
+      // setErrorMessage(error.message);
+      console.error("Error creating exam routine:", error);
+    } finally {
+      setLoading(false);
+      setDefaults(false);
+    }
+
+    // to save it at pending service
+    try {
+      // Make a POST request to your endpoint
+      const response = await fetch("http://localhost:5000/pendingService", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: serviceId,
+          serviceName: "Theory Exam Committee",
+          senderName,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+
+      const d = await response.json();
+      console.log("pending: ", d);
+      if (!d.success) {
+        setExamCommitteeError(d.error);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div>
+      <div>
+        <div className="container">
+          <h2 className="text-center fs-1">Generate Exam Committee</h2>
+          <hr />
+        </div>
+      </div>
+      <div>
+      <form action="" onSubmit={handleSubmit}>
+          <div className="container">
+            <div className="row">
+              <div className="col-6">
+                {/* exam year */}
+                <div className="row">
+                  <div className="col-auto ">
+                    <label htmlFor="examYear" className="form-label">
+                      Exam Year:{" "}
+                    </label>
+                  </div>
+                  <div className="col-auto">
+                    <input
+                      type="number"
+                      id="yearInput"
+                      name="examYear"
+                      onChange={handleYearChange}
+                      placeholder="e.g., 2022"
+                      min="2004"
+                      required
+                      max="2100"
+                      className="form-control"
+                    />
+                    <p
+                      className={
+                        year
+                          ? "text-success text-sm"
+                          : "text-danger text-sm"
+                      }
+                    >
+                      Selected Year: {year || "No year selected"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6">
+                {/* semester selection */}
+                <div className="row">
+                  <div className="col-auto">
+                    <label htmlFor="semester">Semester Selection</label>
+                  </div>
+                  <div className="col-auto">
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      id="odd"
+                      name="semester"
+                      autoComplete="off"
+                      required
+                      onChange={handleInputChange}
+                    />
+                    <label className="btn btn-outline-primary" htmlFor="odd">
+                      Odd
+                    </label>
+                    &nbsp; &nbsp;
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      id="even"
+                      name="semester"
+                      autoComplete="off"
+                      required
+                      onChange={handleInputChange}
+                    />
+                    <label className="btn btn-outline-primary" htmlFor="even">
+                      Even
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>  
+      </div>
       <Container fluid>
         <Row className="mb-4">
           <Col className="d-flex justify-content-end">
@@ -107,21 +330,44 @@ const ReorderExamControl = () => {
             width: "32vw"
           }}
         >
-          Click To Re-order
+          Click To Generate
         </button>
           </Col>
         </Row>
       </Container>
-      
-      {loading ? (
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        ) : (
-        <ExamControlTables modifiedTheoryProps={modifiedTheory} yearTermsProps={yearTerms} />
-      )}
+
+      {
+            defaults ? (
+              <div></div>
+            ) : 
+            (
+              loading ? (
+                <div className="d-flex justify-content-center mt-4">
+                  <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div ref={pdfRef}>
+                  <ExamControlTables modifiedTheoryProps={modifiedTheory} yearTermsProps={yearTerms} />
+                  </div>
+                  <div className="mb-3 mt-3 d-flex justify-content-center">
+                    <button
+                      className="btn btn-primary"
+                      type="submit"
+                      onClick={handleSubmitForApproval}
+                    >
+                      Submit for Approval
+                    </button>
+                  </div>
+                  <div>
+                    <Download pdfRef={pdfRef} fileName={"Proposed-Routine.pdf"} />
+                  </div>
+                </div>
+              )
+            )
+          }
     </div>
   );
 };
