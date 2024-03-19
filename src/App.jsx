@@ -44,6 +44,8 @@ import ExamBillingFront from "./pages/ser2/ExamBilling/ExamBillingFront";
 import PendingRequests from "./pages/TeacherProfile/PendingRequests";
 import TemporaryRoutineShow from "./pages/ser1/TemporaryRoutineShow";
 import TemporaryCourseDistribution from "./pages/CourseDistribution/temporaryCourseDisContent";
+import CreateTheoryDutyRoaster from "./pages/DutyRoaster/CreateTheoryDuty";
+import DutyRoaster from "./pages/DutyRoaster/DutyRoaster";
 
 export const UserContext = createContext();
 
@@ -135,7 +137,8 @@ const App = () => {
             <Route path="/examcontrol" element={<ExamControl />} />
             <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
             
-            <Route path="/theory-duty-roaster" element={<TheoryDuty/>}/>
+            <Route path="/create-theory-duty-roaster" element={<CreateTheoryDutyRoaster/>} />
+            <Route path="/theory-duty-roaster" element={<DutyRoaster/>}/>
             <Route path="/lab-duty-roaster" element={<LabDuty/>}/>
 
             <Route path="/theory-exam-routine" element={<TheoryRoutine/>}/>
@@ -143,7 +146,8 @@ const App = () => {
 
             <Route path="/temporary-routine/:id" element={<TemporaryRoutineShow />} />
             <Route path="/temporary-course-distribution/:id" element={<TemporaryCourseDistribution />} />
-
+            <Route path="/exam-control/:id" element={<ExamControl/>} />
+            <Route path="/theory-duty-roaster/:id" element={<DutyRoaster/>}/>
 
             {/* Services that are shown only to the register user */}
             <Route path="/" element={<PrivateRoute />} >

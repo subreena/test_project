@@ -5,7 +5,7 @@ import { Button, ListGroup } from "react-bootstrap";
 import { scroller } from "react-scroll";
 
 const ExamControlTables = (props) => {
-  const { modifiedTheoryProps, yearTermsProps } = props;
+  const { modifiedTheoryProps, yearTermsProps, isExamCommittee } = props;
   const [modifiedTheory, setModifiedTheory] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
 
@@ -76,8 +76,8 @@ const ExamControlTables = (props) => {
                 {`${
                   index1 + 1
                 }. Examination Committee and Question Moderators for Session: Y-${
-                  yearTerms[index1][0]
-                }, T-${yearTerms[index1][1]} Final Examination`}
+                  yearTerms?.[index1][0]
+                }, T-${yearTerms?.[index1][1]} Final Examination`}
               </h4>
               <div className="row">
                 {yearTermWiseTheory.map((courses, index2) => (
@@ -94,8 +94,8 @@ const ExamControlTables = (props) => {
                           border: "1px solid grey",
                         }}
                       >
-                        <caption className="text-small1">{`${index2 + 1}. ${courses[0].course.code}: ${
-                          courses[0].course.name
+                        <caption className="text-small1">{`${index2 + 1}. ${courses?.[0].course.code}: ${
+                          courses?.[0].course.name
                         }`}</caption>
                         <thead>
                           <tr>
@@ -103,17 +103,17 @@ const ExamControlTables = (props) => {
                             <th scope="col"> Name </th>
                             <th scope="col"> Designation </th>
                             <th scope="col"> Address </th>
-                            <th scope="col"> Remark </th>
+                            { isExamCommittee && <th scope="col"> Remark </th> }
                           </tr>
                         </thead>
                         <tbody>
                           {courses.map((teacher, index3) => (
                             <tr key={`row-${index1}-${index2}-${index3}`}>
                               <td scope="row"> {index3 + 1} </td>
-                              <td> {teacher.teacher.name} </td>
-                              <td> {teacher.teacher.designation} </td>
-                              <td> {teacher.teacher.department} </td>
-                              <td> {teacher.teacher.remark} </td>
+                              <td> {teacher?.teacher.name} </td>
+                              <td> {teacher?.teacher.designation} </td>
+                              <td> {teacher?.teacher.department} </td>
+                              { isExamCommittee && <td> {teacher?.teacher.remark} </td> }
                             </tr>
                           ))}
                         </tbody>

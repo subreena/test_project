@@ -4,21 +4,39 @@ import Modal from 'react-bootstrap/Modal';
 
 const VerticallyCenteredModal = (props) => {
   const [error, setError] = useState(null);
+  const { id, serviceName } = props;
 
   console.log(props);
 
+  const getServiceName = () => {
+    let apiName = "";
+    if(serviceName === "Theory Class Routine") {
+      apiName = "classRoutine";
+    } else if(serviceName === "Theory Duty Roaster") {
+      apiName = "theoryDutyRoaster";
+    } else if(serviceName === "Theory Exam Committee") {
+      apiName = "theoryExamCommittee";
+    } else if(serviceName === "Lab Exam Committee") {
+      apiName = "labExamCommittee";
+    } else if(serviceName === "Theory Exam Routine") {
+      apiName = "theoryExamRoutine";
+    } else {
+      console.error("There is an error in your selected service!");
+    }
+    return apiName;
+  }
+
   const handleDefault = () => {
-    fetch(`http://localhost:5000/serviceId/update/classRoutine`, {
+    fetch(`http://localhost:5000/serviceId/update/${getServiceName()}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
-        // Add any additional headers if required
       },
-      body: JSON.stringify({ id: props.id }) // Convert request data to JSON string
+      body: JSON.stringify({ id })
     })
     .then(response => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Network response was not ok!');
       }
       return response.json();
     })
@@ -44,17 +62,17 @@ const VerticallyCenteredModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {props.serviceName}
+          {serviceName}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>
-          Do you like to make it <b>default current</b> {props.serviceName}? <br />
-          By doing so, this {props.serviceName} will be shown by default!
+          Do you like to make it <b>default current</b> {serviceName}? <br />
+          By doing so, this {serviceName} will be shown by default!
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="success" onClick={handleDefault}>Make it Default</Button>
+        { serviceName !== "Course Distribution" && <Button variant="success" onClick={handleDefault}>Make it Default</Button> }
       </Modal.Footer>
     </Modal>
   );

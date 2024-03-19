@@ -27,24 +27,23 @@ const ReorderExamControl = () => {
   }, []);
 
   useEffect(() => {
-    toModifiedTheory();
-  }, [theory]);
-
-  const toModifiedTheory = () => {
-    if (!(theory && theory.length > 0)) return;
-    var theoryModified = [],
-      yt = [];
-    for (let year = 4; year > 0; year--) {
-      for (let term = 2; term > 0; term--) {
-        if (theory[year][term].length !== 0) {
-          theoryModified.push(theory[year][term]);
-          yt.push([year, term]);
+    const toModifiedTheory = () => {
+      if (!(theory && theory.length > 0)) return;
+      var theoryModified = [],
+        yt = [];
+      for (let year = 4; year > 0; year--) {
+        for (let term = 2; term > 0; term--) {
+          if (theory[year][term].length !== 0) {
+            theoryModified.push(theory[year][term]);
+            yt.push([year, term]);
+          }
         }
       }
-    }
-    setModifiedTheory(theoryModified);
-    setYearTerms(yt);
-  };
+      setModifiedTheory(theoryModified);
+      setYearTerms(yt);
+    };
+    toModifiedTheory();
+  }, [theory]);
 
   const [examCommitteeError, setExamCommitteeError] = useState('');
 
@@ -350,15 +349,27 @@ const ReorderExamControl = () => {
               ) : (
                 <div>
                   <div ref={pdfRef}>
-                  <ExamControlTables modifiedTheoryProps={modifiedTheory} yearTermsProps={yearTerms} />
+                  <ExamControlTables 
+                    modifiedTheoryProps={modifiedTheory} 
+                    yearTermsProps={yearTerms} 
+                    isExamCommittee={true}
+                  />
                   </div>
-                  <div className="mb-3 mt-3 d-flex justify-content-center">
+                  <div className="text-center d-flex justify-content-around mt-3">
+                    <button className="btn btn-secondary bg-secondary bg-gradient h-100">
+                      Manual Edit
+                    </button>
+
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-primary bg-primary bg-gradient h-100"
                       type="submit"
                       onClick={handleSubmitForApproval}
                     >
                       Submit for Approval
+                    </button>
+
+                    <button className="btn btn-danger bg-danger bg-gradient h-100">
+                      Publish
                     </button>
                   </div>
                   <div>

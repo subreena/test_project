@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import "../../assets/stylesheets/exam-control.css";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import ExamControlTables from "./ExamControlTables";
-import CustomDropdown from "./CustomDropdown";
+import ExamControlTables from "../ser3/ExamControlTables";
+import CustomDropdown from "../ser3/CustomDropdown";
 
 const ExamControl = () => {
   const { id } = useParams();
@@ -21,63 +21,65 @@ const ExamControl = () => {
   };
 
   useEffect(() => {
-    const theoryData = JSON.parse(localStorage.getItem("theory"));
+    const theoryData = JSON.parse(localStorage.getItem("dutyRoaster"));
     const teacherCoursesData = JSON.parse(
-      localStorage.getItem("teacherCourses")
+      localStorage.getItem("dutyRoasterTeacherCourses")
     );
     setTheory(theoryData);
     setTeacherCourses(teacherCoursesData);
   }, []);
 
   useEffect(() => {
-    if(id) {
+    if (id) {
       // to show temporary data
-      fetch(`http://localhost:5000/examCommittee/data/${id}/examcommittees`)
-      .then((response) => response.json())
-      .then((d) => {
-        console.log(d);
-        if(d.success) {
-          const data = d.data;
-          console.log(data);
-          setYearTerms(data.yearTerm);
-          setTheory(data.theory);
-          setTeacherCourses(data.teachers);
+      fetch(
+        `http://localhost:5000/theoryDutyRoaster/data/${id}/theorydutyroaster`
+      )
+        .then((response) => response.json())
+        .then((d) => {
+          console.log(d);
+          if (d.success) {
+            const data = d.data;
+            console.log(data);
+            setYearTerms(data.yearTerm);
+            setTheory(data.theory);
+            setTeacherCourses(data.teachers);
 
-          setExamCommitteeErrorMessage('');
-        } else {
-          setExamCommitteeErrorMessage(d.error);
-        }
-      })
-      .catch((error) => console.error(error));
+            setExamCommitteeErrorMessage("");
+          } else {
+            setExamCommitteeErrorMessage(d.error);
+          }
+        })
+        .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("http://localhost:5000/examCommittee")
-      .then((response) => response.json())
-      .then((d) => {
-        if(d.success) {
-          console.log(data);
-          const data = d.data;
-          setTheory(data[0].theory);
-          setTeacherCourses(data[0].teachers);
+      fetch("http://localhost:5000/theoryDutyRoaster")
+        .then((response) => response.json())
+        .then((d) => {
+          if (d.success) {
+            console.log(data);
+            const data = d.data;
+            setTheory(data[0].theory);
+            setTeacherCourses(data[0].teachers);
 
-          localStorage.setItem("theory", JSON.stringify(data[0].theory));
-          localStorage.setItem(
-            "teacherCourses",
-            JSON.stringify(data[0].teachers)
-          );
-          setExamCommitteeErrorMessage('');
-        } else {
-          setExamCommitteeErrorMessage(d.error);
-        }
-      })
-      .catch((error) => console.error(error));
+            localStorage.setItem("dutyRoaster", JSON.stringify(data[0].theory));
+            localStorage.setItem(
+              "dutyRoasterTeacherCourses",
+              JSON.stringify(data[0].teachers)
+            );
+            setExamCommitteeErrorMessage("");
+          } else {
+            setExamCommitteeErrorMessage(d.error);
+          }
+        })
+        .catch((error) => console.error(error));
     }
   }, []);
 
   useEffect(() => {
     const toModifiedTheory = () => {
       if (!(theory && theory.length > 0)) return;
-  
+
       var theoryModified = [],
         yt = [];
       let allCourseInfo = {};
@@ -86,7 +88,7 @@ const ExamControl = () => {
           if (theory[year][term].length !== 0) {
             theoryModified.push(theory[year][term]);
             yt.push([year, term]);
-  
+
             // to create course wise teachers array
             const ytCourses = theory[year][term];
             for (
@@ -107,7 +109,7 @@ const ExamControl = () => {
           }
         }
       }
-  
+
       setCourseTeachers(allCourseInfo);
       setCoursesName(getObjectKeysAsArray(allCourseInfo));
       setModifiedTheory(theoryModified);
@@ -157,7 +159,7 @@ const ExamControl = () => {
     <>
       <Container className="container-fluid">
         <Row>
-        {id ? (
+          {id ? (
             <Col className="d-flex justify-content-center">
               <button
                 onClick={() =>
@@ -201,13 +203,15 @@ const ExamControl = () => {
                     width: "32vw",
                   }}
                 >
-                  Re-order Exam Committee
+                  Re-order Duty Roaster
                 </button>
               </Col>
             </>
           )}
 
-          <p className="mx-3 text-danger text-center text-small">{examCommitteeErrorMessage}</p>
+          <p className="mx-3 text-danger text-center text-small">
+            {examCommitteeErrorMessage}
+          </p>
         </Row>
       </Container>
 
@@ -245,7 +249,7 @@ const ExamControl = () => {
                     <th scope="col"> Remark </th>
                   </tr>
                 </thead>
-                
+
                 <tbody>
                   {filteredTeachers.map((teacher, index) => (
                     <tr key={`row-${index}`}>
@@ -253,7 +257,6 @@ const ExamControl = () => {
                       <td> {teacher.teacher.name} </td>
                       <td> {teacher.teacher.designation} </td>
                       <td> {teacher.teacher.department} </td>
-                      <td> {teacher.teacher.remark} </td>
                     </tr>
                   ))}
                 </tbody>
@@ -263,12 +266,12 @@ const ExamControl = () => {
         )}
       </Container>
 
-      { !selectedCourse && (
-          <ExamControlTables
-            modifiedTheoryProps={modifiedTheory}
-            yearTermsProps={yearTerms}
-            isExamCommittee={true}
-          />
+      {!selectedCourse && (
+        <ExamControlTables
+          modifiedTheoryProps={modifiedTheory}
+          yearTermsProps={yearTerms}
+          isExamCommittee={false}
+        />
       )}
     </>
   );

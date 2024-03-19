@@ -44,7 +44,7 @@ const DutyTable = (props) => {
                                                     )}
                                                     {index3 === 0 && (
                                                         <td rowSpan={courses.length}>
-                                                            {`${index2 + 1}. ${teacher.course.code}: ${teacher.course.name}`}
+                                                            {`${teacher.course.code}: ${teacher.course.name}`}
                                                         </td>
                                                     )}
                                                   
