@@ -1,113 +1,227 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Select from "react-select";
-import Download from "../../assets/components/Download";
+import { Button } from "react-bootstrap";
 
 const PreviousDoc = () => {
-  const pdfRef = useRef();
-  const [cardTitle, setCardTitle] = useState("");
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: currentYear - 2003 }, (_, index) => {
-    const year = 2004 + index;
-    return { value: year, label: year.toString() };
-  });
-  const sessionOptions = [
-    { value: "2012-13", label: "2012-13" },
-    { value: "2013-14", label: "2013-14" },
-    { value: "2014-15", label: "2014-15" },
-    { value: "2015-16", label: "2015-16" },
-    { value: "2016-17", label: "2016-17" },
-    { value: "2017-18", label: "2017-18" },
-    { value: "2018-19", label: "2018-19" },
-    { value: "2019-20", label: "2019-20" },
-    { value: "2019-20", label: "2019-20" },
-    { value: "2020-21", label: "2020-21" },
-    { value: "2021-22", label: "2021-22" },
-    // Add more options as needed
+  const [year, setYear] = useState(null);
+  const [semester, setSemester] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [serviceData, setServiceData] = useState(null);
+  const [serviceId, setServiceId] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { value, name, id } = e.target;
+    const newValue =
+      e.target.type === "radio" ? (id === "odd" ? "1" : "2") : value;
+
+    if (name === "examYear") {
+      setYear(newValue);
+    } else if (name === "semester") {
+      setSemester(newValue);
+    }
+  };
+
+  const options = [
+    { value: "course distribution", label: "Course Distribution" },
+    { value: "class routine", label: "Class Routine" },
+    { value: "theory exam routine", label: "Theory Exam Routine" },
+    { value: "therory exam duty roaster", label: "Theory Exam Duty Roaster" },
+    { value: "theory exam committee", label: "Theory Exam Committee" },
   ];
 
-  const handleSelectChange = (selectedOptions) => {
-    console.log(selectedOptions);
-  };
+  useEffect(() => {
+    console.log(selectedOption);
+  }, [selectedOption])
 
-  const handleCard = (title) => {
-    setCardTitle(title);
-  };
+  const getApiString = (serviceName) => {
+    let apiString = "";
+    if(serviceName === "course distribution") {
+      apiString = "CourseDistributionManagemen";
+    } else if(serviceName === "class routine") {
+      apiString = "classRoutineManagement";
+    } else if(serviceName === "theory exam routine") {
+      apiString = "TheoryExamRoutineManagement";
+    } else if(serviceName === "therory exam duty roaster") {
+      apiString = "TheoryDutyRoasterManagement";
+    } else if(serviceName === "theory exam committee") {
+      apiString = "TheoryExamCommitteeManagement";
+    } else {
+      console.error("There is an error in getApiString() method!!!");
+    }
+
+    return apiString;
+  }
+
+  const handleSearch = async() => {
+    let error = true;
+    if(!year) setErrorMessage("Cannot proceed! Year is not selected yet!");
+    else if(!semester) setErrorMessage("Cannot proceed! Semester is not selected yet!");
+    else if(!selectedOption) setErrorMessage("Cannot proceed! Service is not selected yet!");
+    else {
+      setErrorMessage("");
+      error = false;
+    }
+    if(error) return;
+
+    const databaseName = getApiString(selectedOption.value);
+    if(databaseName === "") {
+      setErrorMessage("Selected service name is not found! Try another one.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/${databaseName}/data/${year}/${semester}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }
+      );
+
+      if (!response.ok) {
+        // Handle non-successful response here
+        console.log("Response is not OK:", response);
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        console.log("Data received:", data.data);
+        setServiceData(data.data);
+        setServiceId(data.data._id);
+        setErrorMessage("");
+      } else {
+        setErrorMessage(data.error);
+      }
+    } catch (error) {
+      console.error("Error creating manage service:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <>
       <div className="container">
         <h1 className="text-center fs-1 mb-4">Previous Documents</h1>
       </div>
-      <hr />
       <div className="container">
         <div className="row">
-          <div className="col-lg-6 col-sm-12">
-            <>
-              <>
-                <label htmlFor="session" className="form-label">
-                  Select session
-                </label>
-                <>
-                  <Select
-                    name="session"
-                    isMulti
-                    options={sessionOptions}
-                    onChange={handleSelectChange}
-                    className="w-75"
-                  />
-                </>
-              </>
-            </>
-          </div>
-          <div className="col-lg-6 col-sm-12">
-            <>
-              <>
+          <hr />
+          <div className="col-6">
+            {/* exam year */}
+            <div className="row">
+              <div className="col-auto ">
                 <label htmlFor="examYear" className="form-label">
-                  Select Exam Year
+                  Year:{" "}
                 </label>
-              </>
-              <>
-                <Select
-                  name="session"
-                  isMulti
-                  options={years}
-                  onChange={handleSelectChange}
-                  className="w-75"
+              </div>
+              <div className="col-auto">
+                <input
+                  type="number"
+                  id="yearInput"
+                  name="examYear"
+                  onChange={handleInputChange}
+                  placeholder="e.g., 2022"
+                  min="2004"
+                  required
+                  max="2100"
+                  className="form-control"
                 />
-              </>
-            </>
+                <p
+                  className={
+                    year ? "text-success text-sm" : "text-danger text-sm"
+                  }
+                >
+                  Selected Year: {year || "No year selected"}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-6">
+            {/* semester selection */}
+            <div className="row">
+              <div className="col-auto">
+                <label htmlFor="semester">Semester Selection: </label>
+              </div>
+              <div className="col-auto">
+                <input
+                  type="radio"
+                  className="btn-check"
+                  id="odd"
+                  name="semester"
+                  autoComplete="off"
+                  required
+                  onChange={handleInputChange}
+                />
+                <label className="btn btn-outline-primary" htmlFor="odd">
+                  Odd
+                </label>
+                &nbsp; &nbsp;
+                <input
+                  type="radio"
+                  className="btn-check"
+                  id="even"
+                  name="semester"
+                  autoComplete="off"
+                  required
+                  onChange={handleInputChange}
+                />
+                <label className="btn btn-outline-primary" htmlFor="even">
+                  Even
+                </label>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="prev-doc text-center mt-5 mb-5">
-          <h3 className="display-6 mb-5">See Previous Documents</h3>
-          <div className="d-flex justify-content-evenly m-5">
-            <button
-              className="btn btn-primary w-25"
-              onClick={() => handleCard("Previous Routine Documents")}
-            >
-              Routine
-            </button>
-            <button
-              className="btn btn-primary w-25"
-              onClick={() => handleCard("Previous Exam Documents")}
-            >
-              Exam
-            </button>
-          </div>
-          <div>
-            <div className="card" ref={pdfRef}>
-              <div className="card-body">
-                <h4>{cardTitle ? cardTitle : "Routine and Exam Document"}</h4>
-              </div>
+        <div className="row">
+          <div className="col-6">
+            <div className="col-auto">
+              <label htmlFor="semester">Service Selection: </label>
             </div>
-            {cardTitle ? (
-              <Download pdfRef={pdfRef} fileName={"Previous Documenet"} />
-            ) : (
-              <div></div>
-            )}
+            <Select
+              defaultValue={selectedOption}
+              onChange={setSelectedOption}
+              options={options}
+              className="w-75"
+            />
+          </div>
+          <div className="col-6">
+            {
+              loading ? (
+                <div className="d-flex justify-content-center mt-2 w-75">
+                  <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <Button 
+                  variant="success" 
+                  className="w-75 mt-4"
+                  onClick={handleSearch}
+                > 
+                Search Documents 
+                </Button>
+              )
+            }
+            <div className="w-75">
+              <p className="text-danger text-center">{`${errorMessage}`}</p>
+            </div>
           </div>
         </div>
+
+        {
+          serviceData && <div className="prev-doc text-center mt-5 mb-5">
+            <h3 className="display-6 mb-5">{`${selectedOption?.label} Document`}</h3>
+          </div>
+        }
       </div>
     </>
   );

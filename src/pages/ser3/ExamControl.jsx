@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 import { useState, useEffect } from "react";
 import "../../assets/stylesheets/exam-control.css";
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import ExamControlTables from "./ExamControlTables";
 import CustomDropdown from "./CustomDropdown";
@@ -14,22 +14,25 @@ const ExamControl = () => {
   const [yearTerms, setYearTerms] = useState([]);
   const [coursesName, setCoursesName] = useState([]);
   const [courseTeachers, setCourseTeachers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [allServiceId, setAllServiceId] = useState(null);
   const navigate = useNavigate();
 
   const getObjectKeysAsArray = (obj) => {
     return Object.keys(obj).map((key) => key);
   };
 
-  useEffect(() => {
-    const theoryData = JSON.parse(localStorage.getItem("theory"));
-    const teacherCoursesData = JSON.parse(
-      localStorage.getItem("teacherCourses")
-    );
-    setTheory(theoryData);
-    setTeacherCourses(teacherCoursesData);
-  }, []);
+  // useEffect(() => {
+  //   const theoryData = JSON.parse(localStorage.getItem("theory"));
+  //   const teacherCoursesData = JSON.parse(
+  //     localStorage.getItem("teacherCourses")
+  //   );
+  //   setTheory(theoryData);
+  //   setTeacherCourses(teacherCoursesData);
+  // }, []);
 
   useEffect(() => {
+    setLoading(true);
     if(id) {
       // to show temporary data
       fetch(`http://localhost:5000/examCommittee/data/${id}/examcommittees`)
@@ -51,28 +54,47 @@ const ExamControl = () => {
       .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("http://localhost:5000/examCommittee")
-      .then((response) => response.json())
-      .then((d) => {
-        if(d.success) {
-          console.log(data);
-          const data = d.data;
-          setTheory(data[0].theory);
-          setTeacherCourses(data[0].teachers);
-
-          localStorage.setItem("theory", JSON.stringify(data[0].theory));
-          localStorage.setItem(
-            "teacherCourses",
-            JSON.stringify(data[0].teachers)
-          );
-          setExamCommitteeErrorMessage('');
-        } else {
-          setExamCommitteeErrorMessage(d.error);
-        }
-      })
-      .catch((error) => console.error(error));
+      fetch("http://localhost:5000/serviceId")
+        .then((response) => response.json())
+        .then((d) => {
+          if (d.success) {
+            const data = d.data;
+            setAllServiceId(data[0]);
+            setExamCommitteeErrorMessage("");
+          } else {
+            setExamCommitteeErrorMessage(d.error);
+          }
+        })
+        .catch((error) => console.error(error));
     }
   }, []);
+
+  useEffect(() => {
+    if(allServiceId) {
+      const exam_routine_id = allServiceId?.theoryExamCommittee;
+
+      fetch(
+        `http://localhost:5000/TheoryExamCommitteeManagement/data/${exam_routine_id}`
+      )
+        .then((response) => response.json())
+        .then((d) => {
+          if (d.success) {
+            const data = d.data;
+            console.log(data);
+            setYearTerms(data.yearTerm);
+            setTheory(data.theory);
+            setTeacherCourses(data.teachers);
+
+            setExamCommitteeErrorMessage('');
+            setLoading(false);
+          } else {
+            setExamCommitteeErrorMessage(d.error);
+            setLoading(false);
+          }
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [allServiceId]);
 
   useEffect(() => {
     const toModifiedTheory = () => {
@@ -118,8 +140,8 @@ const ExamControl = () => {
     toModifiedTheory();
   }, [theory]);
 
-  const [examCommitteeErrorMessage, setExamCommitteeErrorMessage] =
-    useState("");
+  const [examCommitteeErrorMessage, setExamCommitteeErrorMessage] = useState("");
+
   const [teacher, setTeacher] = useState(null);
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("teacher"));
@@ -207,59 +229,74 @@ const ExamControl = () => {
             </>
           )}
 
-          <p className="mx-3 text-danger text-center text-small">{examCommitteeErrorMessage}</p>
+          <b> <p className="my-3 text-danger text-center text-small">{examCommitteeErrorMessage}</p> </b>
         </Row>
       </Container>
 
       <Container fluid>
-        <Row className="mb-3 text-small">
-          <CustomDropdown
-            coursesName={coursesName}
-            selectedCourse={selectedCourse}
-            handleSelectChange={handleSelectChange}
-            title="Course"
-          />
-        </Row>
-
-        {selectedCourse && (
-          <Row className="d-flex justify-content-center mb-5 text-small">
-            <Col md={6}>
-              <p>
-                Search result for <b>{selectedCourse}</b>:
-              </p>
-              <table
-                className="table table-striped table-hover text-small"
-                style={{
-                  height: "220px",
-                  padding: "0 5px",
-                  border: "1px solid grey",
-                }}
-              >
-                <caption className="text-small1">{selectedCourse}</caption>
-                <thead>
-                  <tr>
-                    <th scope="col"> # </th>
-                    <th scope="col"> Name </th>
-                    <th scope="col"> Designation </th>
-                    <th scope="col"> Address </th>
-                    <th scope="col"> Remark </th>
-                  </tr>
-                </thead>
-                
-                <tbody>
-                  {filteredTeachers.map((teacher, index) => (
-                    <tr key={`row-${index}`}>
-                      <td scope="row"> {index + 1} </td>
-                      <td> {teacher.teacher.name} </td>
-                      <td> {teacher.teacher.designation} </td>
-                      <td> {teacher.teacher.department} </td>
-                      <td> {teacher.teacher.remark} </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </Col>
-          </Row>
+        <div>
+          <h3 className="text-center">Theory Exam Committee</h3>
+        </div>
+        <hr />
+        {
+          loading ? (
+            <div className="d-flex justify-content-center mt-4">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+          ) : (
+            <div>
+              <Row className="mb-3 text-small">
+                <CustomDropdown
+                  coursesName={coursesName}
+                  selectedCourse={selectedCourse}
+                  handleSelectChange={handleSelectChange}
+                  title="Course"
+                />
+              </Row>
+      
+              {selectedCourse && (
+                <Row className="d-flex justify-content-center mb-5 text-small">
+                  <Col md={6}>
+                    <p>
+                      Search result for <b>{selectedCourse}</b>:
+                    </p>
+                    <table
+                      className="table table-striped table-hover text-small"
+                      style={{
+                        height: "220px",
+                        padding: "0 5px",
+                        border: "1px solid grey",
+                      }}
+                    >
+                      <caption className="text-small1">{selectedCourse}</caption>
+                      <thead>
+                        <tr>
+                          <th scope="col"> # </th>
+                          <th scope="col"> Name </th>
+                          <th scope="col"> Designation </th>
+                          <th scope="col"> Address </th>
+                          <th scope="col"> Remark </th>
+                        </tr>
+                      </thead>
+                      
+                      <tbody>
+                        {filteredTeachers.map((teacher, index) => (
+                          <tr key={`row-${index}`}>
+                            <td scope="row"> {index + 1} </td>
+                            <td> {teacher.teacher.name} </td>
+                            <td> {teacher.teacher.designation} </td>
+                            <td> {teacher.teacher.department} </td>
+                            <td> {teacher.teacher.remark} </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </Col>
+                </Row>
+              )}
+            </div>
         )}
       </Container>
 

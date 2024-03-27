@@ -79,7 +79,7 @@ const SuperAdmin = () => {
     } else if(name === "Lab Exam Committee") {
       apiName = "";
     } else if(name === "Theory Exam Routine") {
-      apiName = "";
+      apiName = "TheoryExamRoutineManagement";
     } else {
       console.error("There is an error in your selected service!");
     }
@@ -178,7 +178,7 @@ const SuperAdmin = () => {
     } else if(name === "Lab Exam Committee") {
       apiName = "";
     } else if(name === "Theory Exam Routine") {
-      apiName = "";
+      apiName = "theory-exam-routine";
     } else {
       console.error("There is an error in your selected service!");
     }

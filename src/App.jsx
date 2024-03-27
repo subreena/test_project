@@ -46,6 +46,7 @@ import TemporaryRoutineShow from "./pages/ser1/TemporaryRoutineShow";
 import TemporaryCourseDistribution from "./pages/CourseDistribution/temporaryCourseDisContent";
 import CreateTheoryDutyRoaster from "./pages/DutyRoaster/CreateTheoryDuty";
 import DutyRoaster from "./pages/DutyRoaster/DutyRoaster";
+import CreateTheoryExamRoutine from "./pages/ExamRoutine/CreateTheoryRoutine";
 
 export const UserContext = createContext();
 
@@ -141,6 +142,7 @@ const App = () => {
             <Route path="/theory-duty-roaster" element={<DutyRoaster/>}/>
             <Route path="/lab-duty-roaster" element={<LabDuty/>}/>
 
+            <Route path="/create-theory-exam-routine" element={<CreateTheoryExamRoutine />} />
             <Route path="/theory-exam-routine" element={<TheoryRoutine/>}/>
             <Route path="/lab-exam-routine" element={<LabRoutine/>}/>
 

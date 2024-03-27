@@ -21,21 +21,23 @@ const Routine = () => {
   //   setYearTerms(yearTermsData);
   // }, []);
 
-  const [routineError, setRoutineError] = useState('');
+  const [routineError, setRoutineError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         let routineId;
-  
-        const response1 = await fetch('http://localhost:5000/serviceId');
+
+        const response1 = await fetch("http://localhost:5000/serviceId");
         const data1 = await response1.json();
         console.log(data1);
         if (data1.success) {
-          routineId = data1.data[0]['classRoutine'];
+          routineId = data1.data[0]["classRoutine"];
           console.log(routineId);
-  
-          const response2 = await fetch(`http://localhost:5000/classRoutineManagement/data/${routineId}`);
+
+          const response2 = await fetch(
+            `http://localhost:5000/classRoutineManagement/data/${routineId}`
+          );
           const data2 = await response2.json();
           console.log(data2);
           if (data2.success) {
@@ -45,14 +47,14 @@ const Routine = () => {
             setRoutine(data.overall);
             setTeachersName(data.routineTeachersName);
             console.log(data.routineTeachersName);
-  
+
             localStorage.setItem("routine", JSON.stringify(data.overall));
             localStorage.setItem("yearTerms", JSON.stringify(data.yearTerm));
             localStorage.setItem(
               "routineTeachersName",
               JSON.stringify(data.routineTeachersName)
             );
-            setRoutineError('');
+            setRoutineError("");
           } else {
             setRoutineError(data2.error);
           }
@@ -63,11 +65,12 @@ const Routine = () => {
         console.error(error);
       }
     };
-  
-    fetchData();
-  }, []);  
 
-  const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] = useState("");
+    fetchData();
+  }, []);
+
+  const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] =
+    useState("");
   const [teacher, setTeacher] = useState(null);
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("teacher"));
@@ -95,26 +98,8 @@ const Routine = () => {
   return (
     <>
       <Container fluid>
-        <CustomDropdown
-          coursesName={teachersName}
-          selectedCourse={selectedTeacher}
-          handleSelectChange={handleSelectChange}
-          title="Teacher"
-        />
-        <br />
         <Row>
-          <Col className="mt-3 mb-3 d-flex justify-content-center">
-            <button
-              className="btn btn-success bg-success bg-gradient "
-              style={{
-                padding: "7px",
-                margin: "10px",
-                width: "20vw",
-              }}
-              onClick={toCreateRoutine}
-            >
-              Generate Routine
-            </button>
+          <Col className="mt-1 mb-3 d-flex justify-content-center">
             <Link to="/previousdocuments">
               <button
                 className="btn btn-success"
@@ -127,27 +112,48 @@ const Routine = () => {
                 Previous Documents
               </button>
             </Link>
+            <button
+              className="btn btn-success bg-success bg-gradient "
+              style={{
+                padding: "7px",
+                margin: "10px",
+                width: "20vw",
+              }}
+              onClick={toCreateRoutine}
+            >
+              Generate Routine
+            </button>
           </Col>
         </Row>
         <Row>
-          <p className="mx-3 text-danger text-center text-small">
-            {routineCommitteeErrorMessage}
-          </p>
+          <b>
+            <p className="mx-3 text-danger text-center text-small">
+              {routineError}
+            </p>
+          </b>
         </Row>
+
+        <CustomDropdown
+          coursesName={teachersName}
+          selectedCourse={selectedTeacher}
+          handleSelectChange={handleSelectChange}
+          title="Teacher"
+        />
+        <br />
       </Container>
 
       <div className="" ref={pdfRef}>
         <div className="container">
-        <p className="h5 text-center">Class Routine</p>
-        <hr />
+          <h4 className="text-center">Class Routine</h4>
+          <hr />
         </div>
-      <RoutineTable
-        routineProps={routine}
-        yearTermProps={yearTerms}
-        selectedTeacher={selectedTeacher}
-      />
+        <RoutineTable
+          routineProps={routine}
+          yearTermProps={yearTerms}
+          selectedTeacher={selectedTeacher}
+        />
       </div>
-      <Download pdfRef={pdfRef} fileName={"current-routine.pdf"}/>
+      <Download pdfRef={pdfRef} fileName={"current-routine.pdf"} />
     </>
   );
 };

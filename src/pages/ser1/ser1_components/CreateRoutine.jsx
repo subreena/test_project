@@ -180,6 +180,8 @@ const CreateRoutine = () => {
       console.log("pending: ", d);
       if (!d.success) {
         setRoutineError(d.error);
+      } else {
+        setRoutineError("");
       }
     } catch (error) {
       console.error("Error:", error);
