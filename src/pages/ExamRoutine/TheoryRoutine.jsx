@@ -26,7 +26,7 @@ const TheoryRoutine = () => {
     if (id) {
       // to show temporary data
       fetch(
-        `https://ice-web-nine.vercel.app/theoryExamRoutine/data/${id}/TheoryExamRoutine`
+        `http://localhost:5000/theoryExamRoutine/data/${id}/TheoryExamRoutine`
       )
         .then((response) => response.json())
         .then((d) => {
@@ -46,7 +46,7 @@ const TheoryRoutine = () => {
         .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("https://ice-web-nine.vercel.app/serviceId")
+      fetch("http://localhost:5000/serviceId")
         .then((response) => response.json())
         .then((d) => {
           if (d.success) {
@@ -66,7 +66,7 @@ const TheoryRoutine = () => {
       const exam_routine_id = allServiceId?.theoryExamRoutine;
 
       fetch(
-        `https://ice-web-nine.vercel.app/TheoryExamRoutineManagement/data/${exam_routine_id}`
+        `http://localhost:5000/TheoryExamRoutineManagement/data/${exam_routine_id}`
       )
         .then((response) => response.json())
         .then((d) => {

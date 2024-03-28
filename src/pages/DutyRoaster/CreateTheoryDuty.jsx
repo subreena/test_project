@@ -112,7 +112,7 @@ const TheoryDuty = () => {
 
     try {
       const response = await fetch(
-        `https://ice-web-nine.vercel.app/generateTheoryDutyRoaster`,
+        `http://localhost:5000/generateTheoryDutyRoaster`,
         {
           method: "POST",
           headers: {
@@ -170,7 +170,7 @@ const TheoryDuty = () => {
       event.preventDefault();
 
       const response = await fetch(
-        "https://ice-web-nine.vercel.app/generateTheoryDutyRoaster/data",
+        "http://localhost:5000/generateTheoryDutyRoaster/data",
         {
           method: "POST",
           headers: {
@@ -209,7 +209,7 @@ const TheoryDuty = () => {
     // to save it at pending service
     try {
       // Make a POST request to your endpoint
-      const response = await fetch("https://ice-web-nine.vercel.app/pendingService", {
+      const response = await fetch("http://localhost:5000/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

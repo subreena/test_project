@@ -35,7 +35,7 @@ const ExamControl = () => {
     setLoading(true);
     if(id) {
       // to show temporary data
-      fetch(`https://ice-web-nine.vercel.app/examCommittee/data/${id}/examcommittees`)
+      fetch(`http://localhost:5000/examCommittee/data/${id}/examcommittees`)
       .then((response) => response.json())
       .then((d) => {
         console.log(d);
@@ -56,7 +56,7 @@ const ExamControl = () => {
       .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("https://ice-web-nine.vercel.app/serviceId")
+      fetch("http://localhost:5000/serviceId")
         .then((response) => response.json())
         .then((d) => {
           if (d.success) {
@@ -76,7 +76,7 @@ const ExamControl = () => {
       const exam_routine_id = allServiceId?.theoryExamCommittee;
 
       fetch(
-        `https://ice-web-nine.vercel.app/TheoryExamCommitteeManagement/data/${exam_routine_id}`
+        `http://localhost:5000/TheoryExamCommitteeManagement/data/${exam_routine_id}`
       )
         .then((response) => response.json())
         .then((d) => {

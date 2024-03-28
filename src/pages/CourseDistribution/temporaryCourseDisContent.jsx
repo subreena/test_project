@@ -84,7 +84,7 @@ const CourseDisContent = () => {
       console.log(formData);
 
       const response = await fetch(
-        `https://ice-web-nine.vercel.app/courseDistribution/update/${id}/coursedistributions`,
+        `http://localhost:5000/courseDistribution/update/${id}/coursedistributions`,
         {
           method: "PUT",
           headers: {
@@ -139,7 +139,7 @@ const CourseDisContent = () => {
 
   useEffect(() => {
     fetch(
-      `https://ice-web-nine.vercel.app/courseDistribution/data/${id}/coursedistributions`
+      `http://localhost:5000/courseDistribution/data/${id}/coursedistributions`
     )
       .then((response) => response.json())
       .then((d) => {

@@ -29,7 +29,7 @@ const VerticallyCenteredModal = (props) => {
   }
 
   const handleDefault = () => {
-    fetch(`https://ice-web-nine.vercel.app/serviceId/update/${getServiceName()}`, {
+    fetch(`http://localhost:5000/serviceId/update/${getServiceName()}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

@@ -59,7 +59,7 @@ const ReorderExamControl = () => {
     e.preventDefault();
 
     const response = await fetch(
-      "https://ice-web-nine.vercel.app/generateExamCommittee",
+      "http://localhost:5000/generateExamCommittee",
       {
         method: "POST",
         headers: {
@@ -157,7 +157,7 @@ const ReorderExamControl = () => {
       event.preventDefault();
 
       const response = await fetch(
-        "https://ice-web-nine.vercel.app/generateExamCommittee/data",
+        "http://localhost:5000/generateExamCommittee/data",
         {
           method: "POST",
           headers: {
@@ -196,7 +196,7 @@ const ReorderExamControl = () => {
     // to save it at pending service
     try {
       // Make a POST request to your endpoint
-      const response = await fetch("https://ice-web-nine.vercel.app/pendingService", {
+      const response = await fetch("http://localhost:5000/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
