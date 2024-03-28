@@ -36,7 +36,7 @@ const ExamControl = () => {
     if (id) {
       // to show temporary data
       fetch(
-        `http://localhost:5000/theoryDutyRoaster/data/${id}/theorydutyroaster`
+        `https://ice-web-nine.vercel.app/theoryDutyRoaster/data/${id}/theorydutyroaster`
       )
         .then((response) => response.json())
         .then((d) => {
@@ -56,7 +56,7 @@ const ExamControl = () => {
         .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("http://localhost:5000/serviceId")
+      fetch("https://ice-web-nine.vercel.app/serviceId")
         .then((response) => response.json())
         .then((d) => {
           if (d.success) {
@@ -76,7 +76,7 @@ const ExamControl = () => {
       const duty_roaster_id = allServiceId?.theoryDutyRoaster;
 
       fetch(
-        `http://localhost:5000/TheoryDutyRoasterManagement/data/${duty_roaster_id}`
+        `https://ice-web-nine.vercel.app/TheoryDutyRoasterManagement/data/${duty_roaster_id}`
       )
         .then((response) => response.json())
         .then((d) => {

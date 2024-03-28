@@ -112,7 +112,7 @@ const ServiceList = (props) => {
     const callDeleteMethod = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/${getApiString(serviceName)}/delete/${serviceId}`,
+          `https://ice-web-nine.vercel.app/${getApiString(serviceName)}/delete/${serviceId}`,
           {
             method: "DELETE",
             headers: {

@@ -33,7 +33,7 @@ const TheoryDuty = () => {
   const [examCommitteeError, setExamCommitteeError] = useState('');
 
   useEffect(() => {
-    fetch("http://localhost:5000/examCommittee")
+    fetch("https://ice-web-nine.vercel.app/examCommittee")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -115,7 +115,7 @@ const TheoryDuty = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/generateTheoryDutyRoaster`,
+        `https://ice-web-nine.vercel.app/generateTheoryDutyRoaster`,
         {
           method: "POST",
           headers: {

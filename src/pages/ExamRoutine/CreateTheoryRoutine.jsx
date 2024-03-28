@@ -30,7 +30,7 @@ const CreateTheoryRoutine = () => {
   useEffect(() => {
     if (routine.examYear.length === 4 && routine.semester !== "") {
       fetch(
-        `http://localhost:5000/CourseDistributionManagement/data/${routine.examYear}/${routine.semester}`
+        `https://ice-web-nine.vercel.app/CourseDistributionManagement/data/${routine.examYear}/${routine.semester}`
       )
         .then((response) => response.json())
         .then((d) => {
@@ -243,7 +243,7 @@ const CreateTheoryRoutine = () => {
     handleRoutineView();
 
     try {
-      const response = await fetch(`http://localhost:5000/theoryExamRoutine`, {
+      const response = await fetch(`https://ice-web-nine.vercel.app/theoryExamRoutine`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -312,7 +312,7 @@ const CreateTheoryRoutine = () => {
       event.preventDefault();
 
       const response = await fetch(
-        "http://localhost:5000/theoryExamRoutine/data",
+        "https://ice-web-nine.vercel.app/theoryExamRoutine/data",
         {
           method: "POST",
           headers: {
@@ -352,7 +352,7 @@ const CreateTheoryRoutine = () => {
     // to save it at pending service
     try {
       // Make a POST request to your endpoint
-      const response = await fetch("http://localhost:5000/pendingService", {
+      const response = await fetch("https://ice-web-nine.vercel.app/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

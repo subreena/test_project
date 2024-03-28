@@ -52,7 +52,7 @@ const CreateRoutine = () => {
       console.log(formData);
 
       const response = await fetch(
-        "http://localhost:5000/generateRandomRoutine",
+        "https://ice-web-nine.vercel.app/generateRandomRoutine",
         {
           method: "POST",
           headers: {
@@ -119,7 +119,7 @@ const CreateRoutine = () => {
       console.log(formData);
 
       const response = await fetch(
-        "http://localhost:5000/generateRandomRoutine/data",
+        "https://ice-web-nine.vercel.app/generateRandomRoutine/data",
         {
           method: "POST",
           headers: {
@@ -159,7 +159,7 @@ const CreateRoutine = () => {
     // to save it at pending service
     try {
       // Make a POST request to your endpoint
-      const response = await fetch("http://localhost:5000/pendingService", {
+      const response = await fetch("https://ice-web-nine.vercel.app/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

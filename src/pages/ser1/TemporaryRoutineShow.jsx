@@ -21,7 +21,7 @@ const Routine = () => {
   const [routineError, setRoutineError] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost:5000/routine/data/${id}/routine`)
+    fetch(`https://ice-web-nine.vercel.app/routine/data/${id}/routine`)
       .then((response) => response.json())
       .then((d) => {
         console.log(d);
