@@ -9,6 +9,7 @@ import img5 from "../images/img6.jpg";
 import { CarouselItem, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import TypedText from "./TypedText";
+import MiniNav from './MiniNav';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -57,6 +58,7 @@ const Header = () => {
       <div
         style={divStyle}
       >
+    <MiniNav></MiniNav>
         <Carousel activeIndex={index} onSelect={handleSelect} className="vh-100">
       
           <Carousel.Item interval={3000} style={CarouselItemStyle}>

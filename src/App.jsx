@@ -51,7 +51,10 @@ import CreateTheoryExamRoutine from "./pages/ExamRoutine/CreateTheoryRoutine";
 export const UserContext = createContext();
 
 const App = () => {
+  
+  
   const [userState, setUserState] = useState(false);
+  const [pathname, setPathname] = useState("");
   // to set user is logged in or not
   useEffect(() => {
     const setData = async () => {
@@ -67,7 +70,8 @@ const App = () => {
 
     setData();
   }, []);
-
+ 
+ 
   // // to load all the vital data as soon as possible
   // useEffect(() => {
   //   const saveRoutineData = () => {
@@ -99,13 +103,15 @@ const App = () => {
   // }, []);
 
   return (
+    <>
     <UserContext.Provider value={[userState, setUserState]}>
+   
       <BrowserRouter>
       
       <><Top/></>
         <div style={{ minHeight: "100vh", display: "flex", flexDirection:"column" }}>
-        <MiniNav/>
           <div >
+          {pathname ==="/" | pathname ==="/home" ? <MiniNav/> : null }
             <SecondNav />
           </div>
 
@@ -180,6 +186,7 @@ const App = () => {
         </div>
       </BrowserRouter>
     </UserContext.Provider>
+    </>
   );
 };
 
