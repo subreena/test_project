@@ -150,6 +150,7 @@ const App = () => {
             <Route path="/temporary-course-distribution/:id" element={<TemporaryCourseDistribution />} />
             <Route path="/exam-control/:id" element={<ExamControl/>} />
             <Route path="/theory-duty-roaster/:id" element={<DutyRoaster/>}/>
+            <Route path="/theory-exam-routine/:id" element={<TheoryRoutine/>}/>
 
             {/* Services that are shown only to the register user */}
             <Route path="/" element={<PrivateRoute />} >

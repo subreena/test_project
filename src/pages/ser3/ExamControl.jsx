@@ -47,8 +47,10 @@ const ExamControl = () => {
           setTeacherCourses(data.teachers);
 
           setExamCommitteeErrorMessage('');
+          setLoading(false);
         } else {
           setExamCommitteeErrorMessage(d.error);
+          setLoading(false);
         }
       })
       .catch((error) => console.error(error));

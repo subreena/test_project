@@ -37,8 +37,10 @@ const TheoryRoutine = () => {
             setRoutine(data);
 
             setErrorMessage("");
+            setLoading(false);
           } else {
             setErrorMessage(d.error);
+            setLoading(false);
           }
         })
         .catch((error) => console.error(error));

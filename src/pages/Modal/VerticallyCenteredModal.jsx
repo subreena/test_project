@@ -20,6 +20,8 @@ const VerticallyCenteredModal = (props) => {
       apiName = "labExamCommittee";
     } else if(serviceName === "Theory Exam Routine") {
       apiName = "theoryExamRoutine";
+    } else if(serviceName === "Course Distribution"){
+      apiName = "courseDistribution";
     } else {
       console.error("There is an error in your selected service!");
     }
@@ -54,6 +56,7 @@ const VerticallyCenteredModal = (props) => {
 
     props.onHide();
   }
+  
   return (
     <Modal
       {...props}
@@ -67,7 +70,7 @@ const VerticallyCenteredModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <p>
-          Do you like to make it <b>default current</b> {serviceName}? <br />
+          Do you like to make it <b>default current {serviceName}</b>? <br />
           By doing so, this {serviceName} will be shown by default!
         </p>
       </Modal.Body>

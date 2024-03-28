@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Spinner } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import { useNavigate } from "react-router-dom";
 import VerticallyCenteredModal from "../Modal/VerticallyCenteredModal";
 
 const SuperAdmin = () => {
@@ -164,7 +163,6 @@ const SuperAdmin = () => {
     }
   };
 
-  const navigate = useNavigate();
   const getShowApi = (name) => {
     let apiName = "";
     if(name === "Theory Class Routine") {
@@ -190,7 +188,8 @@ const SuperAdmin = () => {
     const id = service.id;
     const showApi = getShowApi(service.serviceName);
 
-    navigate(`/${showApi}/${id}`);
+    const url = `/${showApi}/${id}`;
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   const formatDateTime = (dateTimeString) => {
