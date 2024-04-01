@@ -161,6 +161,7 @@ const App = () => {
             {/* Services that are shown only to the register user */}
             <Route path="/" element={<PrivateRoute />} >
               <Route path="/create-routine" element={<CreateRoutine/>} />
+              <Route path="/create-routine/:id" element={<CreateRoutine/>} />
               <Route path="/teacherdashboard" element={<TeacherDashboard/>} />
               <Route path="/create-exam-control" element={<ReorderExamControl />} />
               

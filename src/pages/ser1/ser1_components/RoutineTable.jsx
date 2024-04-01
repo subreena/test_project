@@ -81,7 +81,10 @@ const RoutineTable = (props) => {
           const teacherName = `${block?.teacher?.firstName} ${block?.teacher?.lastName}`;
           const teacher2Name = `${block?.teacher2?.firstName} ${block?.teacher2?.lastName}`;
           if (block.isAllocated && (!selectedTeacher || teacherName === selectedTeacher || teacher2Name === selectedTeacher)) {
-            if (block.course.type === "theory") {
+            const currentCourseCode = block.course.code;
+            const onlyCode = currentCourseCode.split('-')[1];
+            const onlyCodeNum = parseInt(onlyCode, 10);
+            if (onlyCodeNum%2 === 1) {
               labClass = "";
               labState = 0;
             } else if (labState === 0) {
@@ -142,7 +145,7 @@ const RoutineTable = (props) => {
         variant="info"
         style={{
           position: "fixed",
-          top: "120px",
+          top: "63px",
           right: "2px",
           zIndex: "1000",
           opacity: showYearTerms ? "1" : "0.3",
@@ -151,13 +154,13 @@ const RoutineTable = (props) => {
         onMouseEnter={() => setShowYearTerms(true)}
         onMouseLeave={() => setShowYearTerms(false)}
       >
-        Search Year-Term Wise
+        Year-Term Wise
       </Button>
       {showYearTerms && (
         <ListGroup
           style={{
             position: "fixed",
-            top: "144px",
+            top: "100px",
             right: "2px",
             zIndex: "1000",
             width: "140px",

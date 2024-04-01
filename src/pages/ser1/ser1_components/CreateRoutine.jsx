@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import RoutineTable from "./RoutineTable";
 import RoutineFunction from "./RoutineFunction";
 import Download from "./../../../assets/components/Download";
+import ManualRoutineTable from "./ManualRoutineTable";
 
 const CreateRoutine = () => {
   const pdfRef = useRef();
@@ -33,6 +34,73 @@ const CreateRoutine = () => {
   const [routineError, setRoutineError] = useState("");
   const [senderName, setSenderName] = useState("");
   const [routineData, setRoutineData] = useState(null);
+  const [teacherCodeToObj, setTeacherCodeToObj] = useState({});
+  const [courseCodeToObj, setCourseCodeToObj] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [courseDetailsError, setCourseDetailsError] = useState("");
+  const [teacherError, setTeacherError] = useState("");
+  const [courseData, setCourseData] = useState([]);
+  const [teacher, setTeacher] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/courseDetails");
+        const data = await response.json();
+        if (data.success) {
+          setCourseData(data.data);
+          setCourseDetailsError("");
+        } else setCourseDetailsError(data.error);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/teachers");
+        const data = await response.json();
+        if (data.success) {
+          setTeacher(data.data);
+          setTeacherError("");
+        } else setTeacherError(data.error);
+      } catch (error) {
+        setTeacherError(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const newTeacherCodeToObj = {};
+    if (teacher) {
+      teacher.forEach((t) => {
+        newTeacherCodeToObj[t.teacherCode] = t;
+        // console.log(t.teacherCode, newTeacherCodeToObj[t.teacherCode]);
+      });
+    }
+
+    setTeacherCodeToObj(newTeacherCodeToObj);
+    setIsLoading(false);
+  }, [teacher]);
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    const newCourseCodeToObj = {};
+    if (courseData) {
+      courseData.forEach((c) => {
+        newCourseCodeToObj[c.code] = c;
+        //   console.log(c.code, newCourseCodeToObj[c.code]);
+      });
+    }
+    setCourseCodeToObj(newCourseCodeToObj);
+    setIsLoading(false);
+  }, [courseData]);
 
   const generateRoutine = async (e) => {
     try {
@@ -325,7 +393,7 @@ const CreateRoutine = () => {
                         marginRight: "15px",
                       }}
                     >
-                      See Final Routine
+                      Back To Final Routine
                     </button>
                   </Link>
                 </div>
@@ -357,26 +425,32 @@ const CreateRoutine = () => {
                   </div>
                 </div>
               ) : (
-                <div>
-                  <div ref={pdfRef}>
-                    <RoutineTable
-                      routineProps={routine}
-                      yearTermProps={yearTerms}
-                    />
-                  </div>
-                  <div className="mb-3 mt-3 d-flex justify-content-center">
-                    <button
-                      className="btn btn-primary"
-                      type="submit"
-                      onClick={handleSubmitForApproval}
-                    >
-                      Submit for Approval
-                    </button>
-                  </div>
+                (routineError === '') ? (
                   <div>
-                    <Download pdfRef={pdfRef} fileName={"Proposed-Routine.pdf"} />
+                    <div ref={pdfRef}>
+                      <ManualRoutineTable
+                        routineProps={routine}
+                        yearTermProps={yearTerms}
+                        courseCodeToObj={courseCodeToObj}
+                        teacherCodeToObj={teacherCodeToObj}
+                      />
+                    </div>
+                    <div className="mb-3 mt-3 d-flex justify-content-center">
+                      <button
+                        className="btn btn-primary"
+                        type="submit"
+                        onClick={handleSubmitForApproval}
+                      >
+                        Submit for Approval
+                      </button>
+                    </div>
+                    <div>
+                      <Download pdfRef={pdfRef} fileName={"Proposed-Routine.pdf"} />
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <b><p className="text-danger text-center m-4">{routineError}</p></b>
+                )
               )
             )
           }

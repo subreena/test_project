@@ -11,29 +11,29 @@ const Routine = () => {
   let { id } = useParams();
 
   console.log(id);
-  
+
   const pdfRef = useRef();
   const [routine, setRoutine] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [teachersName, setTeachersName] = useState([]);
 
-  const [routineError, setRoutineError] = useState('');
+  const [routineError, setRoutineError] = useState("");
 
   useEffect(() => {
     fetch(`http://localhost:5000/routine/data/${id}/routine`)
       .then((response) => response.json())
       .then((d) => {
         console.log(d);
-        if(d.success) {
+        if (d.success) {
           const data = d.data;
           console.log(data);
           setYearTerms(data.yearTerm);
           setRoutine(data.overall);
           setTeachersName(data.routineTeachersName);
-          console.log(data.routineTeachersName)
-          
-          setRoutineError('');
+          console.log(data.routineTeachersName);
+
+          setRoutineError("");
         } else {
           setRoutineError(d.error);
         }
@@ -41,7 +41,8 @@ const Routine = () => {
       .catch((error) => console.error(error));
   }, []);
 
-  const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] = useState("");
+  const [routineCommitteeErrorMessage, setRoutineCommitteeErrorMessage] =
+    useState("");
 
   const handleSelectChange = (value) => {
     setSelectedTeacher(value);
@@ -57,22 +58,40 @@ const Routine = () => {
           title="Teacher"
         />
         <br />
-        <Row>
-          <Col className="mt-3 mb-3 d-flex justify-content-center">
-            <Link to="/previousdocuments">
-              <button
-                className="btn btn-success"
-                style={{
-                  padding: "7px",
-                  margin: "10px",
-                  width: "20vw",
-                }}
-              >
-                Previous Documents
-              </button>
-            </Link>
-          </Col>
-        </Row>
+        <div className="mt-3 d-flex justify-content-center">
+          <div>
+            <Row>
+              <Col>
+                <Link to="/previousdocuments">
+                  <button
+                    className="btn btn-success"
+                    style={{
+                      padding: "7px",
+                      width: "32vw",
+                      marginRight: "15px",
+                    }}
+                  >
+                    Previous Documents
+                  </button>
+                </Link>
+              </Col>
+              <Col>
+                <Link to={`/create-routine/${id}`}>
+                  <button
+                    className="btn btn-success"
+                    style={{
+                      padding: "7px",
+                      width: "32vw",
+                      marginLeft: "15px",
+                    }}
+                  >
+                    Edit Routine
+                  </button>
+                </Link>
+              </Col>
+            </Row>
+          </div>
+        </div>
         <Row>
           <p className="mx-3 text-danger text-center text-small">
             {routineCommitteeErrorMessage}
@@ -82,16 +101,16 @@ const Routine = () => {
 
       <div className="" ref={pdfRef}>
         <div className="container">
-        <p className="h5 text-center">Class Routine</p>
-        <hr />
+          <p className="h5 text-center">Class Routine</p>
+          <hr />
         </div>
-      <RoutineTable
-        routineProps={routine}
-        yearTermProps={yearTerms}
-        selectedTeacher={selectedTeacher}
-      />
+        <RoutineTable
+          routineProps={routine}
+          yearTermProps={yearTerms}
+          selectedTeacher={selectedTeacher}
+        />
       </div>
-      <Download pdfRef={pdfRef} fileName={"current-routine.pdf"}/>
+      <Download pdfRef={pdfRef} fileName={"current-routine.pdf"} />
     </>
   );
 };
