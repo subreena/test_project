@@ -1,21 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import Download from "../../assets/components/Download";
-import { Link, useAsyncError } from "react-router-dom";
-import DutyTable from "./DutyTable";
-import ExamControlTables from "../ser3/ExamControlTables";
+import { Link } from "react-router-dom";
+import ManualExamControlTables from "../ser3/ManualExamControlTables";
 
 const TheoryDuty = () => {
   const [theory, setTheory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [defaults, setDefaults] = useState(true);
-  const [teacherCourses, setTeacherCourses] = useState(null);
   const [modifiedTheory, setModifiedTheory] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
-  const [coursesName, setCoursesName] = useState([]);
-  const [courseTeachers, setCourseTeachers] = useState([]);
-  const navigate = useAsyncError();
-  const [viewDuty, setViewDuty] = useState(false);
-  const [senderName, setSenderName] = useState('');
+  const [senderName, setSenderName] = useState("");
   const [dutyData, setDutyData] = useState({
     examYear: "",
     semester: "",
@@ -133,7 +127,7 @@ const TheoryDuty = () => {
         const data = d.data;
         setDutyData(data);
         setTheory(data.theory);
-        setErrorMessage('');
+        setErrorMessage("");
       } else {
         setErrorMessage(d.error);
       }
@@ -145,6 +139,10 @@ const TheoryDuty = () => {
       setDefaults(false);
     }
   };
+
+  useEffect(() => {
+    console.log(dutyData);
+  }, [dutyData]);
 
   useEffect(() => {
     const teacher = JSON.parse(localStorage.getItem("teacher"));
@@ -301,7 +299,7 @@ const TheoryDuty = () => {
               </div>
               <div className="text-center mt-3">
                 <div className="row">
-                <div className="col-6">
+                  <div className="col-6">
                     <Link to="/previousdocuments">
                       <button
                         className="btn btn-success bg-success bg-gradient w-75 h-100"
@@ -324,51 +322,39 @@ const TheoryDuty = () => {
             </form>
           </div>
         </div>
-        {
-            defaults ? (
-              <div></div>
-            ) : 
-            (
-              loading ? (
-                <div className="d-flex justify-content-center mt-4">
-                  <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <div ref={pdfRef}>
-                  <ExamControlTables 
-                    modifiedTheoryProps={modifiedTheory} 
-                    yearTermsProps={yearTerms}
-                    isExamCommittee={false}
-                  />
-                  </div>
-                  <div className="text-center d-flex justify-content-around mt-3">
-                    <button className="btn btn-secondary bg-secondary bg-gradient h-100">
-                      Manual Edit
-                    </button>
-
-                    <button
-                      className="btn btn-primary bg-primary bg-gradient h-100"
-                      type="submit"
-                      onClick={handleSubmitForApproval}
-                    >
-                      Submit for Approval
-                    </button>
-
-                    <button className="btn btn-danger bg-danger bg-gradient h-100">
-                      Publish
-                    </button>
-                  </div>
-                  <div>
-                    <Download pdfRef={pdfRef} fileName={"Proposed-Routine.pdf"} />
-                  </div>
-                </div>
-              )
-            )
-          }
       </div>
+      {defaults ? (
+        <div></div>
+      ) : loading ? (
+        <div className="d-flex justify-content-center mt-4">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <div ref={pdfRef}>
+            <ManualExamControlTables
+              modifiedTheoryProps={modifiedTheory}
+              yearTermsProps={yearTerms}
+              isExamCommittee={false}
+              setDutyData={setDutyData}
+            />
+          </div>
+          <div className="text-center d-flex justify-content-center mt-3">
+            <button
+              className="btn btn-primary bg-primary bg-gradient h-100"
+              type="submit"
+              onClick={handleSubmitForApproval}
+            >
+              Submit for Approval
+            </button>
+          </div>
+          <div>
+            <Download pdfRef={pdfRef} fileName={"Proposed-Routine.pdf"} />
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -151,17 +151,6 @@ const ExamControl = () => {
     setTeacher(data);
   }, []);
 
-  const toReorderExamCommittee = () => {
-    if (teacher?.isInExamCommittee) {
-      setErrorMessage("");
-      navigate("/create-exam-control", { state: { theory } });
-    } else {
-      setErrorMessage(
-        "Sorry! May be you are not logged in or not a member of the Exam Committtee yet!"
-      );
-    }
-  };
-
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [filteredTeachers, setFilteredTeachers] = useState([]);
 
@@ -219,7 +208,9 @@ const ExamControl = () => {
               </Col>
               <Col className="d-flex justify-content-start">
                 <button
-                  onClick={toReorderExamCommittee}
+                  onClick={() =>
+                    navigate("/create-theory-duty-roaster", { state: { theory } })
+                  }
                   className="btn btn-success"
                   style={{
                     padding: "7px",

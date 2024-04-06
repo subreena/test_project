@@ -144,7 +144,6 @@ const App = () => {
             <Route path="/examcontrol" element={<ExamControl />} />
             <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
             
-            <Route path="/create-theory-duty-roaster" element={<CreateTheoryDutyRoaster/>} />
             <Route path="/theory-duty-roaster" element={<DutyRoaster/>}/>
             <Route path="/lab-duty-roaster" element={<LabDuty/>}/>
 
@@ -164,6 +163,7 @@ const App = () => {
               <Route path="/create-routine/:id" element={<CreateRoutine/>} />
               <Route path="/teacherdashboard" element={<TeacherDashboard/>} />
               <Route path="/create-exam-control" element={<ReorderExamControl />} />
+              <Route path="/create-theory-duty-roaster" element={<CreateTheoryDutyRoaster/>} />
               
               <Route path="/travelbilling" element={<TravelBilling/>}/>
               <Route path="/travelbilling-page-2" element={<Ser2Page2/>} />
