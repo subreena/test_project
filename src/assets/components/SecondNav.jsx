@@ -152,6 +152,9 @@ function SecondNav() {
                     Exam Billing{" "}
                   </NavDropdown.Item>
                 </NavDropdown>
+                <Nav.Link href="/previousdocuments" className="second-nav-item text-sm-center">
+                 Previous Documents
+                </Nav.Link>
               </Nav>
               {userState ? (
                 <NavDropdown
