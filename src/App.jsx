@@ -47,6 +47,7 @@ import TemporaryCourseDistribution from "./pages/CourseDistribution/temporaryCou
 import CreateTheoryDutyRoaster from "./pages/DutyRoaster/CreateTheoryDuty";
 import DutyRoaster from "./pages/DutyRoaster/DutyRoaster";
 import CreateTheoryExamRoutine from "./pages/ExamRoutine/CreateTheoryRoutine";
+import ManualTheoryExamRoutine from "./pages/ExamRoutine/ManualTheoryExamRoutine";
 
 export const UserContext = createContext();
 
@@ -173,6 +174,8 @@ const App = () => {
               <Route path="/profile" element={<TeacherProfile/>} />
               <Route path="/pending-requests" element={<PendingRequests/>} />
               <Route path="/profile/edit-teacher" element={<EditTeacherProfile/>} />
+
+              <Route path="/manual-theory-exam-routine" element={<ManualTheoryExamRoutine/>} />
             </Route>
 
 

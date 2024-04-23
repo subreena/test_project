@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Download from "../../assets/components/Download";
-import { Table } from "react-bootstrap";
+import ManualTheoryRoutineTable from "./ManualThreoryRoutineTable";
 
 const CreateTheoryRoutine = () => {
   const pdfRef = useRef();
@@ -26,6 +26,7 @@ const CreateTheoryRoutine = () => {
   const [loading, setLoading] = useState(false);
   const [defaults, setDefaults] = useState(true);
   const [senderName, setSenderName] = useState("");
+  const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
     if (routine.examYear.length === 4 && routine.semester !== "") {
@@ -38,7 +39,8 @@ const CreateTheoryRoutine = () => {
           if (d.success) {
             const data = d.data;
             console.log(data);
-            setFromCourseDistribution(data);
+            const lastIndex = data.length - 1;
+            setFromCourseDistribution(data[lastIndex]);
             setErrorMessage("");
           } else {
             setErrorMessage(d.error);
@@ -241,9 +243,10 @@ const CreateTheoryRoutine = () => {
     e.preventDefault();
     console.log(routine);
     handleRoutineView();
+    setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:5000/theoryExamRoutine`, {
+      const response = await fetch(`http://localhost:5000/generateTheoryExamRoutine`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -268,6 +271,9 @@ const CreateTheoryRoutine = () => {
     } catch (error) {
       setErrorMessage(error.message);
       console.error("Error creating exam routine:", error);
+    } finally {
+      setLoading(false);
+      setDefaults(false);
     }
   };
 
@@ -312,7 +318,7 @@ const CreateTheoryRoutine = () => {
       event.preventDefault();
 
       const response = await fetch(
-        "http://localhost:5000/theoryExamRoutine/data",
+        "http://localhost:5000/generateTheoryExamRoutine/data",
         {
           method: "POST",
           headers: {
@@ -335,10 +341,10 @@ const CreateTheoryRoutine = () => {
         const data = d.data;
         serviceId = data._id;
         console.log(data);
-        setErrorMessage("");
+        setSubmitError("");
         console.log(serviceId);
       } else {
-        setErrorMessage(d.error);
+        setSubmitError(d.error);
       }
       // setErrorMessage("");
     } catch (error) {
@@ -372,9 +378,9 @@ const CreateTheoryRoutine = () => {
       const d = await response.json();
       console.log("pending: ", d);
       if (!d.success) {
-        setErrorMessage(d.error);
+        setSubmitError(d.error);
       } else {
-        setErrorMessage("");
+        setSubmitError("");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -539,6 +545,7 @@ const CreateTheoryRoutine = () => {
             </b>
 
             <div className="text-center mt-3">
+              <p className="text-center text-danger"> {submitError} </p>
               <button
                 className="btn btn-success bg-success bg-gradient w-50"
                 type="submit"
@@ -561,40 +568,18 @@ const CreateTheoryRoutine = () => {
               <div className="card" ref={pdfRef}>
                 <div className="card-body">
                   <p className="lead text-center">Theory Exam Routine</p>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr className="text-center">
-                        <th>#</th>
-                        <th>Date</th>
-                        <th>Course Code</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {routine?.theoryExamRoutine?.map((data, index) => (
-                        <tr key={index} className="text-center">
-                          <td>{index + 1}</td>
-                          <td>{data.date}</td>
-                          <td>{data.courseCode}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+                  <ManualTheoryRoutineTable
+                    routine={routine}
+                    setRoutine={setRoutine}
+                  />
                 </div>
               </div>
               <div className="text-center mt-2 mb-2 d-flex justify-content-around">
-                <button className="btn btn-secondary bg-secondary bg-gradient">
-                  Manual Edit
-                </button>
-
                 <button
                   onClick={handleSubmitForApproval}
                   className="btn btn-primary bg-primary bg-gradient "
                 >
                   Submit for Approval
-                </button>
-
-                <button className="btn btn-danger bg-danger bg-gradient">
-                  Publish
                 </button>
               </div>
               <Download pdfRef={pdfRef} fileName={"Theory-Exam-Routine.pdf"} />
