@@ -166,17 +166,17 @@ const SuperAdmin = () => {
   const getShowApi = (name) => {
     let apiName = "";
     if(name === "Theory Class Routine") {
-      apiName = "temporary-routine";
+      apiName = "routine/temporary";
     } else if(name === "Course Distribution") {
-      apiName = "temporary-course-distribution";
+      apiName = "course-distribution/temporary";
     } else if(name === "Theory Duty Roaster") {
-      apiName = "theory-duty-roaster";
+      apiName = "theory-duty-roaster/temporary";
     } else if(name === "Theory Exam Committee") {
-      apiName = "exam-control";
+      apiName = "exam-control/temporary";
     } else if(name === "Lab Exam Committee") {
       apiName = "";
     } else if(name === "Theory Exam Routine") {
-      apiName = "theory-exam-routine";
+      apiName = "theory-exam-routine/temporary";
     } else {
       console.error("There is an error in your selected service!");
     }

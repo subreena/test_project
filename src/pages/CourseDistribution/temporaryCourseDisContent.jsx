@@ -5,7 +5,10 @@ import Select from "react-select";
 import { useParams } from "react-router-dom";
 const CourseDisContent = () => {
   const pdfRef = useRef();
-  let { id } = useParams();
+  let { id, state } = useParams();
+
+  let uri = `http://localhost:5000/courseDistribution/data/${id}/coursedistributions`;
+  if(state === 'permanent') uri = `http://localhost:5000/CourseDistributionManagement/data/${id}`;
 
   const { teacher, courseData } = CourseDisUtils();
 
@@ -139,7 +142,7 @@ const CourseDisContent = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:5000/courseDistribution/data/${id}/coursedistributions`
+      uri
     )
       .then((response) => response.json())
       .then((d) => {

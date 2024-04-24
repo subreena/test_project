@@ -4,7 +4,7 @@ import { Col, Container, Row, Spinner, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 
 const TheoryRoutine = () => {
-  const { id } = useParams();
+  const { id, state } = useParams();
   const pdfRef = useRef();
   const [routine, setRoutine] = useState({
     examYear: "",
@@ -21,12 +21,15 @@ const TheoryRoutine = () => {
   const [loading, setLoading] = useState(false);
   const [allServiceId, setAllServiceId] = useState(null);
 
+  let uri = `http://localhost:5000/theoryExamRoutine/data/${id}/TheoryExamRoutine`;
+  if(state === 'permanent') uri = `http://localhost:5000/TheoryExamRoutineManagement/data/${id}`;
+
   useEffect(() => {
     setLoading(true);
     if (id) {
       // to show temporary data
       fetch(
-        `http://localhost:5000/theoryExamRoutine/data/${id}/TheoryExamRoutine`
+        uri
       )
         .then((response) => response.json())
         .then((d) => {

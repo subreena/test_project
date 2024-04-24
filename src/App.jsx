@@ -152,11 +152,11 @@ const App = () => {
             <Route path="/theory-exam-routine" element={<TheoryRoutine/>}/>
             <Route path="/lab-exam-routine" element={<LabRoutine/>}/>
 
-            <Route path="/temporary-routine/:id" element={<TemporaryRoutineShow />} />
-            <Route path="/temporary-course-distribution/:id" element={<TemporaryCourseDistribution />} />
-            <Route path="/exam-control/:id" element={<ExamControl/>} />
-            <Route path="/theory-duty-roaster/:id" element={<DutyRoaster/>}/>
-            <Route path="/theory-exam-routine/:id" element={<TheoryRoutine/>}/>
+            <Route path="/routine/:state/:id" element={<TemporaryRoutineShow />} />
+            <Route path="/course-distribution/:state/:id" element={<TemporaryCourseDistribution />} />
+            <Route path="/exam-control/:state/:id" element={<ExamControl/>} />
+            <Route path="/theory-duty-roaster/:state/:id" element={<DutyRoaster/>}/>
+            <Route path="/theory-exam-routine/:state/:id" element={<TheoryRoutine/>}/>
 
             {/* Services that are shown only to the register user */}
             <Route path="/" element={<PrivateRoute />} >

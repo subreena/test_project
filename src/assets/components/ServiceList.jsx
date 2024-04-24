@@ -42,17 +42,17 @@ const ServiceList = (props) => {
   const getShowApi = (name) => {
     let apiName = "";
     if (name === "Theory Class Routine") {
-      apiName = "temporary-routine";
+      apiName = "routine/permanent";
     } else if (name === "Course Distribution") {
-      apiName = "temporary-course-distribution";
+      apiName = "course-distribution/permanent";
     } else if (name === "Theory Duty Roaster") {
-      apiName = "theory-duty-roaster";
+      apiName = "theory-duty-roaster/permanent";
     } else if (name === "Theory Exam Committee") {
-      apiName = "exam-control";
+      apiName = "exam-control/permanent";
     } else if (name === "Lab Exam Committee") {
       apiName = "";
-    } else if (name === "Theory Exam Routin") {
-      apiName = "theory-exam-routine";
+    } else if (name === "Theory Exam Routine") {
+      apiName = "theory-exam-routine/permanent";
     } else {
       console.error("There is an error in your selected service!");
     }
@@ -61,10 +61,11 @@ const ServiceList = (props) => {
   };
 
   const handleShow = (service) => {
-    const id = service.id;
+    console.log(service);
+    let _id = service._id;
     const showApi = getShowApi(serviceName);
 
-    const url = `/${showApi}/${id}`;
+    const url = `/${showApi}/${_id}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
 

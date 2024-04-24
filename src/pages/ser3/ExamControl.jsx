@@ -7,7 +7,7 @@ import ExamControlTables from "./ExamControlTables";
 import CustomDropdown from "./CustomDropdown";
 
 const ExamControl = () => {
-  const { id } = useParams();
+  const { id, state } = useParams();
   const [theory, setTheory] = useState([]);
   const [teacherCourses, setTeacherCourses] = useState(null);
   const [modifiedTheory, setModifiedTheory] = useState([]);
@@ -31,11 +31,14 @@ const ExamControl = () => {
   //   setTeacherCourses(teacherCoursesData);
   // }, []);
 
+  let uri = `http://localhost:5000/examCommittee/data/${id}/examcommittees`;
+  if(state === 'permanent') uri = `http://localhost:5000/TheoryExamCommitteeManagement/data/${id}`;
+
   useEffect(() => {
     setLoading(true);
     if(id) {
       // to show temporary data
-      fetch(`http://localhost:5000/examCommittee/data/${id}/examcommittees`)
+      fetch(uri)
       .then((response) => response.json())
       .then((d) => {
         console.log(d);

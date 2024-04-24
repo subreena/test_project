@@ -18,7 +18,6 @@ const PreviousDoc = () => {
     //console.log("ok4");
     setLoading(true);
     if(isChecked) {
-      //console.log("ok5");
       try {
         const response = await fetch(
           `http://localhost:5000/${databaseName}/data`,

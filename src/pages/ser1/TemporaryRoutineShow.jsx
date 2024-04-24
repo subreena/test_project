@@ -8,9 +8,12 @@ import { Col, Container, Row } from "react-bootstrap";
 import Download from "../../assets/components/Download";
 
 const Routine = () => {
-  let { id } = useParams();
+  let { id, state } = useParams();
 
-  console.log(id);
+  console.log(id, state);
+  
+  let uri = `http://localhost:5000/routine/data/${id}/routine`;
+  if(state === 'permanent') uri = `http://localhost:5000/classRoutineManagement/data/${id}`;
 
   const pdfRef = useRef();
   const [routine, setRoutine] = useState([]);
@@ -21,7 +24,7 @@ const Routine = () => {
   const [routineError, setRoutineError] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:5000/routine/data/${id}/routine`)
+    fetch(uri)
       .then((response) => response.json())
       .then((d) => {
         console.log(d);

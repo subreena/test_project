@@ -7,7 +7,7 @@ import ExamControlTables from "../ser3/ExamControlTables";
 import CustomDropdown from "../ser3/CustomDropdown";
 
 const ExamControl = () => {
-  const { id } = useParams();
+  const { id, state } = useParams();
   const [theory, setTheory] = useState([]);
   const [teacherCourses, setTeacherCourses] = useState(null);
   const [modifiedTheory, setModifiedTheory] = useState([]);
@@ -32,11 +32,14 @@ const ExamControl = () => {
     setTeacherCourses(teacherCoursesData);
   }, []);
 
+  let uri = `http://localhost:5000/theoryDutyRoaster/data/${id}/theorydutyroaster`;
+  if(state === 'permanent') uri = `http://localhost:5000/TheoryDutyRoasterManagement/data/${id}`;
+
   useEffect(() => {
     if (id) {
       // to show temporary data
       fetch(
-        `http://localhost:5000/theoryDutyRoaster/data/${id}/theorydutyroaster`
+        uri
       )
         .then((response) => response.json())
         .then((d) => {
