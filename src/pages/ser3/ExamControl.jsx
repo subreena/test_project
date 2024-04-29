@@ -1,13 +1,15 @@
 import "bootstrap/dist/css/bootstrap.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../assets/stylesheets/exam-control.css";
 import { Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import ExamControlTables from "./ExamControlTables";
 import CustomDropdown from "./CustomDropdown";
+import Download from "../../assets/components/Download";
 
 const ExamControl = () => {
   const { id, state } = useParams();
+  const pdfRef = useRef();
   const [theory, setTheory] = useState([]);
   const [teacherCourses, setTeacherCourses] = useState(null);
   const [modifiedTheory, setModifiedTheory] = useState([]);
@@ -59,7 +61,7 @@ const ExamControl = () => {
       .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("http://localhost:5000/serviceId")
+      fetch("https://ice-web-nine.vercel.app/serviceId")
         .then((response) => response.json())
         .then((d) => {
           if (d.success) {
@@ -79,7 +81,7 @@ const ExamControl = () => {
       const exam_routine_id = allServiceId?.theoryExamCommittee;
 
       fetch(
-        `http://localhost:5000/TheoryExamCommitteeManagement/data/${exam_routine_id}`
+        `https://ice-web-nine.vercel.app/TheoryExamCommitteeManagement/data/${exam_routine_id}`
       )
         .then((response) => response.json())
         .then((d) => {
@@ -238,7 +240,8 @@ const ExamControl = () => {
         </Row>
       </Container>
 
-      <Container fluid>
+    <div ref={pdfRef}>
+    <Container fluid>
         <div>
           <h3 className="text-center">Theory Exam Committee</h3>
         </div>
@@ -312,6 +315,8 @@ const ExamControl = () => {
             isExamCommittee={true}
           />
       )}
+    </div>
+    <Download pdfRef={pdfRef} fileName={"exam-committee.pdf"} />
     </>
   );
 };

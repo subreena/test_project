@@ -1,13 +1,15 @@
 import "bootstrap/dist/css/bootstrap.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../assets/stylesheets/exam-control.css";
 import { Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import ExamControlTables from "../ser3/ExamControlTables";
 import CustomDropdown from "../ser3/CustomDropdown";
+import Download from "../../assets/components/Download";
 
 const ExamControl = () => {
   const { id, state } = useParams();
+  const pdfRef = useRef();
   const [theory, setTheory] = useState([]);
   const [teacherCourses, setTeacherCourses] = useState(null);
   const [modifiedTheory, setModifiedTheory] = useState([]);
@@ -59,7 +61,7 @@ const ExamControl = () => {
         .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("http://localhost:5000/serviceId")
+      fetch("https://ice-web-nine.vercel.app/serviceId")
         .then((response) => response.json())
         .then((d) => {
           if (d.success) {
@@ -79,7 +81,7 @@ const ExamControl = () => {
       const duty_roaster_id = allServiceId?.theoryDutyRoaster;
 
       fetch(
-        `http://localhost:5000/TheoryDutyRoasterManagement/data/${duty_roaster_id}`
+        `https://ice-web-nine.vercel.app/TheoryDutyRoasterManagement/data/${duty_roaster_id}`
       )
         .then((response) => response.json())
         .then((d) => {
@@ -234,8 +236,9 @@ const ExamControl = () => {
         </Row>
       </Container>
 
+      <div ref={pdfRef}>
       <Container fluid>
-        <div>
+        <div >
           <h3 className="text-center">Theory Duty Roaster</h3>
         </div>
         <hr />
@@ -304,6 +307,8 @@ const ExamControl = () => {
           isExamCommittee={false}
         />
       )}
+      </div>
+      <Download pdfRef={pdfRef} fileName={"duty-roaster.pdf"} />
     </>
   );
 };

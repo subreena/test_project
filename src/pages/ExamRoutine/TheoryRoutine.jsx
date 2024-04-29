@@ -49,7 +49,7 @@ const TheoryRoutine = () => {
         .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("http://localhost:5000/serviceId")
+      fetch("https://ice-web-nine.vercel.app/serviceId")
         .then((response) => response.json())
         .then((d) => {
           if (d.success) {
@@ -69,7 +69,7 @@ const TheoryRoutine = () => {
       const exam_routine_id = allServiceId?.theoryExamRoutine;
 
       fetch(
-        `http://localhost:5000/TheoryExamRoutineManagement/data/${exam_routine_id}`
+        `https://ice-web-nine.vercel.app/TheoryExamRoutineManagement/data/${exam_routine_id}`
       )
         .then((response) => response.json())
         .then((d) => {

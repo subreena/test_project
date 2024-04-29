@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Form, Table } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import CustomDropdown from "./CustomDropdown";
+import Download from "../../assets/components/Download";
 
 const ExamControlTeacherWise = () => {
+  const pdfRef = useRef();
   const [teacherCourses, setTeacherCourses] = useState(null);
   const [teachersName, setTeachersName] = useState([]);
   const [teacherWiseCourses, setTeacherWiseCourses] = useState([]);
@@ -80,7 +82,9 @@ const ExamControlTeacherWise = () => {
           </Col>
         </Row>
       ) : (
-        <section>
+       <>
+       <div ref={pdfRef}>
+       <section>
           <h4 className="text-center exam-header">
             Courses of all corresponding teachers
           </h4>
@@ -116,6 +120,9 @@ const ExamControlTeacherWise = () => {
             ))}
           </Row>
         </section>
+       </div>
+       <Download pdfRef={pdfRef} fileName={"duty-roaster.pdf"} />
+       </>
       )}
     </Container>
   );
