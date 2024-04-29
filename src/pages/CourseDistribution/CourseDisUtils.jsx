@@ -25,7 +25,7 @@ export const CourseDisUtils = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://ice-web-nine.vercel.app/courseDetails");
+        const response = await fetch("http://localhost:5000/courseDetails");
         const data = await response.json();
         if (data.success) {
           setCourseData(data.data);
@@ -41,7 +41,7 @@ export const CourseDisUtils = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://ice-web-nine.vercel.app/teachers");
+        const response = await fetch("http://localhost:5000/teachers");
         const data = await response.json();
         if (data.success) {
           setTeacher(data.data);
@@ -189,7 +189,7 @@ export const CourseDisUtils = () => {
 
       console.log(formData);
 
-      const response = await fetch("https://ice-web-nine.vercel.app/courseDistribution", {
+      const response = await fetch("http://localhost:5000/courseDistribution", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -225,7 +225,7 @@ export const CourseDisUtils = () => {
     // to save it at pending service
     try {
       // Make a POST request to your endpoint
-      const response = await fetch("https://ice-web-nine.vercel.app/pendingService", {
+      const response = await fetch("http://localhost:5000/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

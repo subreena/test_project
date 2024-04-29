@@ -14,7 +14,7 @@ const SuperAdmin = () => {
   const handleDeleteAll = async () => {
     try {
       const response = await fetch(
-        "https://ice-web-nine.vercel.app/pendingService/deleteAll",
+        "http://localhost:5000/pendingService/deleteAll",
         {
           method: "DELETE", // Use the DELETE method since you are deleting all documents
           headers: {
@@ -43,7 +43,7 @@ const SuperAdmin = () => {
   const [services, setServices] = useState(null);
 
   useEffect(() => {
-    fetch("https://ice-web-nine.vercel.app/pendingService")
+    fetch("http://localhost:5000/pendingService")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -97,7 +97,7 @@ const SuperAdmin = () => {
 
     try {
       const response = await fetch(
-        `https://ice-web-nine.vercel.app/${apiString}`,
+        `http://localhost:5000/${apiString}`,
         {
           method: "POST",
           headers: {
@@ -133,7 +133,7 @@ const SuperAdmin = () => {
     setDeleteLoading(index);
     try {
       const response = await fetch(
-        `https://ice-web-nine.vercel.app/pendingService/deleteObject/${id}/PendingService`,
+        `http://localhost:5000/pendingService/deleteObject/${id}/PendingService`,
         {
           method: "DELETE",
           headers: {

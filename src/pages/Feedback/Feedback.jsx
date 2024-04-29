@@ -5,7 +5,7 @@ const Feedback = () => {
   const [feedData, setFeedData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const feedLink = "https://ice-web-nine.vercel.app/feedback";
+  const feedLink = "http://localhost:5000/feedback";
   useEffect(() => {
     fetch(feedLink)
       .then((res) => res.json())
