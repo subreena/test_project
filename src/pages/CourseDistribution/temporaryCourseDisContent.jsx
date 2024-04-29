@@ -7,8 +7,8 @@ const CourseDisContent = () => {
   const pdfRef = useRef();
   let { id, state } = useParams();
 
-  let uri = `http://localhost:5000/courseDistribution/data/${id}/coursedistributions`;
-  if(state === 'permanent') uri = `http://localhost:5000/CourseDistributionManagement/data/${id}`;
+  let uri = `https://ice-web-nine.vercel.app/courseDistribution/data/${id}/coursedistributions`;
+  if(state === 'permanent') uri = `https://ice-web-nine.vercel.app/CourseDistributionManagement/data/${id}`;
 
   const { teacher, courseData } = CourseDisUtils();
 

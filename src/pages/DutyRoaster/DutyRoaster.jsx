@@ -34,8 +34,8 @@ const ExamControl = () => {
     setTeacherCourses(teacherCoursesData);
   }, []);
 
-  let uri = `http://localhost:5000/theoryDutyRoaster/data/${id}/theorydutyroaster`;
-  if(state === 'permanent') uri = `http://localhost:5000/TheoryDutyRoasterManagement/data/${id}`;
+  let uri = `https://ice-web-nine.vercel.app/theoryDutyRoaster/data/${id}/theorydutyroaster`;
+  if(state === 'permanent') uri = `https://ice-web-nine.vercel.app/TheoryDutyRoasterManagement/data/${id}`;
 
   useEffect(() => {
     if (id) {

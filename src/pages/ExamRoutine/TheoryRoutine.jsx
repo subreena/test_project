@@ -21,8 +21,8 @@ const TheoryRoutine = () => {
   const [loading, setLoading] = useState(false);
   const [allServiceId, setAllServiceId] = useState(null);
 
-  let uri = `http://localhost:5000/theoryExamRoutine/data/${id}/TheoryExamRoutine`;
-  if(state === 'permanent') uri = `http://localhost:5000/TheoryExamRoutineManagement/data/${id}`;
+  let uri = `https://ice-web-nine.vercel.app/theoryExamRoutine/data/${id}/TheoryExamRoutine`;
+  if(state === 'permanent') uri = `https://ice-web-nine.vercel.app/TheoryExamRoutineManagement/data/${id}`;
 
   useEffect(() => {
     setLoading(true);

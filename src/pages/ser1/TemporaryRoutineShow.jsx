@@ -12,8 +12,8 @@ const Routine = () => {
 
   console.log(id, state);
   
-  let uri = `http://localhost:5000/routine/data/${id}/routine`;
-  if(state === 'permanent') uri = `http://localhost:5000/classRoutineManagement/data/${id}`;
+  let uri = `https://ice-web-nine.vercel.app/routine/data/${id}/routine`;
+  if(state === 'permanent') uri = `https://ice-web-nine.vercel.app/classRoutineManagement/data/${id}`;
 
   const pdfRef = useRef();
   const [routine, setRoutine] = useState([]);

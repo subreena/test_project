@@ -33,8 +33,8 @@ const ExamControl = () => {
   //   setTeacherCourses(teacherCoursesData);
   // }, []);
 
-  let uri = `http://localhost:5000/examCommittee/data/${id}/examcommittees`;
-  if(state === 'permanent') uri = `http://localhost:5000/TheoryExamCommitteeManagement/data/${id}`;
+  let uri = `https://ice-web-nine.vercel.app/examCommittee/data/${id}/examcommittees`;
+  if(state === 'permanent') uri = `https://ice-web-nine.vercel.app/TheoryExamCommitteeManagement/data/${id}`;
 
   useEffect(() => {
     setLoading(true);
