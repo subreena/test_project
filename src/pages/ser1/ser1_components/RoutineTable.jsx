@@ -47,10 +47,15 @@ const RoutineTable = (props) => {
         var row = [];
         if (yearTerm === 0) {
           row.push(
-            <td rowSpan={yearTerms.length} className="vertical">
-              <strong>
-                <span>{days[day]}</span>
-              </strong>
+            <td rowSpan={yearTerms.length}  className="vertical" width="10" style={{overflow: 'hidden'}}>
+              
+              
+                <p style={{transform: 'rotate(-90deg)',  marginBlockStart: '0em', marginBlockEnd:'0em', overflow: 'hidden'}}>
+                  <strong>
+                  {days[day]}
+                  </strong>
+                </p>
+            
             </td>
           );
         }
@@ -68,9 +73,11 @@ const RoutineTable = (props) => {
               <td
                 key={`lunch-${day}-${year}-${term}`}
                 rowSpan="200"
-                className="vertical"
+               className="vertical"
               >
-                Lunch Break
+             <strong>
+             <p style={{transform: 'rotate(-90deg)', marginBlockStart: '0em', marginBlockEnd:'0em'}}> Lunch Break</p>
+             </strong>
               </td>
             );
             onlyFirstTime = false;
