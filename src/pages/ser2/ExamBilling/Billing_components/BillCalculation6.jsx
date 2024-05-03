@@ -5,7 +5,11 @@ const BillCalculation6 = () => {
     <>
       <tr>
         <td>
+          <strong>
           ৬. মৌখিক পরীক্ষা: ২০{" "}
+          </strong>
+          <br /> <br />
+
           <input type="text" name="" id="" style={{ width: "30px" }} />
           সনের <input
             type="text"

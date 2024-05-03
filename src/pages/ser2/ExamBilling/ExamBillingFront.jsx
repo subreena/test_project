@@ -86,7 +86,7 @@ const ExamBillingFront = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
     nextPage('/exambilling', {formData});
   };
 
@@ -355,4 +355,4 @@ const ExamBillingFront = () => {
   );
 };
 
-export default ExamBillingFront;
+export default {ExamBillingFront};

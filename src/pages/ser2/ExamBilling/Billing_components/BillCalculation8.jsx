@@ -5,7 +5,10 @@ const BillCalculation8 = () => {
         <>
        <tr>
         <td>
-        ৮. উত্তরপত্র নিরীক্ষা: 
+       <strong>
+       ৮. উত্তরপত্র নিরীক্ষা: 
+       </strong>
+       <br /><br />
         ২০
           <input type="text" name="" id="" style={{ width: "30px" }} />
           সনের <input

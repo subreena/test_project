@@ -30,7 +30,7 @@ const Ser2Page1 = () => {
 const nextPage = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    // console.log(formData);
 
    nextPage('/travelbilling-page-2',  {formData});
   };

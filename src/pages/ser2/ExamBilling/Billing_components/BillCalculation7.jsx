@@ -5,7 +5,8 @@ const BillCalculation7 = () => {
     <>
       <tr>
         <td>
-          ৭. পরীক্ষার ফল সন্নিবেশ করণ: ২০
+         <strong> ৭. পরীক্ষার ফল সন্নিবেশ করণ: ২০ </strong>
+         <br /><br />
           <input type="text" name="" id="" style={{ width: "30px" }} />
           সনের <input
             type="text"
