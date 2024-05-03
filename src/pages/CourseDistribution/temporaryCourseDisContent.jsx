@@ -87,7 +87,7 @@ const CourseDisContent = () => {
       console.log(formData);
 
       const response = await fetch(
-        `https://ice-web-nine.vercel.app/courseDistribution/update/${id}/coursedistributions`,
+        `http://localhost:5000/courseDistribution/update/${id}/coursedistributions`,
         {
           method: "PUT",
           headers: {

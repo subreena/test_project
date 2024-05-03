@@ -45,7 +45,7 @@ const CreateRoutine = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://ice-web-nine.vercel.app/courseDetails");
+        const response = await fetch("http://localhost:5000/courseDetails");
         const data = await response.json();
         if (data.success) {
           setCourseData(data.data);
@@ -61,7 +61,7 @@ const CreateRoutine = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://ice-web-nine.vercel.app/teachers");
+        const response = await fetch("http://localhost:5000/teachers");
         const data = await response.json();
         if (data.success) {
           setTeacher(data.data);
@@ -120,7 +120,7 @@ const CreateRoutine = () => {
       console.log(formData);
 
       const response = await fetch(
-        "https://ice-web-nine.vercel.app/generateRandomRoutine",
+        "http://localhost:5000/generateRandomRoutine",
         {
           method: "POST",
           headers: {
@@ -187,7 +187,7 @@ const CreateRoutine = () => {
       console.log(formData);
 
       const response = await fetch(
-        "https://ice-web-nine.vercel.app/generateRandomRoutine/data",
+        "http://localhost:5000/generateRandomRoutine/data",
         {
           method: "POST",
           headers: {
@@ -227,7 +227,7 @@ const CreateRoutine = () => {
     // to save it at pending service
     try {
       // Make a POST request to your endpoint
-      const response = await fetch("https://ice-web-nine.vercel.app/pendingService", {
+      const response = await fetch("http://localhost:5000/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
