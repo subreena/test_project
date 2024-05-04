@@ -264,7 +264,7 @@ const ExamBillingFront = () => {
               </button>
             </div>
 
-            <table className="table able-stripped mt-4 no-wrap text-small">
+            <table className="table table-stripped mt-4 no-wrap text-small">
               <caption>Lab Bill Details</caption>
               {/* Table header */}
               <thead>
@@ -355,4 +355,4 @@ const ExamBillingFront = () => {
   );
 };
 
-export default {ExamBillingFront};
+export default ExamBillingFront;

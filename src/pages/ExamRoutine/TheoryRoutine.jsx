@@ -98,7 +98,7 @@ const TheoryRoutine = () => {
       <Container fluid>
         <Row>
           <Col className="mb-3 d-flex justify-content-center">
-            <Link to="/previousdocuments">
+            <Link to="/alldocuments">
               <button
                 className="btn btn-success"
                 style={{
@@ -107,7 +107,7 @@ const TheoryRoutine = () => {
                   width: "20vw",
                 }}
               >
-                Previous Documents
+                All Documents
               </button>
             </Link>
             <Link to="/create-theory-exam-routine">

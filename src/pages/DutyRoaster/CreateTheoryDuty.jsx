@@ -300,12 +300,12 @@ const TheoryDuty = () => {
               <div className="text-center mt-3">
                 <div className="row">
                   <div className="col-6">
-                    <Link to="/previousdocuments">
+                    <Link to="/alldocuments">
                       <button
                         className="btn btn-success bg-success bg-gradient w-75 h-100"
                         type="button"
                       >
-                        Previous Documents
+                      All Documents
                       </button>
                     </Link>{" "}
                   </div>{" "}

@@ -1,5 +1,4 @@
 import Bill1 from "./Billing_components/Bill1";
-import BillCalculation10 from "./Billing_components/BillCalculation10";
 import BillFinish from "./Billing_components/BillFinish";
 import BillingFooter from "./Billing_components/BillingFooter";
 import BillingHeader from "./Billing_components/BillingHeader";
@@ -7,11 +6,9 @@ import BillCalculation from "./Billing_components/BillCalculation";
 import { Container } from "react-bootstrap";
 import Download from './../../../assets/components/Download';
 import { useRef } from "react";
-import { useLocation } from "react-router-dom";
 
 const Billing = () => {
- formDa
-
+ 
 
   const pdfRef = useRef();
   return (

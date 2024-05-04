@@ -100,7 +100,7 @@ const Routine = () => {
       <Container fluid>
         <Row>
           <Col className="mt-1 mb-3 d-flex justify-content-center">
-            <Link to="/previousdocuments">
+            <Link to="/alldocuments">
               <button
                 className="btn btn-success"
                 style={{
@@ -109,7 +109,7 @@ const Routine = () => {
                   width: "20vw",
                 }}
               >
-                Previous Documents
+               All Documents
               </button>
             </Link>
             <button

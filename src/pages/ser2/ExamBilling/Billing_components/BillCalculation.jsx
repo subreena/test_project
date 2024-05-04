@@ -1,4 +1,3 @@
-import React from "react";
 import { Container } from "react-bootstrap";
 import BillCalculation2 from "./BillCalculation2";
 import BillCalculation3 from "./BillCalculation3";

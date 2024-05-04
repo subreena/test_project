@@ -65,7 +65,7 @@ const Routine = () => {
           <div>
             <Row>
               <Col>
-                <Link to="/previousdocuments">
+                <Link to="/alldocuments">
                   <button
                     className="btn btn-success"
                     style={{
@@ -74,7 +74,7 @@ const Routine = () => {
                       marginRight: "15px",
                     }}
                   >
-                    Previous Documents
+                    All Documents
                   </button>
                 </Link>
               </Col>

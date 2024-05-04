@@ -267,7 +267,7 @@ const TeacherProfile = () => {
                     </div>
                     <div className="col-4">
                       <p className="h5 card-text">
-                        <Link to="/previousdocuments">
+                        <Link to="/alldocuments">
                           <button className="btn btn-success w-100">
                             Previous Documents
                           </button>

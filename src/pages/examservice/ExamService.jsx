@@ -155,7 +155,7 @@ const ExamService = () => {
             </div>
 
             <div className="col-lg-3 col-md-6 col-sm-6">
-              <Link to="/previousdocuments" className="text-decoration-none">
+              <Link to="/alldocuments" className="text-decoration-none">
               <div className="exm-service-box">
                 <div className="exm-service-icon">
                   <svg
