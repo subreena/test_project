@@ -51,7 +51,7 @@ const TeacherProfile = () => {
   } = teacher || {};
 
   useEffect(() => {
-    fetch("http://localhost:5000/pendingService")
+    fetch("https://ice-web-nine.vercel.app/pendingService")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
