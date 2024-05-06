@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CourseTable from "./CourseTable";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../assets/stylesheets/ser2-style.css";
 import "../../assets/stylesheets/login.css";
 import icon from "../../assets/images/user.png";
@@ -12,6 +12,7 @@ import EEE from "../../assets/images/EEE-chairman.png";
 
 const TeacherProfile = () => {
   const [teacher, setTeacher] = useState(null);
+  const [allservices, setAllServices] = useState(null);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("teacher"));
@@ -48,6 +49,23 @@ const TeacherProfile = () => {
     isInExamCommittee,
     isInRoutineCommittee,
   } = teacher || {};
+
+  useEffect(() => {
+    fetch("http://localhost:5000/pendingService")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          data.result.reverse();
+          setAllServices(data.result);
+        } else {
+          console.log("Internal server error!");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <div className="container mb-5">
@@ -122,25 +140,24 @@ const TeacherProfile = () => {
           <hr />
 
           <div className="d-flex justify-content-center">
-            <div className="col-4">
+            <div className="col-6">
               {isAdmin ? (
-                <p className="h5 card-text">
-                  <Link to="/pending-requests">
-                    <button className="btn btn-info w-100 text-white">
-                      Pending Requests &nbsp;
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="26"
-                        height="26"
-                        fill="currentColor"
-                        class="bi bi-bell-fill"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
-                      </svg>
-                    </button>
-                  </Link>
-                </p>
+                <Link to='/pending-requests'>
+                  <button className="btn btn-info text-white w-100">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="26"
+                      height="26"
+                      fill="currentColor"
+                      className="bi bi-bell-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
+                    </svg>{" "}
+                    &nbsp;
+                    <span style={{fontWeight: "500"}}>Pending Requests</span> <span className="text-dark" style={{fontWeight: "700"}}>({allservices?.length})</span>
+                  </button>
+                </Link>
               ) : (
                 <p></p>
               )}
