@@ -189,9 +189,9 @@ const ServiceList = (props) => {
             <th>
               <p className="text-success">Make Default</p>
             </th>
-            <th>
+            {/* <th>
               <p className="text-danger">Delete</p>
-            </th>
+            </th> */}
             <th>
               <p className="text-info">View</p>
             </th>
@@ -228,7 +228,7 @@ const ServiceList = (props) => {
                 </p>
               )}
             </td>
-            <td style={{ border: "none" }}>
+            {/* <td style={{ border: "none" }}>
               {deleteLoading === index ? (
                 <Spinner animation="border" role="status" variant="danger">
                   <span className="visually-hidden">Loading...</span>
@@ -251,7 +251,7 @@ const ServiceList = (props) => {
                         </svg>
                 </p>
               )}
-            </td>
+            </td> */}
             <td style={{ border: "none" }}>
               <p className="btn btn-info" onClick={() => handleShow(service)}>
                 <svg
