@@ -30,6 +30,7 @@ const SuperAdmin = () => {
       // Handle success or failure based on the response data
       if (data.success) {
         // Handle success, if needed
+        setDeleted(deleted ^ 1);
       } else {
         // Handle failure, if needed
       }
@@ -119,6 +120,8 @@ const SuperAdmin = () => {
         setServiceId(data.data._id);
         setError("");
         setModalShow(true);
+
+        handleDelete(service.id, index);
       } else {
         setError(data.error);
       }
@@ -277,7 +280,7 @@ const SuperAdmin = () => {
                       </Spinner>
                     ) : (
                       <button
-                        className="btn btn-success d-flex align-items-center justify-content-center"
+                        className="btn btn-success"
                         onClick={() => handlePost(service, id)}
                       >
                         <svg
@@ -305,7 +308,7 @@ const SuperAdmin = () => {
                       </Spinner>
                     ) : (
                       <button
-                        className="btn btn-danger d-flex align-items-center justify-content-center"
+                        className="btn btn-danger"
                         onClick={() => handleDelete(service.id, id)}
                       >
                         <svg
@@ -324,7 +327,7 @@ const SuperAdmin = () => {
                   </td>
                   <td style={{ border: "none" }}>
                     <button
-                      className="btn btn-info d-flex align-items-center justify-content-center"
+                      className="btn btn-info"
                       onClick={() => handleShow(service)}
                     >
                       <svg
