@@ -75,7 +75,7 @@ const ExamControlTables = (props) => {
               <h4 className="text-center exam-header text-small2">
                 {`${
                   index1 + 1
-                }. Examination Committee and Question Moderators for Session: Y-${
+                }. Y-${
                   yearTerms?.[index1][0]
                 }, T-${yearTerms?.[index1][1]} Final Examination`}
               </h4>

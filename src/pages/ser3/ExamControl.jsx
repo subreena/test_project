@@ -61,7 +61,7 @@ const ExamControl = () => {
       .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("http://localhost:5000/serviceId")
+      fetch("https://ice-web-nine.vercel.app/serviceId")
         .then((response) => response.json())
         .then((d) => {
           if (d.success) {
@@ -81,7 +81,7 @@ const ExamControl = () => {
       const exam_routine_id = allServiceId?.theoryExamCommittee;
 
       fetch(
-        `http://localhost:5000/TheoryExamCommitteeManagement/data/${exam_routine_id}`
+        `https://ice-web-nine.vercel.app/TheoryExamCommitteeManagement/data/${exam_routine_id}`
       )
         .then((response) => response.json())
         .then((d) => {
@@ -243,7 +243,8 @@ const ExamControl = () => {
     <div ref={pdfRef}>
     <Container fluid>
         <div>
-          <h3 className="text-center">Theory Exam Committee</h3>
+          <h3 className="text-center">Examination Committee and Question Moderators <span className="text-small">
+          (Theory)</span></h3>
         </div>
         <hr />
         {

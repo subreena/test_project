@@ -100,7 +100,7 @@ const Signup = () => {
 
     console.log(formData);
     try {
-      const result = await fetch("http://localhost:5000/teachers", {
+      const result = await fetch("https://ice-web-nine.vercel.app/teachers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -140,7 +140,7 @@ const Signup = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/courseDetails"
+          "https://ice-web-nine.vercel.app/courseDetails"
         );
         let data = await response.json();
 
