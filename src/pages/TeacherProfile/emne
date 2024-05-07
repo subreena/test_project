@@ -22,9 +22,9 @@ const Service = () => {
           <div className="service-sec-row">
             {ServiceContent.map((ServiceContent) => (
               <div className="service-sec-box-total" key={ServiceContent.id}>
-                <div className="">
-                  <div className="">
-                    <div className="">
+                <div className="flip-card">
+                  <div className="flip-card-inner">
+                    <div className="flip-card-front">
                       <div
                         className="service-sec-box"
                         onClick={() => handleClick(`${ServiceContent.link}`)}
@@ -49,7 +49,7 @@ const Service = () => {
                         </div>
                       </div>
                     </div>
-                    {/* <div className="flip-card-back">
+                    <div className="flip-card-back">
                       <div>
                         <Link to={ServiceContent.link}>
                           <button className="flip-btn">
@@ -71,13 +71,13 @@ const Service = () => {
                           </button>
                         </Link>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <div className="m-3">
+          <div>
           <Link to="/alldocuments">
          <button className="btn btn-success w-50 cursor-pointer">
           All Documents
