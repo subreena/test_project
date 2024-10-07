@@ -173,9 +173,9 @@ const FeedbackSection = () => {
                   rows="2"
                 ></textarea>
               </div>
-              <div className="col-12">
+              <div className="col-12 text-end">
                 <button type="submit" className="btn btn-success">
-                  Submit
+                  Submit Feedback
                 </button>
               </div>
             </form>

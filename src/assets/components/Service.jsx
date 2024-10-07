@@ -79,7 +79,7 @@ const Service = () => {
           </div>
           <div className="m-3">
           <Link to="/alldocuments">
-         <button className="btn btn-success w-50 cursor-pointer">
+         <button className="btn btn-light w-50 cursor-pointer" style={{fontWeight: "bold"}}>
           All Documents
          </button>
          </Link>
