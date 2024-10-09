@@ -1,6 +1,6 @@
 # Teacher CoPilot
 
-**Description**: The primary goal of this project is to reduce the hectic workload of a teacher. Built on the MERN stack, this application serves as the frontend for the **Teacher CoPilot**, providing essential functionalities for creating, showing and storing the class routine, exam routine, duty roaster, exam committee and billing.
+**Description**: The primary goal of this project is to reduce the hectic workload of a teacher. Built on the MERN stack, this application serves as the **frontend** for the Teacher CoPilot, providing essential functionalities for creating, showing and storing the class routine, exam routine, duty roaster, exam committee and billing.
 
 ---
 
@@ -38,25 +38,22 @@ Provide a step-by-step guide to setting up the project locally.
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/SajibBarua-art/ICEwebsite.git
+   git clone https://github.com/subreena/test_project.git
    ```
 
 2. **Navigate to the project directory:**
 
    ```bash
-   cd ICEwebsite
+   cd test_project
    ```
 
 3. **Install dependencies:**
 
    ```bash
    npm install
-
    ```
 
 4. **To start the frontend development server:** (with Vite)
-
-   Set up the database connection in **application.yml** (for Spring Boot projects):
 
    ```
    npm run dev
