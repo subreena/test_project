@@ -48,6 +48,7 @@ import CreateTheoryDutyRoaster from "./pages/DutyRoaster/CreateTheoryDuty";
 import DutyRoaster from "./pages/DutyRoaster/DutyRoaster";
 import CreateTheoryExamRoutine from "./pages/ExamRoutine/CreateTheoryRoutine";
 import ManualTheoryExamRoutine from "./pages/ExamRoutine/ManualTheoryExamRoutine";
+import EditCourses from "./pages/EditCourses/EditCourses";
 
 export const UserContext = createContext();
 
@@ -76,7 +77,7 @@ const App = () => {
   // // to load all the vital data as soon as possible
   // useEffect(() => {
   //   const saveRoutineData = () => {
-  //     fetch("https://ice-web-nine.vercel.app/routine")
+  //     fetch("http://localhost:5000/routine")
   //     .then((response) => response.json())
   //     .then((data) => {
   //       localStorage.setItem('routine', JSON.stringify(data[0].overall));
@@ -88,7 +89,7 @@ const App = () => {
     
   //   const saveExamCommitteeData = () => {
   //     fetch(
-  //       "https://ice-web-nine.vercel.app/examCommittee"
+  //       "http://localhost:5000/examCommittee"
   //     )
   //     .then((response) => response.json())
   //     .then((data) => {
@@ -157,6 +158,8 @@ const App = () => {
             <Route path="/exam-control/:state/:id" element={<ExamControl/>} />
             <Route path="/theory-duty-roaster/:state/:id" element={<DutyRoaster/>}/>
             <Route path="/theory-exam-routine/:state/:id" element={<TheoryRoutine/>}/>
+
+            <Route path="/edit-courses" element={<EditCourses />} />
 
             {/* Services that are shown only to the register user */}
             <Route path="/" element={<PrivateRoute />} >

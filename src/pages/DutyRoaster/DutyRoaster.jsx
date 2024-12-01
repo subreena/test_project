@@ -34,8 +34,8 @@ const ExamControl = () => {
     setTeacherCourses(teacherCoursesData);
   }, []);
 
-  let uri = `https://ice-web-nine.vercel.app/theoryDutyRoaster/data/${id}/theorydutyroaster`;
-  if(state === 'permanent') uri = `https://ice-web-nine.vercel.app/TheoryDutyRoasterManagement/data/${id}`;
+  let uri = `http://localhost:5000/theoryDutyRoaster/data/${id}/theorydutyroaster`;
+  if(state === 'permanent') uri = `http://localhost:5000/TheoryDutyRoasterManagement/data/${id}`;
 
   useEffect(() => {
     if (id) {
@@ -61,7 +61,7 @@ const ExamControl = () => {
         .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("https://ice-web-nine.vercel.app/serviceId")
+      fetch("http://localhost:5000/serviceId")
         .then((response) => response.json())
         .then((d) => {
           if (d.success) {
@@ -81,7 +81,7 @@ const ExamControl = () => {
       const duty_roaster_id = allServiceId?.theoryDutyRoaster;
 
       fetch(
-        `https://ice-web-nine.vercel.app/TheoryDutyRoasterManagement/data/${duty_roaster_id}`
+        `http://localhost:5000/TheoryDutyRoasterManagement/data/${duty_roaster_id}`
       )
         .then((response) => response.json())
         .then((d) => {
