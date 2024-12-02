@@ -1,0 +1,18 @@
+.exclusive-button {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Rounded corners */
+    padding: 10px 20px; /* Increased padding */
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+  }
+  
+  .exclusive-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+  }
+  
+  .exclusive-button svg {
+    margin-right: 5px; /* Space between icon and text */
+  }

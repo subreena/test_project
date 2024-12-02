@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Container, Table } from "react-bootstrap";
+import { Button, Container, Spinner, Table } from "react-bootstrap";
 import CourseCenteredModal from "../Modal/CourseCenteredModal";
+import Form from "react-bootstrap/Form";
+import { Col, Row } from "react-bootstrap";
+import "./EditCourses.css";
+import { Link } from "react-scroll";
 
 const EditCourses = () => {
   const [error, setError] = useState("");
   const [courses, setCourses] = useState([]);
   const [deleteLoading, setDeleteLoading] = useState(null);
+  const [deleted, setDeleted] = useState(0);
 
   // Fetch courses from the API
   useEffect(() => {
@@ -32,6 +37,9 @@ const EditCourses = () => {
 
   const handleDelete = async (id, index) => {
     setDeleteLoading(index);
+
+    console.log(id);
+
     try {
       const response = await fetch(
         `http://localhost:5000/courseDetails/delete/${id}`,
@@ -51,9 +59,9 @@ const EditCourses = () => {
       const data = await response.json();
 
       if (data.success) {
-        console.log("Data received:", data.data);
         setError("");
         setDeleted(deleted ^ 1);
+        fetchCourses();
       } else {
         setError(data.error);
       }
@@ -64,36 +72,102 @@ const EditCourses = () => {
     }
   };
 
-  const handleAdd = async() => {
-
-  };
-
-  const [modalEditShow, setModalEditShow] = useState(false);
   const [courseDetails, setCourseDetails] = useState(null);
+  const [modalEditShow, setModalEditShow] = useState(false);
+  const [modalAddCourse, setModalAddCourse] = useState(false);
 
-  const handleEdit = async(course) => {
+  const handleEdit = (course) => {
     setModalEditShow(true);
     setCourseDetails(course);
   };
 
+  const handleUpdate = () => {
+    // Refresh course list logic here
+    fetchCourses();
+    console.log("Course updated successfully!");
+  };
+
+  const handleAddCourse = () => {
+    setModalAddCourse(true);
+  };
+
+  const [year, setYear] = useState(null);
+  const [term, setTerm] = useState(null);
+  const handleSearch = () => {};
+
   return (
     <Container>
       <CourseCenteredModal
-      show={modalEditShow}
-      onHide={() => setModalEditShow(false)}
-      course={courseDetails}
+        show={modalEditShow}
+        onHide={() => setModalEditShow(false)}
+        mode="edit"
+        course={courseDetails}
+        onUpdate={handleUpdate}
       />
-      <div>
-        <div>
-          <h2 className="text-center">Edit Courses</h2>
-          <hr />
-        </div>
 
-        <div className="d-flex justify-content-end">
-          <button className="btn btn-success" onClick={handleAdd}>
-            Add Course
-          </button>
+      <CourseCenteredModal
+        show={modalAddCourse}
+        onHide={() => setModalAddCourse(false)}
+        mode="add"
+        onUpdate={handleUpdate}
+      />
+
+      <div>
+        <div className="d-flex justify-content-center">
+          <h2 style={{marginLeft: "120px"}}>Course Dashboard</h2>
+          <strong>
+            <Link onClick={handleAddCourse} className="p-2">
+              Add Course
+            </Link>
+          </strong>
         </div>
+        <hr />
+
+        <Form onSubmit={handleSearch}>
+          <Row className="mb-3 align-items-center">
+            <Col>
+              <Form.Group controlId="year">
+                <Form.Label>Year</Form.Label>
+                <Form.Select
+                  value={year}
+                  onChange={(e) => setYear(Number(e.target.value))}
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="term">
+                <Form.Label>Term</Form.Label>
+                <Form.Select
+                  value={term}
+                  onChange={(e) => setTerm(Number(e.target.value))}
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col md={2}>
+              <Button className="exclusive-button" variant="dark" type="submit">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-search"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg>
+                Search
+              </Button>
+            </Col>
+          </Row>
+        </Form>
 
         <br />
         <div className="m-auto text-center">
@@ -147,7 +221,7 @@ const EditCourses = () => {
                     ) : (
                       <button
                         className="btn btn-danger"
-                        onClick={() => handleDelete(course.id, id)}
+                        onClick={() => handleDelete(course._id, id)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
