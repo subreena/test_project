@@ -35,8 +35,6 @@ const CenteredModal = (props) => {
     }
   }, [course, mode]);
 
-  console.log(course);
-
   const handleEdit = async (updatedCourseData) => {
     try {
       const response = await fetch(`http://localhost:5000/courseDetails/update/${course._id}`, {

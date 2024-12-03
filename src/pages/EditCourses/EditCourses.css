@@ -1,18 +1,72 @@
 .exclusive-button {
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white;
-    border: none;
-    border-radius: 25px; /* Rounded corners */
-    padding: 10px 20px; /* Increased padding */
-    font-weight: bold; /* Bold text */
-    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
-  }
-  
-  .exclusive-button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
-  }
-  
-  .exclusive-button svg {
-    margin-right: 5px; /* Space between icon and text */
-  }
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  border: none;
+  border-radius: 25px; /* Rounded corners */
+  padding: 10px 20px; /* Increased padding */
+  font-weight: bold; /* Bold text */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+.exclusive-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.exclusive-button svg {
+  margin-right: 5px; /* Space between icon and text */
+}
+
+.table-responsive {
+  max-height: 100vh; /* Set a maximum height for the table */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ddd; /* Border around the table */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.table-responsive table {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Remove space between cells */
+}
+
+.thead-sticky th {
+  position: sticky; /* Make the header sticky */
+  top: 0; /* Stick to the top of the container */
+  background-color: #007bff; /* Header background color */
+  color: white; /* Header text color */
+  padding: 12px; /* Padding for header cells */
+  font-weight: bold; /* Bold text */
+  z-index: 10; /* Ensure the header is above the table rows */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for header */
+}
+
+.table-responsive tbody tr {
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.table-responsive tbody tr:hover {
+  background-color: #f1f1f1; /* Light gray background on hover */
+}
+
+.table-responsive tbody td {
+  padding: 10px; /* Padding for table cells */
+  border-bottom: 1px solid #ddd; /* Bottom border for rows */
+}
+
+.table-responsive .btn {
+  border-radius: 20px; /* Rounded buttons */
+  padding: 5px 10px; /* Padding for buttons */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+
+.table-responsive .btn-danger:hover {
+  transform: scale(1.25); /* Slightly enlarge on hover */
+}
+
+.table-responsive .btn-info:hover {
+  color: white;
+  background-color: #138496;
+  transform: scale(1.25); /* Slightly enlarge on hover */
+}
