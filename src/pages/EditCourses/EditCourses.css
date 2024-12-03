@@ -70,3 +70,7 @@
   background-color: #138496;
   transform: scale(1.25); /* Slightly enlarge on hover */
 }
+
+.table-responsive .btn-success:hover {
+  transform: scale(1.25); /* Slightly enlarge on hover */
+}

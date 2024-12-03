@@ -17,6 +17,10 @@ const EditCourses = () => {
     fetchCourses();
   }, []);
 
+  useEffect(() => {
+    handleSearch();
+  }, [courses])
+
   const fetchCourses = async () => {
     fetch("http://localhost:5000/courseDetails")
       .then((response) => response.json())
@@ -24,7 +28,6 @@ const EditCourses = () => {
         if (data.success) {
           setError("");
           setCourses(data.data);
-          setFilteredCourses(data.data);
         } else {
           setError(data.error);
         }
@@ -82,7 +85,6 @@ const EditCourses = () => {
   const handleUpdate = () => {
     // Refresh course list logic here
     fetchCourses();
-    console.log("Course updated successfully!");
   };
 
   const handleAddCourse = () => {
@@ -93,7 +95,7 @@ const EditCourses = () => {
   const [term, setTerm] = useState("");
   const [filteredCourses, setFilteredCourses] = useState([]);
   const handleSearch = () => {
-    console.log(filteredCourses);
+    console.log("search");
 
     const filtered = courses.filter((course) => {
       return (
