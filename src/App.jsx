@@ -49,6 +49,8 @@ import DutyRoaster from "./pages/DutyRoaster/DutyRoaster";
 import CreateTheoryExamRoutine from "./pages/ExamRoutine/CreateTheoryRoutine";
 import ManualTheoryExamRoutine from "./pages/ExamRoutine/ManualTheoryExamRoutine";
 import EditCourses from "./pages/EditCourses/EditCourses";
+import ExternalTeacherDashboard from "./pages/ExternalTeacherDashboard/ExternalTeacherDashboard";
+import CreateExternalTeacher from "./pages/ExternalTeacherDashboard/CreateExternalTeacher";
 
 export const UserContext = createContext();
 
@@ -160,6 +162,9 @@ const App = () => {
             <Route path="/theory-exam-routine/:state/:id" element={<TheoryRoutine/>}/>
 
             <Route path="/edit-courses" element={<EditCourses />} />
+
+            <Route path="/external-teacher-dashboard" element={<ExternalTeacherDashboard />} />
+            <Route path="/create-external-teacher" element={<CreateExternalTeacher />} />
 
             {/* Services that are shown only to the register user */}
             <Route path="/" element={<PrivateRoute />} >

@@ -3,32 +3,29 @@ import { Button, Container, Spinner, Table } from "react-bootstrap";
 import CourseCenteredModal from "../Modal/CourseCenteredModal";
 import Form from "react-bootstrap/Form";
 import { Col, Row } from "react-bootstrap";
-import "./EditCourses.css";
+import "../EditCourses/EditCourses.css";
 import { Link } from "react-scroll";
+import CustomDropdown from "../ser3/CustomDropdown";
 
-const EditCourses = () => {
+const ExternalTeacherDashboard = () => {
   const [error, setError] = useState("");
-  const [courses, setCourses] = useState([]);
+  const [externalTeachers, setExternalTeachers] = useState([]);
   const [deleteLoading, setDeleteLoading] = useState(null);
   const [deleted, setDeleted] = useState(0);
 
-  // Fetch courses from the API
+  // Fetch externalTeachers from the API
   useEffect(() => {
-    fetchCourses();
+    fetchExternalTeachers();
   }, []);
 
-  useEffect(() => {
-    handleSearch();
-  }, [courses])
-
-  const fetchCourses = async () => {
-    fetch("http://localhost:5000/courseDetails")
+  const fetchExternalTeachers = async () => {
+    fetch("http://localhost:5000/teachers")
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
           setError("");
           console.log(data.data);
-          setCourses(data.data);
+          setExternalTeachers(data.data);
         } else {
           setError(data.error);
         }
@@ -44,7 +41,7 @@ const EditCourses = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/courseDetails/delete/${id}`,
+        `http://localhost:5000/teachers/delete/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -63,49 +60,69 @@ const EditCourses = () => {
       if (data.success) {
         setError("");
         setDeleted(deleted ^ 1);
-        fetchCourses();
+        fetchExternalTeachers();
       } else {
         setError(data.error);
       }
     } catch (error) {
-      console.error("Error creating manage course:", error);
+      console.error("Error creating manage externalTeacher:", error);
     } finally {
       setDeleteLoading(null);
     }
   };
 
-  const [courseDetails, setCourseDetails] = useState(null);
+  const [externalTeacherDetails, setExternalTeacherDetails] = useState(null);
   const [modalEditShow, setModalEditShow] = useState(false);
-  const [modalAddCourse, setModalAddCourse] = useState(false);
+  const [modalAddExternalTeacher, setModalAddExternalTeacher] = useState(false);
 
-  const handleEdit = (course) => {
+  const handleEdit = (externalTeacher) => {
     setModalEditShow(true);
-    setCourseDetails(course);
+    setExternalTeacherDetails(externalTeacher);
   };
 
   const handleUpdate = () => {
-    // Refresh course list logic here
-    fetchCourses();
+    // Refresh externalTeacher list logic here
+    fetchExternalTeachers();
   };
 
-  const handleAddCourse = () => {
-    setModalAddCourse(true);
+  const handleAddExternalTeacher = () => {
+    setModalAddExternalTeacher(true);
   };
 
-  const [year, setYear] = useState("");
-  const [term, setTerm] = useState("");
-  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [selectedTeacher, setSelectedTeacher] = useState("");
+  const [filteredExternalTeachers, setFilteredExternalTeachers] = useState([]);
+
   const handleSearch = () => {
-    console.log("search");
-
-    const filtered = courses.filter((course) => {
+    const filtered = externalTeachers.filter((externalTeacher) => {
       return (
-        (year ? course.year === Number(year) : true) &&
-        (term ? course.term === Number(term) : true)
+        (externalTeacher.department !== "ICE, NSTU") &&
+        (selectedTeacher ? externalTeacher.firstName + " " + externalTeacher.lastName == selectedTeacher : true)
       );
     });
-    setFilteredCourses(filtered);
+
+    setFilteredExternalTeachers(filtered);
+
+    if(teachersName.length === 0)
+      setTeachersName(builtTeachersNameArray(filtered));
   };
+
+  useEffect(() => {
+    handleSearch();
+  }, [selectedTeacher, externalTeachers])
+
+  const [teachersName, setTeachersName] = useState([]);
+
+  const builtTeachersNameArray = teachers => {
+    return teachers.map(teacher => teacher.firstName + ' ' + teacher.lastName);
+  }
+  
+  const handleSelectChange = (value) => {
+    setSelectedTeacher(value);
+  };
+
+  const toShowCourses = (courses) => {
+    return courses.map(course => course.value).join(", ");
+  };  
 
   return (
     <Container>
@@ -113,87 +130,42 @@ const EditCourses = () => {
         show={modalEditShow}
         onHide={() => setModalEditShow(false)}
         mode="edit"
-        course={courseDetails}
+        externalTeacher={externalTeacherDetails}
         onUpdate={handleUpdate}
       />
 
       <CourseCenteredModal
-        show={modalAddCourse}
-        onHide={() => setModalAddCourse(false)}
+        show={modalAddExternalTeacher}
+        onHide={() => setModalAddExternalTeacher(false)}
         mode="add"
         onUpdate={handleUpdate}
       />
 
       <div>
         <div className="d-flex justify-content-center">
-          <h2 style={{ marginLeft: "120px" }}>Course Dashboard</h2>
+          <h2 style={{ marginLeft: "120px" }}>External Teacher Dashboard</h2>
           <strong>
             <Link
               style={{ cursor: "pointer" }}
-              onClick={handleAddCourse}
+              onClick={handleAddExternalTeacher}
               className="p-2"
             >
-              Add Course
+              Add Teacher
             </Link>
           </strong>
         </div>
         <hr />
 
-        <Form className="mx-5">
-          <Row className="mb-3 mx-5 align-items-center">
-            <Col>
-              <Form.Group controlId="year">
-                <b>
-                  <Form.Label>Year</Form.Label>
-                </b>
-                <Form.Select
-                  value={year}
-                  onChange={(e) => setYear(Number(e.target.value))}
-                >
-                  <option value="">All</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </Form.Select>
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group controlId="term">
-                <b>
-                  <Form.Label>Term</Form.Label>
-                </b>
-                <Form.Select
-                  value={term}
-                  onChange={(e) => setTerm(Number(e.target.value))}
-                >
-                  <option value="">All</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                </Form.Select>
-              </Form.Group>
-            </Col>
-            <Col md={2} className="d-flex justify-content-end mt-4">
-              <Button className="exclusive-button" onClick={handleSearch}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-search"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                </svg>
-                Search
-              </Button>
-            </Col>
-          </Row>
-        </Form>
+        <CustomDropdown
+          coursesName={teachersName}
+          selectedCourse={selectedTeacher}
+          handleSelectChange={handleSelectChange}
+          title="Teacher"
+        />
 
         <br />
         <div className="mb-3 text-center">
-          {filteredCourses ? (
+          {filteredExternalTeachers ? (
             <Table striped responsive className="table-responsive">
               <thead className="thead-sticky">
                 <tr>
@@ -204,16 +176,10 @@ const EditCourses = () => {
                     <p>Name</p>
                   </th>
                   <th>
-                    <p>Code</p>
+                    <p>Teacher Code</p>
                   </th>
                   <th>
-                    <p>Year</p>
-                  </th>
-                  <th>
-                    <p>Term</p>
-                  </th>
-                  <th>
-                    <p>Credit</p>
+                    <p>Courses</p>
                   </th>
                   <th>
                     <p>Remove</p>
@@ -224,14 +190,12 @@ const EditCourses = () => {
                 </tr>
               </thead>
               <tbody className="table-scroll">
-                {filteredCourses.map((course, id) => (
+                {filteredExternalTeachers.map((externalTeacher, id) => (
                   <tr style={{ border: "none" }} key={id}>
                     <td style={{ border: "none" }}> {id + 1} </td>
-                    <td style={{ border: "none" }}> {course.name} </td>
-                    <td style={{ border: "none" }}> {course.code} </td>
-                    <td style={{ border: "none" }}> {course.year} </td>
-                    <td style={{ border: "none" }}> {course.term} </td>
-                    <td style={{ border: "none" }}> {course.credit} </td>
+                    <td style={{ border: "none" }}> {externalTeacher.firstName + " " + externalTeacher.lastName} </td>
+                    <td style={{ border: "none" }}> {externalTeacher.teacherCode} </td>
+                    <td style={{ border: "none" }}> {toShowCourses(externalTeacher.courses)} </td>
                     <td style={{ border: "none" }}>
                       {deleteLoading === id ? (
                         <Spinner
@@ -244,7 +208,7 @@ const EditCourses = () => {
                       ) : (
                         <button
                           className="btn btn-danger"
-                          onClick={() => handleDelete(course._id, id)}
+                          onClick={() => handleDelete(externalTeacher._id, id)}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -263,7 +227,7 @@ const EditCourses = () => {
                     <td style={{ border: "none" }}>
                       <button
                         className="btn btn-info"
-                        onClick={() => handleEdit(course)}
+                        onClick={() => handleEdit(externalTeacher)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -298,4 +262,4 @@ const EditCourses = () => {
   );
 };
 
-export default EditCourses;
+export default ExternalTeacherDashboard;

@@ -45,6 +45,9 @@ const Routine = () => {
             console.log(data);
             setYearTerms(data.yearTerm);
             setRoutine(data.overall);
+
+            console.log("teachersName: ", data.routineTeachersName);
+            
             setTeachersName(data.routineTeachersName);
             console.log(data.routineTeachersName);
 

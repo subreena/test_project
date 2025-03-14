@@ -37,7 +37,7 @@
   color: white; /* Header text color */
   padding: 12px; /* Padding for header cells */
   font-weight: bold; /* Bold text */
-  z-index: 10; /* Ensure the header is above the table rows */
+  /* z-index: 10; Ensure the header is above the table rows */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for header */
 }
 
