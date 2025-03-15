@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const Example = (props) => {
+const StaticBackdropModal = (props) => {
   const { title, description, buttonName, buttonVariant } = props;
 
   return (
@@ -29,4 +29,4 @@ const Example = (props) => {
   );
 }
 
-export default Example;
+export default StaticBackdropModal;

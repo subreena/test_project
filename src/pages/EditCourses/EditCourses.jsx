@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import { Col, Row } from "react-bootstrap";
 import "./EditCourses.css";
 import { Link } from "react-scroll";
+import StaticBackdropModal from "../Modal/StaticBackdropModal";
 
 const EditCourses = () => {
   const [error, setError] = useState("");
@@ -37,41 +38,6 @@ const EditCourses = () => {
         console.error(error);
         setError("Internal Server Error");
       });
-  };
-
-  const handleDelete = async (id, index) => {
-    setDeleteLoading(index);
-
-    try {
-      const response = await fetch(
-        `http://localhost:5000/courseDetails/delete/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        // Handle non-successful response here
-        console.log("Response is not OK:", response);
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-        setError("");
-        setDeleted(deleted ^ 1);
-        fetchCourses();
-      } else {
-        setError(data.error);
-      }
-    } catch (error) {
-      console.error("Error creating manage course:", error);
-    } finally {
-      setDeleteLoading(null);
-    }
   };
 
   const [courseDetails, setCourseDetails] = useState(null);
@@ -107,8 +73,88 @@ const EditCourses = () => {
     setFilteredCourses(filtered);
   };
 
+  const [readyToDelete, setReadyToDelete] = useState(false);
+  const [staticShow, setStaticShow] = useState(false);
+
+  const handleStaticModalClose = () => {
+    setStaticShow(false);
+    setReadyToDelete(false);
+    setDeleteLoading(false);
+  }
+  const handleStaticModalShow = () => setStaticShow(true);
+  const handleReadyToDelete = () => {
+    setReadyToDelete(true);
+    setStaticShow(false);
+  }
+
+  const [id, setId] = useState(null);
+
+  const handleDelete = async (id, index, fullName) => {
+    setId(id);
+    setSelectedFullName(fullName);
+    setDeleteLoading(index);
+    handleStaticModalShow();
+  };
+
+  useEffect(() => {
+    const callDeleteMethod = async() => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/courseDetails/delete/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        if (!response.ok) {
+          // Handle non-successful response here
+          console.log("Response is not OK:", response);
+        }
+  
+        const data = await response.json();
+  
+        if (data.success) {
+          setError("");
+          setDeleted(deleted ^ 1);
+          fetchCourses();
+        } else {
+          setError(data.error);
+        }
+      } catch (error) {
+        console.error("Error creating manage course:", error);
+      } finally {
+        setDeleteLoading(null);
+      }
+    }
+
+    if(readyToDelete) {
+      callDeleteMethod();
+    } else {
+      setDeleteLoading(null);
+    }
+  }, [readyToDelete])
+
+  const [selectedFullName, setSelectedFullName] = useState("");
+
   return (
     <Container>
+      <StaticBackdropModal
+        show={staticShow}
+        onHide={handleStaticModalClose}
+        onAccept={handleReadyToDelete}
+        title={`Remove External Teacher: ${selectedFullName}`}
+        description={
+          <>
+            Are you sure you want to remove <b>{selectedFullName}</b> from the external teacher dashboard? 
+            By doing so, <b>{selectedFullName}</b>'s data set will be permanently erased!
+          </>
+        }
+        buttonName={"Remove"}
+        buttonVariant={'danger'}
+      />
       <CourseCenteredModal
         show={modalEditShow}
         onHide={() => setModalEditShow(false)}
@@ -244,7 +290,7 @@ const EditCourses = () => {
                       ) : (
                         <button
                           className="btn btn-danger"
-                          onClick={() => handleDelete(course._id, id)}
+                          onClick={() => handleDelete(course._id, id, course.name)}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

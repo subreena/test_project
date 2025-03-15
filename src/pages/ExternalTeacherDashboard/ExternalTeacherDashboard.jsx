@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Button, Container, Spinner, Table } from "react-bootstrap";
-import CourseCenteredModal from "../Modal/CourseCenteredModal";
-import Form from "react-bootstrap/Form";
-import { Col, Row } from "react-bootstrap";
 import "../EditCourses/EditCourses.css";
 import { Link } from "react-scroll";
 import CustomDropdown from "../ser3/CustomDropdown";
+import ExternalTeacherCenteredModal from "../Modal/ExternalTeacherCenteredModal";
+import StaticBackdropModal from "../../pages/Modal/StaticBackdropModal";
 
 const ExternalTeacherDashboard = () => {
   const [error, setError] = useState("");
@@ -34,41 +33,6 @@ const ExternalTeacherDashboard = () => {
         console.error(error);
         setError("Internal Server Error");
       });
-  };
-
-  const handleDelete = async (id, index) => {
-    setDeleteLoading(index);
-
-    try {
-      const response = await fetch(
-        `http://localhost:5000/teachers/delete/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        // Handle non-successful response here
-        console.log("Response is not OK:", response);
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-        setError("");
-        setDeleted(deleted ^ 1);
-        fetchExternalTeachers();
-      } else {
-        setError(data.error);
-      }
-    } catch (error) {
-      console.error("Error creating manage externalTeacher:", error);
-    } finally {
-      setDeleteLoading(null);
-    }
   };
 
   const [externalTeacherDetails, setExternalTeacherDetails] = useState(null);
@@ -124,9 +88,90 @@ const ExternalTeacherDashboard = () => {
     return courses.map(course => course.value).join(", ");
   };  
 
+  const [readyToDelete, setReadyToDelete] = useState(false);
+  const [staticShow, setStaticShow] = useState(false);
+
+  const handleStaticModalClose = () => {
+    setStaticShow(false);
+    setReadyToDelete(false);
+    setDeleteLoading(false);
+  }
+  const handleStaticModalShow = () => setStaticShow(true);
+  const handleReadyToDelete = () => {
+    setReadyToDelete(true);
+    setStaticShow(false);
+  }
+
+  const [id, setId] = useState(null);
+
+  const handleDelete = async (id, index, fullName) => {
+    setId(id);
+    setSelectedFullName(fullName);
+    setDeleteLoading(index);
+    handleStaticModalShow();
+  };
+
+  useEffect(() => {
+    const callDeleteMethod = async() => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/teachers/deleteExternalTeacher/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        if (!response.ok) {
+          // Handle non-successful response here
+          console.log("Response is not OK:", response);
+        }
+  
+        const data = await response.json();
+  
+        if (data.success) {
+          setError("");
+          setDeleted(deleted ^ 1);
+          fetchExternalTeachers();
+        } else {
+          setError(data.error);
+        }
+      } catch (error) {
+        console.error("Error creating manage externalTeacher:", error);
+      } finally {
+        setDeleteLoading(null);
+      }
+    }
+    
+    if(readyToDelete) {
+      callDeleteMethod();
+    } else {
+      setDeleteLoading(null);
+    }
+  }, [readyToDelete])
+
+  const [selectedFullName, setSelectedFullName] = useState("");
+
   return (
     <Container>
-      <CourseCenteredModal
+      <StaticBackdropModal
+        show={staticShow}
+        onHide={handleStaticModalClose}
+        onAccept={handleReadyToDelete}
+        title={`Remove External Teacher: ${selectedFullName}`}
+        description={
+          <>
+            Are you sure you want to remove <b>{selectedFullName}</b> from the external teacher dashboard? 
+            By doing so, <b>{selectedFullName}</b>'s data set will be permanently erased!
+          </>
+        }
+        buttonName={"Remove"}
+        buttonVariant={'danger'}
+      />
+
+      <ExternalTeacherCenteredModal
         show={modalEditShow}
         onHide={() => setModalEditShow(false)}
         mode="edit"
@@ -134,7 +179,7 @@ const ExternalTeacherDashboard = () => {
         onUpdate={handleUpdate}
       />
 
-      <CourseCenteredModal
+      <ExternalTeacherCenteredModal
         show={modalAddExternalTeacher}
         onHide={() => setModalAddExternalTeacher(false)}
         mode="add"
@@ -208,7 +253,7 @@ const ExternalTeacherDashboard = () => {
                       ) : (
                         <button
                           className="btn btn-danger"
-                          onClick={() => handleDelete(externalTeacher._id, id)}
+                          onClick={() => handleDelete(externalTeacher._id, id, `${externalTeacher.firstName} ${externalTeacher.lastName}`)}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
