@@ -2,13 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { CourseDisUtils } from "./CourseDisUtils";
 import Download from "../../assets/components/Download";
 import Select from "react-select";
-import { useParams } from "react-router-dom";
-const CourseDisContent = () => {
+import { useLocation, useParams } from "react-router-dom";
+const EditCourseDistribution = () => {
   const pdfRef = useRef();
-  let { id, state } = useParams();
 
-  let uri = `http://localhost:5000/courseDistribution/data/${id}/coursedistributions`;
-  if(state === 'permanent') uri = `http://localhost:5000/CourseDistributionManagement/data/${id}`;
+  let { state } = useParams();  // Extract state
+  let { search } = useLocation(); // Extract query parameters
+
+  // Decode and parse course details
+  const queryParams = new URLSearchParams(search);
+  const courseDistributionData = JSON.parse(decodeURIComponent(queryParams.get("details")));
 
   const { teacher, courseData } = CourseDisUtils();
 
@@ -25,9 +28,13 @@ const CourseDisContent = () => {
     setFormData({...formData, courseDetails: filterCourseData()});
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData])
+  // useEffect(() => {
+  //   console.log(formData);
+  //   setFormData({...formData, 
+  //     year: formData?.examYear?.slice(0, 4),
+  //     semester: formData?.examYear.slice(4, 5)
+  //   });
+  // }, [])
 
   const filterCourseData = () => {
     // console.log(formData);
@@ -87,13 +94,16 @@ const CourseDisContent = () => {
       console.log(formData);
 
       const response = await fetch(
-        `http://localhost:5000/courseDistribution/update/${id}/coursedistributions`,
+        `http://localhost:5000/courseDistribution/update/${courseDistributionData._id}/coursedistributions`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({...formData,
+            examYear: formData?.yearSemester?.slice(0, 4),
+            semester: formData?.yearSemester?.slice(4, 5)
+          }),
         }
       );
 
@@ -141,22 +151,9 @@ const CourseDisContent = () => {
   }, [teacher, courseData]);
 
   useEffect(() => {
-    fetch(
-      uri
-    )
-      .then((response) => response.json())
-      .then((d) => {
-        console.log(d);
-        if (d.success) {
-          const data = d.data;
-          console.log(data);
-          setFormData(data);
-          setCourseDistributionError("");
-        } else {
-          setCourseDistributionError(d.error);
-        }
-      })
-      .catch((error) => console.error(error));
+    console.log(courseDistributionData);
+    setFormData(courseDistributionData);
+    setCourseDistributionError(""); 
   }, [isLoading]);
 
   const handleTeacherDetailsChange = (event, index, teacherNumber) => {
@@ -199,7 +196,7 @@ const CourseDisContent = () => {
   const handleYearChange = (event) => {
     const inputValue = event.target.value;
     const parsedYear = parseInt(inputValue, 10);
-    if (!isNaN(parsedYear) && parsedYear >= 2004 && parsedYear <= 2100) {
+    if (!isNaN(parsedYear) && parsedYear >= 1000 && parsedYear <= 9999) {
       setFormData({
         ...formData,
         examYear: parsedYear,
@@ -540,4 +537,4 @@ const CourseDisContent = () => {
   );
 };
 
-export default CourseDisContent;
+export default EditCourseDistribution;

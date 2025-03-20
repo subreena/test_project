@@ -157,10 +157,49 @@ export const CourseDisUtils = () => {
     }
   };
 
+  const [fetchError, setFetchError] = useState("");
+  const [courseDistributionData, setCourseDistributionData] = useState(false);
+
+  const fetchCourseDistribution = async (year, semester) => {
+    try {
+        // Validate input
+        if (!year) {
+          setFetchError('Exam year is required!');
+          return;
+        }
+        if (!semester) {
+          setFetchError('Please select the above semester!');
+          return;
+        }
+
+        const response = await fetch(`http://localhost:5000/courseDistribution/update/${year}/${semester}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('Course Distribution:', data.data);
+            setCourseDistributionData(data.data);
+            setFetchError("");
+        } else {
+            console.error('Error:', data.error);
+            setView(view^1);
+            setFilteredCourses(filterCourseData());
+            setFetchError("");
+        }
+    } catch (error) {
+        console.error('Request failed:', error);
+    }
+  };
+
+
   const handleView2 = (event) => {
     event.preventDefault();
-    setView(true);
-    setFilteredCourses(filterCourseData());
+
+    const year = formData.examYear;
+    const semester = formData.semester;
+
+    console.log("year: ", year, " semester: ", semester);
+
+    fetchCourseDistribution(year, semester);
   };
 
   const [senderName, setSenderName] = useState("");
@@ -175,18 +214,9 @@ export const CourseDisUtils = () => {
   const [defaults, setDefaults] = useState(false);
   const [courseDistributionError, setCourseDistributionError] = useState("");
   let serviceId = null;
-  const handleSubmit = async (event) => {
+
+  const handleSave = async(event) => {
     try {
-      // Display an alert to confirm before proceeding
-      const shouldGenerate = window.confirm(
-        "Are you sure you want to submit the course distribution?"
-      );
-
-      if (!shouldGenerate) {
-        // If the user clicks "Cancel" in the alert, do nothing
-        return;
-      }
-
       setLoading(true);
       event.preventDefault();
 
@@ -224,6 +254,11 @@ export const CourseDisUtils = () => {
       setLoading(false);
       setDefaults(false);
     }
+  }
+
+  const handleSubmit = async (event) => {
+    // to save it at temporary course distribution
+    handleSave(event);
 
     // to save it at pending service
     try {
@@ -267,6 +302,9 @@ export const CourseDisUtils = () => {
     handleYearChange,
     filteredCourses,
     handleTeacherDetailsChange,
+    handleSave,
+    fetchError,
+    courseDistributionData
   };
 };
 

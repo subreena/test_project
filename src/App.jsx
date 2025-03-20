@@ -51,6 +51,7 @@ import ManualTheoryExamRoutine from "./pages/ExamRoutine/ManualTheoryExamRoutine
 import EditCourses from "./pages/EditCourses/EditCourses";
 import ExternalTeacherDashboard from "./pages/ExternalTeacherDashboard/ExternalTeacherDashboard";
 import CreateExternalTeacher from "./pages/ExternalTeacherDashboard/CreateExternalTeacher";
+import EditCourseDistribution from "./pages/CourseDistribution/EditCourseDistribution";
 
 export const UserContext = createContext();
 
@@ -156,6 +157,7 @@ const App = () => {
             <Route path="/lab-exam-routine" element={<LabRoutine/>}/>
 
             <Route path="/routine/:state/:id" element={<TemporaryRoutineShow />} />
+            <Route path="/course-distribution/:state" element={<EditCourseDistribution />} />
             <Route path="/course-distribution/:state/:id" element={<TemporaryCourseDistribution />} />
             <Route path="/exam-control/:state/:id" element={<ExamControl/>} />
             <Route path="/theory-duty-roaster/:state/:id" element={<DutyRoaster/>}/>

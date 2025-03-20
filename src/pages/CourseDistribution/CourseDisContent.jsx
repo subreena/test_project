@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { CourseDisUtils } from "./CourseDisUtils";
 import Download from "../../assets/components/Download";
 import Select from "react-select";
+import { Link, useNavigate } from "react-router-dom";
 const CourseDisContent = () => {
   const pdfRef = useRef();
   const [totalBatch, setTotalBatch] = useState(0);
@@ -16,7 +17,10 @@ const CourseDisContent = () => {
     filteredCourses,
     handleView2,
     handleSubmit,
+    handleSave,
     handleTeacherDetailsChange,
+    fetchError,
+    courseDistributionData
   } = CourseDisUtils();
 
   const handleSessionDetailsArray = (e, i) => {
@@ -115,6 +119,8 @@ const CourseDisContent = () => {
     return row;
   };
 
+  
+
   return (
     <div>
       <div className="container-fluid">
@@ -204,6 +210,12 @@ const CourseDisContent = () => {
 
               {/* course Table */}
               <div className="mt-5 mb-5 scrollbar scrollbar-primary ">
+                {fetchError && (
+                  <div className="alert alert-danger text-center">
+                    {fetchError}
+                  </div>
+                )}
+
                 <table className="table">
                   <thead>
                     <tr className="table-success">
@@ -219,6 +231,16 @@ const CourseDisContent = () => {
                     </tr>
                   </thead>
                 </table>
+
+                {courseDistributionData && (
+                  <div className="alert alert-danger text-center">
+                    There is already a Course Distribution under your given exam Year and Semester! {" "}
+                    <Link to={`/course-distribution/temporary/${courseDistributionData._id}`}>
+                      Click to Edit Course Distribution
+                    </Link>
+                  </div>
+                )}
+
                 <div className={view ? "d-block" : "d-none"} ref={pdfRef}>
                   <table className="table table-striped">
                     <thead>
@@ -305,15 +327,21 @@ const CourseDisContent = () => {
                   </table>
                 </div>
               </div>
-              <div className="d-flex justify-content-center">
-                <div className="col-6">
-                  <button
-                    className="btn btn-primary w-100"
-                    onClick={handleSubmit}
-                  >
-                    Publish
-                  </button>
-                </div>
+              <div className="text-center mb-3 mt-3 d-flex justify-content-around ">
+                <button
+                  className="btn btn-secondary text-white bg-secondary bg-gradient w-25"
+                  onClick={handleSave}
+                >
+                  {" "}
+                  Save
+                </button>
+                <button
+                  className="btn btn-primary text-white bg-primary bg-gradient w-25"
+                  onClick={handleSubmit}
+                >
+                  {" "}
+                  Publish
+                </button>
               </div>
               <div>
                 <Download
