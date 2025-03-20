@@ -83,7 +83,7 @@ export const CourseDisUtils = () => {
   const handleYearChange = (event) => {
     const inputValue = event.target.value;
     const parsedYear = parseInt(inputValue, 10);
-    if (!isNaN(parsedYear) && parsedYear >= 2004 && parsedYear <= 2100) {
+    if (!isNaN(parsedYear) && parsedYear >= 2004 && parsedYear <= 9999) {
       setFormData({
         ...formData,
         examYear: parsedYear,

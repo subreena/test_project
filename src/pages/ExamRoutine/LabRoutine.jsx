@@ -231,7 +231,7 @@ const LabRoutine = () => {
                     <input
                       type="number"
                       name="examYear"
-                      min="1900"
+                      min="1000"
                       className="form-control w-75"
                       required
                       onChange={handleInputChange}

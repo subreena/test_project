@@ -52,6 +52,7 @@ import EditCourses from "./pages/EditCourses/EditCourses";
 import ExternalTeacherDashboard from "./pages/ExternalTeacherDashboard/ExternalTeacherDashboard";
 import CreateExternalTeacher from "./pages/ExternalTeacherDashboard/CreateExternalTeacher";
 import EditCourseDistribution from "./pages/CourseDistribution/EditCourseDistribution";
+import TeacherPriority from "./pages/ser1/ser1_components/TeacherPriority";
 
 export const UserContext = createContext();
 
@@ -146,6 +147,7 @@ const App = () => {
 
             {/* Services that are shown to all the user */}
             <Route path="/routine" element={<Routine />} />
+            <Route path="/routine/teacherPriority" element={<TeacherPriority/>} />
             <Route path="/examcontrol" element={<ExamControl />} />
             <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
             

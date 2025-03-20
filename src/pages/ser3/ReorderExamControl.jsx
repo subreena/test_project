@@ -113,7 +113,7 @@ const ReorderExamControl = () => {
   const handleYearChange = (event) => {
     const inputValue = event.target.value;
 
-    if (!isNaN(inputValue) && inputValue >= 1900 && inputValue <= 2100) {
+    if (!isNaN(inputValue) && inputValue >= 1000 && inputValue <= 9999) {
       setYear(inputValue);
     } else {
       // Handle invalid input (optional)
@@ -252,7 +252,7 @@ const ReorderExamControl = () => {
                       placeholder="e.g., 2022"
                       min="2004"
                       required
-                      max="2100"
+                      max="9999"
                       className="form-control"
                     />
                     <p

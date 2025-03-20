@@ -142,7 +142,7 @@ const CourseDisContent = () => {
                       name="examYear"
                       onChange={handleYearChange}
                       placeholder="e.g., 2022"
-                      min="1900"
+                      min="1000"
                       max="2500"
                       className="form-control"
                     />

@@ -285,7 +285,7 @@ const CreateRoutine = () => {
                       placeholder="e.g., 2022"
                       min="2004"
                       required
-                      max="2100"
+                      max="9999"
                       className="form-control"
                     />
                     <p

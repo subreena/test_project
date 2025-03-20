@@ -13,7 +13,7 @@ export const RoutineFunction = () => {
   const handleYearChange = (event) => {
     const inputValue = event.target.value;
 
-    if (!isNaN(inputValue) && inputValue >= 1900 && inputValue <= 2100) {
+    if (!isNaN(inputValue) && inputValue >= 1000 && inputValue <= 9999) {
       setFormData({
         ...formData,
         examYear: inputValue,
