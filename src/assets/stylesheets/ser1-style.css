@@ -81,3 +81,11 @@
         background-color: lightgray;
     }
 }
+
+.bg-orange {
+    background-color: orange !important;
+}
+
+.bg-green {
+    background-color: rgb(80, 200, 120) !important;
+}

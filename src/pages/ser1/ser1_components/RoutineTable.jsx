@@ -48,8 +48,6 @@ const RoutineTable = (props) => {
         if (yearTerm === 0) {
           row.push(
             <td rowSpan={yearTerms.length}  className="vertical">
-              
-              
                 <p style={{transform: 'rotate(-90deg)',  marginBlockStart: '0em', marginBlockEnd:'0em',}}>
                   <strong>
                   {days[day]}

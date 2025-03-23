@@ -53,6 +53,7 @@ import ExternalTeacherDashboard from "./pages/ExternalTeacherDashboard/ExternalT
 import CreateExternalTeacher from "./pages/ExternalTeacherDashboard/CreateExternalTeacher";
 import EditCourseDistribution from "./pages/CourseDistribution/EditCourseDistribution";
 import TeacherPriority from "./pages/ser1/ser1_components/TeacherPriority";
+import SlotsPriority from "./pages/ser1/SlotsPriority";
 
 export const UserContext = createContext();
 
@@ -169,6 +170,8 @@ const App = () => {
 
             <Route path="/external-teacher-dashboard" element={<ExternalTeacherDashboard />} />
             <Route path="/create-external-teacher" element={<CreateExternalTeacher />} />
+
+            <Route path="/slotsPriority" element={ <SlotsPriority/> } />
 
             {/* Services that are shown only to the register user */}
             <Route path="/" element={<PrivateRoute />} >
