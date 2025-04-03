@@ -11,43 +11,9 @@ const PriorityRoutineTable = () => {
   const [timeslots, setTimeslots] = useState([]);
   const [teacherSlots, setTeacherSlots] = useState({});
   const [teachersList, setTeachersList] = useState([]);
-  
+  const [priorityCountMatrix, setPriorityCountMatrix] = useState(null);
 
   useEffect(() => {
-    const fetchTeachers = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/teachers");
-        const data = await response.json();
-  
-        if (data.success) {
-          // Format the data
-          const formattedSlots = {};
-  
-          data.data.forEach((teacher) => {
-            formattedSlots[teacher.teacherCode] = Array(days.length).fill().map(() => Array(timeslots.length).fill(false));
-          });
-
-          // Update state
-          setTeacherSlots(formattedSlots);
-
-          const formattedTeachers = [];
-
-          data.data.forEach((teacher) => {
-            formattedTeachers.push({
-              value: teacher.teacherCode,
-              label: `${teacher.firstName} ${teacher.lastName}`
-            })
-          })
-
-          setTeachersList(formattedTeachers);
-        } else {
-          console.error("Failed to fetch teachers:", data.error);
-        }
-      } catch (error) {
-        console.error("Error fetching teachers:", error);
-      }
-    };
-
     const fetchTimeslot = async () => {
       try {
         const response = await fetch("http://localhost:5000/timeSlot");
@@ -56,8 +22,6 @@ const PriorityRoutineTable = () => {
         }
         const data = await response.json();
         setTimeslots(data.data[0].timeSlot);
-
-        fetchTeachers();
       } catch (error) {
         console.error("Error fetching timeslots:", error);
       }
@@ -65,6 +29,52 @@ const PriorityRoutineTable = () => {
 
     fetchTimeslot();
   }, []);
+
+  const fetchTeachers = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/teachers");
+      const data = await response.json();
+
+      if (data.success) {
+        // Format the data
+        const formattedSlots = {};
+
+        data.data.forEach((teacher) => {
+          formattedSlots[teacher.teacherCode] = Array(days.length).fill().map(() => Array(timeslots.length).fill(0));
+        });
+
+        // Update state
+        setTeacherSlots(formattedSlots);
+
+        const formattedTeachers = [];
+
+        data.data.forEach((teacher) => {
+          formattedTeachers.push({
+            value: teacher.teacherCode,
+            label: `${teacher.firstName} ${teacher.lastName}`
+          })
+        })
+
+        setTeachersList(formattedTeachers);
+      } else {
+        console.error("Failed to fetch teachers:", data.error);
+      }
+    } catch (error) {
+      console.error("Error fetching teachers:", error);
+    }
+  };
+
+  const createPriorityCountMatrix = async () => {
+    const countMatrix = Array(days.length).fill().map(() => Array(timeslots.length).fill(0));
+    setPriorityCountMatrix(countMatrix);
+  }
+
+  useEffect(() => {
+    if (timeslots.length > 0) {
+      createPriorityCountMatrix();
+      fetchTeachers();
+    }
+  }, [timeslots]);
 
   useEffect(() => {
     if(timeslots.length !== 0) toModifiedRoutine();
@@ -116,10 +126,11 @@ const PriorityRoutineTable = () => {
           >
             <button
              onClick={() => handleToggle(day, timeSlot)}
-             className={`btn ${
+             style={{ fontWeight: "bold" }}
+             className={`btn text-white px-4 ${
               teacherSlots[selectedTeacher]?.[day]?.[timeSlot] ? "bg-green" : "bg-orange"
               }`}>
-                &nbsp;
+                {priorityCountMatrix?.[day]?.[timeSlot] ? priorityCountMatrix[day][timeSlot] : "0"}
             </button>
           </td>
         );
@@ -130,8 +141,27 @@ const PriorityRoutineTable = () => {
     setModifiedRoutine(routineModified);
   };
   
+  const teacherErrorMessage = "Please select a Teacher first!";
+
+  const [teacherError, setTeacherError] = useState("");
   const handleToggle = (day, timeSlot) => {
+    if(!selectedTeacher) {
+      setTeacherError(teacherErrorMessage);
+    }
     if (selectedTeacher && day >= 0 && timeSlot >= 0) {
+      setPriorityCountMatrix((prevMatrix) => {
+        // Clone the previous state to avoid mutation
+        const newMatrix = prevMatrix.map((row) => [...row]);
+      
+        if (teacherSlots[selectedTeacher][day][timeSlot]) {
+          newMatrix[day][timeSlot]--;
+        } else {
+          newMatrix[day][timeSlot]++;
+        }
+      
+        return newMatrix; // Update the state properly
+      });
+
       setTeacherSlots((prevSlots) => {
         // Deep clone the object to avoid mutability issues
         const updatedSlots = JSON.parse(JSON.stringify(prevSlots));
@@ -154,6 +184,12 @@ const PriorityRoutineTable = () => {
 
   const handleSelectChange = (value) => {
     setSelectedTeacher(value);
+    if(value === "") {
+      setTeacherError(teacherErrorMessage);
+    }
+    else {
+      setTeacherError("");
+    }
   };
 
   return (
@@ -166,10 +202,15 @@ const PriorityRoutineTable = () => {
           title="Teacher"
         />
       </div>
+      {teacherError && <div className="alert alert-danger text-center mt-1 mb-2 mx-3">
+        {teacherError}
+      </div>}
+
       <Container fluid>
         <Row>
           <div>
             <div className="scrollbar scrollbar-primary mx-auto">
+              <h6 className="text-primary text-center mt-4"> Select slots based on the teacher you selected first! </h6>
               <table className="routine-table">
                 <thead>
                   <tr>
