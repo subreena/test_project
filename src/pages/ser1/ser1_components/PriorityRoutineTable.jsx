@@ -3,6 +3,7 @@ import "../../../assets/stylesheets/ser1-style.css";
 import React, { useState, useEffect } from "react";
 import { Button, Container, ListGroup, Row } from "react-bootstrap";
 import GeneralDropdown from "../../../assets/components/GeneralDropdown";
+import StaticBackdropModal from "../../Modal/StaticBackdropModal";
 
 const PriorityRoutineTable = () => {
   const [modifiedRoutine, setModifiedRoutine] = useState([]);
@@ -192,8 +193,87 @@ const PriorityRoutineTable = () => {
     }
   };
 
+  const [submitError, setSubmitError] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState("");
+  const [year, setYear] = useState(2002);
+  const [semester, setSemester] = useState(1);
+
+  const handleSaveSlots = async (event) => {
+    event.preventDefault();
+
+    handleStaticModalShow();
+
+    
+  };
+
+  const [readyToSave, setReadyToSave] = useState(false);
+  const [staticShow, setStaticShow] = useState(false);
+
+  const handleStaticModalClose = () => {
+    setStaticShow(false);
+    setReadyToSave(false);
+  }
+  const handleStaticModalShow = () => setStaticShow(true);
+  const handleReadyToDelete = () => {
+    setReadyToSave(true);
+    setStaticShow(false);
+  }
+
+  useEffect(() => {
+    const saveMethod = async() => {
+      // to save it at pending service
+      try {
+        // Make a POST request to your endpoint
+        const response = await fetch("http://localhost:5000/priority/slots", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            year: year, 
+            semester: semester,
+            yearSemester: year?.toString() + semester?.toString(),
+            slots: teacherSlots
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error);
+        }
+
+        const d = await response.json();
+        console.log("response: ", d);
+        if (!d.success) {
+          setSubmitError(d.error);
+          setSubmitSuccess("");
+        } else {
+          setSubmitError("");
+          setSubmitSuccess("Data saved successfully!")
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    if(readyToSave) {
+      saveMethod();
+    }
+  }, [readyToSave])
+
   return (
     <>
+
+      <StaticBackdropModal
+        show={staticShow}
+        onHide={handleStaticModalClose}
+        onAccept={handleReadyToDelete}
+        title={`Save Slots Priority`}
+        description={`Are you sure, you want to save this data set?`}
+        buttonName={"Save"}
+        buttonVariant={'primary'}
+      />
+
       <div className="d-flex justify-content-center">
         <GeneralDropdown 
           lists = {teachersList}
@@ -237,6 +317,38 @@ const PriorityRoutineTable = () => {
           </div>
         </Row>
       </Container>
+
+      {submitError && 
+            <div className="alert alert-danger text-center mx-2">
+                {submitError}
+            </div>
+        }
+
+        {submitSuccess && 
+            <div className="alert alert-success text-center mx-2">
+                {submitSuccess}
+            </div>
+        }
+
+      <div className=" my-3 d-flex justify-content-center">
+        <div>
+          <div className="row">
+              <div className="col-6">
+                <button
+                    className="btn btn-success"
+                    style={{
+                    padding: "7px",
+                    width: "32vw",
+                    marginLeft: "15px",
+                    }}
+                    onClick={handleSaveSlots}
+                >
+                    Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
     </>
   );
 };
