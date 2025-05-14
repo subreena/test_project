@@ -31,6 +31,8 @@ const PriorityRoutineTable = () => {
     fetchTimeslot();
   }, []);
 
+  const [serialWiseSlots, setSerialWiseSlots] = useState([]);
+
   const fetchTeachers = async () => {
     try {
       const response = await fetch("http://localhost:5000/teachers");
@@ -156,8 +158,36 @@ const PriorityRoutineTable = () => {
       
         if (teacherSlots[selectedTeacher][day][timeSlot]) {
           newMatrix[day][timeSlot]--;
+
+          // to handle slots serial
+          const updatedSlots = { ...serialWiseSlots };
+
+          if (updatedSlots[selectedTeacher]) {
+            updatedSlots[selectedTeacher] = updatedSlots[selectedTeacher].filter(
+              (slot) => !(slot.day === day && slot.timeslot === timeSlot)
+            );
+          }
+
+          setSerialWiseSlots(updatedSlots);
         } else {
           newMatrix[day][timeSlot]++;
+
+          // to handle slots serial
+          const updatedSlotsSerial = {...serialWiseSlots};
+
+          if (!updatedSlotsSerial[selectedTeacher]) {
+            updatedSlotsSerial[selectedTeacher] = [];
+          }
+
+          // Check if slot already exists
+          const alreadyExists = updatedSlotsSerial[selectedTeacher].some(
+            (slot) => slot.day === day && slot.timeslot === timeSlot
+          );
+
+          if (!alreadyExists) {
+            updatedSlotsSerial[selectedTeacher].push({ day, timeslot: timeSlot });
+            setSerialWiseSlots(updatedSlotsSerial);
+          }
         }
       
         return newMatrix; // Update the state properly
@@ -181,6 +211,9 @@ const PriorityRoutineTable = () => {
     }
   };
   
+  useEffect(() => {
+    console.log(serialWiseSlots);
+  }, [serialWiseSlots])
   
 
   const handleSelectChange = (value) => {
@@ -233,7 +266,7 @@ const PriorityRoutineTable = () => {
             year: year, 
             semester: semester,
             yearSemester: year?.toString() + semester?.toString(),
-            slots: teacherSlots
+            slots: serialWiseSlots
           }),
         });
 
