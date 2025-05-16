@@ -54,6 +54,7 @@ import CreateExternalTeacher from "./pages/ExternalTeacherDashboard/CreateExtern
 import EditCourseDistribution from "./pages/CourseDistribution/EditCourseDistribution";
 import TeacherPriority from "./pages/ser1/ser1_components/TeacherPriority";
 import SlotsPriority from "./pages/ser1/SlotsPriority";
+import EditClassroom from "./pages/EditClassroom/EditClassroom";
 
 export const UserContext = createContext();
 
@@ -167,6 +168,7 @@ const App = () => {
             <Route path="/theory-exam-routine/:state/:id" element={<TheoryRoutine/>}/>
 
             <Route path="/edit-courses" element={<EditCourses />} />
+            <Route path="/edit-classroom" element={<EditClassroom />} />
 
             <Route path="/external-teacher-dashboard" element={<ExternalTeacherDashboard />} />
             <Route path="/create-external-teacher" element={<CreateExternalTeacher />} />

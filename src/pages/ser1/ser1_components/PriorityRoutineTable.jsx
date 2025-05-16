@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "../../../assets/stylesheets/ser1-style.css";
 import React, { useState, useEffect } from "react";
-import { Button, Container, ListGroup, Row } from "react-bootstrap";
+import { Button, Container, ListGroup, Row, Spinner } from "react-bootstrap";
 import GeneralDropdown from "../../../assets/components/GeneralDropdown";
 import StaticBackdropModal from "../../Modal/StaticBackdropModal";
 
@@ -13,6 +13,7 @@ const PriorityRoutineTable = () => {
   const [teacherSlots, setTeacherSlots] = useState({});
   const [teachersList, setTeachersList] = useState([]);
   const [priorityCountMatrix, setPriorityCountMatrix] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchTimeslot = async () => {
@@ -31,7 +32,7 @@ const PriorityRoutineTable = () => {
     fetchTimeslot();
   }, []);
 
-  const [serialWiseSlots, setSerialWiseSlots] = useState([]);
+  const [serialWiseSlots, setSerialWiseSlots] = useState(null);
 
   const fetchTeachers = async () => {
     try {
@@ -228,15 +229,13 @@ const PriorityRoutineTable = () => {
 
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
-  const [year, setYear] = useState(2002);
+  const [year, setYear] = useState(2001);
   const [semester, setSemester] = useState(1);
 
   const handleSaveSlots = async (event) => {
     event.preventDefault();
 
     handleStaticModalShow();
-
-    
   };
 
   const [readyToSave, setReadyToSave] = useState(false);
@@ -256,6 +255,7 @@ const PriorityRoutineTable = () => {
     const saveMethod = async() => {
       // to save it at pending service
       try {
+        setIsLoading(true);
         // Make a POST request to your endpoint
         const response = await fetch("http://localhost:5000/priority/slots", {
           method: "POST",
@@ -286,6 +286,8 @@ const PriorityRoutineTable = () => {
         }
       } catch (error) {
         console.error("Error:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -367,17 +369,25 @@ const PriorityRoutineTable = () => {
         <div>
           <div className="row">
               <div className="col-6">
-                <button
-                    className="btn btn-success"
-                    style={{
-                    padding: "7px",
-                    width: "32vw",
-                    marginLeft: "15px",
-                    }}
-                    onClick={handleSaveSlots}
-                >
-                    Save
-                </button>
+                {
+                  isLoading ? (
+                    <Spinner animation="border" role="status" variant="success">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  ) : (
+                    <button
+                        className="btn btn-success"
+                        style={{
+                        padding: "7px",
+                        width: "32vw",
+                        marginLeft: "15px",
+                        }}
+                        onClick={handleSaveSlots}
+                    >
+                        Save
+                    </button>
+                  )
+                }
               </div>
             </div>
           </div>
