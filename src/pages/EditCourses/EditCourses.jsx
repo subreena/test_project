@@ -132,6 +132,7 @@ const EditCourses = () => {
 
     if(readyToDelete) {
       callDeleteMethod();
+      setReadyToDelete(false);
     } else {
       setDeleteLoading(null);
     }
