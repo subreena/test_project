@@ -7,11 +7,12 @@ const TeacherPriorityUpdater = () => {
   
   const [teacherList, setTeacherList] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState('');
-  const [submitSuccess, setSubmitSuccess] = useState('');
-  const [submitError, setSubmitError] = useState('');
+  const [submitSuccess, setUpdateSuccess] = useState('');
+  const [submitError, setUpdateError] = useState('');
   const [teachers, setTeachers] = useState([]);
   const [teachersName, setTeachersName] = useState([]);
   const [formattedTeacherList, setFormattedTeacherList] = useState([]);
+  const [priorityData, setPriorityData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,18 +20,19 @@ const TeacherPriorityUpdater = () => {
         const response = await fetch(`http://localhost:5000/priority/teacher/data/${year}/${semester}`);
         const data = await response.json();
         if (data.success) {
-          console.log(data.data[0].teachers);
+          // console.log(data.data[0].teachers);
           setTeacherList(data.data[0].teachers);
+          setPriorityData(data.data[0]);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
 
       try {
         const response = await fetch("http://localhost:5000/teachers");
         const data = await response.json();
         if (data.success) {
-          console.log(data.data);
+          // console.log(data.data);
           setTeachers(data.data);
 
           const formattedOptions = data.data.map(teacher => 
@@ -39,7 +41,7 @@ const TeacherPriorityUpdater = () => {
 
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     };
     fetchData();
@@ -65,7 +67,7 @@ const TeacherPriorityUpdater = () => {
 
       // Step 3: Update state
       setFormattedTeacherList(formattedTeachers);
-      // console.log(formattedNames);
+      // // console.log(formattedNames);
       
       // To exclude those teachers which are already included teacherList 
       // Step 1: Convert teacherList to a Set for O(1) lookup
@@ -86,12 +88,12 @@ const TeacherPriorityUpdater = () => {
   };
 
   // useEffect(() => {
-  //   console.log(teachersName);
+  //   // console.log(teachersName);
   // }, [teachersName]);
 
   // Handle adding a new teacher
   const addTeacher = () => {
-    console.log(selectedTeacher);
+    // console.log(selectedTeacher);
     if (selectedTeacher) {
         setFormattedTeacherList([...formattedTeacherList, selectedTeacher]);
     }
@@ -100,7 +102,7 @@ const TeacherPriorityUpdater = () => {
 
     setSelectedTeacher("");
     setTeachersName(newTeachersName);
-    setSubmitError("");
+    setUpdateError("");
   };
 
   // Handle removing a teacher
@@ -110,15 +112,74 @@ const TeacherPriorityUpdater = () => {
       setFormattedTeacherList(formattedTeacherList.filter((_, i) => i !== index));
   };
 
+  const builtTeachersCodeList = () => {
+    return formattedTeacherList.map(teacher => (teacher.split('-')[1]));
+  }
+
+  const [loading, setLoading] = useState(false);
+
+  const updateMethod = async () => {
+    try {
+      // Display an alert to confirm before proceeding
+      const shouldGenerate = window.confirm(
+        "Are you sure you want to update the Teacher Priority List?"
+      );
+
+      if (!shouldGenerate) {
+        // If the user clicks "Cancel" in the alert, do nothing
+        return;
+      }
+
+      setLoading(true);
+      const updatedData = {
+        ...priorityData,
+        teachers: builtTeachersCodeList(),
+      };
+
+      const response = await fetch(
+        `http://localhost:5000/priority/teacher/update/${year}/${semester}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            newData: updatedData
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+
+      const d = await response.json();
+      // // console.log(d);
+      if (d.success) {
+        const data = d.data;
+        // // console.log(data);
+        setUpdateError("");
+        setUpdateSuccess('Teacher Priority successfully updated!');
+      } else {
+        setUpdateError(d.error);
+        setUpdateSuccess('');
+      }
+      // setErrorMessage("");
+    } catch (error) {
+      // setErrorMessage(error.message);
+      console.error("Error creating exam routine:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleUpdate = () => {
       if (!year || !semester || teacherList.length === 0) {
-          setSubmitError('Please ensure year, semester, and at least one teacher is selected.');
-          setSubmitSuccess('');
+          setUpdateError('Please ensure year, semester, and at least one teacher is selected.');
       } else {
-          // You can replace this with your API or backend logic
-          console.log({ year, semester, teacherList });
-          setSubmitSuccess('Routine successfully published!');
-          setSubmitError('');
+          updateMethod();
+          setUpdateError('');
       }
   };
 
@@ -188,15 +249,25 @@ const TeacherPriorityUpdater = () => {
 
           {submitError && <div className="alert alert-danger text-center mx-2">{submitError}</div>}
           {submitSuccess && <div className="alert alert-success text-center mx-2">{submitSuccess}</div>}
-
-          <div className="text-center mb-3 d-flex justify-content-around">
-              <button
-                  className="btn btn-primary text-white bg-primary bg-gradient w-25"
-                  onClick={handleUpdate}
-              >
-                  Update
-              </button>
-          </div>
+          
+          {
+            loading ? (
+              <div className="d-flex justify-content-center mt-4">
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center mb-3 d-flex justify-content-around">
+                <button
+                    className="btn btn-primary text-white bg-primary bg-gradient w-25"
+                    onClick={handleUpdate}
+                >
+                    Update
+                </button>
+              </div>
+            )
+          }
       </div>
   );
 };
