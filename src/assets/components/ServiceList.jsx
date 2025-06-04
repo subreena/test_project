@@ -145,6 +145,7 @@ const ServiceList = (props) => {
 
     if(readyToDelete) {
       callDeleteMethod();
+      setDeleteLoading(null);
     } else {
       setDeleteLoading(null);
     }

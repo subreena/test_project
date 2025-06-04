@@ -213,15 +213,12 @@ export const CourseDisUtils = () => {
   const [loading, setLoading] = useState(false);
   const [defaults, setDefaults] = useState(false);
   const [courseDistributionError, setCourseDistributionError] = useState("");
-  let serviceId = null;
 
-  const handleSave = async(event) => {
+  const handleSave = async (event) => {
     try {
       setLoading(true);
       event.preventDefault();
-
-      console.log(formData);
-
+  
       const response = await fetch("http://localhost:5000/courseDistribution", {
         method: "POST",
         headers: {
@@ -229,40 +226,39 @@ export const CourseDisUtils = () => {
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error);
       }
-
+  
       const d = await response.json();
-      console.log(d);
       if (d.success) {
         const data = d.data;
-        serviceId = data._id;
-        console.log(data);
         setCourseDistributionError("");
-        console.log(serviceId);
+        return data._id; // Return serviceId
       } else {
         setCourseDistributionError(d.error);
+        return null;
       }
-      // setErrorMessage("");
     } catch (error) {
-      // setErrorMessage(error.message);
       console.error("Error creating exam routine:", error);
+      return null;
     } finally {
       setLoading(false);
       setDefaults(false);
     }
-  }
+  };  
 
   const handleSubmit = async (event) => {
-    // to save it at temporary course distribution
-    handleSave(event);
-
-    // to save it at pending service
+    const serviceId = await handleSave(event); // Get returned ID
+  
+    if (!serviceId) {
+      setCourseDistributionError("Service Id is null!");
+      return; // or handle the error accordingly
+    }
+  
     try {
-      // Make a POST request to your endpoint
       const response = await fetch("http://localhost:5000/pendingService", {
         method: "POST",
         headers: {
@@ -274,12 +270,12 @@ export const CourseDisUtils = () => {
           senderName,
         }),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error);
       }
-
+  
       const d = await response.json();
       console.log("pending: ", d);
       if (!d.success) {
@@ -289,6 +285,7 @@ export const CourseDisUtils = () => {
       console.error("Error:", error);
     }
   };
+  
 
   return {
     courseData,

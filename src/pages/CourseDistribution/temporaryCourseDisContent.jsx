@@ -121,6 +121,43 @@ const CourseDisContent = () => {
     }
   };
 
+  const [senderName, setSenderName] = useState("");
+  useEffect(() => {
+    const teacher = JSON.parse(localStorage.getItem("teacher"));
+    const name = `${teacher?.firstName} ${teacher?.lastName}`;
+    console.log(name);
+    setSenderName(name);
+  }, []);
+
+  const handleSubmit = async (event) => {
+    try {
+      const response = await fetch("http://localhost:5000/pendingService", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          serviceName: "Course Distribution",
+          senderName,
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+  
+      const d = await response.json();
+      console.log("pending: ", d);
+      if (!d.success) {
+        setCourseDistributionError(d.error);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   useEffect(() => {
     setIsLoading(true);
     const newTeacherCodeToName = { "": "No Teacher" };
@@ -518,12 +555,23 @@ const CourseDisContent = () => {
               </div>
               <div className="d-flex justify-content-center">
                 <div className="col-6">
-                  <button
+                  {
+                    (state === 'permanent') ? (
+                    <button
                     className="btn btn-primary w-100"
                     onClick={handleUpdate}
-                  >
-                    Update
-                  </button>
+                    >
+                      Update
+                    </button>
+                    ) : (
+                      <button
+                      className="btn btn-primary w-100"
+                      onClick={handleSubmit}
+                      >
+                        Publish
+                      </button>
+                    )
+                  }
                 </div>
               </div>
               <div>

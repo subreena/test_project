@@ -23,6 +23,7 @@ const PriorityRoutineTable = () => {
           throw new Error("Failed to fetch timeslots");
         }
         const data = await response.json();
+        console.log(data.data[0].timeSlot);
         setTimeslots(data.data[0].timeSlot);
       } catch (error) {
         console.error("Error fetching timeslots:", error);
@@ -69,7 +70,7 @@ const PriorityRoutineTable = () => {
   };
 
   const createPriorityCountMatrix = async () => {
-    const countMatrix = Array(days.length).fill().map(() => Array(timeslots.length).fill(0));
+    const countMatrix = Array(days.length).fill().map(() => Array(timeslots.length-1).fill(0));
     setPriorityCountMatrix(countMatrix);
   }
 
@@ -98,7 +99,7 @@ const PriorityRoutineTable = () => {
         </td>
       );
 
-      for (let timeSlot = 0; timeSlot < timeslots.length; timeSlot++) {
+      for (let timeSlot = 0; timeSlot < timeslots.length-1; timeSlot++) {
         if (onlyFirstTime && timeSlot === 5) {
           row.push(
             <td
@@ -229,8 +230,8 @@ const PriorityRoutineTable = () => {
 
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
-  const [year, setYear] = useState(2001);
-  const [semester, setSemester] = useState(1);
+  const [year, setYear] = useState(null);
+  const [semester, setSemester] = useState(null);
 
   const handleSaveSlots = async (event) => {
     event.preventDefault();
@@ -296,8 +297,106 @@ const PriorityRoutineTable = () => {
     }
   }, [readyToSave])
 
+  const handleInputChange = (event) => {
+    const {name, value, id} = event.target;
+
+    console.log(name, value, id);
+
+    const newValue =
+    event.target.type === "radio" ? (id === "odd" ? "1" : "2") : value;
+
+    console.log(newValue);
+
+    setSemester(newValue);
+  }
+
+  const handleYearChange = (event) => {
+    const inputValue = event.target.value;
+
+    if (!isNaN(inputValue) && inputValue >= 1000 && inputValue <= 9999) {
+      setYear(inputValue);
+    }
+  };
+
   return (
     <>
+      <hr />
+
+      <div className="d-flex justify-content-center mt-2 mb-4">
+        <form action="">
+          <div className="container">
+            <div className="row d-flex justify-content-between">
+              <div className="col-5">
+                {/* exam year */}
+                <div className="row">
+                  <div className="col-auto ">
+                    <label htmlFor="year" className="form-label">
+                      Exam Year:{" "}
+                    </label>
+                  </div>
+                  <div className="col-auto">
+                    <input
+                      type="number"
+                      id="yearInput"
+                      name="year"
+                      onChange={handleYearChange}
+                      placeholder="e.g., 2022"
+                      min="2004"
+                      required
+                      max="9999"
+                      className="form-control"
+                    />
+                    <p
+                      className={
+                        year
+                          ? "text-success text-sm"
+                          : "text-danger text-sm"
+                      }
+                    >
+                      Selected Year: {year || "No year selected"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-5">
+                {/* semester selection */}
+                <div className="row d-flex justify-content-end">
+                  <div className="col-auto">
+                    <label htmlFor="semester">Semester Selection: </label>
+                  </div>
+                  <div className="col-auto">
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      id="odd"
+                      name="semester"
+                      autoComplete="off"
+                      required
+                      onChange={handleInputChange}
+                    />
+                    <label className="btn btn-outline-primary" htmlFor="odd">
+                      Odd
+                    </label>
+                    &nbsp; &nbsp;
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      id="even"
+                      name="semester"
+                      autoComplete="off"
+                      required
+                      onChange={handleInputChange}
+                    />
+                    <label className="btn btn-outline-primary" htmlFor="even">
+                      Even
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
 
       <StaticBackdropModal
         show={staticShow}

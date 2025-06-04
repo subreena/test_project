@@ -55,6 +55,9 @@ import EditCourseDistribution from "./pages/CourseDistribution/EditCourseDistrib
 import TeacherPriority from "./pages/ser1/ser1_components/TeacherPriority";
 import SlotsPriority from "./pages/ser1/SlotsPriority";
 import EditClassroom from "./pages/EditClassroom/EditClassroom";
+import EditTimeSlot from "./pages/EditTimeSlot/EditTimeSlot";
+import CreateClassRoutine from "./pages/ser1/ser1_components/CreateClassRoutine";
+import TeacherPriorityUpdater from "./pages/ser1/ser1_components/TeacherPriorityUpdater";
 
 export const UserContext = createContext();
 
@@ -161,6 +164,7 @@ const App = () => {
             <Route path="/lab-exam-routine" element={<LabRoutine/>}/>
 
             <Route path="/routine/:state/:id" element={<TemporaryRoutineShow />} />
+            <Route path="/update/priority/teacher/:year/:semester" element={<TeacherPriorityUpdater />} />
             <Route path="/course-distribution/:state" element={<EditCourseDistribution />} />
             <Route path="/course-distribution/:state/:id" element={<TemporaryCourseDistribution />} />
             <Route path="/exam-control/:state/:id" element={<ExamControl/>} />
@@ -169,11 +173,14 @@ const App = () => {
 
             <Route path="/edit-courses" element={<EditCourses />} />
             <Route path="/edit-classroom" element={<EditClassroom />} />
+            <Route path="/edit-timeslot" element={<EditTimeSlot />} />
 
             <Route path="/external-teacher-dashboard" element={<ExternalTeacherDashboard />} />
             <Route path="/create-external-teacher" element={<CreateExternalTeacher />} />
 
             <Route path="/slotsPriority" element={ <SlotsPriority/> } />
+
+            <Route path="/create-class-routine" element={ <CreateClassRoutine/> } />
 
             {/* Services that are shown only to the register user */}
             <Route path="/" element={<PrivateRoute />} >

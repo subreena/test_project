@@ -147,6 +147,7 @@ const ExternalTeacherDashboard = () => {
     
     if(readyToDelete) {
       callDeleteMethod();
+      setReadyToDelete(false);
     } else {
       setDeleteLoading(null);
     }
