@@ -1,11 +1,13 @@
 import "bootstrap/dist/css/bootstrap.css";
-import "../../../assets/stylesheets/ser1-style.css";
 import React, { useState, useEffect } from "react";
 import { Button, Container, ListGroup, Row, Spinner } from "react-bootstrap";
-import GeneralDropdown from "../../../assets/components/GeneralDropdown";
-import StaticBackdropModal from "../../Modal/StaticBackdropModal";
+import GeneralDropdown from "../../assets/components/GeneralDropdown";
+import StaticBackdropModal from "../Modal/StaticBackdropModal";
+import { useParams } from "react-router-dom";
 
-const PriorityRoutineTable = () => {
+const UpdateSlotsPriority = () => {
+  const {year, semester} = useParams();
+
   const [modifiedRoutine, setModifiedRoutine] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState("");
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
@@ -17,6 +19,8 @@ const PriorityRoutineTable = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    // console.log(year, semester);
+
     const fetchTimeslot = async () => {
       try {
         const response = await fetch("http://localhost:5000/timeSlot");
@@ -24,7 +28,7 @@ const PriorityRoutineTable = () => {
           throw new Error("Failed to fetch timeslots");
         }
         const data = await response.json();
-        console.log(data.data[0].timeSlot);
+        // console.log(data.data[0].timeSlot);
         setTimeslots(data.data[0].timeSlot);
 
         let count = 0;
@@ -33,7 +37,7 @@ const PriorityRoutineTable = () => {
         }
         setTimeslotsLenth(count);
 
-        console.log(count);
+        // console.log(count);
       } catch (error) {
         console.error("Error fetching timeslots:", error);
       }
@@ -50,15 +54,7 @@ const PriorityRoutineTable = () => {
       const data = await response.json();
 
       if (data.success) {
-        // Format the data
-        const formattedSlots = {};
-
-        data.data.forEach((teacher) => {
-          formattedSlots[teacher.teacherCode] = Array(days.length).fill().map(() => Array(timeslotsLength).fill(0));
-        });
-
-        // Update state
-        setTeacherSlots(formattedSlots);
+        updateTeacherSlots(data.data);
 
         const formattedTeachers = [];
 
@@ -78,21 +74,53 @@ const PriorityRoutineTable = () => {
     }
   };
 
-  const createPriorityCountMatrix = async () => {
+  const updatePriorityCountMatrix = () => {
     const countMatrix = Array(days.length).fill().map(() => Array(timeslotsLength).fill(0));
+    
+    for(const teacherCode in serialWiseSlots) {
+      serialWiseSlots[teacherCode].forEach(({day, timeslot}) => {
+        countMatrix[day][timeslot]++;
+      });
+    }
+
     setPriorityCountMatrix(countMatrix);
   }
 
+  const updateTeacherSlots = (teachers) => {
+    // Format the data
+    const formattedSlots = {};
+
+    teachers.forEach((teacher) => {
+      formattedSlots[teacher.teacherCode] = Array(days.length).fill().map(() => Array(timeslotsLength).fill(0));
+    });
+
+    for(const teacherCode in serialWiseSlots) {
+      serialWiseSlots[teacherCode].forEach(({day, timeslot}) => {
+        formattedSlots[teacherCode][day][timeslot] = 1;
+      });
+    }
+
+    // console.log(formattedSlots);
+
+    // Update state
+    setTeacherSlots(formattedSlots);
+  }
+
   useEffect(() => {
-    if (timeslotsLength > 0) {
-      createPriorityCountMatrix();
+    if (timeslotsLength > 0 && serialWiseSlots) {
+      updatePriorityCountMatrix();
       fetchTeachers();
     }
-  }, [timeslots]);
+  }, [timeslots, serialWiseSlots]);
 
   useEffect(() => {
     if(timeslotsLength !== 0) toModifiedRoutine();
   }, [timeslots, selectedTeacher, teacherSlots]);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("slotsPriority"));
+    setSerialWiseSlots(data);
+  }, []);
 
   const toModifiedRoutine = () => {
     // var onlyFirstTime = true;
@@ -109,7 +137,7 @@ const PriorityRoutineTable = () => {
         </td>
       );
 
-      for (let timeSlot = 0; timeSlot < timeslots.length; timeSlot++) {
+      for (let timeSlot = 0; timeSlot < timeslotsLength; timeSlot++) {
         if (timeslots[timeSlot].isLunchHour && onlyFirstTime[timeSlot]) {
           row.push(
             <td
@@ -132,8 +160,7 @@ const PriorityRoutineTable = () => {
             </td>
           );
           onlyFirstTime[timeSlot] = false;
-          continue;
-        } else if (timeslots[timeSlot].isLunchHour) continue;
+        }
 
         row.push(
           <td
@@ -164,6 +191,9 @@ const PriorityRoutineTable = () => {
     if(!selectedTeacher) {
       setTeacherError(teacherErrorMessage);
     }
+
+    // console.log("day: ", day, "timeslot: ", timeSlot);
+
     if (selectedTeacher && day >= 0 && timeSlot >= 0) {
       setPriorityCountMatrix((prevMatrix) => {
         // Clone the previous state to avoid mutation
@@ -202,6 +232,8 @@ const PriorityRoutineTable = () => {
             setSerialWiseSlots(updatedSlotsSerial);
           }
         }
+
+        // console.log(newMatrix);
       
         return newMatrix; // Update the state properly
       });
@@ -217,16 +249,12 @@ const PriorityRoutineTable = () => {
         // Toggle the value
         updatedSlots[selectedTeacher][day][timeSlot] = !updatedSlots[selectedTeacher][day][timeSlot];
   
-        console.log(updatedSlots[selectedTeacher][day][timeSlot]); // Debugging output
+        // console.log(updatedSlots[selectedTeacher][day][timeSlot]); // Debugging output
   
         return updatedSlots; // Return the updated state
       });
     }
   };
-  
-  useEffect(() => {
-    console.log(serialWiseSlots);
-  }, [serialWiseSlots])
   
 
   const handleSelectChange = (value) => {
@@ -241,10 +269,8 @@ const PriorityRoutineTable = () => {
 
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
-  const [year, setYear] = useState(null);
-  const [semester, setSemester] = useState(null);
 
-  const handleSaveSlots = async (event) => {
+  const handleUpdateSlots = async (event) => {
     event.preventDefault();
 
     handleStaticModalShow();
@@ -264,21 +290,26 @@ const PriorityRoutineTable = () => {
   }
 
   useEffect(() => {
-    const saveMethod = async() => {
+    const updateMethod = async() => {
       // to save it at pending service
       try {
         setIsLoading(true);
+
+        const updatedData = {
+          year: year, 
+          semester: semester,
+          yearSemester: year?.toString() + semester?.toString(),
+          slots: serialWiseSlots
+        };
+
         // Make a POST request to your endpoint
-        const response = await fetch("http://localhost:5000/priority/slots", {
-          method: "POST",
+        const response = await fetch(`http://localhost:5000/priority/slots/update/${year}/${semester}`, {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            year: year, 
-            semester: semester,
-            yearSemester: year?.toString() + semester?.toString(),
-            slots: serialWiseSlots
+            newData: updatedData
           }),
         });
 
@@ -288,13 +319,14 @@ const PriorityRoutineTable = () => {
         }
 
         const d = await response.json();
-        console.log("response: ", d);
+        // // console.log("response: ", d);
         if (!d.success) {
           setSubmitError(d.error);
           setSubmitSuccess("");
         } else {
           setSubmitError("");
-          setSubmitSuccess("Data saved successfully!")
+          setSubmitSuccess("Data updated successfully!");
+          localStorage.setItem("slotsPriority", JSON.stringify(d.data.slots));
         }
       } catch (error) {
         console.error("Error:", error);
@@ -304,118 +336,20 @@ const PriorityRoutineTable = () => {
     }
 
     if(readyToSave) {
-      saveMethod();
+      updateMethod();
     }
   }, [readyToSave])
 
-  const handleInputChange = (event) => {
-    const {name, value, id} = event.target;
-
-    console.log(name, value, id);
-
-    const newValue =
-    event.target.type === "radio" ? (id === "odd" ? "1" : "2") : value;
-
-    console.log(newValue);
-
-    setSemester(newValue);
-  }
-
-  const handleYearChange = (event) => {
-    const inputValue = event.target.value;
-
-    if (!isNaN(inputValue) && inputValue >= 1000 && inputValue <= 9999) {
-      setYear(inputValue);
-    }
-  };
-
   return (
-    <>
-      <hr />
-
-      <div className="d-flex justify-content-center mt-2 mb-4">
-        <form action="">
-          <div className="container">
-            <div className="row d-flex justify-content-between">
-              <div className="col-5">
-                {/* exam year */}
-                <div className="row">
-                  <div className="col-auto ">
-                    <label htmlFor="year" className="form-label">
-                      Exam Year:{" "}
-                    </label>
-                  </div>
-                  <div className="col-auto">
-                    <input
-                      type="number"
-                      id="yearInput"
-                      name="year"
-                      onChange={handleYearChange}
-                      placeholder="e.g., 2022"
-                      min="2004"
-                      required
-                      max="9999"
-                      className="form-control"
-                    />
-                    <p
-                      className={
-                        year
-                          ? "text-success text-sm"
-                          : "text-danger text-sm"
-                      }
-                    >
-                      Selected Year: {year || "No year selected"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-5">
-                {/* semester selection */}
-                <div className="row d-flex justify-content-end">
-                  <div className="col-auto">
-                    <label htmlFor="semester">Semester Selection: </label>
-                  </div>
-                  <div className="col-auto">
-                    <input
-                      type="radio"
-                      className="btn-check"
-                      id="odd"
-                      name="semester"
-                      autoComplete="off"
-                      required
-                      onChange={handleInputChange}
-                    />
-                    <label className="btn btn-outline-primary" htmlFor="odd">
-                      Odd
-                    </label>
-                    &nbsp; &nbsp;
-                    <input
-                      type="radio"
-                      className="btn-check"
-                      id="even"
-                      name="semester"
-                      autoComplete="off"
-                      required
-                      onChange={handleInputChange}
-                    />
-                    <label className="btn btn-outline-primary" htmlFor="even">
-                      Even
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <StaticBackdropModal
+      <>
+        <h1 className="text-center">Update Slots Priority</h1>
+        <StaticBackdropModal
         show={staticShow}
         onHide={handleStaticModalClose}
         onAccept={handleReadyToDelete}
-        title={`Save Slots Priority`}
-        description={`Are you sure, you want to save this data set?`}
-        buttonName={"Save"}
+        title={`Update Slots Priority`}
+        description={`Are you sure, you want to update this data set?`}
+        buttonName={"Update"}
         buttonVariant={'primary'}
       />
 
@@ -489,9 +423,9 @@ const PriorityRoutineTable = () => {
                         width: "32vw",
                         marginLeft: "15px",
                         }}
-                        onClick={handleSaveSlots}
+                        onClick={handleUpdateSlots}
                     >
-                        Save
+                        Update
                     </button>
                   )
                 }
@@ -499,8 +433,8 @@ const PriorityRoutineTable = () => {
             </div>
           </div>
         </div>
-    </>
-  );
-};
+      </>
+  )
+}
 
-export default PriorityRoutineTable;
+export default UpdateSlotsPriority;

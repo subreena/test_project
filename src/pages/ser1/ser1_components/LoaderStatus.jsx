@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 
 const LoaderStatus = ({ status, loadingMessage, successMessage, errorMessage, successLink, errorLink }) => {
-    useEffect(() => {
-        console.log(status);
-    }, [status]);
 
-    const LOADING = 1, SUCCESS = 2, ERROR = 3;
+  const LOADING = 1, SUCCESS = 2, ERROR = 3;
 
   if (status === LOADING) {
     return (

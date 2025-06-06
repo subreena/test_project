@@ -58,6 +58,7 @@ import EditClassroom from "./pages/EditClassroom/EditClassroom";
 import EditTimeSlot from "./pages/EditTimeSlot/EditTimeSlot";
 import CreateClassRoutine from "./pages/ser1/ser1_components/CreateClassRoutine";
 import TeacherPriorityUpdater from "./pages/ser1/ser1_components/TeacherPriorityUpdater";
+import UpdateSlotsPriority from "./pages/ser1/UpdateSlotsPriority";
 
 export const UserContext = createContext();
 
@@ -179,6 +180,7 @@ const App = () => {
             <Route path="/create-external-teacher" element={<CreateExternalTeacher />} />
 
             <Route path="/slotsPriority" element={ <SlotsPriority/> } />
+            <Route path="/slotsPriority/update/:year/:semester" element={ <UpdateSlotsPriority />} />
 
             <Route path="/create-class-routine" element={ <CreateClassRoutine/> } />
 

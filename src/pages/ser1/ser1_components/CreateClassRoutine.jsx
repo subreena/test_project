@@ -6,381 +6,421 @@ import { Button } from "react-bootstrap";
 import LoaderStatus from "./LoaderStatus";
 
 const CreateClassRoutine = () => {
-    const [formData, setFormData] = useState({
-        year: null,
-        semester: null,
-        courseDetails: null,
-        slots: null,
-        mode: "priority",
-        timeslot: null
-    });
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [routine, setRoutine] = useState([]);
-    const [yearTerms, setYearTerms] = useState([]);
-    const [defaults, setDefaults] = useState(true);
-    const [dataSetFound, setDataSetFound] = useState(false);
+  const [formData, setFormData] = useState({
+      year: null,
+      semester: null,
+      courseDetails: null,
+      slots: null,
+      mode: "priority",
+      timeslot: null
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [routine, setRoutine] = useState([]);
+  const [yearTerms, setYearTerms] = useState([]);
+  const [defaults, setDefaults] = useState(true);
+  const [dataSetFound, setDataSetFound] = useState(false);
 
-    const [senderName, setSenderName] = useState("");
-    const [routineData, setRoutineData] = useState(null);
-    const [teacherCodeToObj, setTeacherCodeToObj] = useState({});
-    const [courseCodeToObj, setCourseCodeToObj] = useState({});
-    const [courseData, setCourseData] = useState([]);
-    const [teacher, setTeacher] = useState([]);
-    const [isSearch, setIsSearch] = useState(true);
-    const [selectedMode, setSelectedMode] = useState("priority");
+  const [senderName, setSenderName] = useState("");
+  const [routineData, setRoutineData] = useState(null);
+  const [teacherCodeToObj, setTeacherCodeToObj] = useState({});
+  const [courseCodeToObj, setCourseCodeToObj] = useState({});
+  const [courseData, setCourseData] = useState([]);
+  const [teacher, setTeacher] = useState([]);
+  const [isSearch, setIsSearch] = useState(true);
+  const [selectedMode, setSelectedMode] = useState("priority");
 
-    const handleInputChange = (event) => {
-        const {name, value, id} = event.target;
+  const handleInputChange = (event) => {
+      const {name, value, id} = event.target;
 
-        console.log(name, value, id);
+      console.log(name, value, id);
 
-        const newValue =
-        event.target.type === "radio" ? (id === "odd" ? "1" : "2") : value;
+      const newValue =
+      event.target.type === "radio" ? (id === "odd" ? "1" : "2") : value;
 
-        console.log(newValue);
+      console.log(newValue);
 
-        setFormData({
-        ...formData,
-        [name]: newValue,
-        });
-    }
+      setFormData({
+      ...formData,
+      [name]: newValue,
+      });
+  }
 
-    let serviceId = null;
-    const handleSubmitForApproval = async (event) => {
+  let serviceId = null;
+  const handleSubmitForApproval = async (event) => {
+    event.preventDefault();
+    console.log(formData);
+
+    try {
+      // Display an alert to confirm before proceeding
+      const shouldGenerate = window.confirm(
+        "Are you sure you want to submit the routine?"
+      );
+
+      if (!shouldGenerate) {
+        // If the user clicks "Cancel" in the alert, do nothing
+        return;
+      }
+
+      setLoading(true);
       event.preventDefault();
+
       console.log(formData);
 
-      try {
-        // Display an alert to confirm before proceeding
-        const shouldGenerate = window.confirm(
-          "Are you sure you want to submit the routine?"
-        );
-  
-        if (!shouldGenerate) {
-          // If the user clicks "Cancel" in the alert, do nothing
-          return;
-        }
-  
-        setLoading(true);
-        event.preventDefault();
-  
-        console.log(formData);
-  
-        const response = await fetch(
-          "http://localhost:5000/generateRandomRoutine/data",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              data: routineData,
-            }),
-          }
-        );
-  
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error);
-        }
-  
-        const d = await response.json();
-        console.log(d);
-        if (d.success) {
-          const data = d.data;
-          serviceId = data._id;
-          console.log(data);
-          setError("");
-          console.log(serviceId);
-        } else {
-          setError(d.error);
-        }
-        // setErrorMessage("");
-      } catch (error) {
-        // setErrorMessage(error.message);
-        console.error("Error creating exam routine:", error);
-      } finally {
-        setLoading(false);
-        setDefaults(false);
-      }
-  
-      // to save it at pending service
-      try {
-        // Make a POST request to your endpoint
-        const response = await fetch("http://localhost:5000/pendingService", {
+      const response = await fetch(
+        "http://localhost:5000/generateRandomRoutine/data",
+        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id: serviceId,
-            serviceName: "Theory Class Routine",
-            senderName,
+            data: routineData,
           }),
-        });
-  
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error);
         }
-  
-        const d = await response.json();
-        console.log("pending: ", d);
-        if (!d.success) {
-          setError(d.error);
-        } else {
-          setError("");
-        }
-      } catch (error) {
-        console.error("Error:", error);
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
+
+      const d = await response.json();
+      console.log(d);
+      if (d.success) {
+        const data = d.data;
+        serviceId = data._id;
+        console.log(data);
+        setError("");
+        console.log(serviceId);
+      } else {
+        setError(d.error);
+      }
+      // setErrorMessage("");
+    } catch (error) {
+      // setErrorMessage(error.message);
+      console.error("Error creating exam routine:", error);
+    } finally {
+      setLoading(false);
+      setDefaults(false);
     }
 
-    const handleYearChange = (event) => {
-      const inputValue = event.target.value;
-  
-      if (!isNaN(inputValue) && inputValue >= 1000 && inputValue <= 9999) {
-        console.log(inputValue);
-        setFormData({
-          ...formData,
-          year: inputValue,
-        });
+    // to save it at pending service
+    try {
+      // Make a POST request to your endpoint
+      const response = await fetch("http://localhost:5000/pendingService", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: serviceId,
+          serviceName: "Theory Class Routine",
+          senderName,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+
+      const d = await response.json();
+      console.log("pending: ", d);
+      if (!d.success) {
+        setError(d.error);
       } else {
-        // Handle invalid input (optional)
-        setFormData({
-          ...formData,
-          year: "",
-        });
+        setError("");
       }
-    };
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await fetch("http://localhost:5000/courseDetails");
-          const data = await response.json();
-          if (data.success) {
-            setCourseData(data.data);
-            setError("");
-          } else setError(data.error);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchData();
-    }, []);
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await fetch("http://localhost:5000/teachers");
-          const data = await response.json();
-          if (data.success) {
-            setTeacher(data.data);
-            setError("");
-          } else setError(data.error);
-        } catch (error) {
-          setError(error);
-        }
-      };
-      fetchData();
-    }, []);
-  
-    useEffect(() => {
-      setLoading(true);
-      const newTeacherCodeToObj = {};
-      if (teacher) {
-        teacher.forEach((t) => {
-          newTeacherCodeToObj[t.teacherCode] = t;
-          // console.log(t.teacherCode, newTeacherCodeToObj[t.teacherCode]);
-        });
-      }
-  
-      setTeacherCodeToObj(newTeacherCodeToObj);
-      setLoading(false);
-    }, [teacher]);
-  
-    useEffect(() => {
-      setLoading(true);
-  
-      const newCourseCodeToObj = {};
-      if (courseData) {
-        courseData.forEach((c) => {
-          newCourseCodeToObj[c.code] = c;
-          //   console.log(c.code, newCourseCodeToObj[c.code]);
-        });
-      }
-      setCourseCodeToObj(newCourseCodeToObj);
-      setLoading(false);
-    }, [courseData]);
-  
-    const generateRoutine = async (e) => {
+  const handleYearChange = (event) => {
+    const inputValue = event.target.value;
+
+    if (!isNaN(inputValue) && inputValue >= 1000 && inputValue <= 9999) {
+      console.log(inputValue);
+      setFormData({
+        ...formData,
+        year: inputValue,
+      });
+    } else {
+      // Handle invalid input (optional)
+      setFormData({
+        ...formData,
+        year: "",
+      });
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        // Display an alert to confirm before proceeding
-        const shouldGenerate = window.confirm(
-          "Are you sure you want to generate a random routine?"
-        );
-  
-        if (!shouldGenerate) {
-          // If the user clicks "Cancel" in the alert, do nothing
-          return;
-        }
-  
-        setLoading(true);
-        e.preventDefault();
-  
-        console.log(formData);
-  
-        const response = await fetch(
-          "http://localhost:5000/generateRandomRoutine",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              year: formData.year,
-              semester: formData.semester,
-              classStartDate: formData.startDate,
-              routineDetails: formData.routineDetails,
-            }),
-          }
-        );
-  
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error);
-        }
-  
-        const d = await response.json();
-        if (d.success) {
-          const data = d.data;
-          console.log(data);
-          setRoutineData(data);
-          setRoutine(data.overall);
-          setYearTerms(data.yearTerm);
+        const response = await fetch("http://localhost:5000/courseDetails");
+        const data = await response.json();
+        if (data.success) {
+          setCourseData(data.data);
           setError("");
-        } else {
-          setError(d.error);
-        }
-        // setErrorMessage("");
+        } else setError(data.error);
       } catch (error) {
-        // setErrorMessage(error.message);
-        console.error("Error creating exam routine:", error);
-      } finally {
-        setLoading(false);
-        setDefaults(false);
+        console.log(error);
       }
     };
-  
-    useEffect(() => {
-      const teacher = JSON.parse(localStorage.getItem("teacher"));
-      const name = `${teacher.firstName} ${teacher.lastName}`;
-      console.log(name);
-      setSenderName(name);
-    }, []);
+    fetchData();
+  }, []);
 
-    const [courseDistribution, setCourseDistribution] = useState(null);
-    const [slotsPriority, setSlotsPriority] = useState(null);
-    const [teacherPriority, setTeacherPriority] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/teachers");
+        const data = await response.json();
+        if (data.success) {
+          setTeacher(data.data);
+          setError("");
+        } else setError(data.error);
+      } catch (error) {
+        setError(error);
+      }
+    };
+    fetchData();
+  }, []);
 
-    const LOADING = 1, SUCCESS = 2, ERROR = 3;
-    const [courseDistributionLoader, setCourseDistributionLoader] = useState(0);
-    const [slotsPriorityLoader, setSlotsPriorityLoader] = useState(0);
-    const [teacherPriorityLoader, setTeacherPriorityLoader] = useState(0);
-    const handleSearch = () => {
+  useEffect(() => {
+    setLoading(true);
+    const newTeacherCodeToObj = {};
+    if (teacher) {
+      teacher.forEach((t) => {
+        newTeacherCodeToObj[t.teacherCode] = t;
+        // console.log(t.teacherCode, newTeacherCodeToObj[t.teacherCode]);
+      });
+    }
+
+    setTeacherCodeToObj(newTeacherCodeToObj);
+    setLoading(false);
+  }, [teacher]);
+
+  useEffect(() => {
+    setLoading(true);
+
+    const newCourseCodeToObj = {};
+    if (courseData) {
+      courseData.forEach((c) => {
+        newCourseCodeToObj[c.code] = c;
+        //   console.log(c.code, newCourseCodeToObj[c.code]);
+      });
+    }
+    setCourseCodeToObj(newCourseCodeToObj);
+    setLoading(false);
+  }, [courseData]);
+
+  const generateRoutine = async (e) => {
+    try {
+      // Display an alert to confirm before proceeding
+      const shouldGenerate = window.confirm(
+        "Are you sure you want to generate a random routine?"
+      );
+
+      if (!shouldGenerate) {
+        // If the user clicks "Cancel" in the alert, do nothing
+        return;
+      }
+
+      setLoading(true);
+      e.preventDefault();
+
       console.log(formData);
 
-      const fetchCourseDistribuition = () => {
-        setCourseDistributionLoader(LOADING);
-        fetch(
-          `http://localhost:5000/CourseDistributionManagement/data/${formData.year}/${formData.semester}`
-        )
-          .then((response) => response.json())
-          .then((d) => {
-            console.log(d);
-            if (d.success) {
-              const data = d.data;
-              console.log(data);
-              const lastIndex = data.length - 1;
-              setCourseDistribution(data[lastIndex]);
-              setCourseDistributionLoader(SUCCESS);
-            } else {
-              setCourseDistributionLoader(ERROR);
-            }
-          })
-          .catch((error) => console.error(error));
+      const response = await fetch(
+        "http://localhost:5000/generateRandomRoutine",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            year: formData.year,
+            semester: formData.semester,
+            classStartDate: formData.startDate,
+            routineDetails: formData.routineDetails,
+          }),
         }
+      );
 
-      const fetchPrioritySlots = () => {
-        setSlotsPriorityLoader(LOADING);
-        fetch(
-          `http://localhost:5000/priority/slots/data/${formData.year}/${formData.semester}`
-        )
-          .then((response) => response.json())
-          .then((d) => {
-            console.log(d);
-            if (d.success) {
-              const data = d.data;
-              console.log(data);
-              const lastIndex = data.length - 1;
-              setSlotsPriority(data[lastIndex]);
-              setSlotsPriorityLoader(SUCCESS);
-            } else {
-              setSlotsPriorityLoader(ERROR);
-            }
-          })
-          .catch((error) => console.error(error));
-        }
-
-      const fetchTeacherPriority = () => {
-        setTeacherPriorityLoader(LOADING);
-        fetch(
-          `http://localhost:5000/priority/teacher/data/${formData.year}/${formData.semester}`
-        )
-          .then((response) => response.json())
-          .then((d) => {
-            console.log(d);
-            if (d.success) {
-              const data = d.data;
-              console.log(data);
-              const lastIndex = data.length - 1;
-              setTeacherPriority(data[lastIndex]);
-              setTeacherPriorityLoader(SUCCESS);
-            } else {
-              setTeacherPriorityLoader(ERROR);
-            }
-          })
-          .catch((error) => console.error(error));
-        }
-
-      if(!formData.year) {
-        setError('Exam year field is empty!');
-        return;
-      } else if(formData.year.length !== 4) {
-        setError("Exam year field must be exactly 4 digits long!");
-        return;
-      } else if(!formData.semester) {
-        setError("Semester is not selected yet!");
-        return;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
 
-      if(selectedMode === 'priority') {
-        fetchCourseDistribuition();
-        fetchTeacherPriority();
-        fetchPrioritySlots();
-      } else if(selectedMode === 'random') {
-        fetchCourseDistribuition();
+      const d = await response.json();
+      if (d.success) {
+        const data = d.data;
+        console.log(data);
+        setRoutineData(data);
+        setRoutine(data.overall);
+        setYearTerms(data.yearTerm);
+        setError("");
       } else {
-        // for manual edit
+        setError(d.error);
       }
+      // setErrorMessage("");
+    } catch (error) {
+      // setErrorMessage(error.message);
+      console.error("Error creating exam routine:", error);
+    } finally {
+      setLoading(false);
+      setDefaults(false);
+    }
+  };
+
+  useEffect(() => {
+    const teacher = JSON.parse(localStorage.getItem("teacher"));
+    const name = `${teacher.firstName} ${teacher.lastName}`;
+    console.log(name);
+    setSenderName(name);
+  }, []);
+
+  const [courseDistribution, setCourseDistribution] = useState(null);
+  const [slotsPriority, setSlotsPriority] = useState(null);
+  const [teacherPriority, setTeacherPriority] = useState(null);
+
+  const LOADING = 1, SUCCESS = 2, ERROR = 3;
+  const [courseDistributionLoader, setCourseDistributionLoader] = useState(0);
+  const [slotsPriorityLoader, setSlotsPriorityLoader] = useState(0);
+  const [teacherPriorityLoader, setTeacherPriorityLoader] = useState(0);
+  const [counter, setCounter] = useState(0);
+
+  const fetchCourseDistribuition = async () => {
+    setCourseDistributionLoader(LOADING);
+    fetch(
+      `http://localhost:5000/CourseDistributionManagement/data/${formData.year}/${formData.semester}`
+    )
+      .then((response) => response.json())
+      .then((d) => {
+        // console.log(d);
+        if (d.success) {
+          const data = d.data;
+          // console.log(data);
+          const lastIndex = data.length - 1;
+          setCourseDistribution(data[lastIndex]);
+          setCourseDistributionLoader(SUCCESS);
+          setCounter(prev => prev + 1);
+
+          console.log(data[lastIndex]);
+
+          localStorage.setItem("courseDistribution", JSON.stringify(data[lastIndex].courseDetails));
+        } else {
+          setCourseDistributionLoader(ERROR);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setCourseDistributionLoader(ERROR);
+      });
     }
 
-    const handleChange = (event) => {
-      setSelectedMode(event.target.value);
-      console.log('Selected:', event.target.value);
-    };
+  const fetchPrioritySlots = async () => {
+    setSlotsPriorityLoader(LOADING);
+    fetch(
+      `http://localhost:5000/priority/slots/data/${formData.year}/${formData.semester}`
+    )
+      .then((response) => response.json())
+      .then((d) => {
+        // console.log(d);
+        if (d.success) {
+          const data = d.data;
+          // console.log(data);
+          const lastIndex = data.length - 1;
+          setSlotsPriority(data[lastIndex]);
+          setSlotsPriorityLoader(SUCCESS);
+          setCounter(prev => prev + 1);
+
+          localStorage.setItem("slotsPriority", JSON.stringify(data[lastIndex].slots));
+        } else {
+          setSlotsPriorityLoader(ERROR);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setSlotsPriorityLoader(ERROR);
+      });
+    }
+
+  const fetchTeacherPriority = async () => {
+    setTeacherPriorityLoader(LOADING);
+    fetch(
+      `http://localhost:5000/priority/teacher/data/${formData.year}/${formData.semester}`
+    )
+      .then((response) => response.json())
+      .then((d) => {
+        // console.log(d);
+        if (d.success) {
+          const data = d.data;
+          // console.log(data);
+          const lastIndex = data.length - 1;
+          setTeacherPriority(data[lastIndex]);
+          setTeacherPriorityLoader(SUCCESS);
+          setCounter(prev => prev + 1);
+
+          console.log(data[lastIndex]);
+
+          localStorage.setItem("teacherPriority", JSON.stringify(data[lastIndex].teachers));
+        } else {
+          setTeacherPriorityLoader(ERROR);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setTeacherPriorityLoader(ERROR);
+      });
+    }
+
+  useEffect(() => {
+    console.log(counter);
+
+    if (selectedMode === "priority" && counter === 3) {
+      setDataSetFound(true);
+    } else if (selectedMode === "random" && counter === 1) {
+      setDataSetFound(true);
+    } else if(selectedMode === "manual") {
+      setDataSetFound(true);
+    }
+  }, [counter])
+    
+  const handleSearch = () => {
+    if(!formData.year) {
+      setError('Exam year field is empty!');
+      return;
+    } else if(formData.year.length !== 4) {
+      setError("Exam year field must be exactly 4 digits long!");
+      return;
+    } else if(!formData.semester) {
+      setError("Semester is not selected yet!");
+      return;
+    }
+    
+    setDataSetFound(false);
+
+    if (selectedMode === "priority") {
+      fetchCourseDistribuition();
+      fetchTeacherPriority();
+      fetchPrioritySlots();
+    } else if (selectedMode === "random") {
+      fetchCourseDistribuition();
+    } else {
+      setDataSetFound(true);
+    }
+  }
+
+  const handleChange = (event) => {
+    setSelectedMode(event.target.value);
+    console.log('Selected:', event.target.value);
+  };
+
+  useEffect(() => {
+    console.log("found: ", dataSetFound);
+  }, [dataSetFound])
     
 
   return (
@@ -535,7 +575,10 @@ const CreateClassRoutine = () => {
             loadingMessage={`Searching Slots Priority of year: ${formData?.year} and semester: ${formData?.semester}`}
             successMessage="Slot Priority list is found!"
             errorMessage="Slots priority list not found!"
-            successLink={null}
+            successLink={{
+              href: `/slotsPriority/update/${formData?.year}/${formData?.semester}`,
+              label: "Show"
+            }}
             errorLink={{
               href: "/slotsPriority",
               label: "Create"
@@ -562,36 +605,20 @@ const CreateClassRoutine = () => {
           {/* routine table  */}
 
           {
-            dataSetFound && <div className="mt-3 d-flex justify-content-center">
-              <div>
-                <div className="row">
-                  <div className="col-6">
-                    <Link to="/routine">
-                      <button
-                        className="btn btn-success"
-                        style={{
-                          padding: "7px",
-                          width: "32vw",
-                          marginRight: "15px",
-                        }}
-                      >
-                        Back To Final Routine
-                      </button>
-                    </Link>
-                  </div>
-                  <div className="col-6">
-                    <button
-                      className="btn btn-success"
-                      style={{
-                        padding: "7px",
-                        width: "32vw",
-                        marginLeft: "15px",
-                      }}
-                      onClick={generateRoutine}
-                    >
-                      Click to Re-order
-                    </button>
-                  </div>
+            dataSetFound && <div className="mt-4 d-flex justify-content-center">
+              <div className="row">
+                <div className="col-6">
+                  <button
+                    className="btn btn-success"
+                    style={{
+                      padding: "7px",
+                      width: "32vw",
+                      marginLeft: "15px",
+                    }}
+                    onClick={generateRoutine}
+                  >
+                    Create
+                  </button>
                 </div>
               </div>
             </div>
