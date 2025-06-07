@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import PriorityRoutineTable from "./ser1_components/PriorityRoutineTable";
 
-const SlotsPriority = () => {
+const SlotsPriority = ({ teachers, serialWiseSlots, setSerialWiseSlots }) => {
     return (
         <>
-            <h1 className="text-center">Create Slots Priority</h1>
-            <PriorityRoutineTable />
+            <h2 className="text-center"> Based on the Teacher Priority create Slots Priority </h2>
+            <PriorityRoutineTable
+                teachers={teachers}
+                serialWiseSlots={serialWiseSlots}
+                setSerialWiseSlots={setSerialWiseSlots}
+            />
         </>
     )
 }

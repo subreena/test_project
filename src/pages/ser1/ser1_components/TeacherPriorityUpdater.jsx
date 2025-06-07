@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CustomDropdown from '../../ser3/CustomDropdown';
 import { useParams } from 'react-router-dom';
 
@@ -88,14 +88,14 @@ const TeacherPriorityUpdater = () => {
   };
 
   // useEffect(() => {
-  //   // console.log(teachersName);
+  //   console.log(teachersName);
   // }, [teachersName]);
 
   // Handle adding a new teacher
   const addTeacher = () => {
     // console.log(selectedTeacher);
     if (selectedTeacher) {
-        setFormattedTeacherList([...formattedTeacherList, selectedTeacher]);
+      setFormattedTeacherList([...formattedTeacherList, selectedTeacher]);
     }
 
     const newTeachersName = teachersName.filter(teacher => teacher !== selectedTeacher);
@@ -107,9 +107,9 @@ const TeacherPriorityUpdater = () => {
 
   // Handle removing a teacher
   const removeTeacher = (index) => {
-      setTeachersName([...teachersName, formattedTeacherList[index]]);
+    setTeachersName([...teachersName, formattedTeacherList[index]]);
 
-      setFormattedTeacherList(formattedTeacherList.filter((_, i) => i !== index));
+    setFormattedTeacherList(formattedTeacherList.filter((_, i) => i !== index));
   };
 
   const builtTeachersCodeList = () => {

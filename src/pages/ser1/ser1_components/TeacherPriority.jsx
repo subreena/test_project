@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import CustomDropdown from "../../ser3/CustomDropdown";
 
-const TeacherPriority = () => {
+const TeacherPriority = ({ teachers, teacherList, setTeacherList }) => {
 
     const [selectedTeacher, setSelectedTeacher] = useState(null);
     const [teachersName, setTeachersName] = useState([]);
-    const [teacherList, setTeacherList] = useState([]);
 
     const handleSelectChange = (value) => {
         setSelectedTeacher(value);
@@ -13,22 +12,17 @@ const TeacherPriority = () => {
 
     // Fetch teachers from API when component mounts
     useEffect(() => {
-        fetch("http://localhost:5000/teachers")
-            .then(response => response.json())
-            .then(data => {
-                const formattedOptions = data.data.map(teacher => 
-                    `${teacher.firstName} ${teacher.lastName}-${teacher.teacherCode}`
-                );
-                setTeachersName(formattedOptions);
+        const formattedOptions = teachers.map(teacher => 
+            `${teacher.firstName} ${teacher.lastName}-${teacher.teacherCode}`
+        );
+        setTeachersName(formattedOptions);
 
-                console.log(formattedOptions);
-            })
-            .catch(error => console.error("Error fetching teachers:", error));
-    }, []); // Runs only once when the component mounts
+        console.log(formattedOptions);
+    }, [teachers]); // Runs only once when the component mounts
 
     // Handle adding a new teacher
     const addTeacher = () => {
-        console.log(selectedTeacher);
+        // console.log(selectedTeacher);
         if (selectedTeacher) {
             setTeacherList([...teacherList, selectedTeacher]);
         }
@@ -36,7 +30,6 @@ const TeacherPriority = () => {
         const newTeachersName = teachersName.filter(teacher => teacher !== selectedTeacher);
         setSelectedTeacher("");
         setTeachersName(newTeachersName);
-        setSubmitError("");
     };
 
     // Handle removing a teacher
@@ -46,152 +39,9 @@ const TeacherPriority = () => {
         setTeacherList(teacherList.filter((_, i) => i !== index));
     };
 
-    const [year, setYear] = useState(null);
-    const [semester, setSemester] = useState(null);
-
-    const handleYearChange = (event) => {
-        const inputValue = event.target.value;
-    
-        if (!isNaN(inputValue) && inputValue >= 1000 && inputValue <= 9999) {
-          setYear(inputValue);
-          setSubmitError("");
-        } else {
-            setYear(null);
-        }
-      };
-
-      const handleInputChange = (event) => {
-        const { name, value, id } = event.target;
-    
-        console.log(name, value, id);
-    
-        const newValue =
-          event.target.type === "radio" ? (id === "odd" ? "1" : "2") : value;
-    
-        console.log(newValue);
-    
-        setSemester(newValue);
-        setSubmitError("");
-      };
-
-      const builtTeachersCodeList = () => {
-        return teacherList.map(teacher => (teacher.split('-')[1]));
-      }
-
-      const [submitError, setSubmitError] = useState("");
-      const [submitSuccess, setSubmitSuccess] = useState("");
-
-      const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        // to save it at pending service
-        try {
-          // Make a POST request to your endpoint
-          const response = await fetch("http://localhost:5000/priority/teacher", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              year, 
-              semester,
-              yearSemester: year?.toString() + semester?.toString(),
-              teachers: builtTeachersCodeList()
-            }),
-          });
-    
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error);
-          }
-    
-          const d = await response.json();
-          console.log("response: ", d);
-          if (!d.success) {
-            setSubmitError(d.error);
-            setSubmitSuccess("");
-          } else {
-            setSubmitError("");
-            setSubmitSuccess("Data saved successfully!")
-          }
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      };
-
   return (
     <>
-        <h2 className="text-center">Teacher Priority Dashboard</h2>
-        <hr />
-
-        <div className="container">
-            <div className="row">
-                <div className="col-6 d-flex justify-content-center">
-                    {/* exam year */}
-                    <div>
-                        <label htmlFor="year" className="form-label">
-                        Year:{" "}
-                        </label>
-                    </div>
-                    <div>
-                        <input
-                        type="number"
-                        id="yearInput"
-                        name="year"
-                        onChange={handleYearChange}
-                        placeholder="e.g., 2022"
-                        min="2004"
-                        required
-                        max="9999"
-                        className="form-control"
-                        style={{width: "250px"}}
-                        />
-                        <p
-                        className={
-                            year
-                            ? "text-success text-sm"
-                            : "text-danger text-sm"
-                        }
-                        >
-                        Selected Year: {year || "No year selected"}
-                        </p>
-                    </div>
-                </div>
-                <div className="col-6 d-flex justify-content-center">
-                    {/* semester selection */}
-                    <div>
-                        <label htmlFor="semester">Semester:{" "}</label>
-                    </div>
-                    <div>
-                        <input
-                        type="radio"
-                        className="btn-check"
-                        id="odd"
-                        name="semester"
-                        autoComplete="off"
-                        required
-                        onChange={handleInputChange}
-                        />
-                        <label className="btn btn-outline-primary" htmlFor="odd">
-                        Odd
-                        </label>
-                        &nbsp; &nbsp;
-                        <input
-                        type="radio"
-                        className="btn-check"
-                        id="even"
-                        name="semester"
-                        autoComplete="off"
-                        required
-                        onChange={handleInputChange}
-                        />
-                        <label className="btn btn-outline-primary" htmlFor="even">
-                        Even
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h2 className="text-center">Add Teacher Priority First</h2>
 
         <div className="d-flex justify-content-center">
             <div className="container d-flex justify-content-center m-3">
@@ -240,28 +90,6 @@ const TeacherPriority = () => {
                     </tbody>
                 </table>
             </div>
-        </div>
-        
-        {submitError && 
-            <div className="alert alert-danger text-center mx-2">
-                {submitError}
-            </div>
-        }
-
-        {submitSuccess && 
-            <div className="alert alert-success text-center mx-2">
-                {submitSuccess}
-            </div>
-        }
-
-        <div className="text-center mb-3 d-flex justify-content-around ">
-            <button
-                className="btn btn-primary text-white bg-primary bg-gradient w-25"
-                onClick={handleSubmit}
-            >
-                {" "}
-                Publish
-            </button>
         </div>
     </>
   );

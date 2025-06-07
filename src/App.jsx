@@ -59,6 +59,7 @@ import EditTimeSlot from "./pages/EditTimeSlot/EditTimeSlot";
 import CreateClassRoutine from "./pages/ser1/ser1_components/CreateClassRoutine";
 import TeacherPriorityUpdater from "./pages/ser1/ser1_components/TeacherPriorityUpdater";
 import UpdateSlotsPriority from "./pages/ser1/UpdateSlotsPriority";
+import TeacherSlotsPriority from "./pages/ser1/TeacherSlotsPriority";
 
 export const UserContext = createContext();
 
@@ -153,7 +154,6 @@ const App = () => {
 
             {/* Services that are shown to all the user */}
             <Route path="/routine" element={<Routine />} />
-            <Route path="/routine/teacherPriority" element={<TeacherPriority/>} />
             <Route path="/examcontrol" element={<ExamControl />} />
             <Route path="/exam-control-teacher-wise" element={<ExamControlTeacherWise />} />
             
@@ -179,6 +179,8 @@ const App = () => {
             <Route path="/external-teacher-dashboard" element={<ExternalTeacherDashboard />} />
             <Route path="/create-external-teacher" element={<CreateExternalTeacher />} />
 
+            <Route path="/teacherSlotsPriority" element={<TeacherSlotsPriority />} />
+            <Route path="/routine/teacherPriority" element={<TeacherPriority/>} />
             <Route path="/slotsPriority" element={ <SlotsPriority/> } />
             <Route path="/slotsPriority/update/:year/:semester" element={ <UpdateSlotsPriority />} />
 

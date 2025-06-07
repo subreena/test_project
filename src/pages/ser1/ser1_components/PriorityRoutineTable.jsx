@@ -3,9 +3,8 @@ import "../../../assets/stylesheets/ser1-style.css";
 import React, { useState, useEffect } from "react";
 import { Button, Container, ListGroup, Row, Spinner } from "react-bootstrap";
 import GeneralDropdown from "../../../assets/components/GeneralDropdown";
-import StaticBackdropModal from "../../Modal/StaticBackdropModal";
 
-const PriorityRoutineTable = () => {
+const PriorityRoutineTable = ({ teachers, serialWiseSlots, setSerialWiseSlots }) => {
   const [modifiedRoutine, setModifiedRoutine] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState("");
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
@@ -14,7 +13,6 @@ const PriorityRoutineTable = () => {
   const [teacherSlots, setTeacherSlots] = useState({});
   const [teachersList, setTeachersList] = useState([]);
   const [priorityCountMatrix, setPriorityCountMatrix] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchTimeslot = async () => {
@@ -42,40 +40,27 @@ const PriorityRoutineTable = () => {
     fetchTimeslot();
   }, []);
 
-  const [serialWiseSlots, setSerialWiseSlots] = useState(null);
-
   const fetchTeachers = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/teachers");
-      const data = await response.json();
+    // Format the data
+    const formattedSlots = {};
 
-      if (data.success) {
-        // Format the data
-        const formattedSlots = {};
+    teachers.forEach((teacher) => {
+      formattedSlots[teacher.teacherCode] = Array(days.length).fill().map(() => Array(timeslotsLength).fill(0));
+    });
 
-        data.data.forEach((teacher) => {
-          formattedSlots[teacher.teacherCode] = Array(days.length).fill().map(() => Array(timeslotsLength).fill(0));
-        });
+    // Update state
+    setTeacherSlots(formattedSlots);
 
-        // Update state
-        setTeacherSlots(formattedSlots);
+    const formattedTeachers = [];
 
-        const formattedTeachers = [];
+    teachers.forEach((teacher) => {
+      formattedTeachers.push({
+        value: teacher.teacherCode,
+        label: `${teacher.firstName} ${teacher.lastName}`
+      })
+    })
 
-        data.data.forEach((teacher) => {
-          formattedTeachers.push({
-            value: teacher.teacherCode,
-            label: `${teacher.firstName} ${teacher.lastName}`
-          })
-        })
-
-        setTeachersList(formattedTeachers);
-      } else {
-        console.error("Failed to fetch teachers:", data.error);
-      }
-    } catch (error) {
-      console.error("Error fetching teachers:", error);
-    }
+    setTeachersList(formattedTeachers);
   };
 
   const createPriorityCountMatrix = async () => {
@@ -84,11 +69,11 @@ const PriorityRoutineTable = () => {
   }
 
   useEffect(() => {
-    if (timeslotsLength > 0) {
+    if (timeslotsLength > 0 && teachers.length > 0) {
       createPriorityCountMatrix();
       fetchTeachers();
     }
-  }, [timeslots]);
+  }, [timeslots, teachers]);
 
   useEffect(() => {
     if(timeslotsLength !== 0) toModifiedRoutine();
@@ -109,7 +94,7 @@ const PriorityRoutineTable = () => {
         </td>
       );
 
-      for (let timeSlot = 0; timeSlot < timeslots.length; timeSlot++) {
+      for (let timeSlot = 0; timeSlot < timeslotsLength; timeSlot++) {
         if (timeslots[timeSlot].isLunchHour && onlyFirstTime[timeSlot]) {
           row.push(
             <td
@@ -132,8 +117,7 @@ const PriorityRoutineTable = () => {
             </td>
           );
           onlyFirstTime[timeSlot] = false;
-          continue;
-        } else if (timeslots[timeSlot].isLunchHour) continue;
+        }
 
         row.push(
           <td
@@ -217,16 +201,16 @@ const PriorityRoutineTable = () => {
         // Toggle the value
         updatedSlots[selectedTeacher][day][timeSlot] = !updatedSlots[selectedTeacher][day][timeSlot];
   
-        console.log(updatedSlots[selectedTeacher][day][timeSlot]); // Debugging output
+        // console.log(updatedSlots[selectedTeacher][day][timeSlot]); // Debugging output
   
         return updatedSlots; // Return the updated state
       });
     }
   };
   
-  useEffect(() => {
-    console.log(serialWiseSlots);
-  }, [serialWiseSlots])
+  // useEffect(() => {
+  //   console.log(serialWiseSlots);
+  // }, [serialWiseSlots])
   
 
   const handleSelectChange = (value) => {
@@ -239,186 +223,8 @@ const PriorityRoutineTable = () => {
     }
   };
 
-  const [submitError, setSubmitError] = useState("");
-  const [submitSuccess, setSubmitSuccess] = useState("");
-  const [year, setYear] = useState(null);
-  const [semester, setSemester] = useState(null);
-
-  const handleSaveSlots = async (event) => {
-    event.preventDefault();
-
-    handleStaticModalShow();
-  };
-
-  const [readyToSave, setReadyToSave] = useState(false);
-  const [staticShow, setStaticShow] = useState(false);
-
-  const handleStaticModalClose = () => {
-    setStaticShow(false);
-    setReadyToSave(false);
-  }
-  const handleStaticModalShow = () => setStaticShow(true);
-  const handleReadyToDelete = () => {
-    setReadyToSave(true);
-    setStaticShow(false);
-  }
-
-  useEffect(() => {
-    const saveMethod = async() => {
-      // to save it at pending service
-      try {
-        setIsLoading(true);
-        // Make a POST request to your endpoint
-        const response = await fetch("http://localhost:5000/priority/slots", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            year: year, 
-            semester: semester,
-            yearSemester: year?.toString() + semester?.toString(),
-            slots: serialWiseSlots
-          }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error);
-        }
-
-        const d = await response.json();
-        console.log("response: ", d);
-        if (!d.success) {
-          setSubmitError(d.error);
-          setSubmitSuccess("");
-        } else {
-          setSubmitError("");
-          setSubmitSuccess("Data saved successfully!")
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    if(readyToSave) {
-      saveMethod();
-    }
-  }, [readyToSave])
-
-  const handleInputChange = (event) => {
-    const {name, value, id} = event.target;
-
-    console.log(name, value, id);
-
-    const newValue =
-    event.target.type === "radio" ? (id === "odd" ? "1" : "2") : value;
-
-    console.log(newValue);
-
-    setSemester(newValue);
-  }
-
-  const handleYearChange = (event) => {
-    const inputValue = event.target.value;
-
-    if (!isNaN(inputValue) && inputValue >= 1000 && inputValue <= 9999) {
-      setYear(inputValue);
-    }
-  };
-
   return (
     <>
-      <hr />
-
-      <div className="d-flex justify-content-center mt-2 mb-4">
-        <form action="">
-          <div className="container">
-            <div className="row d-flex justify-content-between">
-              <div className="col-5">
-                {/* exam year */}
-                <div className="row">
-                  <div className="col-auto ">
-                    <label htmlFor="year" className="form-label">
-                      Exam Year:{" "}
-                    </label>
-                  </div>
-                  <div className="col-auto">
-                    <input
-                      type="number"
-                      id="yearInput"
-                      name="year"
-                      onChange={handleYearChange}
-                      placeholder="e.g., 2022"
-                      min="2004"
-                      required
-                      max="9999"
-                      className="form-control"
-                    />
-                    <p
-                      className={
-                        year
-                          ? "text-success text-sm"
-                          : "text-danger text-sm"
-                      }
-                    >
-                      Selected Year: {year || "No year selected"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-5">
-                {/* semester selection */}
-                <div className="row d-flex justify-content-end">
-                  <div className="col-auto">
-                    <label htmlFor="semester">Semester Selection: </label>
-                  </div>
-                  <div className="col-auto">
-                    <input
-                      type="radio"
-                      className="btn-check"
-                      id="odd"
-                      name="semester"
-                      autoComplete="off"
-                      required
-                      onChange={handleInputChange}
-                    />
-                    <label className="btn btn-outline-primary" htmlFor="odd">
-                      Odd
-                    </label>
-                    &nbsp; &nbsp;
-                    <input
-                      type="radio"
-                      className="btn-check"
-                      id="even"
-                      name="semester"
-                      autoComplete="off"
-                      required
-                      onChange={handleInputChange}
-                    />
-                    <label className="btn btn-outline-primary" htmlFor="even">
-                      Even
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <StaticBackdropModal
-        show={staticShow}
-        onHide={handleStaticModalClose}
-        onAccept={handleReadyToDelete}
-        title={`Save Slots Priority`}
-        description={`Are you sure, you want to save this data set?`}
-        buttonName={"Save"}
-        buttonVariant={'primary'}
-      />
-
       <div className="d-flex justify-content-center">
         <GeneralDropdown 
           lists = {teachersList}
@@ -459,46 +265,6 @@ const PriorityRoutineTable = () => {
           </div>
         </Row>
       </Container>
-
-      {submitError && 
-            <div className="alert alert-danger text-center mx-2">
-                {submitError}
-            </div>
-        }
-
-        {submitSuccess && 
-            <div className="alert alert-success text-center mx-2">
-                {submitSuccess}
-            </div>
-        }
-
-      <div className=" my-3 d-flex justify-content-center">
-        <div>
-          <div className="row">
-              <div className="col-6">
-                {
-                  isLoading ? (
-                    <Spinner animation="border" role="status" variant="success">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  ) : (
-                    <button
-                        className="btn btn-success"
-                        style={{
-                        padding: "7px",
-                        width: "32vw",
-                        marginLeft: "15px",
-                        }}
-                        onClick={handleSaveSlots}
-                    >
-                        Save
-                    </button>
-                  )
-                }
-              </div>
-            </div>
-          </div>
-        </div>
     </>
   );
 };
