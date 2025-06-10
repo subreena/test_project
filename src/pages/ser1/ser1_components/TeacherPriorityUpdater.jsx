@@ -1,53 +1,14 @@
 import { useEffect, useState } from 'react';
 import CustomDropdown from '../../ser3/CustomDropdown';
-import { useParams } from 'react-router-dom';
 
-const TeacherPriorityUpdater = () => {
-  const {year, semester} = useParams();
+const TeacherPriorityUpdater = ({ teachers, teacherList, teachersName, setTeachersName, formattedTeacherList, setFormattedTeacherList, serialWiseSlots, setSerialWiseSlots }) => {
   
-  const [teacherList, setTeacherList] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState('');
-  const [submitSuccess, setUpdateSuccess] = useState('');
-  const [submitError, setUpdateError] = useState('');
-  const [teachers, setTeachers] = useState([]);
-  const [teachersName, setTeachersName] = useState([]);
-  const [formattedTeacherList, setFormattedTeacherList] = useState([]);
-  const [priorityData, setPriorityData] = useState({});
+
+  // console.log("teachers: ", teachers);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/priority/teacher/data/${year}/${semester}`);
-        const data = await response.json();
-        if (data.success) {
-          // console.log(data.data[0].teachers);
-          setTeacherList(data.data[0].teachers);
-          setPriorityData(data.data[0]);
-        }
-      } catch (error) {
-        // console.log(error);
-      }
-
-      try {
-        const response = await fetch("http://localhost:5000/teachers");
-        const data = await response.json();
-        if (data.success) {
-          // console.log(data.data);
-          setTeachers(data.data);
-
-          const formattedOptions = data.data.map(teacher => 
-            `${teacher.firstName} ${teacher.lastName}-${teacher.teacherCode}`);
-          setTeachersName(formattedOptions);
-
-        }
-      } catch (error) {
-        // console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
+    // console.log("table list: ", teacherList);
     if(teachers.length !== 0 && teacherList.length !== 0) {
       // Step 1: Create a map of teacherCode -> teacher object
       const teacherMap = {};
@@ -91,114 +52,50 @@ const TeacherPriorityUpdater = () => {
   //   console.log(teachersName);
   // }, [teachersName]);
 
+  // useEffect(() => {
+  //   console.log(formattedTeacherList);
+  // }, [formattedTeacherList]);
+
   // Handle adding a new teacher
   const addTeacher = () => {
-    // console.log(selectedTeacher);
+    const teacherCode = selectedTeacher.split('-')[1];
+    const updatedSlots = { ...serialWiseSlots };
+
     if (selectedTeacher) {
       setFormattedTeacherList([...formattedTeacherList, selectedTeacher]);
+      updatedSlots[teacherCode] = [];
+      setSerialWiseSlots(updatedSlots);
     }
 
     const newTeachersName = teachersName.filter(teacher => teacher !== selectedTeacher);
 
     setSelectedTeacher("");
     setTeachersName(newTeachersName);
-    setUpdateError("");
+    // setUpdateError("");
   };
 
   // Handle removing a teacher
   const removeTeacher = (index) => {
     setTeachersName([...teachersName, formattedTeacherList[index]]);
 
+    const teacherCode = formattedTeacherList[index].split('-')[1];
+    const updatedSlots = { ...serialWiseSlots }; // create copy
+
+    if (teacherCode in updatedSlots) {
+      delete updatedSlots[teacherCode];
+    }
+
+    setSerialWiseSlots(updatedSlots);
+
     setFormattedTeacherList(formattedTeacherList.filter((_, i) => i !== index));
   };
 
-  const builtTeachersCodeList = () => {
-    return formattedTeacherList.map(teacher => (teacher.split('-')[1]));
-  }
-
-  const [loading, setLoading] = useState(false);
-
-  const updateMethod = async () => {
-    try {
-      // Display an alert to confirm before proceeding
-      const shouldGenerate = window.confirm(
-        "Are you sure you want to update the Teacher Priority List?"
-      );
-
-      if (!shouldGenerate) {
-        // If the user clicks "Cancel" in the alert, do nothing
-        return;
-      }
-
-      setLoading(true);
-      const updatedData = {
-        ...priorityData,
-        teachers: builtTeachersCodeList(),
-      };
-
-      const response = await fetch(
-        `http://localhost:5000/priority/teacher/update/${year}/${semester}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            newData: updatedData
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error);
-      }
-
-      const d = await response.json();
-      // // console.log(d);
-      if (d.success) {
-        const data = d.data;
-        // // console.log(data);
-        setUpdateError("");
-        setUpdateSuccess('Teacher Priority successfully updated!');
-      } else {
-        setUpdateError(d.error);
-        setUpdateSuccess('');
-      }
-      // setErrorMessage("");
-    } catch (error) {
-      // setErrorMessage(error.message);
-      console.error("Error creating exam routine:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUpdate = () => {
-      if (!year || !semester || teacherList.length === 0) {
-          setUpdateError('Please ensure year, semester, and at least one teacher is selected.');
-      } else {
-          updateMethod();
-          setUpdateError('');
-      }
-  };
+  // useEffect(() => {
+  //   console.log("updatedSlots: ", serialWiseSlots);
+  // }, [serialWiseSlots]);
 
   return (
       <div>
-          <h2 className="text-center">Update Teacher Priority</h2>
-          <hr />
-
-          <div className="container my-3">
-              <div className="row">
-                  <div className="col-6 d-flex justify-content-end">
-                      <h5>Year: {year}</h5>
-                  </div>
-                  <div className="col-6 d-flex justify-content-start">
-                      <h5>Semester: {semester}</h5>
-                  </div>
-              </div>
-          </div>
-
           <div className="d-flex justify-content-center">
               <div className="container d-flex justify-content-center m-3">
                   <table border="1" cellPadding="10">
@@ -246,28 +143,6 @@ const TeacherPriorityUpdater = () => {
                   </table>
               </div>
           </div>
-
-          {submitError && <div className="alert alert-danger text-center mx-2">{submitError}</div>}
-          {submitSuccess && <div className="alert alert-success text-center mx-2">{submitSuccess}</div>}
-          
-          {
-            loading ? (
-              <div className="d-flex justify-content-center mt-4">
-                <div className="spinner-border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              </div>
-            ) : (
-              <div className="text-center mb-3 d-flex justify-content-around">
-                <button
-                    className="btn btn-primary text-white bg-primary bg-gradient w-25"
-                    onClick={handleUpdate}
-                >
-                    Update
-                </button>
-              </div>
-            )
-          }
       </div>
   );
 };

@@ -60,6 +60,7 @@ import CreateClassRoutine from "./pages/ser1/ser1_components/CreateClassRoutine"
 import TeacherPriorityUpdater from "./pages/ser1/ser1_components/TeacherPriorityUpdater";
 import UpdateSlotsPriority from "./pages/ser1/UpdateSlotsPriority";
 import TeacherSlotsPriority from "./pages/ser1/TeacherSlotsPriority";
+import UpdateTeacherSlotsPriority from "./pages/ser1/UpdateTeacherSlotsPriority";
 
 export const UserContext = createContext();
 
@@ -183,6 +184,7 @@ const App = () => {
             <Route path="/routine/teacherPriority" element={<TeacherPriority/>} />
             <Route path="/slotsPriority" element={ <SlotsPriority/> } />
             <Route path="/slotsPriority/update/:year/:semester" element={ <UpdateSlotsPriority />} />
+            <Route path="/teacherSlotsPriority/update/:year/:semester" element={ <UpdateTeacherSlotsPriority />} />
 
             <Route path="/create-class-routine" element={ <CreateClassRoutine/> } />
 

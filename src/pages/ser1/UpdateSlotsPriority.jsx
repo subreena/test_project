@@ -2,76 +2,57 @@ import "bootstrap/dist/css/bootstrap.css";
 import React, { useState, useEffect } from "react";
 import { Button, Container, ListGroup, Row, Spinner } from "react-bootstrap";
 import GeneralDropdown from "../../assets/components/GeneralDropdown";
-import StaticBackdropModal from "../Modal/StaticBackdropModal";
-import { useParams } from "react-router-dom";
 
-const UpdateSlotsPriority = () => {
-  const {year, semester} = useParams();
+const UpdateSlotsPriority = ({ timeslots, timeslotsLength, teachers, serialWiseSlots, setSerialWiseSlots }) => {
 
   const [modifiedRoutine, setModifiedRoutine] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState("");
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
-  const [timeslots, setTimeslots] = useState([]);
-  const [timeslotsLength, setTimeslotsLenth] = useState(0);
   const [teacherSlots, setTeacherSlots] = useState({});
   const [teachersList, setTeachersList] = useState([]);
   const [priorityCountMatrix, setPriorityCountMatrix] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    // console.log(year, semester);
+  // useEffect(() => {
+  //   console.log(teachers);
+  // }, [teachers]);
 
-    const fetchTimeslot = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/timeSlot");
-        if (!response.ok) {
-          throw new Error("Failed to fetch timeslots");
-        }
-        const data = await response.json();
-        // console.log(data.data[0].timeSlot);
-        setTimeslots(data.data[0].timeSlot);
+  const updateTeacherSlots = (teachers) => {
+    // Format the data
+    const formattedSlots = {};
 
-        let count = 0;
-        for(const timeslot of data.data[0].timeSlot) {
-          if(!timeslot.isLunchHour) count++;
-        }
-        setTimeslotsLenth(count);
+    // console.log(serialWiseSlots);
 
-        // console.log(count);
-      } catch (error) {
-        console.error("Error fetching timeslots:", error);
-      }
-    };
+    teachers.forEach((teacher) => {
+      formattedSlots[teacher.teacherCode] = Array(days.length).fill().map(() => Array(timeslotsLength).fill(0));
+    });
 
-    fetchTimeslot();
-  }, []);
+    for(const teacherCode in serialWiseSlots) {
+      serialWiseSlots[teacherCode].forEach(({day, timeslot}) => {
+        // console.log(teacherCode, day, timeslot);
 
-  const [serialWiseSlots, setSerialWiseSlots] = useState(null);
+        formattedSlots[teacherCode][day][timeslot] = 1;
+      });
+    }
+
+    // console.log(formattedSlots);
+
+    // Update state
+    setTeacherSlots(formattedSlots);
+  }
 
   const fetchTeachers = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/teachers");
-      const data = await response.json();
+    updateTeacherSlots(teachers);
 
-      if (data.success) {
-        updateTeacherSlots(data.data);
+    const formattedTeachers = [];
 
-        const formattedTeachers = [];
+    teachers.forEach((teacher) => {
+      formattedTeachers.push({
+        value: teacher.teacherCode,
+        label: `${teacher.firstName} ${teacher.lastName}`
+      })
+    })
 
-        data.data.forEach((teacher) => {
-          formattedTeachers.push({
-            value: teacher.teacherCode,
-            label: `${teacher.firstName} ${teacher.lastName}`
-          })
-        })
-
-        setTeachersList(formattedTeachers);
-      } else {
-        console.error("Failed to fetch teachers:", data.error);
-      }
-    } catch (error) {
-      console.error("Error fetching teachers:", error);
-    }
+    setTeachersList(formattedTeachers);
   };
 
   const updatePriorityCountMatrix = () => {
@@ -86,46 +67,21 @@ const UpdateSlotsPriority = () => {
     setPriorityCountMatrix(countMatrix);
   }
 
-  const updateTeacherSlots = (teachers) => {
-    // Format the data
-    const formattedSlots = {};
-
-    teachers.forEach((teacher) => {
-      formattedSlots[teacher.teacherCode] = Array(days.length).fill().map(() => Array(timeslotsLength).fill(0));
-    });
-
-    for(const teacherCode in serialWiseSlots) {
-      serialWiseSlots[teacherCode].forEach(({day, timeslot}) => {
-        formattedSlots[teacherCode][day][timeslot] = 1;
-      });
-    }
-
-    // console.log(formattedSlots);
-
-    // Update state
-    setTeacherSlots(formattedSlots);
-  }
-
   useEffect(() => {
-    if (timeslotsLength > 0 && serialWiseSlots) {
+    if (timeslotsLength > 0 && serialWiseSlots && teachers?.length > 0) {
       updatePriorityCountMatrix();
       fetchTeachers();
     }
-  }, [timeslots, serialWiseSlots]);
+  }, [timeslots, serialWiseSlots, teachers]);
 
   useEffect(() => {
-    if(timeslotsLength !== 0) toModifiedRoutine();
+    if(timeslotsLength && timeslotsLength > 0) toModifiedRoutine();
   }, [timeslots, selectedTeacher, teacherSlots]);
-
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("slotsPriority"));
-    setSerialWiseSlots(data);
-  }, []);
 
   const toModifiedRoutine = () => {
     // var onlyFirstTime = true;
     var routineModified = [];
-    let onlyFirstTime = Array(timeslots.length).fill(true);
+    let onlyFirstTime = Array(timeslots?.length).fill(true);
 
     for (let day = 0; day < days.length; day++) {
       var row = [];
@@ -267,92 +223,8 @@ const UpdateSlotsPriority = () => {
     }
   };
 
-  const [submitError, setSubmitError] = useState("");
-  const [submitSuccess, setSubmitSuccess] = useState("");
-
-  const handleUpdateSlots = async (event) => {
-    event.preventDefault();
-
-    handleStaticModalShow();
-  };
-
-  const [readyToSave, setReadyToSave] = useState(false);
-  const [staticShow, setStaticShow] = useState(false);
-
-  const handleStaticModalClose = () => {
-    setStaticShow(false);
-    setReadyToSave(false);
-  }
-  const handleStaticModalShow = () => setStaticShow(true);
-  const handleReadyToDelete = () => {
-    setReadyToSave(true);
-    setStaticShow(false);
-  }
-
-  useEffect(() => {
-    const updateMethod = async() => {
-      // to save it at pending service
-      try {
-        setIsLoading(true);
-
-        const updatedData = {
-          year: year, 
-          semester: semester,
-          yearSemester: year?.toString() + semester?.toString(),
-          slots: serialWiseSlots
-        };
-
-        // Make a POST request to your endpoint
-        const response = await fetch(`http://localhost:5000/priority/slots/update/${year}/${semester}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            newData: updatedData
-          }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error);
-        }
-
-        const d = await response.json();
-        // // console.log("response: ", d);
-        if (!d.success) {
-          setSubmitError(d.error);
-          setSubmitSuccess("");
-        } else {
-          setSubmitError("");
-          setSubmitSuccess("Data updated successfully!");
-          localStorage.setItem("slotsPriority", JSON.stringify(d.data.slots));
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    if(readyToSave) {
-      updateMethod();
-    }
-  }, [readyToSave])
-
   return (
       <>
-        <h1 className="text-center">Update Slots Priority</h1>
-        <StaticBackdropModal
-        show={staticShow}
-        onHide={handleStaticModalClose}
-        onAccept={handleReadyToDelete}
-        title={`Update Slots Priority`}
-        description={`Are you sure, you want to update this data set?`}
-        buttonName={"Update"}
-        buttonVariant={'primary'}
-      />
-
       <div className="d-flex justify-content-center">
         <GeneralDropdown 
           lists = {teachersList}
@@ -375,7 +247,7 @@ const UpdateSlotsPriority = () => {
                   <tr>
                     <td className="routine-header-tr">Day</td>
                     {
-                      timeslots.map((t, index) => (
+                      timeslots?.map((t, index) => (
                         <td key={index} className="routine-header-tr">{`${t.start}-${t.end}`}</td>
                       ))
                     }
@@ -393,47 +265,7 @@ const UpdateSlotsPriority = () => {
           </div>
         </Row>
       </Container>
-
-      {submitError && 
-            <div className="alert alert-danger text-center mx-2">
-                {submitError}
-            </div>
-        }
-
-        {submitSuccess && 
-            <div className="alert alert-success text-center mx-2">
-                {submitSuccess}
-            </div>
-        }
-
-      <div className=" my-3 d-flex justify-content-center">
-        <div>
-          <div className="row">
-              <div className="col-6">
-                {
-                  isLoading ? (
-                    <Spinner animation="border" role="status" variant="success">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  ) : (
-                    <button
-                        className="btn btn-success"
-                        style={{
-                        padding: "7px",
-                        width: "32vw",
-                        marginLeft: "15px",
-                        }}
-                        onClick={handleUpdateSlots}
-                    >
-                        Update
-                    </button>
-                  )
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
+    </>
   )
 }
 

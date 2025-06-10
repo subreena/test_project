@@ -16,10 +16,6 @@ const TeacherSlotsPriority = () => {
     const [selectedTeacherList, setSelectedTeacherList] = useState([]);
     const [teacherCodeToTeacher, setTeacherCodeToTeacher] = useState({});
 
-    useEffect(() => {
-      console.log("opne: ", isOpenSlotsPriority)
-    })
-
     const teacherCodeToTeacherMapping = (teachers) => {
       // console.log("teachers: ", teachers);
 
@@ -71,6 +67,18 @@ const TeacherSlotsPriority = () => {
 
   const handleSaveSlots = async (event) => {
     event.preventDefault();
+    setSubmitError("");
+    setSubmitSuccess("");
+
+    if(!year) {
+      setSubmitError("Year field cannot be empty!");
+      return;
+    }
+    if(!semester) {
+      setSubmitError("To continue choose a semester!");
+      return;
+    }
+
 
     handleStaticModalShow();
   };
@@ -91,44 +99,6 @@ const TeacherSlotsPriority = () => {
     return teacherList.map(teacher => (teacher.split('-')[1]));
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // to save it at pending service
-    try {
-        // Make a POST request to your endpoint
-        const response = await fetch("http://localhost:5000/priority/teacher", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            year, 
-            semester,
-            yearSemester: year?.toString() + semester?.toString(),
-            teachers: builtTeachersCodeList()
-        }),
-        });
-
-        if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error);
-        }
-
-        const d = await response.json();
-        console.log("response: ", d);
-        if (!d.success) {
-        setSubmitError(d.error);
-        setSubmitSuccess("");
-        } else {
-        setSubmitError("");
-        setSubmitSuccess("Data saved successfully!")
-        }
-    } catch (error) {
-        console.error("Error:", error);
-    }
-  };
-
   const saveMethod = async() => {
     // to save it at pending service
     try {
@@ -140,10 +110,11 @@ const TeacherSlotsPriority = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          year: year, 
+          year: year,
           semester: semester,
           yearSemester: year?.toString() + semester?.toString(),
-          slots: serialWiseSlots
+          slots: serialWiseSlots,
+          teachers: builtTeachersCodeList()
         }),
       });
 
@@ -171,6 +142,7 @@ const TeacherSlotsPriority = () => {
   useEffect(() => {
     if(readyToSave) {
       saveMethod();
+      setReadyToSave(false);
     }
   }, [readyToSave]);
 
@@ -178,7 +150,7 @@ const TeacherSlotsPriority = () => {
 
   const handleClickToOpenSlotsPriority = () => {
     if(teacherList.length === 0) {
-      setSlotsPriorityError("Please select at least one teacher first!");
+      setSlotsPriorityError("Please add at least one teacher first!");
       return;
     }
 
