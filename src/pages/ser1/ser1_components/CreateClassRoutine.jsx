@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ManualRoutineTable from "./ManualRoutineTable";
 import Download from "../../../assets/components/Download";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap";
 import LoaderStatus from "./LoaderStatus";
 
 const CreateClassRoutine = () => {
+  const pdfRef = useRef();
   const [formData, setFormData] = useState({
       year: null,
       semester: null,
@@ -14,6 +15,7 @@ const CreateClassRoutine = () => {
       mode: "priority",
       timeslot: null
   });
+  const [teacherSlotsPriority, setTeacherSlotsPriority] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [routine, setRoutine] = useState([]);
@@ -29,6 +31,15 @@ const CreateClassRoutine = () => {
   const [teacher, setTeacher] = useState([]);
   const [isSearch, setIsSearch] = useState(true);
   const [selectedMode, setSelectedMode] = useState("priority");
+
+  const [courseDistribution, setCourseDistribution] = useState(null);
+  // const [slotsPriority, setSlotsPriority] = useState(null);
+  // const [teacherPriority, setTeacherPriority] = useState(null);
+
+  const LOADING = 1, SUCCESS = 2, ERROR = 3;
+  const [courseDistributionLoader, setCourseDistributionLoader] = useState(0);
+  const [slotsPriorityLoader, setSlotsPriorityLoader] = useState(0);
+  const [counter, setCounter] = useState(0);
 
   const handleInputChange = (event) => {
       const {name, value, id} = event.target;
@@ -219,7 +230,7 @@ const CreateClassRoutine = () => {
     try {
       // Display an alert to confirm before proceeding
       const shouldGenerate = window.confirm(
-        "Are you sure you want to generate a random routine?"
+        "Are you sure you want to generate a priority based routine?"
       );
 
       if (!shouldGenerate) {
@@ -231,9 +242,10 @@ const CreateClassRoutine = () => {
       e.preventDefault();
 
       console.log(formData);
+      console.log(courseDistribution);
 
       const response = await fetch(
-        "http://localhost:5000/generateRandomRoutine",
+        "http://localhost:5000/generatePriorityBasedClassRoutine",
         {
           method: "POST",
           headers: {
@@ -241,9 +253,7 @@ const CreateClassRoutine = () => {
           },
           body: JSON.stringify({
             year: formData.year,
-            semester: formData.semester,
-            classStartDate: formData.startDate,
-            routineDetails: formData.routineDetails,
+            semester: formData.semester
           }),
         }
       );
@@ -281,16 +291,6 @@ const CreateClassRoutine = () => {
     setSenderName(name);
   }, []);
 
-  const [courseDistribution, setCourseDistribution] = useState(null);
-  const [slotsPriority, setSlotsPriority] = useState(null);
-  const [teacherPriority, setTeacherPriority] = useState(null);
-
-  const LOADING = 1, SUCCESS = 2, ERROR = 3;
-  const [courseDistributionLoader, setCourseDistributionLoader] = useState(0);
-  const [slotsPriorityLoader, setSlotsPriorityLoader] = useState(0);
-  const [teacherPriorityLoader, setTeacherPriorityLoader] = useState(0);
-  const [counter, setCounter] = useState(0);
-
   const fetchCourseDistribuition = async () => {
     setCourseDistributionLoader(LOADING);
     fetch(
@@ -307,9 +307,7 @@ const CreateClassRoutine = () => {
           setCourseDistributionLoader(SUCCESS);
           setCounter(prev => prev + 1);
 
-          console.log(data[lastIndex]);
-
-          localStorage.setItem("courseDistribution", JSON.stringify(data[lastIndex].courseDetails));
+          // console.log(data[lastIndex]);
         } else {
           setCourseDistributionLoader(ERROR);
         }
@@ -332,11 +330,11 @@ const CreateClassRoutine = () => {
           const data = d.data;
           // console.log(data);
           const lastIndex = data.length - 1;
-          setSlotsPriority(data[lastIndex]);
+          setTeacherSlotsPriority(data[lastIndex]);
+          // setTeacherPriority(data[lastIndex].teachers);
+          // setSlotsPriority(data[lastIndex].slots);
           setSlotsPriorityLoader(SUCCESS);
           setCounter(prev => prev + 1);
-
-          localStorage.setItem("slotsPriority", JSON.stringify(data[lastIndex].slots));
         } else {
           setSlotsPriorityLoader(ERROR);
         }
@@ -347,39 +345,10 @@ const CreateClassRoutine = () => {
       });
     }
 
-  const fetchTeacherPriority = async () => {
-    setTeacherPriorityLoader(LOADING);
-    fetch(
-      `http://localhost:5000/priority/teacher/data/${formData.year}/${formData.semester}`
-    )
-      .then((response) => response.json())
-      .then((d) => {
-        // console.log(d);
-        if (d.success) {
-          const data = d.data;
-          // console.log(data);
-          const lastIndex = data.length - 1;
-          setTeacherPriority(data[lastIndex]);
-          setTeacherPriorityLoader(SUCCESS);
-          setCounter(prev => prev + 1);
-
-          console.log(data[lastIndex]);
-
-          localStorage.setItem("teacherPriority", JSON.stringify(data[lastIndex].teachers));
-        } else {
-          setTeacherPriorityLoader(ERROR);
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        setTeacherPriorityLoader(ERROR);
-      });
-    }
-
   useEffect(() => {
     console.log(counter);
 
-    if (selectedMode === "priority" && counter === 3) {
+    if (selectedMode === "priority" && counter === 2) {
       setDataSetFound(true);
     } else if (selectedMode === "random" && counter === 1) {
       setDataSetFound(true);
@@ -404,7 +373,6 @@ const CreateClassRoutine = () => {
 
     if (selectedMode === "priority") {
       fetchCourseDistribuition();
-      fetchTeacherPriority();
       fetchPrioritySlots();
     } else if (selectedMode === "random") {
       fetchCourseDistribuition();
@@ -572,31 +540,15 @@ const CreateClassRoutine = () => {
           <LoaderStatus
             status={slotsPriorityLoader}
             formData={formData}
-            loadingMessage={`Searching Slots Priority of year: ${formData?.year} and semester: ${formData?.semester}`}
-            successMessage="Slot Priority list is found!"
-            errorMessage="Slots priority list not found!"
+            loadingMessage={`Searching Teacher Slots Priority of year: ${formData?.year} and semester: ${formData?.semester}`}
+            successMessage="Teacher Slots Priority is found!"
+            errorMessage="Teacher Slots Priority is not found!"
             successLink={{
-              href: `/slotsPriority/update/${formData?.year}/${formData?.semester}`,
+              href: `/teacherSlotsPriority/update/${formData?.year}/${formData?.semester}`,
               label: "Show"
             }}
             errorLink={{
-              href: "/slotsPriority",
-              label: "Create"
-            }}
-          />
-
-          <LoaderStatus
-            status={teacherPriorityLoader}
-            formData={formData}
-            loadingMessage={`Searching Teacher Priority of year: ${formData?.year} and semester: ${formData?.semester}`}
-            successMessage="Teacher priority list loaded!"
-            errorMessage="Teacher priority list not found!"
-            successLink={{
-              href: `/update/priority/teacher/${formData?.year}/${formData?.semester}`,
-              label: "Show"
-            }}
-            errorLink={{
-              href: "/routine/teacherPriority",
+              href: "/teacherSlotsPriority",
               label: "Create"
             }}
           />
@@ -623,54 +575,90 @@ const CreateClassRoutine = () => {
               </div>
             </div>
           }
-
-          {
-            defaults ? (
-              <div></div>
-            ) : 
-            (
-              loading ? (
-                <div className="d-flex justify-content-center mt-4">
-                  <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                </div>
-              ) : (
-                (error === '') ? (
-                  <div>
-                    <div ref={pdfRef}>
-                      <ManualRoutineTable
-                        routineProps={routine}
-                        yearTermProps={yearTerms}
-                        courseCodeToObj={courseCodeToObj}
-                        teacherCodeToObj={teacherCodeToObj}
-                      />
-                    </div>
-                    <div className="mb-3 mt-3 d-flex justify-content-center">
-                      <button
-                        className="btn btn-primary"
-                        type="submit"
-                        onClick={handleSubmitForApproval}
-                      >
-                        Submit for Approval
-                      </button>
-                    </div>
-                    <div>
-                      <Download pdfRef={pdfRef} fileName={"Proposed-Routine.pdf"} />
-                    </div>
-                  </div>
-                ) : (
-                  <b><p className="text-danger text-center m-4">{error}</p></b>
-                )
-              )
-            )
-          }
         </div>
         <div className="col-2">
           <h5>Related Functions</h5>
           <hr />
+
+          <a href='/coursedistribution' target="_blank" rel="noopener noreferrer">
+            Create Course Distribution
+          </a>
+          
+          <br />
+
+          <a href='/teacherSlotsPriority' target="_blank" rel="noopener noreferrer">
+            Create Teacher Slots Priority
+          </a>
+
+          <br />
+
+          <hr />
+
+          <a href='/external-teacher-dashboard' target="_blank" rel="noopener noreferrer">
+            External Teacher Dashboard
+          </a>
+
+          <br />
+
+          <a href='/edit-courses' target="_blank" rel="noopener noreferrer">
+            Course Dashboard
+          </a>
+
+          <br />
+
+          <a href='/edit-classroom' target="_blank" rel="noopener noreferrer">
+            Classroom Dashboard
+          </a>
+
+          <br />
+
+          <a href='/edit-timeslot' target="_blank" rel="noopener noreferrer">
+            Timeslot Dashboard
+          </a>
         </div>
       </div>
+
+      {
+        defaults ? (
+          <div></div>
+        ) : 
+        (
+          loading ? (
+            <div className="d-flex justify-content-center mt-4">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            (error === '') ? (
+              <div>
+                <div ref={pdfRef}>
+                  <ManualRoutineTable
+                    routineProps={routine}
+                    yearTermProps={yearTerms}
+                    courseCodeToObj={courseCodeToObj}
+                    teacherCodeToObj={teacherCodeToObj}
+                  />
+                </div>
+                <div className="mb-3 mt-3 d-flex justify-content-center">
+                  <button
+                    className="btn btn-primary"
+                    type="submit"
+                    onClick={handleSubmitForApproval}
+                  >
+                    Submit for Approval
+                  </button>
+                </div>
+                <div>
+                  <Download pdfRef={pdfRef} fileName={"Proposed-Routine.pdf"} />
+                </div>
+              </div>
+            ) : (
+              <b><p className="text-danger text-center m-4">{error}</p></b>
+            )
+          )
+        )
+      }
     </>
   );
 };

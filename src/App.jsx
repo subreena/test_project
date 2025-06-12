@@ -182,8 +182,6 @@ const App = () => {
 
             <Route path="/teacherSlotsPriority" element={<TeacherSlotsPriority />} />
             <Route path="/routine/teacherPriority" element={<TeacherPriority/>} />
-            <Route path="/slotsPriority" element={ <SlotsPriority/> } />
-            <Route path="/slotsPriority/update/:year/:semester" element={ <UpdateSlotsPriority />} />
             <Route path="/teacherSlotsPriority/update/:year/:semester" element={ <UpdateTeacherSlotsPriority />} />
 
             <Route path="/create-class-routine" element={ <CreateClassRoutine/> } />
