@@ -56,7 +56,7 @@ const ClassroomCenteredModal = (props) => {
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Add New Course
+          Add New Classroom
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -82,7 +82,7 @@ const ClassroomCenteredModal = (props) => {
           <Modal.Footer>
             <p className="text-danger text-bold">{error}</p>
             <Button variant="success" type="submit">
-              Add Course
+              Add Classroom
             </Button>
           </Modal.Footer>
         </Form>

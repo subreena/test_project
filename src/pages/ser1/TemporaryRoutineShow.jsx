@@ -61,7 +61,7 @@ const Routine = () => {
           title="Teacher"
         />
         <br />
-        <div className="mt-3 d-flex justify-content-center">
+        {/* <div className="mt-3 d-flex justify-content-center">
           <div>
             <Row>
               <Col>
@@ -94,7 +94,7 @@ const Routine = () => {
               </Col>
             </Row>
           </div>
-        </div>
+        </div> */}
         <Row>
           <p className="mx-3 text-danger text-center text-small">
             {routineCommitteeErrorMessage}

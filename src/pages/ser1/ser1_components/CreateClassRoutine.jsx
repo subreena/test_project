@@ -226,6 +226,65 @@ const CreateClassRoutine = () => {
     setLoading(false);
   }, [courseData]);
 
+  const generateRandomRoutine = async (e) => {
+    try {
+      // Display an alert to confirm before proceeding
+      const shouldGenerate = window.confirm(
+        "Are you sure you want to generate a random routine?"
+      );
+
+      if (!shouldGenerate) {
+        // If the user clicks "Cancel" in the alert, do nothing
+        return;
+      }
+
+      setLoading(true);
+      e.preventDefault();
+
+      console.log(formData);
+
+      const response = await fetch(
+        "http://localhost:5000/generateRandomRoutine",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            year: formData.examYear,
+            semester: formData.semester,
+            classStartDate: formData.startDate,
+            routineDetails: formData.routineDetails,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+
+      const d = await response.json();
+      if (d.success) {
+        const data = d.data;
+        console.log(data);
+        setRoutineData(data);
+        setRoutine(data.overall);
+        setYearTerms(data.yearTerm);
+        setError("");
+      } else {
+        setError(d.error);
+      }
+      // setErrorMessage("");
+    } catch (error) {
+      // setErrorMessage(error.message);
+      console.error("Error creating exam routine:", error);
+    } finally {
+      setLoading(false);
+      setDefaults(false);
+    }
+  };
+
   const generateRoutine = async (e) => {
     try {
       // Display an alert to confirm before proceeding
@@ -286,7 +345,7 @@ const CreateClassRoutine = () => {
 
   useEffect(() => {
     const teacher = JSON.parse(localStorage.getItem("teacher"));
-    const name = `${teacher.firstName} ${teacher.lastName}`;
+    const name = `${teacher?.firstName} ${teacher?.lastName}`;
     console.log(name);
     setSenderName(name);
   }, []);
@@ -346,7 +405,7 @@ const CreateClassRoutine = () => {
     }
 
   useEffect(() => {
-    console.log(counter);
+    console.log("counter: ", counter);
 
     if (selectedMode === "priority" && counter === 2) {
       setDataSetFound(true);
@@ -370,6 +429,7 @@ const CreateClassRoutine = () => {
     }
     
     setDataSetFound(false);
+    setCounter(0);
 
     if (selectedMode === "priority") {
       fetchCourseDistribuition();
@@ -389,6 +449,23 @@ const CreateClassRoutine = () => {
   useEffect(() => {
     console.log("found: ", dataSetFound);
   }, [dataSetFound])
+
+  const generateAllRoutine = async (e) => {
+    e.preventDefault();
+    if (selectedMode === "priority") {
+      await generateRoutine(e);
+    } else if (selectedMode === "random") {
+      await generateRandomRoutine(e);
+    } else {
+      console.log("Manual mode selected");
+      setDefaults(false);
+      setError("");
+      setRoutineData([]);
+      setRoutine([]);
+      setYearTerms([]);
+      setDataSetFound(true);
+    }
+  };
     
 
   return (
@@ -521,37 +598,64 @@ const CreateClassRoutine = () => {
             </form>
           </div>
           
-          <LoaderStatus
-            status={courseDistributionLoader}
-            formData={formData}
-            loadingMessage={`Searching Course Distribution of year: ${formData?.year} and semester: ${formData?.semester}`}
-            successMessage="Course Distribution is found!"
-            errorMessage="Course Distribution is not found!"
-            successLink={{
-              href: `/course-distribution/permanent/${courseDistribution?._id}`,
-              label: "Show"
-            }}
-            errorLink={{
-              href: "/coursedistribution",
-              label: "Create"
-            }}
-          />
 
-          <LoaderStatus
-            status={slotsPriorityLoader}
-            formData={formData}
-            loadingMessage={`Searching Teacher Slots Priority of year: ${formData?.year} and semester: ${formData?.semester}`}
-            successMessage="Teacher Slots Priority is found!"
-            errorMessage="Teacher Slots Priority is not found!"
-            successLink={{
-              href: `/teacherSlotsPriority/update/${formData?.year}/${formData?.semester}`,
-              label: "Show"
-            }}
-            errorLink={{
-              href: "/teacherSlotsPriority",
-              label: "Create"
-            }}
-          />
+
+          {/* course distribution and slots priority loader status */}
+          {
+            selectedMode === "priority" && <div>
+                <LoaderStatus
+                  status={courseDistributionLoader}
+                  formData={formData}
+                  loadingMessage={`Searching Course Distribution of year: ${formData?.year} and semester: ${formData?.semester}`}
+                  successMessage="Course Distribution is found!"
+                  errorMessage="Course Distribution is not found!"
+                  successLink={{
+                    href: `/course-distribution/permanent/${courseDistribution?._id}`,
+                    label: "Show"
+                  }}
+                  errorLink={{
+                    href: "/coursedistribution",
+                    label: "Create"
+                  }}
+                />
+
+                <LoaderStatus
+                  status={slotsPriorityLoader}
+                  formData={formData}
+                  loadingMessage={`Searching Teacher Slots Priority of year: ${formData?.year} and semester: ${formData?.semester}`}
+                  successMessage="Teacher Slots Priority is found!"
+                  errorMessage="Teacher Slots Priority is not found!"
+                  successLink={{
+                    href: `/teacherSlotsPriority/update/${formData?.year}/${formData?.semester}`,
+                    label: "Show"
+                  }}
+                  errorLink={{
+                    href: "/teacherSlotsPriority",
+                    label: "Create"
+                  }}
+                />
+              </div>
+          }
+          
+          {
+            selectedMode === "random" && <div>
+                <LoaderStatus
+                  status={courseDistributionLoader}
+                  formData={formData}
+                  loadingMessage={`Searching Course Distribution of year: ${formData?.year} and semester: ${formData?.semester}`}
+                  successMessage="Course Distribution is found!"
+                  errorMessage="Course Distribution is not found!"
+                  successLink={{
+                    href: `/course-distribution/permanent/${courseDistribution?._id}`,
+                    label: "Show"
+                  }}
+                  errorLink={{
+                    href: "/coursedistribution",
+                    label: "Create"
+                  }}
+                />
+              </div>
+          }
 
 
           {/* routine table  */}
@@ -567,15 +671,17 @@ const CreateClassRoutine = () => {
                       width: "32vw",
                       marginLeft: "15px",
                     }}
-                    onClick={generateRoutine}
+                    onClick={generateAllRoutine}
                   >
-                    Create
+                    Create or Regenerate Routine
                   </button>
                 </div>
               </div>
             </div>
           }
         </div>
+
+
         <div className="col-2">
           <h5>Related Functions</h5>
           <hr />
