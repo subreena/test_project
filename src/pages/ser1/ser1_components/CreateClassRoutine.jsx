@@ -563,7 +563,7 @@ const CreateClassRoutine = () => {
                       >
                         <option selected value="priority">Priority Based</option>
                         <option value="random">Random</option>
-                        <option value="manual">Manual</option>
+                        {/* <option value="manual">Manual</option> */}
                       </select>
                     </div>
                   </div>
