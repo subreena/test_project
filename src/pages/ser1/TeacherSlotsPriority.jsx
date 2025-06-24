@@ -31,7 +31,7 @@ const TeacherSlotsPriority = () => {
 
     // Fetch teachers from API when component mounts
     useEffect(() => {
-        fetch("http://localhost:5000/teachers")
+        fetch("https://teachercopilot.vercel.app/teachers")
             .then(response => response.json())
             .then(data => {
                 // console.log(data.data);
@@ -104,7 +104,7 @@ const TeacherSlotsPriority = () => {
     try {
       setIsLoading(true);
       // Make a POST request to your endpoint
-      const response = await fetch("http://localhost:5000/priority/slots", {
+      const response = await fetch("https://teachercopilot.vercel.app/priority/slots", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -6,7 +6,7 @@ const TeacherDetails = () => {
   const [teacherError, setTeacherError] = useState('');
 
   useEffect(() => {
-    fetch("http://localhost:5000/teachers")
+    fetch("https://teachercopilot.vercel.app/teachers")
       .then((response) => response.json())
       .then((d) => {
         if(d.success) {

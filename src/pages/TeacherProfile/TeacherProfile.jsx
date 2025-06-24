@@ -23,7 +23,7 @@ const TeacherProfile = () => {
   const [teacherError, setTeacherError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/teachers")
+    fetch("https://teachercopilot.vercel.app/teachers")
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -51,7 +51,7 @@ const TeacherProfile = () => {
   } = teacher || {};
 
   useEffect(() => {
-    fetch("http://localhost:5000/pendingService")
+    fetch("https://teachercopilot.vercel.app/pendingService")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

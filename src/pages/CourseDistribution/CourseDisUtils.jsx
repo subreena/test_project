@@ -25,7 +25,7 @@ export const CourseDisUtils = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/courseDetails");
+        const response = await fetch("https://teachercopilot.vercel.app/courseDetails");
         const data = await response.json();
         console.log(data);
 
@@ -44,7 +44,7 @@ export const CourseDisUtils = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/teachers");
+        const response = await fetch("https://teachercopilot.vercel.app/teachers");
         const data = await response.json();
         if (data.success) {
           setTeacher(data.data);
@@ -172,7 +172,7 @@ export const CourseDisUtils = () => {
           return;
         }
 
-        const response = await fetch(`http://localhost:5000/courseDistribution/update/${year}/${semester}`);
+        const response = await fetch(`https://teachercopilot.vercel.app/courseDistribution/update/${year}/${semester}`);
         const data = await response.json();
         
         if (data.success) {
@@ -219,7 +219,7 @@ export const CourseDisUtils = () => {
       setLoading(true);
       event.preventDefault();
   
-      const response = await fetch("http://localhost:5000/courseDistribution", {
+      const response = await fetch("https://teachercopilot.vercel.app/courseDistribution", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -259,7 +259,7 @@ export const CourseDisUtils = () => {
     }
   
     try {
-      const response = await fetch("http://localhost:5000/pendingService", {
+      const response = await fetch("https://teachercopilot.vercel.app/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

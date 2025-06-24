@@ -106,7 +106,7 @@ const TheoryDuty = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/generateTheoryDutyRoaster`,
+        `https://teachercopilot.vercel.app/generateTheoryDutyRoaster`,
         {
           method: "POST",
           headers: {
@@ -168,7 +168,7 @@ const TheoryDuty = () => {
       event.preventDefault();
 
       const response = await fetch(
-        "http://localhost:5000/generateTheoryDutyRoaster/data",
+        "https://teachercopilot.vercel.app/generateTheoryDutyRoaster/data",
         {
           method: "POST",
           headers: {
@@ -207,7 +207,7 @@ const TheoryDuty = () => {
     // to save it at pending service
     try {
       // Make a POST request to your endpoint
-      const response = await fetch("http://localhost:5000/pendingService", {
+      const response = await fetch("https://teachercopilot.vercel.app/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

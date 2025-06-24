@@ -89,7 +89,7 @@ const App = () => {
   // // to load all the vital data as soon as possible
   // useEffect(() => {
   //   const saveRoutineData = () => {
-  //     fetch("http://localhost:5000/routine")
+  //     fetch("https://teachercopilot.vercel.app/routine")
   //     .then((response) => response.json())
   //     .then((data) => {
   //       localStorage.setItem('routine', JSON.stringify(data[0].overall));
@@ -101,7 +101,7 @@ const App = () => {
     
   //   const saveExamCommitteeData = () => {
   //     fetch(
-  //       "http://localhost:5000/examCommittee"
+  //       "https://teachercopilot.vercel.app/examCommittee"
   //     )
   //     .then((response) => response.json())
   //     .then((data) => {
