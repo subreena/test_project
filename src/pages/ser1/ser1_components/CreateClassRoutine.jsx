@@ -21,6 +21,7 @@ const CreateClassRoutine = () => {
   const [routineCreationError, setRoutineCreationError] = useState('');
   const [routine, setRoutine] = useState([]);
   const [yearTerms, setYearTerms] = useState([]);
+  const [timeslot, setTimeslot] = useState([]);
   const [defaults, setDefaults] = useState(true);
   const [dataSetFound, setDataSetFound] = useState(false);
 
@@ -270,6 +271,7 @@ const CreateClassRoutine = () => {
         setRoutineData(data);
         setRoutine(data.overall);
         setYearTerms(data.yearTerm);
+        setTimeslot(data.timeslot);
         setRoutineCreationError("");
       } else {
         setRoutineCreationError(d.error);
@@ -328,6 +330,7 @@ const CreateClassRoutine = () => {
         setRoutineData(data);
         setRoutine(data.overall);
         setYearTerms(data.yearTerm);
+        setTimeslot(data.timeslot);
         setRoutineCreationError("");
       } else {
         setRoutineCreationError(d.error);
@@ -404,7 +407,7 @@ const CreateClassRoutine = () => {
     }
 
   useEffect(() => {
-    console.log("counter: ", counter);
+    // console.log("counter: ", counter);
 
     if (selectedMode === "priority" && counter === 2) {
       setDataSetFound(true);
@@ -743,6 +746,7 @@ const CreateClassRoutine = () => {
                     yearTermProps={yearTerms}
                     courseCodeToObj={courseCodeToObj}
                     teacherCodeToObj={teacherCodeToObj}
+                    timeslot={timeslot}
                   />
                 </div>
                 <div className="mb-3 mt-3 d-flex justify-content-center">

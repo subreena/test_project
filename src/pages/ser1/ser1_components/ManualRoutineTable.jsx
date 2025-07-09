@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Container, ListGroup, Row } from "react-bootstrap";
 
 const ManualRoutineTable = (props) => {
-  const { routineProps, yearTermProps, courseCodeToObj, teacherCodeToObj } = props;
+  const { routineProps, yearTermProps, courseCodeToObj, teacherCodeToObj, timeslot } = props;
   const [routine, setRoutine] = useState([]);
   const [modifiedRoutine, setModifiedRoutine] = useState([]);
   const [overall, setOverall] = useState([]);
@@ -387,14 +387,11 @@ const ManualRoutineTable = (props) => {
                   <tr>
                     <td className="routine-header-tr">Day</td>
                     <td className="routine-header-tr">Term, Year</td>
-                    <td className="routine-header-tr">9:00-9:45</td>
-                    <td className="routine-header-tr">9:50-10:35</td>
-                    <td className="routine-header-tr">10:40-11:25</td>
-                    <td className="routine-header-tr">11:30-12:15PM</td>
-                    <td className="routine-header-tr">12:15-1:00PM</td>
-                    <td className="routine-header-tr">1:00-2:00PM</td>
-                    <td className="routine-header-tr">2:00-2:50PM</td>
-                    <td className="routine-header-tr">2:55-3:45PM</td>
+                    {timeslot?.map((t, index) => (
+                      <td key={index} className="routine-header-tr">
+                        {`${t.start}-${t.end}`}
+                      </td>
+                    ))}
                   </tr>
                 </thead>
                 <thead>

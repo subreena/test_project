@@ -13,6 +13,7 @@ const Routine = () => {
   const [yearTerms, setYearTerms] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [teachersName, setTeachersName] = useState([]);
+  const [timeslot, setTimeslot] = useState([]);
 
   // useEffect(() => {
   //   const routineData = JSON.parse(localStorage.getItem("routine"));
@@ -49,6 +50,7 @@ const Routine = () => {
             console.log("teachersName: ", data.routineTeachersName);
             
             setTeachersName(data.routineTeachersName);
+            setTimeslot(data.timeslot);
             console.log(data.routineTeachersName);
 
             localStorage.setItem("routine", JSON.stringify(data.overall));
@@ -154,6 +156,7 @@ const Routine = () => {
           routineProps={routine}
           yearTermProps={yearTerms}
           selectedTeacher={selectedTeacher}
+          timeslot={timeslot}
         />
       </div>
       <Download pdfRef={pdfRef} fileName={"current-routine.pdf"} />

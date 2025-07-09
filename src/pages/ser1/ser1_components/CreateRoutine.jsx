@@ -2,7 +2,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../../../assets/stylesheets/ser1-style.css";
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import RoutineTable from "./RoutineTable";
 import RoutineFunction from "./RoutineFunction";
 import Download from "./../../../assets/components/Download";
 import ManualRoutineTable from "./ManualRoutineTable";
@@ -433,6 +432,7 @@ const CreateRoutine = () => {
                         yearTermProps={yearTerms}
                         courseCodeToObj={courseCodeToObj}
                         teacherCodeToObj={teacherCodeToObj}
+                        timeslot={routineData?.timeslot}
                       />
                     </div>
                     <div className="mb-3 mt-3 d-flex justify-content-center">
