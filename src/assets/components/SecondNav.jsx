@@ -86,15 +86,70 @@ function SecondNav() {
                   Home
                 </Nav.Link>
 
-                <Nav.Link
-                  href="/routine"
-                  className="second-nav-item text-sm-center"
-                >
+                <Nav.Link href="/routine" className="second-nav-item text-sm-center">
                   Routine
                 </Nav.Link>
 
+
                 <NavDropdown
-                  title="Exam Related Services"
+                  title="Create"
+                  id="basic-nav-dropdown"
+                  className="second-nav-dropdown text-sm-center"
+                >
+                  <NavDropdown.Item href="/create-class-routine">
+                    {" "}
+                    Class Routine{" "}
+                  </NavDropdown.Item>
+
+                  <NavDropdown.Divider />
+
+                  <NavDropdown.Item href="/coursedistribution">
+                    {" "}
+                    Course Distribution
+                  </NavDropdown.Item>
+
+                  <NavDropdown.Divider />
+                  
+                  <NavDropdown.Item href="/teacherSlotsPriority">
+                    {" "}
+                    Teacher Slots Priority{" "}
+                  </NavDropdown.Item>
+                </NavDropdown>
+
+                <NavDropdown
+                  title="Dashboard"
+                  id="basic-nav-dropdown"
+                  className="second-nav-dropdown text-sm-center"
+                >
+                  <NavDropdown.Item href="/external-teacher-dashboard">
+                    {" "}
+                    External Teacher{" "}
+                  </NavDropdown.Item>
+
+                  <NavDropdown.Divider />
+
+                  <NavDropdown.Item href="/edit-courses">
+                    {" "}
+                    Courses
+                  </NavDropdown.Item>
+
+                  <NavDropdown.Divider />
+                  
+                  <NavDropdown.Item href="/edit-classroom">
+                    {" "}
+                    Classroom{" "}
+                  </NavDropdown.Item>
+
+                  <NavDropdown.Divider />
+                  
+                  <NavDropdown.Item href="/edit-timeslot">
+                    {" "}
+                    Timeslot{" "}
+                  </NavDropdown.Item>
+                </NavDropdown>
+
+                <NavDropdown
+                  title="Exam"
                   id="basic-nav-dropdown"
                   className="second-nav-dropdown text-sm-center"
                 >

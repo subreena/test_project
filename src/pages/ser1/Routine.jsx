@@ -101,7 +101,7 @@ const Routine = () => {
   return (
     <>
       <Container fluid>
-        <Row>
+        {/* <Row>
           <Col className="mt-1 mb-3 d-flex justify-content-center">
             <Link to="/alldocuments">
               <button
@@ -127,7 +127,7 @@ const Routine = () => {
               Generate Routine
             </button>
           </Col>
-        </Row>
+        </Row> */}
         <Row>
           <b>
             <p className="mx-3 text-danger text-center text-small">
