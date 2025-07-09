@@ -14,7 +14,7 @@ const ClassroomCenteredModal = (props) => {
 
   const handleAdd = async (classroomData) => {
     try {
-      const response = await fetch("https://teachercopilot.vercel.app/room", {
+      const response = await fetch("http://localhost:5000/room", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

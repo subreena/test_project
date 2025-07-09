@@ -18,7 +18,7 @@ const ExternalTeacherDashboard = () => {
   }, []);
 
   const fetchExternalTeachers = async () => {
-    fetch("https://teachercopilot.vercel.app/teachers")
+    fetch("http://localhost:5000/teachers")
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
@@ -115,7 +115,7 @@ const ExternalTeacherDashboard = () => {
     const callDeleteMethod = async() => {
       try {
         const response = await fetch(
-          `https://teachercopilot.vercel.app/teachers/deleteExternalTeacher/${id}`,
+          `http://localhost:5000/teachers/deleteExternalTeacher/${id}`,
           {
             method: "DELETE",
             headers: {

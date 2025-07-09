@@ -17,7 +17,7 @@ const PriorityRoutineTable = ({ teachers, serialWiseSlots, setSerialWiseSlots })
   useEffect(() => {
     const fetchTimeslot = async () => {
       try {
-        const response = await fetch("https://teachercopilot.vercel.app/timeSlot");
+        const response = await fetch("http://localhost:5000/timeSlot");
         if (!response.ok) {
           throw new Error("Failed to fetch timeslots");
         }

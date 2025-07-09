@@ -34,7 +34,7 @@ const FeedbackSection = () => {
     console.log("Form Data:", formData);
     
     try{
-      const response = await fetch('https://teachercopilot.vercel.app/feedback',{
+      const response = await fetch('http://localhost:5000/feedback',{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

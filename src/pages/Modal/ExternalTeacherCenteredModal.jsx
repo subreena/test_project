@@ -43,7 +43,7 @@ const ExternalTeacherCenteredModal = (props) => {
 
   const handleEdit = async (updatedExternalTeacherData) => {
     try {
-      const response = await fetch("https://teachercopilot.vercel.app/teachers/updateExternalTeacher", {
+      const response = await fetch("http://localhost:5000/teachers/updateExternalTeacher", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const ExternalTeacherCenteredModal = (props) => {
   const handleAdd = async (formData) => {
 
     try {
-      const result = await fetch("https://teachercopilot.vercel.app/teachers", {
+      const result = await fetch("http://localhost:5000/teachers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -177,7 +177,7 @@ const ExternalTeacherCenteredModal = (props) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://teachercopilot.vercel.app/courseDetails"
+          "http://localhost:5000/courseDetails"
         );
         let data = await response.json();
 

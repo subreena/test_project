@@ -50,7 +50,7 @@ const EmailPasswordLogin = (props) => {
           setUserState(true);
           localStorage.setItem('user', JSON.stringify(user));
 
-          const teacherApi = `https://teachercopilot.vercel.app/teachers/by-email/${user.email}`;
+          const teacherApi = `http://localhost:5000/teachers/by-email/${user.email}`;
           console.log("Fetching teacher data from:", teacherApi);
           fetch(teacherApi)
           .then((response) => response.json())

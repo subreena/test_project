@@ -31,7 +31,7 @@ const CreateTheoryRoutine = () => {
   useEffect(() => {
     if (routine.examYear.length === 4 && routine.semester !== "") {
       fetch(
-        `https://teachercopilot.vercel.app/CourseDistributionManagement/data/${routine.examYear}/${routine.semester}`
+        `http://localhost:5000/CourseDistributionManagement/data/${routine.examYear}/${routine.semester}`
       )
         .then((response) => response.json())
         .then((d) => {
@@ -246,7 +246,7 @@ const CreateTheoryRoutine = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`https://teachercopilot.vercel.app/generateTheoryExamRoutine`, {
+      const response = await fetch(`http://localhost:5000/generateTheoryExamRoutine`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -318,7 +318,7 @@ const CreateTheoryRoutine = () => {
       event.preventDefault();
 
       const response = await fetch(
-        "https://teachercopilot.vercel.app/generateTheoryExamRoutine/data",
+        "http://localhost:5000/generateTheoryExamRoutine/data",
         {
           method: "POST",
           headers: {
@@ -358,7 +358,7 @@ const CreateTheoryRoutine = () => {
     // to save it at pending service
     try {
       // Make a POST request to your endpoint
-      const response = await fetch("https://teachercopilot.vercel.app/pendingService", {
+      const response = await fetch("http://localhost:5000/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

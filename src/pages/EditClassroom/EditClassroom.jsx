@@ -43,7 +43,7 @@ const EditClassroom = () => {
 
 
   const fetchClassrooms = async () => {
-    fetch("https://teachercopilot.vercel.app/room")
+    fetch("http://localhost:5000/room")
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
@@ -99,7 +99,7 @@ const EditClassroom = () => {
     const callDeleteMethod = async() => {
       try {
         const response = await fetch(
-          `https://teachercopilot.vercel.app/room/delete/${id}`,
+          `http://localhost:5000/room/delete/${id}`,
           {
             method: "DELETE",
             headers: {

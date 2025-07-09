@@ -38,7 +38,7 @@ function Student() {
 
     try {
       const response = await fetch(
-        "https://teachercopilot.vercel.app/students",
+        "http://localhost:5000/students",
         {
           method: "POST",
           headers: {

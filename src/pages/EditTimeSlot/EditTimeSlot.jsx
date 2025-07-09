@@ -37,7 +37,7 @@ const EditTimeSlot = () => {
     useEffect(() => {
         const fetchTimeslot = async () => {
           try {
-            const response = await fetch("https://teachercopilot.vercel.app/timeSlot");
+            const response = await fetch("http://localhost:5000/timeSlot");
             if (!response.ok) {
               throw new Error("Failed to fetch timeslots");
             }
@@ -66,7 +66,7 @@ const EditTimeSlot = () => {
         // to save it at pending service
         try {
           // Make a POST request to your endpoint
-          const response = await fetch(`https://teachercopilot.vercel.app/timeSlot/${timeslotId}`, {
+          const response = await fetch(`http://localhost:5000/timeSlot/${timeslotId}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",

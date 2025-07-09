@@ -113,7 +113,7 @@ const ServiceList = (props) => {
     const callDeleteMethod = async () => {
       try {
         const response = await fetch(
-          `https://teachercopilot.vercel.app/${getApiString(serviceName)}/delete/${serviceId}`,
+          `http://localhost:5000/${getApiString(serviceName)}/delete/${serviceId}`,
           {
             method: "DELETE",
             headers: {

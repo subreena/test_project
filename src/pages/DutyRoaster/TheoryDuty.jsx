@@ -33,7 +33,7 @@ const TheoryDuty = () => {
   const [examCommitteeError, setExamCommitteeError] = useState('');
 
   useEffect(() => {
-    fetch("https://teachercopilot.vercel.app/examCommittee")
+    fetch("http://localhost:5000/examCommittee")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -115,7 +115,7 @@ const TheoryDuty = () => {
 
     try {
       const response = await fetch(
-        `https://teachercopilot.vercel.app/generateTheoryDutyRoaster`,
+        `http://localhost:5000/generateTheoryDutyRoaster`,
         {
           method: "POST",
           headers: {

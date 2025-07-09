@@ -167,7 +167,7 @@ const LabRoutine = () => {
     handleRoutineView();
 
     try {
-      const response = await fetch(`https://teachercopilot.vercel.app/theoryExamRoutine`, {
+      const response = await fetch(`http://localhost:5000/theoryExamRoutine`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

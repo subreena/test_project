@@ -21,8 +21,8 @@ const TheoryRoutine = () => {
   const [loading, setLoading] = useState(false);
   const [allServiceId, setAllServiceId] = useState(null);
 
-  let uri = `https://teachercopilot.vercel.app/theoryExamRoutine/data/${id}/TheoryExamRoutine`;
-  if(state === 'permanent') uri = `https://teachercopilot.vercel.app/TheoryExamRoutineManagement/data/${id}`;
+  let uri = `http://localhost:5000/theoryExamRoutine/data/${id}/TheoryExamRoutine`;
+  if(state === 'permanent') uri = `http://localhost:5000/TheoryExamRoutineManagement/data/${id}`;
 
   useEffect(() => {
     setLoading(true);
@@ -49,7 +49,7 @@ const TheoryRoutine = () => {
         .catch((error) => console.error(error));
     } else {
       // to show default data
-      fetch("https://teachercopilot.vercel.app/serviceId")
+      fetch("http://localhost:5000/serviceId")
         .then((response) => response.json())
         .then((d) => {
           if (d.success) {
@@ -69,7 +69,7 @@ const TheoryRoutine = () => {
       const exam_routine_id = allServiceId?.theoryExamRoutine;
 
       fetch(
-        `https://teachercopilot.vercel.app/TheoryExamRoutineManagement/data/${exam_routine_id}`
+        `http://localhost:5000/TheoryExamRoutineManagement/data/${exam_routine_id}`
       )
         .then((response) => response.json())
         .then((d) => {
