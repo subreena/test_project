@@ -144,6 +144,10 @@ const RoutineTable = (props) => {
 
   const [showYearTerms, setShowYearTerms] = useState(false);
 
+  useEffect(() => {
+    console.log("timeslot: ", timeslot, " routine: ", modifiedRoutine);
+  }, [timeslot, modifiedRoutine]);
+
   return (
     <>
       <Button
@@ -189,30 +193,40 @@ const RoutineTable = (props) => {
       )}
       <Container fluid>
         <Row>
-          <div>
-            <div className="scrollbar scrollbar-primary mx-auto">
-              <table className="routine-table">
-                <thead>
-                  <tr>
-                    <td className="routine-header-tr">Day</td>
-                    <td className="routine-header-tr">Term, Year</td>
-                    {timeslot?.map((t, index) => (
-                      <td key={index} className="routine-header-tr">
-                        {`${t.start}-${t.end}`}
-                      </td>
-                    ))}
-                  </tr>
-                </thead>
-                <thead>
-                  {modifiedRoutine.map((item, index) => (
-                    <React.Fragment key={index}>
-                      <tr> {item} </tr>
-                    </React.Fragment>
-                  ))}
-                </thead>
-              </table>
-            </div>
-          </div>
+          {
+            modifiedRoutine.length !== 0 && timeslot.length !== 0 ? (
+              <div>
+                <div className="scrollbar scrollbar-primary mx-auto">
+                  <table className="routine-table">
+                    <thead>
+                      <tr>
+                        <td className="routine-header-tr">Day</td>
+                        <td className="routine-header-tr">Term, Year</td>
+                        {timeslot?.map((t, index) => (
+                          <td key={index} className="routine-header-tr">
+                            {`${t.start}-${t.end}`}
+                          </td>
+                        ))}
+                      </tr>
+                    </thead>
+                    <thead>
+                      {modifiedRoutine.map((item, index) => (
+                        <React.Fragment key={index}>
+                          <tr> {item} </tr>
+                        </React.Fragment>
+                      ))}
+                    </thead>
+                  </table>
+                </div>
+              </div> ) : (
+              <div className="d-flex justify-content-center mt-4">
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            )
+          }
+          
         </Row>
       </Container>
     </>
