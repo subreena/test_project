@@ -20,6 +20,7 @@ const Routine = () => {
   const [yearTerms, setYearTerms] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [teachersName, setTeachersName] = useState([]);
+  const [timeslot, setTimeslot] = useState([]);
 
   const [routineError, setRoutineError] = useState("");
 
@@ -34,7 +35,7 @@ const Routine = () => {
           setYearTerms(data.yearTerm);
           setRoutine(data.overall);
           setTeachersName(data.routineTeachersName);
-          console.log(data.routineTeachersName);
+          setTimeslot(data.timeslot);
 
           setRoutineError("");
         } else {
@@ -111,6 +112,7 @@ const Routine = () => {
           routineProps={routine}
           yearTermProps={yearTerms}
           selectedTeacher={selectedTeacher}
+          timeslot={timeslot}
         />
       </div>
       <Download pdfRef={pdfRef} fileName={"current-routine.pdf"} />
