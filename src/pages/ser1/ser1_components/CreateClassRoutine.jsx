@@ -81,7 +81,7 @@ const CreateClassRoutine = () => {
       console.log(formData);
 
       const response = await fetch(
-        "http://localhost:5000/generateRandomRoutine/data",
+        "https://teachercopilot.vercel.app/generateRandomRoutine/data",
         {
           method: "POST",
           headers: {
@@ -121,7 +121,7 @@ const CreateClassRoutine = () => {
     // to save it at pending service
     try {
       // Make a POST request to your endpoint
-      const response = await fetch("http://localhost:5000/pendingService", {
+      const response = await fetch("https://teachercopilot.vercel.app/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -171,7 +171,7 @@ const CreateClassRoutine = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/courseDetails");
+        const response = await fetch("https://teachercopilot.vercel.app/courseDetails");
         const data = await response.json();
         if (data.success) {
           setCourseData(data.data);
@@ -187,7 +187,7 @@ const CreateClassRoutine = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/teachers");
+        const response = await fetch("https://teachercopilot.vercel.app/teachers");
         const data = await response.json();
         if (data.success) {
           setTeacher(data.data);
@@ -246,7 +246,7 @@ const CreateClassRoutine = () => {
       console.log(formData);
 
       const response = await fetch(
-        "http://localhost:5000/generateRandomRoutine",
+        "https://teachercopilot.vercel.app/generateRandomRoutine",
         {
           method: "POST",
           headers: {
@@ -305,7 +305,7 @@ const CreateClassRoutine = () => {
       console.log(courseDistribution);
 
       const response = await fetch(
-        "http://localhost:5000/generatePriorityBasedClassRoutine",
+        "https://teachercopilot.vercel.app/generatePriorityBasedClassRoutine",
         {
           method: "POST",
           headers: {
@@ -355,7 +355,7 @@ const CreateClassRoutine = () => {
   const fetchCourseDistribuition = async () => {
     setCourseDistributionLoader(LOADING);
     fetch(
-      `http://localhost:5000/CourseDistributionManagement/data/${formData.year}/${formData.semester}`
+      `https://teachercopilot.vercel.app/CourseDistributionManagement/data/${formData.year}/${formData.semester}`
     )
       .then((response) => response.json())
       .then((d) => {
@@ -382,7 +382,7 @@ const CreateClassRoutine = () => {
   const fetchPrioritySlots = async () => {
     setSlotsPriorityLoader(LOADING);
     fetch(
-      `http://localhost:5000/priority/slots/data/${formData.year}/${formData.semester}`
+      `https://teachercopilot.vercel.app/priority/slots/data/${formData.year}/${formData.semester}`
     )
       .then((response) => response.json())
       .then((d) => {

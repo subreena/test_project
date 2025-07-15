@@ -72,7 +72,7 @@ const CreateExternalTeacher = () => {
 
     console.log(formData);
     try {
-      const result = await fetch("http://localhost:5000/teachers", {
+      const result = await fetch("https://teachercopilot.vercel.app/teachers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const CreateExternalTeacher = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/courseDetails"
+          "https://teachercopilot.vercel.app/courseDetails"
         );
         let data = await response.json();
 

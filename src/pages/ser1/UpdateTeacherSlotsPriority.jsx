@@ -22,7 +22,7 @@ const UpdateTeacherSlotsPriority = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/priority/slots/data/${year}/${semester}`);
+        const response = await fetch(`https://teachercopilot.vercel.app/priority/slots/data/${year}/${semester}`);
         const data = await response.json();
         if (data.success) {
           // console.log(data.data);
@@ -35,7 +35,7 @@ const UpdateTeacherSlotsPriority = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:5000/teachers");
+        const response = await fetch("https://teachercopilot.vercel.app/teachers");
         const data = await response.json();
         if (data.success) {
           // console.log(data.data);
@@ -60,7 +60,7 @@ const UpdateTeacherSlotsPriority = () => {
 
     const fetchTimeslot = async () => {
       try {
-        const response = await fetch("http://localhost:5000/timeSlot");
+        const response = await fetch("https://teachercopilot.vercel.app/timeSlot");
         if (!response.ok) {
           throw new Error("Failed to fetch timeslots");
         }
@@ -109,7 +109,7 @@ const UpdateTeacherSlotsPriority = () => {
       };
 
       const response = await fetch(
-        `http://localhost:5000/priority/slots/update/${year}/${semester}`,
+        `https://teachercopilot.vercel.app/priority/slots/update/${year}/${semester}`,
         {
           method: "PUT",
           headers: {
@@ -190,7 +190,7 @@ const UpdateTeacherSlotsPriority = () => {
         };
 
         // Make a POST request to your endpoint
-        const response = await fetch(`http://localhost:5000/priority/slots/update/${year}/${semester}`, {
+        const response = await fetch(`https://teachercopilot.vercel.app/priority/slots/update/${year}/${semester}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

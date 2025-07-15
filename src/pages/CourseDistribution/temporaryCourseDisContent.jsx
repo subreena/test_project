@@ -7,8 +7,8 @@ const CourseDisContent = () => {
   const pdfRef = useRef();
   let { id, state } = useParams();
 
-  let uri = `http://localhost:5000/courseDistribution/data/${id}/coursedistributions`;
-  if(state === 'permanent') uri = `http://localhost:5000/CourseDistributionManagement/data/${id}`;
+  let uri = `https://teachercopilot.vercel.app/courseDistribution/data/${id}/coursedistributions`;
+  if(state === 'permanent') uri = `https://teachercopilot.vercel.app/CourseDistributionManagement/data/${id}`;
 
   const { teacher, courseData } = CourseDisUtils();
 
@@ -87,7 +87,7 @@ const CourseDisContent = () => {
       console.log(formData);
 
       const response = await fetch(
-        `http://localhost:5000/courseDistribution/update/${id}/coursedistributions`,
+        `https://teachercopilot.vercel.app/courseDistribution/update/${id}/coursedistributions`,
         {
           method: "PUT",
           headers: {
@@ -131,7 +131,7 @@ const CourseDisContent = () => {
 
   const handleSubmit = async (event) => {
     try {
-      const response = await fetch("http://localhost:5000/pendingService", {
+      const response = await fetch("https://teachercopilot.vercel.app/pendingService", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

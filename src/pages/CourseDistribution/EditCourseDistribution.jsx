@@ -94,7 +94,7 @@ const EditCourseDistribution = () => {
       console.log(formData);
 
       const response = await fetch(
-        `http://localhost:5000/courseDistribution/update/${courseDistributionData._id}/coursedistributions`,
+        `https://teachercopilot.vercel.app/courseDistribution/update/${courseDistributionData._id}/coursedistributions`,
         {
           method: "PUT",
           headers: {
