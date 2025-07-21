@@ -564,7 +564,7 @@ const CreateClassRoutine = () => {
                         onChange={handleChange}
                       >
                         <option selected value="priority">Priority Based</option>
-                        <option value="random">Random</option>
+                        <option value="random">Algorithm Based</option>
                         {/* <option value="manual">Manual</option> */}
                       </select>
                     </div>
